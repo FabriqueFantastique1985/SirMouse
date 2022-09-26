@@ -5,10 +5,12 @@ using UnityEngine;
 public abstract class GameSystem
 {
     protected Player _player;
+    protected int[] _layersToIgnore;
 
-    protected GameSystem(Player player)
+    protected GameSystem(Player player, int[] ignoreLayers)
     {
         _player = player;
+        _layersToIgnore = ignoreLayers;
     }
     
     public virtual void HandleInput()

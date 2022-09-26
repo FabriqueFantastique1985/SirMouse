@@ -23,7 +23,10 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(Instance);
 
-        _currentGameSystem = new MainGameSystem(Player);
+        _currentGameSystem = new MainGameSystem(Player, new int[2]
+        {
+            Player.gameObject.layer, PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
+        });
     }
 
     private void Update()

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class MainGameSystem : GameSystem
 {
-    public MainGameSystem(Player player) : base(player)
+    private int _layerMask;
+    public MainGameSystem(Player player, int[] layersToIgnore) : base(player, layersToIgnore)
     {
+        for (int i = 0; i < layersToIgnore.Length; i++)
+        {
+            _layerMask |= (1 << layersToIgnore[i]);
+        }
+        
+        _layerMask = ~_layerMask;
     }
 
     public override void HandleInput()
@@ -16,9 +23,7 @@ public class MainGameSystem : GameSystem
             Ray ray = Camera.main.ScreenPointToRay(currentTarget);
             RaycastHit hit;
 
-            int layerMask = ~_player.gameObject.layer;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask))
             {
                 Debug.DrawLine(Camera.main.transform.position, hit.point);
 
@@ -28,7 +33,7 @@ public class MainGameSystem : GameSystem
                 }
                 else
                 {
-                    hit.transform.GetComponent<InteractBalloon>()?.ExecuteInteraction();
+                    hit.transform.GetComponent<InteractBalloon>()?.Click();
                 }
             }
         }
