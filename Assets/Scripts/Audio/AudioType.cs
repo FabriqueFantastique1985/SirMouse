@@ -7,8 +7,9 @@ namespace Audio
     public enum AudioType 
     {
         None,
-        ST_01,
-        SFX_01,
+        OST,
+        SFX_World,
+        SFX_UI
         // custom audio types..
         // split it into 3 -> soundtracks, ui sounds, world sounds
     }
