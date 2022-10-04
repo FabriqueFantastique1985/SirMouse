@@ -1,29 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+using UnityCore.Menus;
 using UnityEngine;
 
-namespace Scene
-{
-    public class TestScene : MonoBehaviour
-    {
-        public SceneController SceneControllerScript;
 
-        private void Update()
+namespace UnityCore
+{
+    namespace Scene
+    {
+        public class TestScene : MonoBehaviour
         {
-            if (Input.GetKeyUp(KeyCode.M))
+            public SceneController SceneControllerScript;
+
+
+            private void Awake()
             {
-                SceneControllerScript.Load(SceneType.Menu, (_scene) =>
+                if (SceneControllerScript == null)
                 {
-                    Debug.Log("Scene [" + _scene + "] loaded from test script");
-                }, false, PageTypeLoading);
+                    SceneControllerScript = FindObjectOfType<SceneController>();
+                }
             }
 
-            if (Input.GetKeyUp(KeyCode.G))
+
+            private void Update()
             {
-                SceneControllerScript.Load(SceneType.Game);
+                if (Input.GetKeyUp(KeyCode.M))
+                {
+                    SceneControllerScript.Load(SceneType.Koen_Playground_Menu, (_scene) =>
+                    {
+                       Debug.Log("Scene [" + _scene + "] loaded from test script");
+                    }, 
+                    false, 
+                    PageType.Loading);
+                }
+
+                if (Input.GetKeyUp(KeyCode.G))
+                {
+                    SceneControllerScript.Load(SceneType.Koen_Playground_Game);
+                }
             }
         }
     }
 }
+
 
 

@@ -32,6 +32,12 @@ namespace UnityCore
                     {
                         TurnPageOn(EntryPage);
                     }
+
+                    DontDestroyOnLoad(gameObject);
+                }
+                else
+                {
+                    Destroy(gameObject);
                 }
             }
 
@@ -55,9 +61,46 @@ namespace UnityCore
                 page.Animate(true);
             }
 
-            public void TurnPageOff(PageType typeToTurnOff, PageType typeToTurnOn, bool waitForExit = false)
+            public void TurnPageOff(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None, bool waitForExit = false)
             {
+                if (typeToTurnOff == PageType.None) return;
+                if (PageExists(typeToTurnOff) == false)
+                {
+                    Debug.Log("You're trying to turn a page off [" + typeToTurnOff + "] that has not been registered");
+                    return;
+                }
 
+                Page offPage = GetPage(typeToTurnOff);
+                if (offPage.gameObject.activeSelf == true)
+                {
+                    offPage.Animate(false);
+                }
+
+                if (typeToTurnOn != PageType.None)
+                {
+                    Page onPage = GetPage(typeToTurnOn);
+                    if (waitForExit == true)
+                    {
+                        //Page onPage = GetPage(typeToTurnOn);
+                        StopCoroutine(WaitForPageExit(onPage, offPage));
+                        StartCoroutine(WaitForPageExit(onPage, offPage));
+                    }
+                    else
+                    {
+                        TurnPageOn(onPage.Type);
+                    }
+                }
+            }
+
+            public bool PageIsOn(PageType pageType)
+            {
+                if (PageExists(pageType) == false)
+                {
+                    Debug.Log("You are trying to detect if a page is on [" + pageType + "], but it has not been registered");
+                    return false;
+                }
+
+                return GetPage(pageType).isOn;
             }
 
             #endregion
@@ -68,7 +111,12 @@ namespace UnityCore
 
             private IEnumerator WaitForPageExit(Page on, Page off)
             {
-                yield return null;
+                while (off.TargetState != PageState.None)
+                {
+                    yield return null;
+                }
+
+                TurnPageOn(on.Type);
             }
 
             private void RegisterAllPages()
@@ -83,19 +131,27 @@ namespace UnityCore
             {
                 if (PageExists(page.Type))
                 {
-                    Debug.Log();
+                    Debug.Log("You are trying to register a page [" + page.Type + "] that has already been registered : " + page.gameObject.name);
                     return;
                 }
+
+                m_Pages.Add(page.Type, page);
             }
 
             private Page GetPage(PageType type)
             {
-                return null;
+                if (PageExists(type) == false)
+                {
+                    Debug.Log("You are trying to get a page [" + type + "] that has not been registered");
+                    return null;
+                }
+
+                return (Page)m_Pages[type];
             }
 
             private bool PageExists(PageType type)
             {
-                return false;
+                return m_Pages.ContainsKey(type);
             }
 
             #endregion

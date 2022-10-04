@@ -25,11 +25,24 @@ namespace UnityCore
 
             private Animator m_Animator;
 
+            private bool m_IsOn;
+            public bool isOn
+            {
+                get
+                {
+                    return m_IsOn;
+                }
+                private set
+                {
+                    m_IsOn = value;
+                }
+            }
+
             #region Unity Functions
 
             private void OnEnable()
             {
-                
+                CheckAnimatorIntegrity();
             }
 
             #endregion
@@ -40,7 +53,25 @@ namespace UnityCore
 
             public void Animate(bool on)
             {
+                if (useAnimation)
+                {
+                    m_Animator.SetBool("On", on);
 
+                    StopCoroutine(AwaitAnimation(on));
+                    StartCoroutine(AwaitAnimation(on));
+                }
+                else
+                {
+                    if (on == false)
+                    {
+                        gameObject.SetActive(false);
+                        isOn = false;
+                    }
+                    else
+                    {
+                        isOn = true;
+                    }
+                }
             }
 
             #endregion
@@ -51,12 +82,52 @@ namespace UnityCore
 
             private IEnumerator AwaitAnimation(bool on)
             {
-                yield return null;
+                if (on == true)
+                {
+                    TargetState = FLAG_ON;
+                }
+                else
+                {
+                    TargetState = FLAG_OFF;
+                }
+
+                // wait for animator to reach target state
+                while (!m_Animator.GetCurrentAnimatorStateInfo(0).IsName(TargetState.ToString()))
+                {
+                    yield return null;
+                }
+
+                // wait for animator to finish animating
+                while (m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+                {
+                    yield return null;
+                }
+
+                TargetState = FLAG_NONE;
+
+                Debug.Log("Page [" + Type + "] finished transitioning to " + (on ? "On" : "Off"));
+
+                if (on == false)
+                {
+                    isOn = false;
+                    gameObject.SetActive(false);
+                }
+                else
+                {
+                    isOn = true;
+                }
             }
 
             private void CheckAnimatorIntegrity()
             {
-
+                if (useAnimation)
+                {
+                    m_Animator = GetComponent<Animator>();
+                    if (m_Animator == null)
+                    {
+                        Debug.Log("You opted to animate a page [" + Type + "], but no animator component exists on the object.");
+                    }
+                }
             }
 
             #endregion

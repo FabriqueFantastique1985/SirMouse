@@ -128,7 +128,7 @@ namespace UnityCore
 
             private void Dispose()
             {
-                foreach (DictionaryEntry entry in m_JobTable)
+                foreach (DictionaryEntry entry in m_JobTable) // error here when transitioning scenes
                 {
                     IEnumerator job = (IEnumerator)entry.Value;
                     StopCoroutine(job);
