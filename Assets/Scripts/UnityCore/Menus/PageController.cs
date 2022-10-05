@@ -56,6 +56,10 @@ namespace UnityCore
                     return;
                 }
 
+                // check if the page im turning is a loading page..
+                // if is loading page.... turn off page at the end
+
+
                 Page page = GetPage(typeToTurnOn);
                 page.gameObject.SetActive(true);
                 page.Animate(true);
@@ -81,7 +85,6 @@ namespace UnityCore
                     Page onPage = GetPage(typeToTurnOn);
                     if (waitForExit == true)
                     {
-                        //Page onPage = GetPage(typeToTurnOn);
                         StopCoroutine(WaitForPageExit(onPage, offPage));
                         StartCoroutine(WaitForPageExit(onPage, offPage));
                     }

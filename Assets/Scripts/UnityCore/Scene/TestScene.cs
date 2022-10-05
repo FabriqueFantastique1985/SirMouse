@@ -25,17 +25,18 @@ namespace UnityCore
             {
                 if (Input.GetKeyUp(KeyCode.M))
                 {
-                    SceneControllerScript.Load(SceneType.Koen_Playground_Menu, (_scene) =>
-                    {
-                       Debug.Log("Scene [" + _scene + "] loaded from test script");
-                    }, 
-                    false, 
-                    PageType.Loading);
+                    //SceneControllerScript.Load(SceneType.Koen_Playground_Menu, (_scene) =>
+                    //{
+                    //   Debug.Log("Scene [" + _scene + "] loaded from test script");
+                    //}, 
+                    //false, 
+                    //PageType.Loading);
+                    SceneControllerScript.Load(SceneType.Koen_Playground_Menu, null, false, PageType.Loading);
                 }
 
                 if (Input.GetKeyUp(KeyCode.G))
                 {
-                    SceneControllerScript.Load(SceneType.Koen_Playground_Game);
+                    SceneControllerScript.Load(SceneType.Koen_Playground_Game, null, false, PageType.Loading);
                 }
             }
         }

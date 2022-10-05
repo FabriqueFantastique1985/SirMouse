@@ -92,7 +92,7 @@ namespace UnityCore
                 }
 
                 // wait for animator to reach target state
-                while (!m_Animator.GetCurrentAnimatorStateInfo(0).IsName(TargetState.ToString()))
+                while (m_Animator.GetCurrentAnimatorStateInfo(0).IsName(TargetState.ToString()) == false)  // if my current state is the state I want to be in...
                 {
                     yield return null;
                 }
