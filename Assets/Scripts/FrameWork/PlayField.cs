@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayField : MonoBehaviour
 {
     [SerializeField]
-    private Collider _groundCollider;
+    private Collider[] _groundColliders;
 
     [SerializeField]
     private Interactable[] _interactables;
 
-    public Collider GroundCollider => _groundCollider;
+    public Collider[] GroundColliders => _groundColliders;
     
     public Interactable[] Interactables => _interactables;
 }

@@ -5,14 +5,22 @@ using UnityEngine;
 public class MainGameSystem : GameSystem
 {
     private int _layerMask;
+    
+    /// <summary>
+    /// List of ground colliders used in the current scene.
+    /// </summary>
+    private Collider[] _groundColliders;
+
     public MainGameSystem(Player player, int[] layersToIgnore) : base(player, layersToIgnore)
     {
         for (int i = 0; i < layersToIgnore.Length; i++)
         {
             _layerMask |= (1 << layersToIgnore[i]);
         }
-        
+
         _layerMask = ~_layerMask;
+
+        _groundColliders = GameManager.Instance.PlayField.GroundColliders;
     }
 
     public override void HandleInput()
@@ -27,14 +35,17 @@ public class MainGameSystem : GameSystem
             {
                 Debug.DrawLine(Camera.main.transform.position, hit.point);
 
-                if (hit.collider == GameManager.Instance.PlayField.GroundCollider)
+                // Test if the raycats hit one of the ground colliders
+                for (int i = 0; i < _groundColliders.Length; i++)
                 {
-                    _player.SetState(new WalkingState(_player, hit.point));
+                    if (hit.collider == _groundColliders[i])
+                    {
+                        _player.SetState(new WalkingState(_player, hit.point));
+                        return;
+                    }
                 }
-                else
-                {
-                    hit.transform.GetComponent<InteractBalloon>()?.Click();
-                }
+
+                hit.transform.GetComponent<InteractBalloon>()?.Click();
             }
         }
     }
