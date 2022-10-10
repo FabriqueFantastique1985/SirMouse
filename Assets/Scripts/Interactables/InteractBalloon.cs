@@ -21,7 +21,4 @@ public class InteractBalloon : MonoBehaviour
     {
         OnBalloonClicked?.Invoke(this);
     }
-    
-    
-    
 }

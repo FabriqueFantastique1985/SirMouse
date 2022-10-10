@@ -4,9 +4,6 @@ public class Interactable : MonoBehaviour
 {
    [SerializeField]
    private InteractBalloon _balloon;
-   
-   [SerializeField]
-   private Transform _interactTransform;
 
    //[SerializeField]
   // private InteractBalloon _interactBalloon;
