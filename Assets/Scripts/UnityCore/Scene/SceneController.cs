@@ -176,7 +176,7 @@ namespace UnityCore
             }
 
 
-            // add extra scene names made for the game to this list of strings ?? (prolly not as it's scene types checking)
+            // add extra scene names made for the game to this list of strings ?? 
             private string SceneTypeToString(SceneType scene)
             {
                 switch (scene)
