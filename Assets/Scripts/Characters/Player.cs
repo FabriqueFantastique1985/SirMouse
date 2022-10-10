@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public SirMouseState State { get; set; }
 
     public Character Character => _character;
+    public NavMeshAgent Agent => _agent;
 
     private void Awake()
     {

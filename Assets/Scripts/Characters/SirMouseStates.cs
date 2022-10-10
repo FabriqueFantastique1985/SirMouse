@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class SirMouseState
@@ -29,8 +30,9 @@ public class WalkingState : SirMouseState
     private Vector3 _target;
     public WalkingState(Player player, Vector3 target) : base(player)
     {
-        _target = target;
-        player.SetTarget(_target);
+        //_target = target;
+        player.SetTarget(target);
+        _target =  player.Agent.path.corners.Last();
     }
 
     public override void OnEnter(Player player)
