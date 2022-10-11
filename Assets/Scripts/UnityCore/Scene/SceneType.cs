@@ -11,7 +11,9 @@ namespace UnityCore
         {
             None,
             Koen_Playground_Menu,
-            Koen_Playground_Game
+            Koen_Playground_Game,
+            Koen_Playground_Game_1,
+            Koen_Playground_Game_2
         }
     }
 }

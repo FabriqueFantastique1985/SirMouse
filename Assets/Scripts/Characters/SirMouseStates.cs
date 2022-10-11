@@ -22,6 +22,8 @@ public abstract class SirMouseState
     }
 }
 
+
+
 public class WalkingState : SirMouseState
 {
     // Minimum distance to reach for reaching the destination.
@@ -50,6 +52,8 @@ public class WalkingState : SirMouseState
     }
 }
 
+
+
 public class IdleState : SirMouseState
 {
     public IdleState(Player player) : base(player)
@@ -67,6 +71,9 @@ public class IdleState : SirMouseState
         player.Character.SetAnimator(Character.States.Idle);
     }
 }
+
+
+
 
 public class InteractionState : SirMouseState
 {
