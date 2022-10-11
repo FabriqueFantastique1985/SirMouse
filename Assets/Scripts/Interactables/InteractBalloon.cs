@@ -7,7 +7,7 @@ public class InteractBalloon : MonoBehaviour
 {
     #region Events
 
-    public delegate void BalloonDelegate(InteractBalloon sender);
+    public delegate void BalloonDelegate(InteractBalloon sender, Player player);
     
     /// <summary>
     /// Gets invoked when clicked on.
@@ -17,8 +17,8 @@ public class InteractBalloon : MonoBehaviour
     #endregion
 
 
-    public void Click()
+    public void Click(Player player)
     {
-        OnBalloonClicked?.Invoke(this);
+        OnBalloonClicked?.Invoke(this, player);
     }
 }
