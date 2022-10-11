@@ -21,23 +21,30 @@ public class Character : MonoBehaviour
 
     [FormerlySerializedAs("_idleCondition")] [SerializeField]
     private string _idleName = "Idle";
+
+    private Vector3 _originalScale;
     
-
-
     // Start is called before the first frame update
     void Start()
     {
         if (AnimatorRM == null) Debug.LogError("Animator is null, did you forget to give a reference to it?");
+        _originalScale = transform.localScale;
     }
 
-
-
-
-    public virtual void SetAnimator(States state)
+    public virtual void SetAnimator(States state, bool mirror = false)
     {
         //if (AnimatorRM != null)
         //{
             ResetAllTriggers();
+
+            if (mirror)
+                transform.localScale = new Vector3(  _originalScale.x * -1, _originalScale.y,
+                    _originalScale.z);
+            else
+            {
+                transform.localScale = new Vector3( _originalScale.x , _originalScale.y,
+                    _originalScale.z);
+            }
 
             switch (state)
             {
@@ -52,7 +59,6 @@ public class Character : MonoBehaviour
             }
         //}
     }
-
 
     private void ResetAllTriggers()
     {
