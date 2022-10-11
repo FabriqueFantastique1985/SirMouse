@@ -5,9 +5,6 @@ public class Interactable : MonoBehaviour
    [SerializeField]
    private InteractBalloon _balloon;
 
-   //[SerializeField]
-  // private InteractBalloon _interactBalloon;
-
   private void Start()
    {
       _balloon.OnBalloonClicked += OnInteractBalloonClicked;
