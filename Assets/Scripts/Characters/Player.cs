@@ -21,7 +21,12 @@ public class Player : MonoBehaviour
     public Character Character => _character;
     public NavMeshAgent Agent => _agent;
 
-    private void Awake()
+    //private void Awake()
+    //{
+    //    Initialize();
+    //}
+
+    private void Start()
     {
         Initialize();
     }

@@ -11,7 +11,7 @@ public class MainGameSystem : GameSystem
     /// </summary>
     private Collider[] _groundColliders;
 
-    public MainGameSystem(Player player, int[] layersToIgnore) : base(player, layersToIgnore)
+    public MainGameSystem(Player player, int[] layersToIgnore, Collider[] newGroundColls = null) : base(player, layersToIgnore)
     {
         for (int i = 0; i < layersToIgnore.Length; i++)
         {
@@ -20,7 +20,15 @@ public class MainGameSystem : GameSystem
 
         _layerMask = ~_layerMask;
 
-        _groundColliders = GameManager.Instance.PlayField.GroundColliders;
+        if (newGroundColls == null)
+        {
+            _groundColliders = GameManager.Instance.PlayField.GroundColliders;
+        }
+        else
+        {
+            _groundColliders = newGroundColls;
+        }
+        
     }
 
     public override void HandleInput()

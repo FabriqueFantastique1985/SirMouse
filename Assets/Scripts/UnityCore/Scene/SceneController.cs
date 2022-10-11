@@ -14,6 +14,8 @@ namespace UnityCore
             public delegate void SceneLoadDelegate(SceneType scene);
 
             public static SceneController Instance;
+            public GameManager ManagerInstance;
+
 
             private PageController m_Menu;
             private PageController _menu
@@ -37,6 +39,8 @@ namespace UnityCore
                     return SceneManager.GetActiveScene().name;
                 }
             }
+
+            private int _nextSceneSpawnLocation;
 
 
 
@@ -67,7 +71,8 @@ namespace UnityCore
             public void Load(SceneType scene,
                              SceneLoadDelegate sceneLoadDelegate = null,
                              bool reload = false,
-                             PageType loadingPage = PageType.None)
+                             PageType loadingPage = PageType.None,
+                             int spawnLocationValue = 0)
             {
                 if (loadingPage != PageType.None && _menu == null)
                 {
@@ -83,6 +88,15 @@ namespace UnityCore
                 m_TargetScene = scene;
                 m_SceneLoadDelegate = sceneLoadDelegate;
                 m_LoadingPage = loadingPage;
+                _nextSceneSpawnLocation = spawnLocationValue;
+
+                // newer
+                ManagerInstance.Player.transform.SetParent(ManagerInstance.transform);
+                // get the PlayerRefs and give it to the manager -----
+                //ManagerInstance.PlayerRefs.transform.SetParent(ManagerInstance.transform);
+                //Debug.Log(ManagerInstance.PlayerRefs.name + " ] has been parented to [ " + ManagerInstance.transform.name);
+                /// --------
+
                 StartCoroutine(LoadScene());
             }
 
@@ -127,6 +141,43 @@ namespace UnityCore
                     }
                 }
 
+
+                /////----- transferring the entire player -----
+                ManagerInstance.PlayField = FindObjectOfType<PlayField>();
+                ManagerInstance.AdjustGameSystem(ManagerInstance.PlayField.GroundColliders);
+
+                ////-------------- only transferring the PlayerRefs component below ------------
+
+                // get the playfield and assign it to the game manager..
+                //ManagerInstance.PlayField = FindObjectOfType<PlayField>();
+                //ManagerInstance.Player = FindObjectOfType<Player>();
+                //ManagerInstance.Character = ManagerInstance.Player.GetComponent<Character>();
+
+                //Debug.Log(ManagerInstance.PlayerRefs + " are the refs on new scene");
+                //// assign playref to player
+                //ManagerInstance.PlayerRefs.transform.SetParent(ManagerInstance.Player.transform);
+                //ManagerInstance.PlayerRefs.transform.localPosition = new Vector3(0, 0, 0);
+                //// assign playerref animator to animator on player
+                //ManagerInstance.Character.AnimatorRM = ManagerInstance.PlayerRefs.GetComponent<Animator>();
+
+
+                ////--------------
+
+                // setting the player at the correct position
+                SpawnValue[] spawnScripts = FindObjectsOfType<SpawnValue>();
+                foreach (SpawnValue spawnScript in spawnScripts)
+                {
+                    // if the spawnvalues integer == the value on this script....
+                    if (spawnScript.ValueOfThisSpawn == _nextSceneSpawnLocation)
+                    {
+                        // move the player over there
+                        ManagerInstance.Agent.enabled = false;
+                        ManagerInstance.Player.transform.position = spawnScript.transform.position;
+                        ManagerInstance.Agent.enabled = true;
+                    }
+                }
+
+
                 if (m_LoadingPage != PageType.None)
                 {
                     await Task.Delay(1000);
@@ -146,8 +197,6 @@ namespace UnityCore
                         yield return null;
                     }
                 }
-
-                // page will have been fuly loaded here...
 
                 string targetSceneName = SceneTypeToString(m_TargetScene);
                 SceneManager.LoadScene(targetSceneName);
@@ -176,6 +225,9 @@ namespace UnityCore
             }
 
 
+
+
+
             // add extra scene names made for the game to this list of strings ?? 
             private string SceneTypeToString(SceneType scene)
             {
@@ -183,6 +235,8 @@ namespace UnityCore
                 {
                     case SceneType.Koen_Playground_Game: return "Koen_Playground_Game";
                     case SceneType.Koen_Playground_Menu: return "Koen_Playground_Menu";
+                    case SceneType.Koen_Playground_Game_1: return "Koen_Playground_Game_1";
+                    case SceneType.Koen_Playground_Game_2: return "Koen_Playground_Game_2";
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a string for a valid scene. ");
                         return string.Empty;
@@ -194,6 +248,8 @@ namespace UnityCore
                 {
                     case "Koen_Playground_Game": return SceneType.Koen_Playground_Game;
                     case "Koen_Playground_Menu": return SceneType.Koen_Playground_Menu;
+                    case "Koen_Playground_Game_1": return SceneType.Koen_Playground_Game_1;
+                    case "Koen_Playground_Game_2": return SceneType.Koen_Playground_Game_2;
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a type for a valid scene. ");
                         return SceneType.None;
