@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class SirMouseState
 {
     protected Player _player;
+    protected static Vector3 Direction;
     
     public SirMouseState(Player player)
     {
@@ -35,12 +36,14 @@ public class WalkingState : SirMouseState
         //_target = target;
         player.SetTarget(target);
         _target =  player.Agent.path.corners.Last();
+
+        Direction = target - player.transform.position;
     }
 
     public override void OnEnter(Player player)
     {
         //  change animation of the player
-        player.Character.SetAnimator(Character.States.Walking);
+        player.Character.SetAnimator(Character.States.Walking, Direction.x <= 0 );
     }
 
     public override SirMouseState Update(Player player)
@@ -68,7 +71,7 @@ public class IdleState : SirMouseState
 
     public override void OnEnter(Player player)
     {
-        player.Character.SetAnimator(Character.States.Idle);
+        player.Character.SetAnimator(Character.States.Idle, Direction.x <= 0.0f);
     }
 }
 
