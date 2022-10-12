@@ -13,7 +13,7 @@ namespace UnityCore
         {
             public delegate void SceneLoadDelegate(SceneType scene);
 
-            public static SceneController Instance;
+            public static SceneController SceneControllerInstance;
             public GameManager ManagerInstance;
 
 
@@ -48,7 +48,7 @@ namespace UnityCore
 
             private void Awake()
             {
-                if (Instance == null)
+                if (SceneControllerInstance == null)
                 {
                     Configure();
                     DontDestroyOnLoad(gameObject);
@@ -107,7 +107,7 @@ namespace UnityCore
 
             private void Configure()
             {
-                Instance = this;
+                SceneControllerInstance = this;
                 SceneManager.sceneLoaded += OnSceneLoaded;
             }
             private void Dispose()
