@@ -242,8 +242,8 @@ namespace UnityCore
                     case SceneType.Castle_Kitchen: return "Castle_Kitchen";
                     case SceneType.Castle_Library: return "Castle_Library";
                     case SceneType.Castle_ThroneRoom: return "Castle_ThroneRoom";
-                    case SceneType.Cave_Bedroom_C: return "Cave_Bedroom_C";
-                    case SceneType.Cave_Living_C_TEST: return "Cave_Living_C_TEST";
+                    case SceneType.Cave_Bedroom: return "Cave_Bedroom";
+                    case SceneType.Cave_Living: return "Cave_Living";
                     case SceneType.ForestLevel: return "ForestLevel";
                     case SceneType.Swamp: return "Swamp";
                     case SceneType.MisterWitch_Int: return "MisterWitch_Int";
@@ -271,8 +271,8 @@ namespace UnityCore
                     case "Castle_Kitchen": return SceneType.Castle_Kitchen;
                     case "Castle_Library": return SceneType.Castle_Library;
                     case "Castle_ThroneRoom": return SceneType.Castle_ThroneRoom;
-                    case "Cave_Bedroom_C": return SceneType.Cave_Bedroom_C;
-                    case "Cave_Living_C_TEST": return SceneType.Cave_Living_C_TEST;
+                    case "Cave_Bedroom": return SceneType.Cave_Bedroom;
+                    case "Cave_Living": return SceneType.Cave_Living;
                     case "ForestLevel": return SceneType.ForestLevel;
                     case "Swamp": return SceneType.Swamp;
                     case "MisterWitch_Int": return SceneType.MisterWitch_Int;
