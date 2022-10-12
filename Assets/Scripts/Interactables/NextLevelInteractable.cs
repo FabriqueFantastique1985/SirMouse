@@ -11,6 +11,7 @@ public class NextLevelInteractable : Interactable
     [SerializeField]
     private SceneType _sceneToTeleportTo;
 
+    [Header("this Value should be == to Value of the desired spawn in next scene")]
     public int SpawnValue;
 
 

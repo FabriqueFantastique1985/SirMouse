@@ -90,12 +90,8 @@ namespace UnityCore
                 m_LoadingPage = loadingPage;
                 _nextSceneSpawnLocation = spawnLocationValue;
 
-                // newer
+                // Make the player a child of the GameManager (so it's part of DontDestroy)
                 ManagerInstance.Player.transform.SetParent(ManagerInstance.transform);
-                // get the PlayerRefs and give it to the manager -----
-                //ManagerInstance.PlayerRefs.transform.SetParent(ManagerInstance.transform);
-                //Debug.Log(ManagerInstance.PlayerRefs.name + " ] has been parented to [ " + ManagerInstance.transform.name);
-                /// --------
 
                 StartCoroutine(LoadScene());
             }
@@ -142,41 +138,13 @@ namespace UnityCore
                 }
 
 
-                /////----- transferring the entire player -----
+                // updating the playfield and colliders I can cast on
                 ManagerInstance.PlayField = FindObjectOfType<PlayField>();
                 ManagerInstance.AdjustGameSystem(ManagerInstance.PlayField.GroundColliders);
 
-                ////-------------- only transferring the PlayerRefs component below ------------
-
-                // get the playfield and assign it to the game manager..
-                //ManagerInstance.PlayField = FindObjectOfType<PlayField>();
-                //ManagerInstance.Player = FindObjectOfType<Player>();
-                //ManagerInstance.Character = ManagerInstance.Player.GetComponent<Character>();
-
-                //Debug.Log(ManagerInstance.PlayerRefs + " are the refs on new scene");
-                //// assign playref to player
-                //ManagerInstance.PlayerRefs.transform.SetParent(ManagerInstance.Player.transform);
-                //ManagerInstance.PlayerRefs.transform.localPosition = new Vector3(0, 0, 0);
-                //// assign playerref animator to animator on player
-                //ManagerInstance.Character.AnimatorRM = ManagerInstance.PlayerRefs.GetComponent<Animator>();
-
-
-                ////--------------
 
                 // setting the player at the correct position
-                SpawnValue[] spawnScripts = FindObjectsOfType<SpawnValue>();
-                foreach (SpawnValue spawnScript in spawnScripts)
-                {
-                    // if the spawnvalues integer == the value on this script....
-                    if (spawnScript.ValueOfThisSpawn == _nextSceneSpawnLocation)
-                    {
-                        // move the player over there
-                        ManagerInstance.Agent.enabled = false;
-                        ManagerInstance.Player.transform.position = spawnScript.transform.position;
-                        ManagerInstance.Agent.enabled = true;
-                    }
-                }
-
+                SpawnPlayerOnCorrectPosition();
 
                 if (m_LoadingPage != PageType.None)
                 {
@@ -185,8 +153,35 @@ namespace UnityCore
                 }
 
                 m_SceneIsLoading = false;
-
             }
+
+            private void SpawnPlayerOnCorrectPosition()
+            {
+                NextLevelInteractable[] spawnScripts = FindObjectsOfType<NextLevelInteractable>();
+                if (spawnScripts != null)
+                {
+                    foreach (NextLevelInteractable spawnScript in spawnScripts)
+                    {
+                        // if the spawnvalues integer == the value on this script....
+                        if (spawnScript.SpawnValue == _nextSceneSpawnLocation)
+                        {
+                            // move the player over there
+                            ManagerInstance.Agent.enabled = false;
+                            ManagerInstance.Player.transform.position = spawnScript.transform.position;
+                            ManagerInstance.Agent.enabled = true;
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("Could not find a spawn for the player, setting player to coordinates 0,0,0,");
+                    // move the player over there
+                    ManagerInstance.Agent.enabled = false;
+                    ManagerInstance.Player.transform.position = new Vector3(0, 0, 0);
+                    ManagerInstance.Agent.enabled = true;
+                }
+            }
+
             private IEnumerator LoadScene()
             {
                 if (m_LoadingPage != PageType.None)
@@ -233,10 +228,26 @@ namespace UnityCore
             {
                 switch (scene)
                 {
-                    case SceneType.Koen_Playground_Game: return "Koen_Playground_Game";
+                    case SceneType.Koen_Testing_All_Start: return "Koen_Testing_All_Start";
                     case SceneType.Koen_Playground_Menu: return "Koen_Playground_Menu";
-                    case SceneType.Koen_Playground_Game_1: return "Koen_Playground_Game_1";
+                    case SceneType.Koen_Testing_All: return "Koen_Testing_All";
                     case SceneType.Koen_Playground_Game_2: return "Koen_Playground_Game_2";
+                    case SceneType.Castle_Basement_Center: return "Castle_Basement_Center";
+                    case SceneType.Castle_Basement_Oubilette: return "Castle_Basement_Oubilette";
+                    case SceneType.Castle_Basement_Stairs: return "Castle_Basement_Stairs";
+                    case SceneType.Castle_Basement_Treasury: return "Castle_Basement_Treasury";
+                    case SceneType.Castle_BathHouse: return "Castle_BathHouse";
+                    case SceneType.Castle_BedroomKing: return "Castle_BedroomKing";
+                    case SceneType.Castle_GateFront: return "Castle_GateFront";
+                    case SceneType.Castle_Kitchen: return "Castle_Kitchen";
+                    case SceneType.Castle_Library: return "Castle_Library";
+                    case SceneType.Castle_ThroneRoom: return "Castle_ThroneRoom";
+                    case SceneType.Cave_Bedroom_C: return "Cave_Bedroom_C";
+                    case SceneType.Cave_Living_C_TEST: return "Cave_Living_C_TEST";
+                    case SceneType.ForestLevel: return "ForestLevel";
+                    case SceneType.Swamp: return "Swamp";
+                    case SceneType.MisterWitch_Int: return "MisterWitch_Int";
+                    case SceneType.PrinceTower_C: return "PrinceTower_C";
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a string for a valid scene. ");
                         return string.Empty;
@@ -246,10 +257,26 @@ namespace UnityCore
             {
                 switch (scene)
                 {
-                    case "Koen_Playground_Game": return SceneType.Koen_Playground_Game;
+                    case "Koen_Testing_All_Start": return SceneType.Koen_Testing_All_Start;
                     case "Koen_Playground_Menu": return SceneType.Koen_Playground_Menu;
-                    case "Koen_Playground_Game_1": return SceneType.Koen_Playground_Game_1;
+                    case "Koen_Testing_All": return SceneType.Koen_Testing_All;
                     case "Koen_Playground_Game_2": return SceneType.Koen_Playground_Game_2;
+                    case "Castle_Basement_Center": return SceneType.Castle_Basement_Center;
+                    case "Castle_Basement_Oubilette": return SceneType.Castle_Basement_Oubilette;
+                    case "Castle_Basement_Stairs": return SceneType.Castle_Basement_Stairs;
+                    case "Castle_Basement_Treasury": return SceneType.Castle_Basement_Treasury;
+                    case "Castle_BathHouse": return SceneType.Castle_BathHouse;
+                    case "Castle_BedroomKing": return SceneType.Castle_BedroomKing;
+                    case "Castle_GateFront": return SceneType.Castle_GateFront;
+                    case "Castle_Kitchen": return SceneType.Castle_Kitchen;
+                    case "Castle_Library": return SceneType.Castle_Library;
+                    case "Castle_ThroneRoom": return SceneType.Castle_ThroneRoom;
+                    case "Cave_Bedroom_C": return SceneType.Cave_Bedroom_C;
+                    case "Cave_Living_C_TEST": return SceneType.Cave_Living_C_TEST;
+                    case "ForestLevel": return SceneType.ForestLevel;
+                    case "Swamp": return SceneType.Swamp;
+                    case "MisterWitch_Int": return SceneType.MisterWitch_Int;
+                    case "PrinceTower_C": return SceneType.PrinceTower_C;
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a type for a valid scene. ");
                         return SceneType.None;

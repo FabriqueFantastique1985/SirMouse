@@ -41,24 +41,10 @@ namespace UnityCore
 
 
 
-
-
                 if (Input.GetKeyUp(KeyCode.G))
                 {
-                    SceneControllerScript.Load(SceneType.Koen_Playground_Game_1, null, false, PageType.Loading);
+                    SceneControllerScript.Load(SceneType.Koen_Testing_All, null, false, PageType.Loading, 1);
                 }
-
-                if (Input.GetKeyUp(KeyCode.H))
-                {
-                    SceneControllerScript.Load(SceneType.Koen_Playground_Game_2, null, false, PageType.Loading, 0);
-                }
-
-                if (Input.GetKeyUp(KeyCode.J))
-                {
-                    SceneControllerScript.Load(SceneType.Koen_Playground_Game_2, null, true, PageType.Loading, 1);
-                }
-
-                // when calling the "Load" function, dont forget to assign a spawnvalue to the interaction (and also have spawnlocations on all the other scenes)
             }
         }
     }

@@ -53,6 +53,8 @@ public class MainGameSystem : GameSystem
                     }
                 }
 
+                Debug.Log("Hit " + hit.transform.name);
+
                 hit.transform.GetComponent<InteractBalloon>()?.Click(_player);
             }
         }
