@@ -36,9 +36,7 @@ public class Interactable : MonoBehaviour
     {
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
 
-        // what else should all balloons do ?
-        // 1) they should have an animation playing on loop (floaty)
-        // 2) they should all "POP" once tapped, --- only after this "POP" should the baloon object be set to false (prototype disabled the collider first, the object after the animation as a fix)
+        // more logic every balloon should follow
         _balloonAnimator.Play(_animPop);
         StartCoroutine(DisableBalloon());
     }
@@ -52,7 +50,7 @@ public class Interactable : MonoBehaviour
         // disable the collider -> wait a bit -> disable the gameobject + enable the collider
         _balloonTrigger.enabled = false;
 
-        yield return new WaitForSeconds(_balloonAnimator.GetCurrentAnimatorStateInfo(0).length + 0.1f);
+        yield return new WaitForSeconds(0.25f); // should be the length of the animation "Pop"
 
         _balloon.gameObject.SetActive(false);
         _balloonTrigger.enabled = true;
@@ -68,6 +66,7 @@ public class Interactable : MonoBehaviour
        if (player != null)
        {
           _balloon.gameObject.SetActive(true);
+          _balloonAnimator.Play(_animFloat);
        }
     }
 

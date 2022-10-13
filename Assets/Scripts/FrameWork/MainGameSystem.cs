@@ -11,6 +11,10 @@ public class MainGameSystem : GameSystem
     /// </summary>
     private Collider[] _groundColliders;
 
+    private bool _onCooldown;
+    private float _cooldownTimer;
+    private float _cooldownLimit = 0.2f;
+
     public MainGameSystem(Player player, int[] layersToIgnore, Collider[] newGroundColls = null) : base(player, layersToIgnore)
     {
         for (int i = 0; i < layersToIgnore.Length; i++)
@@ -33,7 +37,7 @@ public class MainGameSystem : GameSystem
 
     public override void HandleInput()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && _onCooldown == false)
         {
             Vector3 currentTarget = Input.mousePosition;
             Ray ray = Camera.main.ScreenPointToRay(currentTarget);
@@ -55,7 +59,31 @@ public class MainGameSystem : GameSystem
 
                 Debug.Log("Hit " + hit.transform.name);
 
-                hit.transform.GetComponent<InteractBalloon>()?.Click(_player);
+                //hit.transform.GetComponent<InteractBalloon>()?.Click(_player);
+                if (hit.transform.TryGetComponent(out InteractBalloon balloon))
+                {
+                    balloon.Click(_player);
+
+                    // enable short cooldown
+                    _onCooldown = true;
+                }
+            }
+        }
+    }
+
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (_onCooldown == true)
+        {
+            _cooldownTimer += Time.deltaTime;
+
+            if (_cooldownTimer >= _cooldownLimit)
+            {
+                _onCooldown = false;
+                _cooldownTimer = 0;
             }
         }
     }

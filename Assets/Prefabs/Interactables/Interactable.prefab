@@ -128,7 +128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _balloon: {fileID: 8034303488882032951}
-  _balloonAnimation: {fileID: 3719617391462620767}
+  _balloonTrigger: {fileID: 8034303488882032952}
+  _balloonAnimator: {fileID: 1854496289936992303}
 --- !u!65 &8034303490400576030
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -217,6 +218,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1229940535630423313}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &8034303488882032952 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 9110276348959794217, guid: bbac6baff9eecb04c83c38fea1eddf51,
+    type: 3}
+  m_PrefabInstance: {fileID: 1229940535630423313}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8034303488882032951 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9110276348959794214, guid: bbac6baff9eecb04c83c38fea1eddf51,
@@ -229,9 +236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41698bbcc7ab4c14286e16e5c75ae4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!111 &3719617391462620767 stripped
-Animation:
-  m_CorrespondingSourceObject: {fileID: 2490240085528968014, guid: bbac6baff9eecb04c83c38fea1eddf51,
+--- !u!95 &1854496289936992303 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 625401021084175678, guid: bbac6baff9eecb04c83c38fea1eddf51,
     type: 3}
   m_PrefabInstance: {fileID: 1229940535630423313}
   m_PrefabAsset: {fileID: 0}
