@@ -13,7 +13,7 @@ public class MainGameSystem : GameSystem
 
     private bool _onCooldown;
     private float _cooldownTimer;
-    private float _cooldownLimit = 0.2f;
+    private float _cooldownLimit = 0.15f;
 
     public MainGameSystem(Player player, int[] layersToIgnore, Collider[] newGroundColls = null) : base(player, layersToIgnore)
     {
@@ -63,6 +63,13 @@ public class MainGameSystem : GameSystem
                 if (hit.transform.TryGetComponent(out InteractBalloon balloon))
                 {
                     balloon.Click(_player);
+
+                    // enable short cooldown
+                    _onCooldown = true;
+                }
+                else if (hit.transform.TryGetComponent(out InteractSwapBalloon swapBalloon))
+                {
+                    swapBalloon.Click(_player);
 
                     // enable short cooldown
                     _onCooldown = true;

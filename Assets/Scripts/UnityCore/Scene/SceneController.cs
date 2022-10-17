@@ -157,10 +157,10 @@ namespace UnityCore
 
             private void SpawnPlayerOnCorrectPosition()
             {
-                NextLevelInteractable[] spawnScripts = FindObjectsOfType<NextLevelInteractable>();
+                Interactable_NextLevel[] spawnScripts = FindObjectsOfType<Interactable_NextLevel>();
                 if (spawnScripts != null)
                 {
-                    foreach (NextLevelInteractable spawnScript in spawnScripts)
+                    foreach (Interactable_NextLevel spawnScript in spawnScripts)
                     {
                         // if the spawnvalues integer == the value on this script....
                         if (spawnScript.SpawnValue == _nextSceneSpawnLocation)

@@ -1,28 +1,54 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    [Header("Balloon components")]
     [SerializeField]
-    private InteractBalloon _balloon;
-
+    protected InteractBalloon _balloon;
     [SerializeField]
     private Collider _balloonTrigger;
-
     [SerializeField]
-    private Animator _balloonAnimator;
+    protected Animator _balloonAnimator;
 
-    private const string _animFloat = "Balloon_Floaty";
-    private const string _animPop = "Balloon_Pop";
+    protected const string _animFloat = "Balloon_Floaty";
+    protected const string _animPop = "Balloon_Pop";
+
+    [Header("Swap Balloon components")]
+    [SerializeField]
+    protected InteractSwapBalloon _swapBalloon;
+    [SerializeField]
+    private Collider _swapBalloonTrigger;
+    [SerializeField]
+    protected Animator _swapBalloonAnimator;
+
+    protected const string _animSwapPop = "SwapBalloon_Pop";
+
+    protected int _interactionCurrentValue;
+    protected int _interactionTotal;   // this is set in initialize (sprites should be linked to the currentvalue)
+    protected int _interactionPossibleTotal = 2; // this is normally set in the OnTriggerEnter...(as it requires the info whether player has x pickup)
+
+    [Header("Balloon sprite parents")]
+    [SerializeField]
+    private List<GameObject> _spriteParents = new List<GameObject>();
+
 
     private void Start()
     {
         _balloon.OnBalloonClicked += OnInteractBalloonClicked;
         _balloon.gameObject.SetActive(false);
 
+        if (_swapBalloon != null)
+        {
+            _swapBalloon.OnSwapBalloonClicked += OnInteractSwapBalloonClicked;
+            _swapBalloon.gameObject.SetActive(false);
+        }
+
         InitializeThings();
     }
+
 
 
 
@@ -36,9 +62,49 @@ public class Interactable : MonoBehaviour
     {
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
 
-        // more logic every balloon should follow
         _balloonAnimator.Play(_animPop);
         StartCoroutine(DisableBalloon());
+    }
+    protected virtual void OnInteractSwapBalloonClicked(InteractSwapBalloon sender, Player player)
+    {
+        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
+
+        _swapBalloonAnimator.Play(_animSwapPop);
+        StartCoroutine(DisableSwapBalloon());
+        // update sprites & int
+        AdjustInteraction();
+    }
+
+
+    
+    protected virtual void ShowBalloon(Collider other)
+    {
+        var player = other.transform.GetComponent<Player>();
+        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
+        {
+            _balloon.gameObject.SetActive(true);
+            _balloonAnimator.Play(_animFloat);
+
+            if (_interactionPossibleTotal > 1) 
+            {
+                // show swap balloon
+                _swapBalloon.gameObject.SetActive(true);
+            }
+        }
+    }
+    protected virtual void HideBalloon(Collider other)
+    {
+        var player = other.transform.GetComponent<Player>();
+        if (player != null)
+        {
+            _balloon.gameObject.SetActive(false);
+
+            if (_swapBalloon != null)
+            {
+                // show swap balloon
+                _swapBalloon.gameObject.SetActive(false);
+            }
+        }
     }
 
     #endregion
@@ -50,10 +116,35 @@ public class Interactable : MonoBehaviour
         // disable the collider -> wait a bit -> disable the gameobject + enable the collider
         _balloonTrigger.enabled = false;
 
-        yield return new WaitForSeconds(0.25f); // should be the length of the animation "Pop"
+        yield return new WaitForSeconds(0.35f); // should be the length of the animation "Pop"
 
         _balloon.gameObject.SetActive(false);
         _balloonTrigger.enabled = true;
+    }
+    private IEnumerator DisableSwapBalloon()
+    {       
+        _swapBalloonTrigger.enabled = false;
+
+        yield return new WaitForSeconds(0.2f); 
+
+        _swapBalloonTrigger.enabled = true;
+    }
+    // current way of adjusting interaction will not always work
+    // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
+    private void AdjustInteraction()
+    {
+        _interactionCurrentValue += 1;  
+
+        if (_interactionCurrentValue >= _interactionPossibleTotal)
+        {
+            _interactionCurrentValue = 0;
+        }
+
+        for (int i = 0; i < _interactionPossibleTotal; i++)
+        {
+            _spriteParents[i].SetActive(false);
+        }
+        _spriteParents[_interactionCurrentValue].SetActive(true);
     }
 
     #endregion
@@ -62,20 +153,12 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       var player = other.transform.GetComponent<Player>();
-       if (player != null)
-       {
-          _balloon.gameObject.SetActive(true);
-          _balloonAnimator.Play(_animFloat);
-       }
+        ShowBalloon(other);
     }
+
 
     private void OnTriggerExit(Collider other)
     {
-       var player = other.transform.GetComponent<Player>();
-       if (player != null)
-       {
-          _balloon.gameObject.SetActive(false);
-       }
+        HideBalloon(other);
     }
 }
