@@ -70,7 +70,6 @@ public class Interactable : MonoBehaviour
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
 
         _swapBalloonAnimator.Play(_animSwapPop);
-        StartCoroutine(DisableSwapBalloon());
         // update sprites & int
         AdjustInteraction();
     }
@@ -120,14 +119,6 @@ public class Interactable : MonoBehaviour
 
         _balloon.gameObject.SetActive(false);
         _balloonTrigger.enabled = true;
-    }
-    private IEnumerator DisableSwapBalloon()
-    {       
-        _swapBalloonTrigger.enabled = false;
-
-        yield return new WaitForSeconds(0.2f); 
-
-        _swapBalloonTrigger.enabled = true;
     }
     // current way of adjusting interaction will not always work
     // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
