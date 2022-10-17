@@ -16,7 +16,7 @@ public class FollowCamera : MonoBehaviour
     private float _smoothFactor = 0.125f;
 
     [SerializeField]
-    private Collider _boundaryCollider;
+    private Collider2D _boundaryCollider;
 
     private Vector3 _offset;
     private Vector3 _currentTarget;
@@ -104,9 +104,21 @@ public class FollowCamera : MonoBehaviour
 
     private void CheckForBoundaryHit(out bool blockMovement, Vector3 rayOrigin, Vector3 rayOriginOffset)
     {
-        RaycastHit hit;
         Ray ray = new Ray(rayOrigin + rayOriginOffset, transform.forward);
+        RaycastHit2D hit2d = Physics2D.GetRayIntersection(ray, Mathf.Infinity, _layerMask);
+
+        blockMovement = hit2d.collider != null;
+
+        if (blockMovement)
+        {
+            Debug.Log("Hitting boundary: " + hit2d.collider.name);
+        }
+        
+        //3D Raycast
+        //RaycastHit hit;
+        //Ray ray = new Ray(rayOrigin + rayOriginOffset, transform.forward);
+       // blockMovement = Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask);
+        
         Debug.DrawRay(ray.origin, ray.direction * 500, Color.blue);
-        blockMovement = Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask);
     }
 }
