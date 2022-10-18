@@ -73,7 +73,7 @@ public class FollowCamera : MonoBehaviour
         else Debug.LogError(" No boundary collider added! Add this to determine its layer");
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Vector3 lastPos = transform.position;
 
