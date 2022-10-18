@@ -101,4 +101,14 @@ public class Interactable : MonoBehaviour
     }
     
     #endregion
+    
+    #region Public Functions
+
+    public virtual void HideBalloonBackpack()
+    {
+        HideInteractionBalloon();
+    }
+
+    #endregion
+
 }
