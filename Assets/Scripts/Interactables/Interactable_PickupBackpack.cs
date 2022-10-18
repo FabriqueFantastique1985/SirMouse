@@ -7,7 +7,7 @@ public class Interactable_PickupBackpack : Interactable
     [SerializeField]
     private PickupType _pickupType;
 
-    protected override void OnInteractBalloonClicked(InteractBalloon sender, Player player)
+    protected override void OnInteractBalloonClicked(Balloon sender, Player player)
     {
         base.OnInteractBalloonClicked(sender, player);
 

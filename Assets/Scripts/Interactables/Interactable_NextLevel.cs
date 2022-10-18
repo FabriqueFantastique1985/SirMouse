@@ -12,7 +12,7 @@ public class Interactable_NextLevel : Interactable
     [Header("this Value should be == to Value of the desired spawn in next scene")]
     public int SpawnValue;
 
-    protected override void OnInteractBalloonClicked(InteractBalloon sender, Player player)
+    protected override void OnInteractBalloonClicked(Balloon sender, Player player)
     {
         base.OnInteractBalloonClicked(sender, player);
 
