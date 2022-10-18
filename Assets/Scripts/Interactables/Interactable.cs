@@ -140,6 +140,21 @@ public class Interactable : MonoBehaviour
 
     #endregion
 
+    #region Public Functions
+
+    public virtual void HideBalloonBackpack()
+    {
+        _balloon.gameObject.SetActive(false);
+
+        if (_swapBalloon != null)
+        {
+            // show swap balloon
+            _swapBalloon.gameObject.SetActive(false);
+        }    
+    }
+
+    #endregion
+
 
 
     private void OnTriggerEnter(Collider other)

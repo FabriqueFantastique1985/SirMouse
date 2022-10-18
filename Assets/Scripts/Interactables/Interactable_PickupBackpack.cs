@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Interactable_PickupBackpack : Interactable
 {
-    [SerializeField]
-    private PickupType _pickupType;
+    public Type_Pickup PickupType; // this pickuptype should be on the component 
 
     protected override void OnInteractBalloonClicked(InteractBalloon sender, Player player)
     {
@@ -38,15 +37,9 @@ public class Interactable_PickupBackpack : Interactable
     protected virtual void Backpackit()
     {
         Debug.Log("Backpacked");
-        /*
-         * - parent the interactable to gamemanager (or any other part of dont destroyonload)
-         * - setActive(false) the interactable
-         * - add the itemType to the list
-         */
 
-        this.transform.SetParent(GameManager.Instance.transform);
-        BackpackController.AddItemToBackpack(this.gameObject, _pickupType);
-        this.gameObject.SetActive(false);
+        //HideBalloonBackpack();
+        BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, PickupType);
     }
 
     #endregion
