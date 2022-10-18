@@ -8,7 +8,8 @@ namespace UnityCore
         {
             None,
             Loading,
-            Menu
+            Menu,
+            Backpack
         }
     }
 }
