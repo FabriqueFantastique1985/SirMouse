@@ -36,8 +36,10 @@ public class Balloon : MonoBehaviour
 
     [Header("BalloonSprite")]
     [SerializeField]
-    private Sprite _balloonSprite;
-    
+    private Sprite _spriteInBalloon;
+    //[SerializeField]
+    //private GameObject _spriteInBalloonParent;
+
     #endregion
 
     #region Fields
@@ -89,11 +91,18 @@ public class Balloon : MonoBehaviour
         // }
     }
 
+
+
     public void SetSprite(Sprite newSprite)
     {
-        _balloonSprite = newSprite;
+        _spriteInBalloon = newSprite;
     }
-    
+    //public void SetSprite(GameObject newSpriteParent)
+    //{
+    //    _spriteInBalloonParent = newSpriteParent;
+    //    // this method will see change
+    //}
+
     #endregion
 
 }

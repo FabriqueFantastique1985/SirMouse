@@ -33,7 +33,7 @@ RectTransform:
   m_Children:
   - {fileID: 1667675035}
   m_Father: {fileID: 4247653463005331673}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -221,7 +221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &885070685
 RectTransform:
   m_ObjectHideFlags: 0
@@ -583,6 +583,50 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!1 &1034105723274297252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4302707707052008604}
+  - component: {fileID: 2503550445782381937}
+  m_Layer: 5
+  m_Name: Panel_PickupsIntoBackpack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4302707707052008604
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034105723274297252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4247653463005331673}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2503550445782381937
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034105723274297252}
+  m_CullTransparentMesh: 0
 --- !u!1 &4247653462518366390
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,6 +831,7 @@ RectTransform:
   - {fileID: 4247653462518366388}
   - {fileID: 4247653462532505121}
   - {fileID: 885070685}
+  - {fileID: 4302707707052008604}
   - {fileID: 23738492}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -900,6 +945,8 @@ MonoBehaviour:
   ButtonPrefab: {fileID: 6798478812581398053, guid: 1cd6afcfb4000e84dae59a525add4679,
     type: 3}
   _pageBackpack: {fileID: 885070684}
+  _panelBackpackEatingPickups: {fileID: 1034105723274297252}
+  _buttonBackpack: {fileID: 1667675034}
   _playerHasEquipedItem: 0
   _interactableEquiped: {fileID: 0}
 --- !u!1 &4247653463184994590

@@ -15,6 +15,12 @@ public class BackpackController : MonoBehaviour
 
     [SerializeField]
     private GameObject _pageBackpack;
+    [SerializeField]
+    private GameObject _panelBackpackEatingPickups;
+    [SerializeField]
+    private GameObject _buttonBackpack;
+
+    private GameObject _uiImageForBag;
 
     [Header("testing backpack")]
 
@@ -36,6 +42,27 @@ public class BackpackController : MonoBehaviour
         }
         BackpackInstance = this;
         DontDestroyOnLoad(BackpackInstance);
+
+        this.enabled = false;
+    }
+
+    private void Update() // only enable this script once a pickup is thrown into bag
+    {
+        // Increment our progress from 0 at the start, to 1 when we arrive.
+        _progress = Mathf.Min(_progress + Time.deltaTime * _stepScale, 1.0f);
+        // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
+        float parabola = 1.0f - 4.0f * (_progress - 0.5f) * (_progress - 0.5f);
+        // Travel in a straight line from our start position to the target.        
+        Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, _progress);
+        // Then add a vertical arc in excess of this.
+        nextPos.y += parabola * _arcHeight;
+        // Continue as before.
+        _objectToMove.transform.position = nextPos;
+        // if at destination...
+        if (_progress == 1.0f)
+        {
+            ImageArrivedInBag();
+        }       
     }
 
     #endregion
@@ -48,6 +75,8 @@ public class BackpackController : MonoBehaviour
         interactable.transform.SetParent(GameManager.Instance.transform);
         interactable.gameObject.SetActive(false);
         interactable.GetComponent<Collider>().enabled = false;
+
+        StartCoroutine(ForceObjectInBag(interactable));
 
         ItemsInBackpack.Add(typeOfPickup);
         InteractablesInBackpack.Add(interactable);
@@ -113,6 +142,72 @@ public class BackpackController : MonoBehaviour
     }
 
     #endregion
+
+
+    IEnumerator ForceObjectInBag(GameObject interactable)
+    {
+        // get the world to screen pos of the interactible
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
+
+        GameObject interactableSprite = interactable.transform.GetChild(0).gameObject; // change this so interactable sprite is better accessible
+        _uiImageForBag = Instantiate(interactableSprite, _panelBackpackEatingPickups.transform); 
+
+        // the position of the bag
+        var targetPosition = _buttonBackpack.transform.position;
+
+        // Calculate distance to target
+        float target_Distance = Vector2.Distance(targetPosition, screenPosition);
+        float speed = 400f;
+        float arcHeight = 0.5f;
+        float _stepScale = 0f;
+        float _progress = 0f;
+        _stepScale = speed / target_Distance;
+        arcHeight = arcHeight * target_Distance;
+
+        AllocateValues(speed, arcHeight, _stepScale, _progress, screenPosition, targetPosition, _uiImageForBag);
+
+        this.enabled = true;
+
+        yield return null;
+    }
+    private void ImageArrivedInBag()
+    {      
+        // activates animation bag
+        // TO DO
+
+        // destroy the UI image
+        Destroy(_uiImageForBag);
+
+        this.enabled = false;
+    }
+
+
+    // this was assigned (and disabled) on the pointer with with backpack interaction //
+    float _speed;
+    float _arcHeight;
+    float _stepScale;
+    float _progress;
+
+    GameObject _objectToMove;
+
+    Vector2 _startPos, _endPos;
+
+    public void AllocateValues(float speed, float arcHeight, float stepScale, float progress, Vector2 startPos, Vector2 endPos, GameObject uICopy)
+    {
+        _speed = speed;
+        _progress = progress;
+        _stepScale = stepScale;
+        _arcHeight = arcHeight;
+
+        _startPos = startPos;
+        _endPos = endPos;
+
+        _objectToMove = uICopy;
+    }
+
+    
+
+
 
     /// adding an interactable to my backpack ///
     /*

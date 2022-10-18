@@ -435,15 +435,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453a7bb016398674c92fda4789f5efca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _balloon: {fileID: 1584109893}
-  _balloonTrigger: {fileID: 1584109892}
-  _balloonAnimator: {fileID: 1584109891}
+  _interactionBalloon: {fileID: 1584109893}
   _swapBalloon: {fileID: 1295518699}
-  _swapBalloonTrigger: {fileID: 1295518698}
-  _swapBalloonAnimator: {fileID: 1295518697}
-  _spriteParents:
-  - {fileID: 1450097705}
-  - {fileID: 481095137}
+  _interactions: []
   PickupType: 0
 --- !u!4 &184137443
 Transform:
@@ -1984,12 +1978,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4934933045663142233}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1042137749 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4934933045360415692, guid: 8bd9031b0af5764428ed7041a76b2669,
-    type: 3}
-  m_PrefabInstance: {fileID: 4934933045663142233}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1042137750 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4934933045360415695, guid: 8bd9031b0af5764428ed7041a76b2669,
@@ -1999,15 +1987,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ffdd5fff596a214e86b06554d875a18, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b6e1713067015745bd1b468db578f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &1042137751 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 4934933045360415694, guid: 8bd9031b0af5764428ed7041a76b2669,
-    type: 3}
-  m_PrefabInstance: {fileID: 4934933045663142233}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1107916135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2264,18 +2246,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1295518695}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1295518697 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4934933045360415692, guid: 8bd9031b0af5764428ed7041a76b2669,
-    type: 3}
-  m_PrefabInstance: {fileID: 1295518695}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1295518698 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 4934933045360415694, guid: 8bd9031b0af5764428ed7041a76b2669,
-    type: 3}
-  m_PrefabInstance: {fileID: 1295518695}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1295518699 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4934933045360415695, guid: 8bd9031b0af5764428ed7041a76b2669,
@@ -2285,7 +2255,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ffdd5fff596a214e86b06554d875a18, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b6e1713067015745bd1b468db578f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1372102498
@@ -2855,9 +2825,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1584109889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41698bbcc7ab4c14286e16e5c75ae4ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b6e1713067015745bd1b468db578f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _balloonTrigger: {fileID: 1584109892}
+  _balloonAnimator: {fileID: 1584109891}
+  _disableOnClick: 1
+  _animFloat: Balloon_Floaty
+  _animPop: Balloon_Pop
+  _balloonSprite: {fileID: 0}
 --- !u!1 &1604204760
 GameObject:
   m_ObjectHideFlags: 0
@@ -2901,15 +2877,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453a7bb016398674c92fda4789f5efca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _balloon: {fileID: 1862273436}
-  _balloonTrigger: {fileID: 1862273435}
-  _balloonAnimator: {fileID: 1862273433}
+  _interactionBalloon: {fileID: 1862273436}
   _swapBalloon: {fileID: 1042137750}
-  _swapBalloonTrigger: {fileID: 1042137751}
-  _swapBalloonAnimator: {fileID: 1042137749}
-  _spriteParents:
-  - {fileID: 1271132552}
-  - {fileID: 693761375}
+  _interactions: []
   PickupType: 0
 --- !u!4 &1604204763
 Transform:
@@ -3551,9 +3521,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1862273432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41698bbcc7ab4c14286e16e5c75ae4ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b6e1713067015745bd1b468db578f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _balloonTrigger: {fileID: 1862273435}
+  _balloonAnimator: {fileID: 1862273433}
+  _disableOnClick: 1
+  _animFloat: Balloon_Floaty
+  _animPop: Balloon_Pop
+  _balloonSprite: {fileID: 0}
 --- !u!1 &1894168763
 GameObject:
   m_ObjectHideFlags: 0
