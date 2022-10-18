@@ -27,11 +27,16 @@ public class Balloon : MonoBehaviour
     [SerializeField]
     private bool _disableOnClick = false;
 
+    [Header("BalloonAnimations")]
     [SerializeField]
     private string _animFloat = "Balloon_Floaty";
     
     [SerializeField]
     private string _animPop = "Balloon_Pop";
+
+    [Header("BalloonSprite")]
+    [SerializeField]
+    private Sprite _balloonSprite;
     
     #endregion
 
@@ -84,6 +89,11 @@ public class Balloon : MonoBehaviour
         // }
     }
 
+    public void SetSprite(Sprite newSprite)
+    {
+        _balloonSprite = newSprite;
+    }
+    
     #endregion
 
 }

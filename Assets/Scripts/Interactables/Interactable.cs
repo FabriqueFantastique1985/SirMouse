@@ -17,11 +17,11 @@ public class Interactable : MonoBehaviour
     /// </summary>
     [SerializeField]
     private Balloon _swapBalloon;
-    
-    protected int _interactionCurrentValue;
-    protected int _interactionTotal;   // this is set in initialize (sprites should be linked to the currentvalue)
-    protected int _interactionPossibleTotal = 2; // this is normally set in the OnTriggerEnter...(as it requires the info whether player has x pickup)
 
+    [SerializeField]
+    private List<Interaction> _interactions = new List<Interaction>();
+
+    protected int _interactionCurrentValue = 0;
 
     private void Start()
     {
@@ -34,17 +34,15 @@ public class Interactable : MonoBehaviour
             _swapBalloon.gameObject.SetActive(false);
         }
 
-        InitializeThings();
+        Initialize();
     }
-
-
-
 
     #region Virtual Functions
 
-    protected virtual void InitializeThings()
+    protected virtual void Initialize()
     {
         // extra method that inheriting classes can use to still use the Start function
+        _interactionBalloon.SetSprite(_interactions[0].InteractionSprite);
     }
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
@@ -67,7 +65,7 @@ public class Interactable : MonoBehaviour
     // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
     private void AdjustInteraction()
     {
-        _interactionCurrentValue = (_interactionCurrentValue + 1) % _interactionTotal;
+        _interactionCurrentValue = (_interactionCurrentValue + 1) % _interactions.Count;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -91,13 +89,13 @@ public class Interactable : MonoBehaviour
     private void ShowInteractionBalloon()
     {
         _interactionBalloon.Show();
-        if (_interactionTotal > 1) _swapBalloon.Show();
+        if (_interactions.Count > 1) _swapBalloon.Show();
     }
 
     private void HideInteractionBalloon()
     {
         _interactionBalloon.Hide();
-        if (_interactionTotal > 1) _swapBalloon.Hide();
+        if (_interactions.Count > 1) _swapBalloon.Hide();
     }
     
     #endregion
