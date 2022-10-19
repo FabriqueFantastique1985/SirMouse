@@ -11,7 +11,7 @@ public class Interactable_PickupBackpack : Interactable
         base.OnInteractBalloonClicked(sender, player);
 
         // code whatever the interaction does here
-        switch (_interactionCurrentValue)
+        switch (_currentInteractionIndex)
         {
             case 0:
                 PickUp();

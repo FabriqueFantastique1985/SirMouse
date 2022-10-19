@@ -18,10 +18,13 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private Balloon _swapBalloon;
 
+    /// <summary>
+    /// List of possible interactions with this interactable
+    /// </summary>
     [SerializeField]
     private List<Interaction> _interactions = new List<Interaction>();
 
-    protected int _interactionCurrentValue = 0;
+    protected int _currentInteractionIndex = 0;
 
     private void Start()
     {
@@ -47,7 +50,16 @@ public class Interactable : MonoBehaviour
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
+        
+        // Execute current interaction
+        if (_currentInteractionIndex < 0 || _interactions.Count <= 0)
+        {
+            Debug.LogError("Tried to execute an interaction that either did not exist or wasn't setup correctly!");
+            return;
+        }
+        _interactions[_currentInteractionIndex].Execute();
     }
+    
     protected virtual void OnInteractSwapBalloonClicked(Balloon sender, Player player)
     {
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
@@ -65,7 +77,8 @@ public class Interactable : MonoBehaviour
     // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
     private void AdjustInteraction()
     {
-        _interactionCurrentValue = (_interactionCurrentValue + 1) % _interactions.Count;
+        _currentInteractionIndex = (_currentInteractionIndex + 1) % _interactions.Count;
+        _interactionBalloon.SetSprite(_interactions[_currentInteractionIndex].InteractionSprite);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -88,13 +101,23 @@ public class Interactable : MonoBehaviour
 
     private void ShowInteractionBalloon()
     {
+        // No balloon required when there are no interactions
+        if (_interactions.Count <= 0) return;
+        
         _interactionBalloon.Show();
+        
+        // Swap balloon is required if there's more than one interaction
         if (_interactions.Count > 1) _swapBalloon.Show();
     }
 
     private void HideInteractionBalloon()
     {
+        // Nothing to hide if there are no interactions to begin with
+        if (_interactions.Count <= 0) return;
+        
         _interactionBalloon.Hide();
+        
+        // Also hide the swapballoon if there's more than one interaction
         if (_interactions.Count > 1) _swapBalloon.Hide();
     }
     

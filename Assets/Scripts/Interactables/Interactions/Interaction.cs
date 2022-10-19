@@ -13,4 +13,9 @@ public class Interaction : MonoBehaviour
     //private GameObject _interactionSprite;
 
     //public GameObject InteractionSprite => _interactionSprite;
+
+    public void Execute()
+    {
+        Debug.Log("Interaction Executed");
+    }
 }

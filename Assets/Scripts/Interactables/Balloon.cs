@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Balloon : MonoBehaviour
@@ -36,19 +38,28 @@ public class Balloon : MonoBehaviour
 
     [Header("BalloonSprite")]
     [SerializeField]
-    private Sprite _spriteInBalloon;
+    private SpriteRenderer _spriteInBalloon;
     //[SerializeField]
     //private GameObject _spriteInBalloonParent;
 
+    [SerializeField]
+    private Image _objectImageRenderer;
+
+    
     #endregion
 
     #region Fields
 
-
+    private Rect _imageOriginalRect;
 
     #endregion
 
     #region Methods
+
+    private void Awake()
+    {
+      if (_objectImageRenderer != null) _imageOriginalRect = _objectImageRenderer.rectTransform.rect;
+    }
 
     public void Click(Player player)
     {
@@ -72,31 +83,38 @@ public class Balloon : MonoBehaviour
     {
         gameObject.SetActive(true);
         if (_balloonAnimator != null) _balloonAnimator.Play(_animFloat);
-
-        //  if (_interactionPossibleTotal > 1) 
-        //  {
-        //      // show swap balloon
-        //      _swapBalloon.gameObject.SetActive(true);
-        //  }
     }
     
     public void Hide()
     {
         gameObject.SetActive(false);
-
-        // if (_swapBalloon != null)
-        // {
-        //     // show swap balloon
-        //     _swapBalloon.gameObject.SetActive(false);
-        // }
     }
-
-
 
     public void SetSprite(Sprite newSprite)
     {
-        _spriteInBalloon = newSprite;
+        var oldSprite = _objectImageRenderer.sprite;
+
+        float aspectRatio = newSprite.rect.width / newSprite.rect.height;
+        float newImageRendererWidth = _imageOriginalRect.width;
+        float newImageRendererHeight = _imageOriginalRect.height;
+        // first check if the new sprite is square shaped. If so, skip readjusting the image.
+
+        if (Mathf.Approximately(aspectRatio, 1.0f) == false)
+        {
+           // first decide if my image is wider than its height or taller than its width
+           bool isImageWider = aspectRatio > 1.0f;
+
+           newImageRendererWidth = isImageWider ? _imageOriginalRect.width : _imageOriginalRect.width * aspectRatio;
+           newImageRendererHeight = isImageWider ? _imageOriginalRect.height * (1 / aspectRatio) : _imageOriginalRect.height;
+        }
+        
+        // either reset or apply new renderer width and height
+        _objectImageRenderer.rectTransform.sizeDelta = new Vector2(newImageRendererWidth, newImageRendererHeight);
+        
+        // Apply new sprite
+        _objectImageRenderer.sprite = newSprite;
     }
+    
     //public void SetSprite(GameObject newSpriteParent)
     //{
     //    _spriteInBalloonParent = newSpriteParent;

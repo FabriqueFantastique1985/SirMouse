@@ -62,6 +62,7 @@ public class MainGameSystem : GameSystem
                 //hit.transform.GetComponent<InteractBalloon>()?.Click(_player);
                 if (hit.transform.TryGetComponent(out Balloon balloon))
                 {
+                    balloon.Click(_player);
                     _onCooldown = true;
                 }
             }
