@@ -1,5 +1,6 @@
 ﻿
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityCore
@@ -12,43 +13,44 @@ namespace UnityCore
 
             public AudioTrack[] Tracks;
 
-            private Hashtable m_AudioTable; // relationship between audio types (key) and audio tracks (value)
-            private Hashtable m_JobTable;   // relationship between audio types (key) and jobs (value) (Coroutine, IEnumerator)
-
+            public Hashtable AudioTable; // relationship between audio clips (key) and audio tracks (value)
+            private Hashtable m_JobTable;   // relationship between audio clips (key) and jobs (value) (Coroutine, IEnumerator)
 
 
             #region Extra Classes
 
             [System.Serializable]
-            public class AudioObject
-            {
-                public AudioType Type;
-                public AudioClip Clip;
-            }
-
-            [System.Serializable]
             public class AudioTrack
             {
+                public AudioType Type;
                 public AudioSource Source;
-                public AudioObject[] AudioObj;
+                public List<AudioElement> AudioElements = new List<AudioElement>();
             }
-
             private class AudioJob
             {
-                public AudioAction Action;
+                public AudioClip Clip;
                 public AudioType Type;
+                public AudioAction Action;               
                 public bool Fade;
                 public float Delay;
-
-                public AudioJob(AudioAction action, AudioType type, bool fade, float delay)
+                
+                public AudioJob(AudioClip clip, AudioType type, AudioAction action, bool fade, float delay)
                 {
-                    Action = action;
+                    Clip = clip;                  
                     Type = type;
+                    Action = action;
+                    Fade = fade;
+                    Delay = delay;
+                }
+                public AudioJob(AudioType type, AudioAction action, bool fade, float delay)
+                {
+                    Type = type;
+                    Action = action;
                     Fade = fade;
                     Delay = delay;
                 }
             }
-            private enum AudioAction
+            public enum AudioAction
             {
                 START,
                 STOP,
@@ -68,7 +70,6 @@ namespace UnityCore
                     Configure();
                 }
             }
-
             private void OnDisable()
             {
                 Dispose();
@@ -80,18 +81,32 @@ namespace UnityCore
 
             #region Public Functions
 
-            public void PlayAudio(AudioType type, bool fade = false, float delay = 0f)
+            public void PlayAudio(AudioClip clip, AudioType type, bool fade = false, float delay = 0f)
             {
-                AddJob(new AudioJob(AudioAction.START, type, fade, delay));
+                AddJobClip(new AudioJob(clip, type, AudioAction.START, fade, delay));
             }
+            // restart and stop should not require a specific clip, but should realize what the currently playing clip is
             public void StopAudio(AudioType type, bool fade = false, float delay = 0f)
             {
-                AddJob(new AudioJob(AudioAction.STOP, type, fade, delay));
+                AddJobClip(new AudioJob(type, AudioAction.STOP, fade, delay));
             }
             public void RestartAudio(AudioType type, bool fade = false, float delay = 0f)
             {
-                AddJob(new AudioJob(AudioAction.RESTART, type, fade, delay));
+                AddJobClip(new AudioJob(type, AudioAction.RESTART, fade, delay));
             }
+            // adding of world sounds call from interactable/encounterable scripts
+            public void AddAudioElement(AudioElement audioEM, int trackValue = 2) // default is world sounds track
+            {
+                if (AudioTable.ContainsKey(audioEM.Clip))
+                {
+                    Debug.Log("I've already been registered in the audio table");
+                }
+                else
+                {
+                    Tracks[trackValue].AudioElements.Add(audioEM);
+                    AudioTable.Add(audioEM.Clip, Tracks[trackValue]);
+                }            
+            } 
 
             #endregion
 
@@ -102,60 +117,69 @@ namespace UnityCore
             private void Configure()
             {
                 Instance = this;
-                m_AudioTable = new Hashtable();
+                AudioTable = new Hashtable();
                 m_JobTable = new Hashtable();
-                GenerateAudioTable();
+                GenerateAudioTableStart();
             }
-
-            private void GenerateAudioTable()
+            private void GenerateAudioTableStart()  
             {
                 foreach (AudioTrack track in Tracks)
                 {
-                    foreach (AudioObject obj in track.AudioObj)
+                    foreach (AudioElement obj in track.AudioElements)
                     {
                         // do not duplicate keys
-                        if (m_AudioTable.ContainsKey(obj.Type))
+                        if (AudioTable.ContainsKey(obj.Clip))
                         {
                             Debug.Log("alrdy contains it");
                         }
                         else
                         {
-                            m_AudioTable.Add(obj.Type, track);
+                            AudioTable.Add(obj.Clip, track);
                         }
                     }
                 }
             }
-
             private void Dispose()
             {
-                foreach (DictionaryEntry entry in m_JobTable) // error here when transitioning scenes -- m_jobtable does not exist yet
+                foreach (DictionaryEntry entry in m_JobTable) // error here when transitioning scenes
                 {
                     IEnumerator job = (IEnumerator)entry.Value;
                     StopCoroutine(job);
                 }
             }
-
-            private void AddJob(AudioJob job)
+            private void AddJobClip(AudioJob job)
             {
                 // remove conflicting jobs
-                RemoveConflictingJobs(job.Type);
+                RemoveConflictingJobs(job.Type); // i think this ones fine
 
                 // start job
-                IEnumerator jobRunner = RunAudioJob(job);
+                IEnumerator jobRunner = RunAudioJobClip(job);
                 m_JobTable.Add(job.Type, jobRunner);
                 StartCoroutine(jobRunner);
             }
-
-            private IEnumerator RunAudioJob(AudioJob job)
+            private IEnumerator RunAudioJobClip(AudioJob job)
             {
                 yield return new WaitForSeconds(job.Delay);
 
-                AudioTrack track = (AudioTrack)m_AudioTable[job.Type];
-                track.Source.clip = GetAudioClipFromAudioTrack(job.Type, track);
+                AudioTrack track = (AudioTrack)AudioTable[job.Type]; // this gets overwritten
+
+                switch (job.Type)
+                {
+                    case AudioType.OST:
+                        track = Tracks[0];
+                        break;
+                    case AudioType.SFX_UI:
+                        track = Tracks[1];
+                        break;
+                    case AudioType.SFX_World:
+                        track = Tracks[2];
+                        break;
+                }
 
                 switch (job.Action)
                 {
                     case AudioAction.START:
+                        track.Source.clip = GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned
                         track.Source.Play();
                         break;
                     case AudioAction.STOP:
@@ -190,29 +214,23 @@ namespace UnityCore
                     }
                 }
 
-
                 m_JobTable.Remove(job.Type);
 
                 Debug.Log("Job count + " + m_JobTable.Count);
 
                 yield return null;
             }
-
-
-            private AudioClip GetAudioClipFromAudioTrack(AudioType type, AudioTrack track)
+            private AudioClip GetAudioClipFromAudioTrack(AudioJob job, AudioTrack track)
             {
-                foreach (AudioObject obj in track.AudioObj)
+                foreach (AudioElement trackElement in track.AudioElements)
                 {
-                    if (obj.Type == type)
+                    if (trackElement.Clip == job.Clip) 
                     {
-                        return obj.Clip;
+                        return trackElement.Clip;
                     }
                 }
                 return null;
             }
-
-
-
             private void RemoveConflictingJobs(AudioType type)
             {
                 if (m_JobTable.ContainsKey(type))
@@ -224,8 +242,8 @@ namespace UnityCore
                 foreach (DictionaryEntry entry in m_JobTable)
                 {
                     AudioType audioType = (AudioType)entry.Key;
-                    AudioTrack audioTrackInUse = (AudioTrack)m_AudioTable[audioType];
-                    AudioTrack audioTrackNeeded = (AudioTrack)m_AudioTable[type];
+                    AudioTrack audioTrackInUse = (AudioTrack)AudioTable[audioType];
+                    AudioTrack audioTrackNeeded = (AudioTrack)AudioTable[type];
 
                     if (audioTrackNeeded.Source == audioTrackInUse.Source)
                     {
@@ -238,7 +256,6 @@ namespace UnityCore
                     RemoveJob(conflictAudio);
                 }
             }
-
             private void RemoveJob(AudioType type)
             {
                 if (m_JobTable.ContainsKey(type) == false)
@@ -255,4 +272,3 @@ namespace UnityCore
         }
     }
 }
-
