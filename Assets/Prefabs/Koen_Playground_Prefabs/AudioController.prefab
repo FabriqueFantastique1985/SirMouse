@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2512449942197250687}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &7335877036862016429
 AudioSource:
@@ -283,7 +283,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2512449942197250687}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1162425452319612503
 AudioSource:
@@ -390,7 +390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2512449942197250687}
-  - component: {fileID: 9131373927097023598}
+  - component: {fileID: 7679209852694069317}
   m_Layer: 0
   m_Name: AudioController
   m_TagString: Untagged
@@ -410,12 +410,12 @@ Transform:
   m_LocalScale: {x: 1.3233664, y: 1.3233664, z: 1.3233664}
   m_Children:
   - {fileID: 5129984255591287748}
-  - {fileID: 6482528717138963075}
   - {fileID: 3913708544101415188}
+  - {fileID: 6482528717138963075}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9131373927097023598
+--- !u!114 &7679209852694069317
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -424,25 +424,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5206378000730539731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9412d75c64eb70c48bb6132a90463247, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b26e9daee53c2746a7bdcb31a94aee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Tracks:
-  - Source: {fileID: 709884175632358998}
-    AudioObj:
-    - Type: 1
-      Clip: {fileID: 8300000, guid: de581cf35d476294894fd250286c1b08, type: 3}
-    - Type: 1
-      Clip: {fileID: 8300000, guid: 8497fb7206cd16d469b8842c249993b3, type: 3}
-  - Source: {fileID: 1162425452319612503}
-    AudioObj:
-    - Type: 2
-      Clip: {fileID: 8300000, guid: 5f415353cc9122e43a78faaa9c5e7b6a, type: 3}
-    - Type: 2
-      Clip: {fileID: 8300000, guid: 7d573405a00bff5418d554e6c25f59fd, type: 3}
-  - Source: {fileID: 7335877036862016429}
-    AudioObj:
-    - Type: 3
-      Clip: {fileID: 8300000, guid: 3550d25c6817fe9439cc8267b3420467, type: 3}
-    - Type: 3
-      Clip: {fileID: 8300000, guid: 45cf6b71b5dba614998f4fbf5735363d, type: 3}
+  - Type: 1
+    Source: {fileID: 709884175632358998}
+    AudioElements:
+    - Clip: {fileID: 8300000, guid: de581cf35d476294894fd250286c1b08, type: 3}
+      Type: 1
+  - Type: 2
+    Source: {fileID: 7335877036862016429}
+    AudioElements:
+    - Clip: {fileID: 8300000, guid: 5f415353cc9122e43a78faaa9c5e7b6a, type: 3}
+      Type: 2
+  - Type: 3
+    Source: {fileID: 1162425452319612503}
+    AudioElements: []
