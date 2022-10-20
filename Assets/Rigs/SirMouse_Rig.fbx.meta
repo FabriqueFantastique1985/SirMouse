@@ -46,7 +46,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -96,7 +96,1162 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: SirMouse_Rig(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: rig_C_001_GRUP
+      parentName: SirMouse_Rig(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ctrl_C_001_GRUP
+      parentName: rig_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: master_C_001_GRUP
+      parentName: ctrl_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: master_C_001_CTRL
+      parentName: master_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: root_C_001_GRUP
+      parentName: master_C_001_CTRL
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: root_C_001_CTRL
+      parentName: root_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: flipGlobal_C_001_GRP
+      parentName: root_C_001_CTRL
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: headSettings_C_001_GRP
+      parentName: flipGlobal_C_001_GRP
+      position: {x: -0.009470303, y: 0.3401107, z: 0.0033444378}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: headSettings_C_001_CTRL
+      parentName: headSettings_C_001_GRP
+      position: {x: -1.6653345e-18, y: 0.0025, z: -3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: eyeSettings_L_001_GRP
+      parentName: headSettings_C_001_CTRL
+      position: {x: -0.04, y: 0.0175, z: 3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: eyeSettings_L_001_CTRL
+      parentName: eyeSettings_L_001_GRP
+      position: {x: -1.6653345e-18, y: 0.0025, z: -3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: eyeSettings_R_001_GRP
+      parentName: headSettings_C_001_CTRL
+      position: {x: 0.04, y: 0.0175, z: 3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: eyeSettings_R_001_CTRL
+      parentName: eyeSettings_R_001_GRP
+      position: {x: -1.6653345e-18, y: 0.0025, z: -3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mouthSettings_C_001_GRP
+      parentName: headSettings_C_001_CTRL
+      position: {x: 1.6653345e-18, y: -0.0325, z: 3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mouthSettings_C_001_CTRL
+      parentName: mouthSettings_C_001_GRP
+      position: {x: -1.6653345e-18, y: 0.0025, z: -3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: armSettings_L_001_GRP
+      parentName: flipGlobal_C_001_GRP
+      position: {x: -0.12920237, y: 0.17247595, z: 0.014612536}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: armSettings_L_001_CTRL
+      parentName: armSettings_L_001_GRP
+      position: {x: -1.6653345e-18, y: 0.0025, z: -3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: armSettings_R_001_GRP
+      parentName: flipGlobal_C_001_GRP
+      position: {x: 0.13569164, y: 0.1895557, z: -0.0029794946}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: armSettings_R_001_CTRL
+      parentName: armSettings_R_001_GRP
+      position: {x: -1.6653345e-18, y: 0.0025, z: -3.061617e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:root_C_001_JNT
+      parentName: SirMouse_Rig(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:masterScale_C_001_GRUP
+      parentName: Game:root_C_001_JNT
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:spineQuartFront_C_001_JNT
+      parentName: Game:masterScale_C_001_GRUP
+      position: {x: 0.004829346, y: 0.10889946, z: 0.0033444378}
+      rotation: {x: -0.10376844, y: -0.11028584, z: -0.012511024, w: 0.9883889}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:spineQuartFront_C_002_JNT
+      parentName: Game:spineQuartFront_C_001_JNT
+      position: {x: -2.3454042e-18, y: 0.019151678, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:spineQuartFront_C_003_JNT
+      parentName: Game:spineQuartFront_C_002_JNT
+      position: {x: -2.3454042e-18, y: 0.019151678, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:spineQuartFront_C_004_JNT
+      parentName: Game:spineQuartFront_C_003_JNT
+      position: {x: -2.3454042e-18, y: 0.019151678, z: 0}
+      rotation: {x: -6.0152913e-18, y: 4.9714516e-19, z: 0.04121807, w: 0.9991502}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:spineQuartFront_C_005_JNT
+      parentName: Game:spineQuartFront_C_004_JNT
+      position: {x: 0.0017769462, y: 0.02150046, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:clavicleQuartFront_R_001_JNT
+      parentName: Game:spineQuartFront_C_005_JNT
+      position: {x: 0.009181609, y: -0.0050621736, z: -0.006323932}
+      rotation: {x: 0.525635, y: 0.4729777, z: 0.4729777, w: 0.525635}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:armBindFlipQuartFront_R_001_GRUP
+      parentName: Game:clavicleQuartFront_R_001_JNT
+      position: {x: -1.7763567e-16, y: 0, z: 0.02107905}
+      rotation: {x: -0.6192598, y: -0.07518103, z: 0.049452435, w: 0.7800126}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:handFlipQuartFront_R_001_GRUP
+      parentName: Game:armBindFlipQuartFront_R_001_GRUP
+      position: {x: 0.0035469343, y: -0.0483613, z: 5.551115e-19}
+      rotation: {x: 0.64349663, y: 0.2931076, z: 0.2931076, w: 0.64349663}
+      scale: {x: -1, y: 1, z: 1}
+    - name: elbowHandFlipQuartFront_R_001_JNT
+      parentName: Game:handFlipQuartFront_R_001_GRUP
+      position: {x: 1.7763568e-17, y: 2.220446e-18, z: -2.6645352e-17}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wristSkinQuartFront_R_001_JNT
+      parentName: Game:handFlipQuartFront_R_001_GRUP
+      position: {x: 1.7763568e-17, y: 3.8857806e-18, z: 0.039451174}
+      rotation: {x: -1.2246469e-16, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:shoulderQuartFront_R_001_JNT
+      parentName: Game:armBindFlipQuartFront_R_001_GRUP
+      position: {x: 8.881784e-18, y: 3.5527136e-17, z: 0}
+      rotation: {x: 0.7066331, y: 0.025878334, z: 0.025878334, w: 0.7066331}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:elbowQuartFront_R_001_JNT
+      parentName: Game:shoulderQuartFront_R_001_JNT
+      position: {x: 1.0658141e-16, y: 1.6653345e-18, z: 0.048491195}
+      rotation: {x: 0, y: 0.38093388, z: -0, w: 0.9246023}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:wristQuartFront_R_001_JNT
+      parentName: Game:elbowQuartFront_R_001_JNT
+      position: {x: -5.3290704e-17, y: -4.440892e-18, z: 0.039451174}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: swordShieldQuartFront_R_001_JNT
+      parentName: Game:wristQuartFront_R_001_JNT
+      position: {x: -0.006050079, y: -0.0179698, z: 0.015240636}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: swordShieldQuartFront_R_002_JNT
+      parentName: swordShieldQuartFront_R_001_JNT
+      position: {x: -0, y: 0, z: -2.6645352e-17}
+      rotation: {x: -0.598441, y: -0.37665424, z: -0.37665424, w: 0.598441}
+      scale: {x: 1, y: 1, z: 1}
+    - name: swordShieldQuartFront_R_001_JNT 1
+      parentName: swordShieldQuartFront_R_002_JNT
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.7069748, y: 0.013662683, z: 0.013662683, w: 0.7069748}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:elbowGeoXtraQuartFront_R_001_JNT
+      parentName: Game:armBindFlipQuartFront_R_001_GRUP
+      position: {x: 0.0035469343, y: -0.0483613, z: 1.6653345e-18}
+      rotation: {x: 0.64720553, y: 0.28482464, z: 0.28482464, w: 0.64720553}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:clavicleQuartFront_L_001_JNT
+      parentName: Game:spineQuartFront_C_005_JNT
+      position: {x: -0.010220001, y: 0.0014697787, z: 0.011268098}
+      rotation: {x: 0.5541473, y: -0.4392275, z: -0.4392275, w: 0.5541473}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:armBindFlipQuartFront_L_001_GRUP
+      parentName: Game:clavicleQuartFront_L_001_JNT
+      position: {x: -0.00000016869616, y: -2.220446e-18, z: 0.0257441}
+      rotation: {x: -0.77331436, y: 0.12820362, z: 0.14007588, w: 0.6049195}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:handFlipQuartFront_L_001_GRUP
+      parentName: Game:armBindFlipQuartFront_L_001_GRUP
+      position: {x: -0.030184824, y: -0.044136375, z: -1.11022296e-17}
+      rotation: {x: 0.70487577, y: 0.056126587, z: 0.056126587, w: 0.70487577}
+      scale: {x: 1, y: 1, z: 1}
+    - name: wristSkinQuartFront_L_001_JNT_N
+      parentName: Game:handFlipQuartFront_L_001_GRUP
+      position: {x: -5.3290704e-17, y: 0, z: 0.038500555}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: elbowHandFlipQuartFront_L_001_JNT_N
+      parentName: Game:handFlipQuartFront_L_001_GRUP
+      position: {x: -2.2204459e-17, y: -8.881784e-18, z: 3.5527136e-17}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:shoulderQuartFront_L_001_JNT
+      parentName: Game:armBindFlipQuartFront_L_001_GRUP
+      position: {x: 8.881784e-18, y: -3.5527136e-17, z: 2.220446e-18}
+      rotation: {x: 0.6755419, y: -0.20890965, z: -0.20890965, w: 0.6755419}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:elbowQuartFront_L_001_JNT
+      parentName: Game:shoulderQuartFront_L_001_JNT
+      position: {x: 1.0658141e-16, y: -1.11022296e-17, z: 0.053470958}
+      rotation: {x: 0, y: 0.37034234, z: -0, w: 0.92889535}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:wristQuartFront_L_001_JNT
+      parentName: Game:elbowQuartFront_L_001_JNT
+      position: {x: -4.4408918e-17, y: 1.11022296e-17, z: 0.038500555}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: swordShieldQuartFront_L_001_JNT
+      parentName: Game:wristQuartFront_L_001_JNT
+      position: {x: 0.004754838, y: 0.010463228, z: 0.014077259}
+      rotation: {x: 0, y: -3.1918912e-16, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: swordShieldQuartFront_L_002_JNT
+      parentName: swordShieldQuartFront_L_001_JNT
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0.07937498, z: -0, w: 0.9968448}
+      scale: {x: 1, y: 1, z: 1}
+    - name: swordShieldQuartFront_L_001_JNT 1
+      parentName: swordShieldQuartFront_L_002_JNT
+      position: {x: -4.440892e-18, y: 8.881784e-18, z: 0}
+      rotation: {x: 0, y: -3.1918912e-16, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:elbowGeoXtraQuartFront_L_001_JNT
+      parentName: Game:armBindFlipQuartFront_L_001_GRUP
+      position: {x: -0.030184824, y: -0.044136375, z: -1.11022296e-17}
+      rotation: {x: 0.70487577, y: 0.056126587, z: 0.056126587, w: 0.70487577}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:neckQuartFront_C_001_JNT
+      parentName: Game:spineQuartFront_C_005_JNT
+      position: {x: 0.0013983704, y: 0.016919816, z: -2.220446e-18}
+      rotation: {x: -0.02584259, y: 0.7066344, z: 0.7066344, w: -0.02584259}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:headJntFlipQuartFront_C_001_GRP
+      parentName: Game:neckQuartFront_C_001_JNT
+      position: {x: 2.220446e-18, y: 2.220446e-18, z: 0.03698965}
+      rotation: {x: -0.025842596, y: 0.7066344, z: 0.7066344, w: 0.025842596}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:headQuartFront_C_001_JNT
+      parentName: Game:headJntFlipQuartFront_C_001_GRP
+      position: {x: -4.440892e-18, y: -7.105427e-17, z: -1.110223e-18}
+      rotation: {x: -0.13727172, y: 0.6936545, z: 0.6936545, w: -0.13727172}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:browQuartFront_R_001_JNT
+      parentName: Game:headQuartFront_C_001_JNT
+      position: {x: -0.035146892, y: 0.0085748555, z: 0.0033276223}
+      rotation: {x: 8.312102e-25, y: -0.13297854, z: 5.957206e-17, w: 0.99111897}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:browOutQuartFront_R_001_JNT
+      parentName: Game:browQuartFront_R_001_JNT
+      position: {x: 0.00623629, y: -8.881784e-18, z: 7.105427e-17}
+      rotation: {x: 0, y: 0, z: 1.2246467e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:browInQuartFront_R_001_JNT
+      parentName: Game:browQuartFront_R_001_JNT
+      position: {x: -0.006729033, y: -2.220446e-18, z: -3.5527136e-17}
+      rotation: {x: 0, y: 0, z: 1, w: 6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:earQuartFront_R_001_JNT
+      parentName: Game:headQuartFront_C_001_JNT
+      position: {x: -0.030925756, y: 1.110223e-18, z: 0.03505926}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:browQuartFront_L_001_JNT
+      parentName: Game:headQuartFront_C_001_JNT
+      position: {x: -0.00206411, y: 0.0085748555, z: 0.0126948375}
+      rotation: {x: -0.122567534, y: -1.1312116e-16, z: 0.9924602, w: 4.5873475e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:browOutQuartFront_L_001_JNT
+      parentName: Game:browQuartFront_L_001_JNT
+      position: {x: 0.0071406458, y: 4.440892e-18, z: -4.2632563e-16}
+      rotation: {x: 0, y: -0, z: -1.2246467e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:browInQuartFront_L_001_JNT
+      parentName: Game:browQuartFront_L_001_JNT
+      position: {x: -0.007349838, y: 4.440892e-18, z: 0}
+      rotation: {x: 0, y: 0, z: 1, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:earQuartFront_L_001_JNT
+      parentName: Game:headQuartFront_C_001_JNT
+      position: {x: 0.033829026, y: 1.110223e-18, z: 0.039970662}
+      rotation: {x: 0, y: 0, z: 1, w: 6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:eyeQuartFront_R_001_JNT_Open
+      parentName: Game:headQuartFront_C_001_JNT
+      position: {x: -0.032565977, y: 0.008332079, z: -0.011043328}
+      rotation: {x: -0.13727172, y: 0.6936545, z: 0.6936545, w: 0.13727172}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:eyeQuartFront_L_001_JNT_Open
+      parentName: Game:headQuartFront_C_001_JNT
+      position: {x: 0.001175032, y: 0.008332079, z: -0.0032281764}
+      rotation: {x: -0.13727172, y: 0.6936545, z: 0.6936545, w: 0.13727172}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:mouthQuartFront_C_001_JNT
+      parentName: Game:headQuartFront_C_001_JNT
+      position: {x: 0.004761093, y: 0.010618462, z: -0.045888107}
+      rotation: {x: -0.13727172, y: 0.6936545, z: 0.6936545, w: 0.13727172}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:hipQuartFront_C_001_JNT
+      parentName: Game:spineQuartFront_C_001_JNT
+      position: {x: -1.110223e-18, y: -3.5527136e-17, z: -5.5511148e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:legBindFlipQuartFront_L_001_GRUP
+      parentName: Game:hipQuartFront_C_001_JNT
+      position: {x: -0.027509172, y: 0.0048868977, z: -0.007243777}
+      rotation: {x: 0.045949228, y: 0.018012377, z: -0.1005391, w: 0.9937083}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:kneeQuartFront_L_001_JNT
+      parentName: Game:legBindFlipQuartFront_L_001_GRUP
+      position: {x: 0.018511636, y: -0.04722284, z: 3.4416914e-17}
+      rotation: {x: 0.20309713, y: 0.677312, z: -0.677312, w: -0.20309713}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:upperLegQuartFront_L_001_JNT
+      parentName: Game:legBindFlipQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.1313193, y: -0.6948059, z: 0.6948059, w: -0.1313193}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:ankleQuartFront_L_001_JNT
+      parentName: Game:legBindFlipQuartFront_L_001_GRUP
+      position: {x: -0.0053382907, y: -0.08341582, z: 1.0547119e-17}
+      rotation: {x: -0.35538673, y: 0.6113103, z: -0.6113103, w: 0.35538673}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:ballQuartFront_L_001_JNT
+      parentName: Game:ankleQuartFront_L_001_JNT
+      position: {x: 2.6645352e-17, y: -1.7763568e-17, z: 0.05059342}
+      rotation: {x: 2.0513016e-18, y: -0.22188978, z: -2.2725478e-16, w: 0.9750718}
+      scale: {x: 1, y: 1, z: 1}
+    - name: kneeGeoXtraQuartFront_L_001_JNT
+      parentName: Game:legBindFlipQuartFront_L_001_GRUP
+      position: {x: 0.018511636, y: -0.04722284, z: 3.4416914e-17}
+      rotation: {x: 0.16094878, y: 0.68854594, z: -0.68854594, w: -0.16094878}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:legBindFlipQuartFront_R_001_GRUP
+      parentName: Game:hipQuartFront_C_001_JNT
+      position: {x: 0.023595784, y: 0.010049992, z: -0.015664173}
+      rotation: {x: 0.055110168, y: 0.03370532, z: -0.13765574, w: 0.98837125}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:upperLegQuartFront_R_001_JNT
+      parentName: Game:legBindFlipQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.19163986, y: 0.6806425, z: -0.6806425, w: 0.19163986}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:ankleQuartFront_R_001_JNT
+      parentName: Game:legBindFlipQuartFront_R_001_GRUP
+      position: {x: 0.0015419595, y: -0.08684903, z: -1.7763568e-17}
+      rotation: {x: 0.35963225, y: -0.60882235, z: 0.60882235, w: -0.35963225}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:ballQuartFront_R_001_JNT
+      parentName: Game:ankleQuartFront_R_001_JNT
+      position: {x: 2.6645352e-17, y: -1.11022296e-17, z: 0.04627349}
+      rotation: {x: -5.0023575e-17, y: -0.22528614, z: 2.1633642e-16, w: 0.97429264}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:kneeGeoXtraQuartFront_R_001_JNT
+      parentName: Game:legBindFlipQuartFront_R_001_GRUP
+      position: {x: 0.02709003, y: -0.044293787, z: -2.8865798e-17}
+      rotation: {x: -0.15280387, y: -0.69039917, z: 0.69039917, w: 0.15280387}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:kneeQuartFront_R_001_JNT
+      parentName: Game:legBindFlipQuartFront_R_001_GRUP
+      position: {x: 0.02709003, y: -0.044293787, z: -2.8865798e-17}
+      rotation: {x: -0.1888384, y: -0.68142503, z: 0.68142503, w: 0.1888384}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailJntFlipQuartFront_C_001_GRP
+      parentName: Game:hipQuartFront_C_001_JNT
+      position: {x: -0.012635803, y: 0.011798478, z: -0.03465379}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_001_JNT
+      parentName: Game:tailJntFlipQuartFront_C_001_GRP
+      position: {x: 2.220446e-18, y: 0, z: 0}
+      rotation: {x: 0.5093968, y: -0.4904232, z: -0.49042317, w: 0.5093968}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_002_JNT
+      parentName: Game:tailQuartFront_C_001_JNT
+      position: {x: 1.7763568e-17, y: 0, z: 0.020193774}
+      rotation: {x: -0.00000007317259, y: 0.13990535, z: 0.000000010338922, w: 0.9901649}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_003_JNT
+      parentName: Game:tailQuartFront_C_002_JNT
+      position: {x: 5.3290704e-17, y: -8.881784e-18, z: 0.02073101}
+      rotation: {x: 0.000000018700112, y: 0.17505614, z: -0.000000003324911, w: 0.98455846}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_004_JNT
+      parentName: Game:tailQuartFront_C_003_JNT
+      position: {x: -1.7763568e-17, y: 1.7763568e-17, z: 0.020778622}
+      rotation: {x: 0.0000004932126, y: 0.054077614, z: -0.0000000042556363, w: 0.99853677}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_005_JNT
+      parentName: Game:tailQuartFront_C_004_JNT
+      position: {x: -1.2434498e-16, y: -8.881784e-18, z: 0.020847589}
+      rotation: {x: -0.00000043362112, y: 0.04773843, z: 1.5293899e-15, w: 0.9988599}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_006_JNT
+      parentName: Game:tailQuartFront_C_005_JNT
+      position: {x: 1.5987211e-16, y: 0, z: 0.020816755}
+      rotation: {x: 0, y: 0.030430572, z: -0, w: 0.9995369}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_007_JNT
+      parentName: Game:tailQuartFront_C_006_JNT
+      position: {x: 1.7763568e-17, y: 1.7763568e-17, z: 0.02087359}
+      rotation: {x: -0.000000019991475, y: -0.017820103, z: -3.5630673e-10, w: 0.9998412}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_008_JNT
+      parentName: Game:tailQuartFront_C_007_JNT
+      position: {x: -1.7763568e-17, y: -1.3322676e-17, z: 0.020728156}
+      rotation: {x: -0.000000019618692, y: -0.14749785, z: -0.0000000029257152, w: 0.98906237}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_009_JNT
+      parentName: Game:tailQuartFront_C_008_JNT
+      position: {x: -1.7763568e-17, y: 4.440892e-18, z: 0.020508178}
+      rotation: {x: -0.000000031274592, y: -0.30255717, z: 6.6145195e-16, w: 0.95313126}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_010_JNT
+      parentName: Game:tailQuartFront_C_009_JNT
+      position: {x: 1.3322676e-17, y: -4.440892e-18, z: 0.019990515}
+      rotation: {x: -0.0000001811898, y: -0.33452085, z: 4.227259e-15, w: 0.94238836}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_011_JNT
+      parentName: Game:tailQuartFront_C_010_JNT
+      position: {x: -4.4408918e-17, y: -1.3322676e-17, z: 0.020280745}
+      rotation: {x: 0.00000027678604, y: -0.3527311, z: 2.6374046e-15, w: 0.93572474}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_012_JNT
+      parentName: Game:tailQuartFront_C_011_JNT
+      position: {x: -3.5527136e-17, y: 4.440892e-18, z: 0.020334648}
+      rotation: {x: -0.0000002837355, y: -0.26219556, z: -6.282042e-15, w: 0.96501476}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_013_JNT
+      parentName: Game:tailQuartFront_C_012_JNT
+      position: {x: 1.4210854e-16, y: -1.7763568e-17, z: 0.020623771}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: GEO
+      parentName: SirMouse_Rig(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:eyeBrowQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:eyeBrowQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:earQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:footQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:footQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:lowerLegQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: kneeQuartFront_L_001_GEO1
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:headQuartFront_C_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:kneeQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:lowerLegQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:upperLegQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:elbowQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:tailQuartFront_C_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:skirtQuartFront_C_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:upperLegQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:elbowQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:shoulderQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:upperArmQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:upperArmQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:bodyQuartFront_C_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:earQuartFront_R_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:shoulderQuartFront_L_001_GEO
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:eyeAllQuartFront_L_001_GRUP
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:openAllQuartFront_L_001_GRUP
+      parentName: Game:eyeAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:openEyeQuartFront_L_001_GEO
+      parentName: Game:openAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedDownAllQuartFront_L_001_GRUP
+      parentName: Game:eyeAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedDownEyeQuartFront_L_001_GEO
+      parentName: Game:closedDownAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedAllQuartFront_L_001_GRUP
+      parentName: Game:eyeAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedEyeQuartFront_L_001_GEO
+      parentName: Game:closedAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedUpAllQuartFront_L_001_GRUP
+      parentName: Game:eyeAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedUpEyeQuartFront_L_001_GEO
+      parentName: Game:closedUpAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:eyeAllQuartFront_R_001_GRUP
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:openAllQuartFront_R_001_GRUP
+      parentName: Game:eyeAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:openEyeQuartFront_R_001_GEO
+      parentName: Game:openAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedDownAllQuartFront_R_001_GRUP
+      parentName: Game:eyeAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedDownEyeQuartFront_R_001_GEO
+      parentName: Game:closedDownAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedAllQuartFront_R_001_GRUP
+      parentName: Game:eyeAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedEyeQuartFront_R_001_GEO
+      parentName: Game:closedAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedUpAllQuartFront_R_001_GRUP
+      parentName: Game:eyeAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:closedUpEyeQuartFront_R_001_GEO
+      parentName: Game:closedUpAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:handAllQuartFront_L_001_GRUP
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:normalAllQuartFront_L_001_GRUP
+      parentName: Game:handAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:normalQuartFront_L_001_GEO
+      parentName: Game:normalAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistAllQuartFront_L_001_GRUP
+      parentName: Game:handAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: fistInQuartFront_L_001_GEO
+      parentName: Game:fistAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistInQuartFront_L_002_GEO
+      parentName: Game:fistAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistOutQuartFront_L_001_GEO
+      parentName: Game:fistAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistOutQuartFront_L_002_GEO
+      parentName: Game:fistAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpAllQuartFront_L_001_GRUP
+      parentName: Game:handAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpInQuartFront_L_001_GEO
+      parentName: Game:thumbUpAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpInQuartFront_L_002_GEO
+      parentName: Game:thumbUpAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpOutQuartFront_L_001_GEO
+      parentName: Game:thumbUpAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpOutQuartFront_L_002_GEO
+      parentName: Game:thumbUpAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerAllQuartFront_L_001_GRUP
+      parentName: Game:handAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerInQuartFront_L_001_GEO
+      parentName: Game:pointingFingerAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerInQuartFront_L_002_GEO
+      parentName: Game:pointingFingerAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerOutQuartFront_L_001_GEO
+      parentName: Game:pointingFingerAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerOutQuartFront_L_002_GEO
+      parentName: Game:pointingFingerAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingAllQuartFront_L_001_GRUP
+      parentName: Game:handAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingInQuartFront_L_001_GEO
+      parentName: Game:pointingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingInQuartFront_L_002_GEO
+      parentName: Game:pointingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingOutQuartFront_L_001_GEO
+      parentName: Game:pointingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingOutQuartFront_L_002_GEO
+      parentName: Game:pointingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingAllQuartFront_L_001_GRUP
+      parentName: Game:handAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingInQuartFront_L_001_GEO
+      parentName: Game:pinchingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingInQuartFront_L_002_GEO
+      parentName: Game:pinchingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingOutQuartFront_L_001_GEO
+      parentName: Game:pinchingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingOutQuartFront_L_002_GEO
+      parentName: Game:pinchingAllQuartFront_L_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:handAllQuartFront_R_001_GRUP
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:normalAllQuartFront_R_001_GRUP
+      parentName: Game:handAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:normalQuartFront_R_001_GEO
+      parentName: Game:normalAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistAllQuartFront_R_001_GRUP
+      parentName: Game:handAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistInQuartFront_R_001_GEO
+      parentName: Game:fistAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistInQuartFront_R_002_GEO
+      parentName: Game:fistAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistOutQuartFront_R_001_GEO
+      parentName: Game:fistAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:fistOutQuartFront_R_002_GEO
+      parentName: Game:fistAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpAllQuartFront_R_001_GRUP
+      parentName: Game:handAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpInQuartFront_R_001_GEO
+      parentName: Game:thumbUpAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpInQuartFront_R_002_GEO
+      parentName: Game:thumbUpAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpOutQuartFront_R_001_GEO
+      parentName: Game:thumbUpAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:thumbUpOutQuartFront_R_002_GEO
+      parentName: Game:thumbUpAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerAllQuartFront_R_001_GRUP
+      parentName: Game:handAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerInQuartFront_R_001_GEO
+      parentName: Game:pointingFingerAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerInQuartFront_R_002_GEO
+      parentName: Game:pointingFingerAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerOutQuartFront_R_001_GEO
+      parentName: Game:pointingFingerAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingFingerOutQuartFront_R_002_GEO
+      parentName: Game:pointingFingerAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingAllQuartFront_R_001_GRUP
+      parentName: Game:handAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingInQuartFront_R_001_GEO
+      parentName: Game:pointingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingInQuartFront_R_002_GEO
+      parentName: Game:pointingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingOutQuartFront_R_001_GEO
+      parentName: Game:pointingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pointingOutQuartFront_R_002_GEO
+      parentName: Game:pointingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingAllQuartFront_R_001_GRUP
+      parentName: Game:handAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pinchingInQuartFront_R_001_GEO
+      parentName: Game:pinchingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingInQuartFront_R_002_GEO
+      parentName: Game:pinchingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingOutQuartFront_R_001_GEO
+      parentName: Game:pinchingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:pinchingOutQuartFront_R_002_GEO
+      parentName: Game:pinchingAllQuartFront_R_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:rugSwordShieldQuartFront_C_001_GRUP
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:swordQuartFront_C_001_GEO
+      parentName: Game:rugSwordShieldQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:shieldQuartFront_C_001_GEO
+      parentName: Game:rugSwordShieldQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:shieldQuartFront_L_002_GEO
+      parentName: Game:rugSwordShieldQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:shieldQuartFront_R_001_GEO
+      parentName: Game:rugSwordShieldQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:swordQuartFront_L_001_GEO
+      parentName: Game:rugSwordShieldQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:swordQuartFront_R_002_GEO
+      parentName: Game:rugSwordShieldQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:mouthAllQuartFront_C_001_GRUP
+      parentName: GEO
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:smileAllQuartFront_C_001_GRUP
+      parentName: Game:mouthAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:smileMthQuartFront_C_001_GEO
+      parentName: Game:smileAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:smileMthQuartFront_C_002_GEO
+      parentName: Game:smileAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:smileMthQuartFront_C_003_GEO
+      parentName: Game:smileAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:smileMthQuartFront_C_004_GEO
+      parentName: Game:smileAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:smileMthQuartFront_C_005_GEO
+      parentName: Game:smileAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:smileMthQuartFront_C_006_GEO
+      parentName: Game:smileAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:sadAllQuartFront_C_001_GRUP
+      parentName: Game:mouthAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:sadMthQuartFront_C_001_GEO
+      parentName: Game:sadAllQuartFront_C_001_GRUP
+      position: {x: 0.6206497, y: 0.9994266, z: 0.087177835}
+      rotation: {x: -0.014834733, y: 0.7069512, z: 0.7069512, w: -0.014834733}
+      scale: {x: 13.936703, y: 13.936703, z: 12.454552}
+    - name: Game:sadMthQuartFront_C_002_GEO
+      parentName: Game:sadAllQuartFront_C_001_GRUP
+      position: {x: -2.0609958, y: 0.85429984, z: 0.080823384}
+      rotation: {x: -0.022687059, y: 0.70674276, z: 0.70674276, w: -0.022687059}
+      scale: {x: 14.570019, y: 13.936703, z: 13.936703}
+    - name: Game:sadMthQuartFront_C_003_GEO
+      parentName: Game:sadAllQuartFront_C_001_GRUP
+      position: {x: -0.21301375, y: 0.73103833, z: 0.05985937}
+      rotation: {x: -0.026496276, y: 0.7066102, z: 0.7066102, w: -0.026496276}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:sadMthQuartFront_C_004_GEO
+      parentName: Game:sadAllQuartFront_C_001_GRUP
+      position: {x: -1.489217, y: 0.25400493, z: 0.030145705}
+      rotation: {x: -0.030300424, y: 0.7064573, z: 0.7064573, w: -0.030300424}
+      scale: {x: 14.694307, y: 13.936703, z: 13.936703}
+    - name: Game:sadMthQuartFront_C_005_GEO
+      parentName: Game:sadAllQuartFront_C_001_GRUP
+      position: {x: -2.028685, y: 0.22933629, z: 0.026864624}
+      rotation: {x: -0.020112982, y: 0.70682067, z: 0.70682067, w: -0.020112982}
+      scale: {x: 15.328117, y: 13.936703, z: 13.936703}
+    - name: Game:sadMthQuartFront_C_006_GEO
+      parentName: Game:sadAllQuartFront_C_001_GRUP
+      position: {x: 1.9500237, y: 0.50103325, z: 0.0012810075}
+      rotation: {x: 0.7065017, y: 0.029245785, z: 0.029245785, w: 0.7065017}
+      scale: {x: 14.008923, y: 13.936703, z: 13.936703}
+    - name: Game:halfOpenAllQuartFront_C_001_GRUP
+      parentName: Game:mouthAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:halfOpenMthQuartFront_C_001_GEO
+      parentName: Game:halfOpenAllQuartFront_C_001_GRUP
+      position: {x: 1.7519536, y: -0.12311656, z: 0.05385163}
+      rotation: {x: 0.7062211, y: 0.03538019, z: 0.03538019, w: 0.7062211}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:halfOpenMthQuartFront_C_002_GEO
+      parentName: Game:halfOpenAllQuartFront_C_001_GRUP
+      position: {x: -0.22814958, y: -0.24459322, z: 0.048633322}
+      rotation: {x: 0.7062211, y: 0.03538019, z: 0.03538019, w: 0.7062211}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:halfOpenMthQuartFront_C_003_GEO
+      parentName: Game:halfOpenAllQuartFront_C_001_GRUP
+      position: {x: 0.5952408, y: 0.115515575, z: 0.025159532}
+      rotation: {x: 0.7062211, y: 0.03538019, z: 0.03538019, w: 0.7062211}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:halfOpenMthQuartFront_C_004_GEO
+      parentName: Game:halfOpenAllQuartFront_C_001_GRUP
+      position: {x: -0.80482656, y: -0.25747973, z: 0.04795983}
+      rotation: {x: 0.7068084, y: 0.020540787, z: 0.020540787, w: 0.7068084}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:halfOpenMthQuartFront_C_005_GEO
+      parentName: Game:halfOpenAllQuartFront_C_001_GRUP
+      position: {x: 1.0538188, y: -0.099769145, z: 0.04432084}
+      rotation: {x: 0.70664316, y: 0.025601964, z: 0.025601964, w: 0.70664316}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:halfOpenMthQuartFront_C_006_GEO
+      parentName: Game:halfOpenAllQuartFront_C_001_GRUP
+      position: {x: 1.2675614, y: 0.08673925, z: 0.03126943}
+      rotation: {x: 0.706455, y: 0.030354122, z: 0.030354122, w: 0.706455}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:openAllQuartFront_C_001_GRUP
+      parentName: Game:mouthAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:openMthQuartFront_C_001_GEO
+      parentName: Game:openAllQuartFront_C_001_GRUP
+      position: {x: -0.050469562, y: -0.6891632, z: 0.08767084}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:openMthQuartFront_C_002_GEO
+      parentName: Game:openAllQuartFront_C_001_GRUP
+      position: {x: 1.4168093, y: 0.32297182, z: 0.0033615637}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:openMthQuartFront_C_003_GEO
+      parentName: Game:openAllQuartFront_C_001_GRUP
+      position: {x: 2.493791, y: 0.30446666, z: 0.004909647}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:openMthQuartFront_C_004_GEO
+      parentName: Game:openAllQuartFront_C_001_GRUP
+      position: {x: 2.217793, y: -0.22158916, z: 0.048759244}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:openMthQuartFront_C_005_GEO
+      parentName: Game:openAllQuartFront_C_001_GRUP
+      position: {x: 1.2660561, y: -0.3696697, z: 0.061113708}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:openMthQuartFront_C_006_GEO
+      parentName: Game:openAllQuartFront_C_001_GRUP
+      position: {x: 2.1544967, y: 0.027174423, z: 0.028027287}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:openBigAllQuartFront_C_001_GRUP
+      parentName: Game:mouthAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:openBigMthQuartFront_C_001_GEO
+      parentName: Game:openBigAllQuartFront_C_001_GRUP
+      position: {x: 0.7626412, y: -0.6521996, z: 0.08374277}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 14.250519, y: 14.250519, z: 14.250519}
+    - name: Game:crossAllQuartFront_C_001_GRUP
+      parentName: Game:mouthAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:crossMthQuartFront_C_001_GEO
+      parentName: Game:crossAllQuartFront_C_001_GRUP
+      position: {x: 1.7846644, y: -0.34803927, z: 0.07366325}
+      rotation: {x: 0.7060933, y: 0.037845828, z: 0.037845828, w: 0.7060933}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
+    - name: Game:wigglyAllQuartFront_C_001_GRUP
+      parentName: Game:mouthAllQuartFront_C_001_GRUP
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Game:wigglyMthQuartFront_C_001_GEO
+      parentName: Game:wigglyAllQuartFront_C_001_GRUP
+      position: {x: 1.3310378, y: -0.9602762, z: 0.117903516}
+      rotation: {x: 0.7065646, y: 0.027686017, z: 0.027686017, w: 0.7065646}
+      scale: {x: 13.936703, y: 13.936703, z: 13.936703}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -105,15 +1260,15 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: Game:root_C_001_JNT
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -11,7 +11,8 @@ public class Character : MonoBehaviour
         Idle = 0,
         Walking = 1,
         Jumping = 2,
-        PickUp = 3
+        PickUp = 3,
+        Drop = 4
     };
     
     public Animator AnimatorRM;
@@ -21,6 +22,19 @@ public class Character : MonoBehaviour
 
     [FormerlySerializedAs("_idleCondition")] [SerializeField]
     private string _idleName = "Idle";
+
+    [FormerlySerializedAs("_jumpCondition")] [SerializeField]
+    private string _jumpName = "Jump";
+
+    [FormerlySerializedAs("_pickupCondition")] [SerializeField]
+    private string _pickupName = "Pickup";
+
+    [FormerlySerializedAs("_dropCondition")] [SerializeField]
+    private string _dropName = "Drop";
+
+    [FormerlySerializedAs("_blinkCondition")]
+    [SerializeField]
+    private string _blinkName = "Blink";
 
     private Vector3 _originalScale;
     
@@ -56,7 +70,13 @@ public class Character : MonoBehaviour
                     break;
                 case States.Jumping:
                     break;
-            }
+                case States.PickUp:
+                    AnimatorRM.SetTrigger(_pickupName);
+                    break;
+                case States.Drop:
+                    AnimatorRM.SetTrigger(_dropName);
+                    break;
+        }
         //}
     }
 
@@ -69,5 +89,11 @@ public class Character : MonoBehaviour
                 AnimatorRM.ResetTrigger(AnimatorRM.parameters[i].name);
             }
         }  
+    }
+
+    IEnumerator BlinkTimer()
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(2.0f, 4.0f));
+        AnimatorRM.SetTrigger(_blinkName);
     }
 }
