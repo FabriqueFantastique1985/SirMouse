@@ -60,18 +60,9 @@ public class MainGameSystem : GameSystem
                 Debug.Log("Hit " + hit.transform.name);
 
                 //hit.transform.GetComponent<InteractBalloon>()?.Click(_player);
-                if (hit.transform.TryGetComponent(out InteractBalloon balloon))
+                if (hit.transform.TryGetComponent(out Balloon balloon))
                 {
                     balloon.Click(_player);
-
-                    // enable short cooldown
-                    _onCooldown = true;
-                }
-                else if (hit.transform.TryGetComponent(out InteractSwapBalloon swapBalloon))
-                {
-                    swapBalloon.Click(_player);
-
-                    // enable short cooldown
                     _onCooldown = true;
                 }
             }

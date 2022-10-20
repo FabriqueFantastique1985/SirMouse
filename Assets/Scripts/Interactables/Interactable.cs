@@ -5,151 +5,131 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    /// <summary>
+    /// Balloon used to execute an interaction.
+    /// </summary>
     [Header("Balloon components")]
     [SerializeField]
-    protected InteractBalloon _balloon;
-    [SerializeField]
-    private Collider _balloonTrigger;
-    [SerializeField]
-    protected Animator _balloonAnimator;
+    private Balloon _interactionBalloon;
 
-    protected const string _animFloat = "Balloon_Floaty";
-    protected const string _animPop = "Balloon_Pop";
-
-    [Header("Swap Balloon components")]
+    /// <summary>
+    /// Balloon used to scroll between the interactions
+    /// </summary>
     [SerializeField]
-    protected InteractSwapBalloon _swapBalloon;
+    private Balloon _swapBalloon;
+
+    /// <summary>
+    /// List of possible interactions with this interactable
+    /// </summary>
     [SerializeField]
-    private Collider _swapBalloonTrigger;
-    [SerializeField]
-    protected Animator _swapBalloonAnimator;
+    private List<Interaction> _interactions = new List<Interaction>();
 
-    protected const string _animSwapPop = "SwapBalloon_Pop";
-
-    protected int _interactionCurrentValue;
-    protected int _interactionTotal;   // this is set in initialize (sprites should be linked to the currentvalue)
-    protected int _interactionPossibleTotal = 2; // this is normally set in the OnTriggerEnter...(as it requires the info whether player has x pickup)
-
-    [Header("Balloon sprite parents")]
-    [SerializeField]
-    private List<GameObject> _spriteParents = new List<GameObject>();
-
+    protected int _currentInteractionIndex = 0;
 
     private void Start()
     {
-        _balloon.OnBalloonClicked += OnInteractBalloonClicked;
-        _balloon.gameObject.SetActive(false);
+        _interactionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
+        _interactionBalloon.gameObject.SetActive(false);
 
         if (_swapBalloon != null)
         {
-            _swapBalloon.OnSwapBalloonClicked += OnInteractSwapBalloonClicked;
+            _swapBalloon.OnBalloonClicked += OnInteractSwapBalloonClicked;
             _swapBalloon.gameObject.SetActive(false);
         }
 
-        InitializeThings();
+        Initialize();
     }
-
-
-
 
     #region Virtual Functions
 
-    protected virtual void InitializeThings()
+    protected virtual void Initialize()
     {
         // extra method that inheriting classes can use to still use the Start function
+        _interactionBalloon.SetSprite(_interactions[0].InteractionSprite);
     }
-    protected virtual void OnInteractBalloonClicked(InteractBalloon sender, Player player)
+    protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
+    {
+        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
+        
+        // Execute current interaction
+        if (_currentInteractionIndex < 0 || _interactions.Count <= 0)
+        {
+            Debug.LogError("Tried to execute an interaction that either did not exist or wasn't setup correctly!");
+            return;
+        }
+        _interactions[_currentInteractionIndex].Execute();
+    }
+    
+    protected virtual void OnInteractSwapBalloonClicked(Balloon sender, Player player)
     {
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
 
-        _balloonAnimator.Play(_animPop);
-        StartCoroutine(DisableBalloon());
-    }
-    protected virtual void OnInteractSwapBalloonClicked(InteractSwapBalloon sender, Player player)
-    {
-        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
-
-        _swapBalloonAnimator.Play(_animSwapPop);
         // update sprites & int
         AdjustInteraction();
-    }
-
-
-    
-    protected virtual void ShowBalloon(Collider other)
-    {
-        var player = other.transform.GetComponent<Player>();
-        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
-        {
-            _balloon.gameObject.SetActive(true);
-            _balloonAnimator.Play(_animFloat);
-
-            if (_interactionPossibleTotal > 1) 
-            {
-                // show swap balloon
-                _swapBalloon.gameObject.SetActive(true);
-            }
-        }
-    }
-    protected virtual void HideBalloon(Collider other)
-    {
-        var player = other.transform.GetComponent<Player>();
-        if (player != null)
-        {
-            _balloon.gameObject.SetActive(false);
-
-            if (_swapBalloon != null)
-            {
-                // show swap balloon
-                _swapBalloon.gameObject.SetActive(false);
-            }
-        }
     }
 
     #endregion
 
     #region Private Functions
 
-    private IEnumerator DisableBalloon()
-    {
-        // disable the collider -> wait a bit -> disable the gameobject + enable the collider
-        _balloonTrigger.enabled = false;
 
-        yield return new WaitForSeconds(0.35f); // should be the length of the animation "Pop"
-
-        _balloon.gameObject.SetActive(false);
-        _balloonTrigger.enabled = true;
-    }
     // current way of adjusting interaction will not always work
     // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
     private void AdjustInteraction()
     {
-        _interactionCurrentValue += 1;  
+        _currentInteractionIndex = (_currentInteractionIndex + 1) % _interactions.Count;
+        _interactionBalloon.SetSprite(_interactions[_currentInteractionIndex].InteractionSprite);
+    }
 
-        if (_interactionCurrentValue >= _interactionPossibleTotal)
+    private void OnTriggerEnter(Collider other)
+    {
+        var player = other.transform.GetComponent<Player>();
+        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
         {
-            _interactionCurrentValue = 0;
+            ShowInteractionBalloon();
         }
+    }
 
-        for (int i = 0; i < _interactionPossibleTotal; i++)
+    private void OnTriggerExit(Collider other)
+    {
+        var player = other.transform.GetComponent<Player>();
+        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
         {
-            _spriteParents[i].SetActive(false);
+            HideInteractionBalloon();
         }
-        _spriteParents[_interactionCurrentValue].SetActive(true);
+    }
+
+    private void ShowInteractionBalloon()
+    {
+        // No balloon required when there are no interactions
+        if (_interactions.Count <= 0) return;
+        
+        _interactionBalloon.Show();
+        
+        // Swap balloon is required if there's more than one interaction
+        if (_interactions.Count > 1) _swapBalloon.Show();
+    }
+
+    private void HideInteractionBalloon()
+    {
+        // Nothing to hide if there are no interactions to begin with
+        if (_interactions.Count <= 0) return;
+        
+        _interactionBalloon.Hide();
+        
+        // Also hide the swapballoon if there's more than one interaction
+        if (_interactions.Count > 1) _swapBalloon.Hide();
+    }
+    
+    #endregion
+    
+    #region Public Functions
+
+    public virtual void HideBalloonBackpack()
+    {
+        HideInteractionBalloon();
     }
 
     #endregion
 
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        ShowBalloon(other);
-    }
-
-
-    private void OnTriggerExit(Collider other)
-    {
-        HideBalloon(other);
-    }
 }

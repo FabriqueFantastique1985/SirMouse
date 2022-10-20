@@ -8,9 +8,9 @@ namespace UnityCore
         public enum AudioType
         {
             None,
-            OST,
-            SFX_World,
-            SFX_UI
+            OST,            
+            SFX_UI,
+            SFX_World
             // custom audio types..
             // split it into 3 -> soundtracks, ui sounds, world sounds
         }

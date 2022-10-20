@@ -1,32 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Menus;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BackpackController : MonoBehaviour
 {
-    public static BackpackController BackpackInstance;
+    public static BackpackController BackpackInstance { get; private set; }
 
-    public static List<PickupType> ItemsInBackpack = new List<PickupType>();
+    public static List<Type_Pickup> ItemsInBackpack = new List<Type_Pickup>();
     public static List<GameObject> InteractablesInBackpack = new List<GameObject>();
+
+    public GameObject ButtonPrefab;
+
+    [SerializeField]
+    private GameObject _pageBackpack;
+    [SerializeField]
+    private GameObject _panelBackpackEatingPickups;
+    [SerializeField]
+    private GameObject _buttonBackpack;
+
+    private GameObject _uiImageForBag;
+
+    [Header("testing backpack")]
+
+    [SerializeField]
+    private bool _playerHasEquipedItem;
+    [SerializeField]
+    private GameObject _interactableEquiped;
 
 
     #region Unity Functions
 
     private void Awake()
     {
-        if (BackpackInstance == null)
+        // Singleton 
+        if (BackpackInstance != null && BackpackInstance != this)
         {
-            //Configure();
-            DontDestroyOnLoad(gameObject);
+            Destroy(this);
+            return;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        BackpackInstance = this;
+        DontDestroyOnLoad(BackpackInstance);
+
+        this.enabled = false;
     }
-    private void OnDisable()
+
+    private void Update() // only enable this script once a pickup is thrown into bag
     {
-        //Dispose();
+        // Increment our progress from 0 at the start, to 1 when we arrive.
+        _progress = Mathf.Min(_progress + Time.deltaTime * _stepScale, 1.0f);
+        // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
+        float parabola = 1.0f - 4.0f * (_progress - 0.5f) * (_progress - 0.5f);
+        // Travel in a straight line from our start position to the target.        
+        Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, _progress);
+        // Then add a vertical arc in excess of this.
+        nextPos.y += parabola * _arcHeight;
+        // Continue as before.
+        _objectToMove.transform.position = nextPos;
+        // if at destination...
+        if (_progress == 1.0f)
+        {
+            ImageArrivedInBag();
+        }       
     }
 
     #endregion
@@ -34,68 +70,163 @@ public class BackpackController : MonoBehaviour
 
     #region Public Functions
 
+    public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup)
+    {
+        interactable.transform.SetParent(GameManager.Instance.transform);
+        interactable.gameObject.SetActive(false);
+        interactable.GetComponent<Collider>().enabled = false;
 
+        StartCoroutine(ForceObjectInBag(interactable));
+
+        ItemsInBackpack.Add(typeOfPickup);
+        InteractablesInBackpack.Add(interactable);
+
+        // depending on the quantity of items in the backpack, a different child should be selected
+        var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
+        var buttonScript = newButton.GetComponent<BackpackPickupButton>();
+
+        //var newButtonImage = Instantiate(interactable.transform.GetChild(0).gameObject, newButton.transform); // this was done in case the pickup exists out of multiple sprite (unfinished method)
+
+        buttonScript.MyImage.sprite = interactable.transform.GetChild(0).transform.GetComponent<SpriteRenderer>().sprite; // update interactable structure so this is less ugly
+        buttonScript.MyInteractable = interactable;
+        buttonScript.MyPickupType = typeOfPickup;
+    }
+
+    public void RemoveItemFromBackpack(GameObject interactable, Type_Pickup typeOfPickup, GameObject pickupButton)
+    {
+        // check if the player alrdy has an item..
+        //  -> if true, the alrdy held item goes into the backpack (AddItemToBackpack function)
+        if (_playerHasEquipedItem == true)
+        {
+            // get the player equiped interactable & type
+            var interactableScript = _interactableEquiped.GetComponent<Interactable_PickupBackpack>(); // assign _interactacbleEquiped for testing
+            AddEquipedItemToBackpack(interactableScript.gameObject, interactableScript.PickupType);
+        }
+
+        PageController.Instance.TurnPageOff(PageType.Backpack);
+
+        interactable.SetActive(true);
+        interactable.transform.SetParent(GameManager.Instance.Player.transform); // update this with sirmouse's hand
+        interactable.transform.localPosition = new Vector3(0,0,0);
+
+        // assign to EquipedItem
+        _playerHasEquipedItem = true;
+        _interactableEquiped = interactable;
+
+        ItemsInBackpack.Remove(typeOfPickup);
+        InteractablesInBackpack.Remove(interactable);
+
+        Destroy(pickupButton);
+    }
 
     #endregion
 
 
     #region Private Functions
 
-    //private void Configure()
-    //{
-    //    BackpackInstance = this;
-    //    SceneManager.sceneLoaded += OnSceneLoaded;
-    //}
-    //private void Dispose()
-    //{
-    //    SceneManager.sceneLoaded -= OnSceneLoaded;
-    //}
+    private void AddEquipedItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup)
+    {
+        interactable.transform.SetParent(GameManager.Instance.transform);
+        interactable.gameObject.SetActive(false);
+
+        ItemsInBackpack.Add(typeOfPickup);
+        InteractablesInBackpack.Add(interactable);
+
+        // depending on the quantity of items in the backpack, a different child should be selected (could be children on a different page !)
+        var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
+        var buttonScript = newButton.GetComponent<BackpackPickupButton>();
+
+        buttonScript.MyImage.sprite = interactable.transform.GetChild(0).transform.GetComponent<SpriteRenderer>().sprite; // update interactable structure so this is less ugly
+        buttonScript.MyInteractable = interactable;
+        buttonScript.MyPickupType = typeOfPickup;
+    }
 
     #endregion
 
 
-
-    public static void AddItemToBackpack(GameObject interactable, PickupType typeOfPickup)
+    IEnumerator ForceObjectInBag(GameObject interactable)
     {
-        ItemsInBackpack.Add(typeOfPickup);
+        // get the world to screen pos of the interactible
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
 
-        /*
-         * - instantiate a prefab button pn the panel of the inventory (panel should have a layout group)
-         * - this button has need the knowdledge that it should activate certain interactable
-         *   - assign it a script BackpackReference
-         * */
+        GameObject interactableSprite = interactable.transform.GetChild(0).gameObject; // change this so interactable sprite is better accessible
+        _uiImageForBag = Instantiate(interactableSprite, _panelBackpackEatingPickups.transform); 
+
+        // the position of the bag
+        var targetPosition = _buttonBackpack.transform.position;
+
+        // Calculate distance to target
+        float target_Distance = Vector2.Distance(targetPosition, screenPosition);
+        float speed = 400f;
+        float arcHeight = 0.5f;
+        float _stepScale = 0f;
+        float _progress = 0f;
+        _stepScale = speed / target_Distance;
+        arcHeight = arcHeight * target_Distance;
+
+        AllocateValues(speed, arcHeight, _stepScale, _progress, screenPosition, targetPosition, _uiImageForBag);
+
+        this.enabled = true;
+
+        yield return null;
+    }
+    private void ImageArrivedInBag()
+    {      
+        // activates animation bag
+        // TO DO
+
+        // destroy the UI image
+        Destroy(_uiImageForBag);
+
+        this.enabled = false;
     }
 
-    public static void RemoveItemFromBackpack(PickupType typeOfPickup)
+
+    // this was assigned (and disabled) on the pointer with with backpack interaction //
+    float _speed;
+    float _arcHeight;
+    float _stepScale;
+    float _progress;
+
+    GameObject _objectToMove;
+
+    Vector2 _startPos, _endPos;
+
+    public void AllocateValues(float speed, float arcHeight, float stepScale, float progress, Vector2 startPos, Vector2 endPos, GameObject uICopy)
     {
-        ItemsInBackpack.Remove(typeOfPickup);
+        _speed = speed;
+        _progress = progress;
+        _stepScale = stepScale;
+        _arcHeight = arcHeight;
+
+        _startPos = startPos;
+        _endPos = endPos;
+
+        _objectToMove = uICopy;
     }
 
-
-    /* 
-     * OnInteractableBalloonClicked()
-     * - use the logic from prototype to chug the sprite into the backpack
-     *   - this sprite is instantiated as a copy of whatever the sprite parent is on of the interactable
-     *   
-     * - parent the interactable to gamemanager (or any other part of dont destroyonload)
-     * - setActive(false) the interactable
-     * - add the itemType to the list
-     * 
-     * - instantiate a prefab button pn the panel of the inventory (panel should have a layout group)
-     * - this button has need the knowdledge that it should activate certain interactable
-     *   - assign it a script BackpackReference
-     * 
-     * 
-     * 
-     * OnButtonClicked()
-     * - disable ui for backpack
-     * - setActive(true) the interactable
-     * 
-     * - parent it to sir mouse 
-     * - assign it to sir mouses EquipedItem
-     * - remove the itemType from the list
-     * 
-
-    */
     
+
+
+
+    /// adding an interactable to my backpack ///
+    /*
+ * - instantiate a prefab button pn the panel of the inventory (panel should have a layout group)
+ * - this button has need the knowdledge that it should activate certain interactable
+ *   - assign it a script BackpackReference
+ * - parent the interactable to gamemanager (or any other part of dont destroyonload)
+ * - setActive(false) the interactable
+ * - add the itemType to the list
+ */
+
+    /// taking an interactable out of the backpack ///
+    /*
+ * - disable ui for backpack
+ * - setActive(true) the interactable
+ * - parent it to sir mouse 
+ * - assign it to sir mouses EquipedItem
+ * - remove the itemType from the list
+ * - destroy the button
+ */
+
 }

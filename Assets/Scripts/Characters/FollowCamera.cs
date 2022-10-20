@@ -81,18 +81,23 @@ public class FollowCamera : MonoBehaviour
         // Calculating vertical and horizontal movement
         var futureHorizontalMovement = (nextTarget - transform.position).x;
         var futureVerticalMovement = (nextTarget - transform.position).z;
+
+        bool blockLeftMovement = false;
+        bool blockRightMovement = false;
+        bool blockUpMovement = false;
+        bool blockDownMovement = false;
         
         // Horizontal movement check
-        CheckForBoundaryHit(out bool blockHorizontalMovement, transform.position + new Vector3(futureHorizontalMovement, 0.0f, 0.0f), _boundaryCheckerRayOriginLeft);
-        if (blockHorizontalMovement == false) CheckForBoundaryHit(out blockHorizontalMovement, transform.position + new Vector3(futureHorizontalMovement, 0.0f, 0.0f), _boundaryCheckerRayOriginRight);
+        if (futureHorizontalMovement < 0.0f) CheckForBoundaryHit(out blockLeftMovement, transform.position + new Vector3(futureHorizontalMovement, 0.0f, 0.0f), _boundaryCheckerRayOriginLeft);
+        else CheckForBoundaryHit(out blockRightMovement, transform.position + new Vector3(futureHorizontalMovement, 0.0f, 0.0f), _boundaryCheckerRayOriginRight);
 
         // Vertical movement check
-        CheckForBoundaryHit(out bool blockVerticalMovement, transform.position + new Vector3(0.0f, 0.0f, futureVerticalMovement), _boundaryCheckerRayOriginTop);
-        if (blockVerticalMovement == false) CheckForBoundaryHit(out blockVerticalMovement, transform.position + new Vector3(0.0f, 0.0f, futureVerticalMovement), _boundaryCheckerRayOriginBottom);
+        if (futureVerticalMovement > 0.0f) CheckForBoundaryHit(out blockUpMovement, transform.position + new Vector3(0.0f, 0.0f, futureVerticalMovement), _boundaryCheckerRayOriginTop);
+        else CheckForBoundaryHit(out blockDownMovement, transform.position + new Vector3(0.0f, 0.0f, futureVerticalMovement), _boundaryCheckerRayOriginBottom);
 
         // If we have to block a certain movement, don't add the futureMovement to the new _currentTarget.
-        if (blockHorizontalMovement == false) _currentTarget.x = transform.position.x + futureHorizontalMovement;
-        if (blockVerticalMovement == false) _currentTarget.z = transform.position.z + futureVerticalMovement;
+        if ((blockLeftMovement == false && futureHorizontalMovement < 0.0f) || (blockRightMovement == false && futureHorizontalMovement > 0.0f)) _currentTarget.x = transform.position.x + futureHorizontalMovement;
+        if ((blockDownMovement == false && futureVerticalMovement < 0.0f) || (blockUpMovement == false && futureVerticalMovement > 0.0f)) _currentTarget.z = transform.position.z + futureVerticalMovement;
 
         Vector3 movement = _currentTarget - lastPos;
 
