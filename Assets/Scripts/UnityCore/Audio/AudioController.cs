@@ -14,7 +14,7 @@ namespace UnityCore
             public AudioTrack[] Tracks;
 
             public Hashtable AudioTable; // relationship between audio clips (key) and audio tracks (value)
-            private Hashtable m_JobTable;   // relationship between audio clips (key) and jobs (value) (Coroutine, IEnumerator)
+            private Hashtable m_JobTable;   // relationship between audio clips (key) or types and jobs (value) (Coroutine, IEnumerator)
 
 
             #region Extra Classes
@@ -161,7 +161,7 @@ namespace UnityCore
             {
                 yield return new WaitForSeconds(job.Delay);
 
-                AudioTrack track = (AudioTrack)AudioTable[job.Type]; // this gets overwritten
+                AudioTrack track = (AudioTrack)AudioTable[job.Type]; 
 
                 switch (job.Type)
                 {
@@ -241,11 +241,28 @@ namespace UnityCore
                 AudioType conflictAudio = AudioType.None;
                 foreach (DictionaryEntry entry in m_JobTable)
                 {
-                    AudioType audioType = (AudioType)entry.Key;
-                    AudioTrack audioTrackInUse = (AudioTrack)AudioTable[audioType];
+                    AudioType audioType = (AudioType)entry.Key;                 
+                    AudioTrack audioTrackInUse = (AudioTrack)AudioTable[audioType];  // write this differently
+
+                    //AudioTrack track = (AudioTrack)AudioTable[job.Type];
+                    //switch (job.Type)
+                    //{
+                    //    case AudioType.OST:
+                    //        track = Tracks[0];
+                    //        break;
+                    //    case AudioType.SFX_UI:
+                    //        track = Tracks[1];
+                    //        break;
+                    //    case AudioType.SFX_World:
+                    //        track = Tracks[2];
+                    //        break;
+                    //}
+
+
+                    Debug.Log((AudioTrack)AudioTable[audioType] + "using this track");
                     AudioTrack audioTrackNeeded = (AudioTrack)AudioTable[type];
 
-                    if (audioTrackNeeded.Source == audioTrackInUse.Source)
+                    if (audioTrackNeeded.Source == audioTrackInUse.Source)  // bug here when calling play of same type close to each other
                     {
                         // conflict
                         conflictAudio = audioType;
