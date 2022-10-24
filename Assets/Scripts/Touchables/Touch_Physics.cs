@@ -54,7 +54,7 @@ public class Touch_Physics : Touch_Action
         {
             base.Act();
 
-            //AudioController.Instance.PlayAudio(AudioElements[0].Clip, AudioElements[0].Type);
+            AudioController.Instance.PlayAudio(AudioElements[0].Clip, AudioElements[0].Type);
             SpawnObject();
 
             _activatedFollowMouse = true;
@@ -70,7 +70,7 @@ public class Touch_Physics : Touch_Action
     {
         if (Input.GetMouseButtonUp(0))
         {
-            //AudioController.Instance.PlayAudio(AudioElements[1].Clip, AudioElements[1].Type);
+            AudioController.Instance.PlayAudio(AudioElements[1].Clip, AudioElements[1].Type);
             LetGoOfMouse();
         }
         else if (_activatedFollowMouse == true)
@@ -141,7 +141,7 @@ public class Touch_Physics : Touch_Action
         // remove the object (limited for performance/memory)
         if (_spawnedObjects.Count > _spawnLimit)
         {
-            //AudioController.Instance.PlayAudio(AudioElements[2].Clip, AudioElements[2].Type);
+            AudioController.Instance.PlayAudio(AudioElements[2].Clip, AudioElements[2].Type);
 
             Instantiate(_prefabParticlePoof, _spawnedObjects[0].transform.position, Quaternion.identity);
 
