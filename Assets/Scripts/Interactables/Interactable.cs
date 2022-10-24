@@ -78,7 +78,7 @@ public class Interactable : MonoBehaviour
     private void AdjustInteraction()
     {
         _currentInteractionIndex = (_currentInteractionIndex + 1) % _interactions.Count;
-        _interactionBalloon.SetSprite(_interactions[_currentInteractionIndex].InteractionSprite);
+        _interactionBalloon.SetSprite(_interactions[_currentInteractionIndex].SpriteObject);
     }
 
     private void OnTriggerEnter(Collider other)
