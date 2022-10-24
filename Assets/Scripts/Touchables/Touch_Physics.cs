@@ -100,7 +100,7 @@ public class Touch_Physics : Touch_Action
         _rigidSpawnedObject.AddForce(Camera.main.transform.right * Input.GetAxis("Mouse X") * 10f, ForceMode.Impulse);
 
         //StartCoroutine(_physicsScriptOnSpawnedObject.StopPhysicsUpdate(4f));
-        StartCoroutine(StopPhysicsUpdate(4f, _rigidSpawnedObject));
+        StartCoroutine(StopPhysicsUpdate(4f, _rigidSpawnedObject, _colSpawnedObject));
 
         this.enabled = false;
     }
@@ -153,7 +153,7 @@ public class Touch_Physics : Touch_Action
 
 
     // called from the override event on pointer_x
-    private IEnumerator StopPhysicsUpdate(float timeActive, Rigidbody rigidSpawnedobject)
+    private IEnumerator StopPhysicsUpdate(float timeActive, Rigidbody rigidSpawnedobject, Collider collSpawnedObject)
     {
         yield return new WaitForSeconds(timeActive);
 
@@ -161,6 +161,7 @@ public class Touch_Physics : Touch_Action
         {
             rigidSpawnedobject.isKinematic = true;
             rigidSpawnedobject.useGravity = false;
+            collSpawnedObject.enabled = false;
 
             _physicsScriptOnSpawnedObject.enabled = false;
         }
