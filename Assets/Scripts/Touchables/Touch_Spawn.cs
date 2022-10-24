@@ -18,6 +18,9 @@ public class Touch_Spawn : Touch_Action
 
     private bool _acted;
 
+    // spawned refs
+    private Animation _animationSpawnedObject;
+
     // values for following mouse  
     private bool _activatedFollowMouse;
 
@@ -45,15 +48,13 @@ public class Touch_Spawn : Touch_Action
         {
             base.Act();
 
-            Debug.Log("check 1");
             AudioController.Instance.PlayAudio(AudioElements[0].Clip, AudioElements[0].Type);
             SpawnObject();
+            _animationSpawnedObject.Play(_animPop);
+            _animationSpawnedObject.PlayQueued(_animIdle);
 
             _activatedFollowMouse = true;
             _acted = true;
-
-            Debug.Log("acted works");
-
             this.enabled = true;
         }
     }
@@ -65,7 +66,7 @@ public class Touch_Spawn : Touch_Action
         if (Input.GetMouseButtonUp(0))
         {
             AudioController.Instance.PlayAudio(AudioElements[1].Clip, AudioElements[1].Type);
-            LetGoOfMouse();
+            LetGoOfMouse();           
         }
         else if (_activatedFollowMouse == true)
         {
@@ -74,11 +75,10 @@ public class Touch_Spawn : Touch_Action
     }
     private void LetGoOfMouse()
     {
-        //_animation.Play("Spawnable_Pop");
+        _animationSpawnedObject.Play(_animPop);
 
         _activatedFollowMouse = false;
         _acted = false;
-
         this.enabled = false;    
     }
 
@@ -91,7 +91,7 @@ public class Touch_Spawn : Touch_Action
 
         if (Physics.Raycast(transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
         {
-            //Debug.DrawRay(ParentTransform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
+            //Debug.DrawRay(transform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
             _mouseWorldPositionXYZ = _hit.point;
             _spawnedObject.transform.position = _mouseWorldPositionXYZ;
         }   
@@ -104,13 +104,14 @@ public class Touch_Spawn : Touch_Action
         var spawnedObject = Instantiate(_objectToSpawn);
         _spawnedObject = spawnedObject;
 
+        _animationSpawnedObject = spawnedObject.GetComponent<Animation>();
+
         // list addition
         _spawnedObjects.Add(spawnedObject);
 
         // remove the object (limited for performance/memory)
         if (_spawnedObjects.Count > _spawnLimit)
         {
-            Debug.Log("2");
             AudioController.Instance.PlayAudio(AudioElements[2].Clip, AudioElements[2].Type);
 
             Instantiate(_prefabParticlePoof, _spawnedObjects[0].transform.position, Quaternion.identity);
