@@ -65,6 +65,11 @@ public class MainGameSystem : GameSystem
                     balloon.Click(_player);
                     _onCooldown = true;
                 }
+                else if (hit.transform.TryGetComponent(out Touchable touchAble))
+                {
+                    touchAble.PlayTapEvent();
+                    _onCooldown = true;
+                }
             }
         }
     }

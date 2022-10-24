@@ -19,7 +19,7 @@ public class Interaction : MonoBehaviour
 
     //public GameObject InteractionSprite => _interactionSprite;
 
-    public void Execute()
+    public virtual void Execute()
     {
         Debug.Log("Interaction Executed");
     }
