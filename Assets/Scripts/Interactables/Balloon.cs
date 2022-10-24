@@ -125,7 +125,7 @@ public class Balloon : MonoBehaviour
 
     public void SetSprite(GameObject newSpriteObject)
     {
-        _currentSpriteObject.SetActive(false);
+        if (_currentSpriteObject != null) _currentSpriteObject.SetActive(false);
         _currentSpriteObject = newSpriteObject;
         _currentSpriteObject.SetActive(true);
     }

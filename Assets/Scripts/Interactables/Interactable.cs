@@ -45,7 +45,7 @@ public class Interactable : MonoBehaviour
     protected virtual void Initialize()
     {
         // extra method that inheriting classes can use to still use the Start function
-        _interactionBalloon.SetSprite(_interactions[0].InteractionSprite);
+        _interactionBalloon.SetSprite(_interactions[0].SpriteObject);
     }
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
