@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityCore.Scene;
 using UnityCore.Menus;
+using System;
+using static UnityCore.Scene.SceneController;
 
 public class Interactable_NextLevel : Interactable
 {
@@ -17,6 +19,6 @@ public class Interactable_NextLevel : Interactable
         base.OnInteractBalloonClicked(sender, player);
 
         // load the level
-        SceneController.SceneControllerInstance.Load(_sceneToTeleportTo, null, false, PageType.Loading, SpawnValue);
+        SceneController.SceneControllerInstance.Load(_sceneToTeleportTo, , false, PageType.Loading, SpawnValue);
     }
 }

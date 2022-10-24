@@ -70,7 +70,7 @@ public class BackpackController : MonoBehaviour
 
     #region Public Functions
 
-    public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup)
+    public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender)
     {
         interactable.transform.SetParent(GameManager.Instance.transform);
         interactable.gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class BackpackController : MonoBehaviour
 
         //var newButtonImage = Instantiate(interactable.transform.GetChild(0).gameObject, newButton.transform); // this was done in case the pickup exists out of multiple sprite (unfinished method)
 
-        buttonScript.MyImage.sprite = interactable.transform.GetChild(0).transform.GetComponent<SpriteRenderer>().sprite; // update interactable structure so this is less ugly
+        buttonScript.MyImage.sprite = pickupSpriteRender.sprite; 
         buttonScript.MyInteractable = interactable;
         buttonScript.MyPickupType = typeOfPickup;
     }
