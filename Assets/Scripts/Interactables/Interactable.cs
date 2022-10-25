@@ -57,7 +57,7 @@ public class Interactable : MonoBehaviour
             Debug.LogError("Tried to execute an interaction that either did not exist or wasn't setup correctly!");
             return;
         }
-        _interactions[_currentInteractionIndex].Execute();
+        _interactions[_currentInteractionIndex].Execute(player);
     }
     
     protected virtual void OnInteractSwapBalloonClicked(Balloon sender, Player player)

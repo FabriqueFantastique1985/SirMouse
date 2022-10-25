@@ -45,7 +45,7 @@ public class Character : MonoBehaviour
         _originalScale = transform.localScale;
     }
 
-    public virtual void SetAnimator(States state, bool mirror = false)
+    public virtual void SetAnimator(States state, bool mirror = false, AnimationClip clip = null)
     {
         //if (AnimatorRM != null)
         //{
@@ -75,6 +75,9 @@ public class Character : MonoBehaviour
                     break;
                 case States.Drop:
                     AnimatorRM.SetTrigger(_dropName);
+                    break;
+                default:
+                 //   AnimatorRM.playableGraph.
                     break;
         }
         //}

@@ -7,10 +7,8 @@ public class InteractionPickup : Interaction
     public Type_Pickup TypeOfPickup;
     public SpriteRenderer SpriteRenderPickup;
 
-    public override void Execute()
+    protected override void SpecificAction(Player player)
     {
-        base.Execute();
-
         Debug.Log("picking up");
     }
 }

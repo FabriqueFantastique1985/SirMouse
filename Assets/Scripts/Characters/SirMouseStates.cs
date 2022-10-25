@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 
@@ -7,16 +6,24 @@ public abstract class SirMouseState
 {
     protected Player _player;
     protected static Vector3 Direction;
-    
+
+    public Action EnteredAction;
+    public Action ExitedAction;
+
     public SirMouseState(Player player)
     {
     }
     
     public virtual void OnEnter(Player player)
     {
-        
+        EnteredAction?.Invoke();
     }
 
+    public virtual void OnExit(Player player)
+    {
+        ExitedAction?.Invoke();
+    }
+    
     public virtual SirMouseState Update(Player player)
     {
         return null;
@@ -80,10 +87,26 @@ public class IdleState : SirMouseState
 
 public class InteractionState : SirMouseState
 {
-    public InteractionState(Player player) : base(player)
+    private float _timeInState;
+   
+    public InteractionState(Player player, AnimationClip animationClip, Action actionOnEnter = null, Action actionOnExit = null) : base(player)
     {
-        
+        _timeInState = animationClip.length;
+        EnteredAction = actionOnEnter;
+        ExitedAction = actionOnExit;
     }
-    
-    
+
+    public override void OnEnter(Player player)
+    {
+        base.OnEnter(player);
+        //player.Character.SetAnimator();
+    }
+
+    public override SirMouseState Update(Player player)
+    {
+        _timeInState -= Time.deltaTime;
+        if (_timeInState <= 0.0f) return new IdleState(player);
+
+        return null;
+    }
 }
