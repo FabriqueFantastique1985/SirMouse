@@ -13,7 +13,7 @@ public class InteractionBackpack : Interaction
         base.Execute();
 
         // needs the interactable utself and the type
-        BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, _interactionPickup.TypeOfPickup, _interactionPickup.SpriteRenderPickup);
+        BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, _interactionPickup.TypeOfPickup, _interactionPickup.SpriteRenderPickup, 1);
 
         Debug.Log("backpacking");
     }

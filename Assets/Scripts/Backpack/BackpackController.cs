@@ -22,6 +22,9 @@ public class BackpackController : MonoBehaviour
 
     private GameObject _uiImageForBag;
 
+    [SerializeField]
+    private GameObject _emptyGameobject;
+
     [Header("testing backpack")]
 
     [SerializeField]
@@ -70,13 +73,14 @@ public class BackpackController : MonoBehaviour
 
     #region Public Functions
 
-    public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender)
+    public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender, float scaleImage = 1)
     {
         interactable.transform.SetParent(GameManager.Instance.transform);
         interactable.gameObject.SetActive(false);
         interactable.GetComponent<Collider>().enabled = false;
+        interactable.GetComponent<Interactable>().HideBalloonBackpack();
 
-        StartCoroutine(ForceObjectInBag(interactable));
+        StartCoroutine(ForceObjectInBag(interactable, scaleImage));
 
         ItemsInBackpack.Add(typeOfPickup);
         InteractablesInBackpack.Add(interactable);
@@ -144,13 +148,20 @@ public class BackpackController : MonoBehaviour
     #endregion
 
 
-    IEnumerator ForceObjectInBag(GameObject interactable)
+    IEnumerator ForceObjectInBag(GameObject interactable, float scaleForImage)
     {
         // get the world to screen pos of the interactible
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
 
-        GameObject interactableSprite = interactable.transform.GetChild(0).gameObject; // change this so interactable sprite is better accessible
-        _uiImageForBag = Instantiate(interactableSprite, _panelBackpackEatingPickups.transform); 
+        //GameObject interactableSprite = interactable.transform.GetChild(0).gameObject; // change this so interactable sprite is better accessible
+        //_uiImageForBag = Instantiate(interactableSprite, _panelBackpackEatingPickups.transform);
+
+        Sprite interactableSprite = interactable.GetComponent<InteractionPickup>().SpriteRenderPickup.sprite;
+        _uiImageForBag = Instantiate(_emptyGameobject, _panelBackpackEatingPickups.transform);
+
+        var uiImageComponent = _uiImageForBag.AddComponent<Image>();
+        uiImageComponent.sprite = interactableSprite;
+        _uiImageForBag.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
 
         // the position of the bag
         var targetPosition = _buttonBackpack.transform.position;
