@@ -24,9 +24,6 @@ public class Touchable : MonoBehaviour
     private Collider _collider; // all
 
     // above this is base
-
-    private const string _animPop = "Spawnable_Pop";
-    private const string _animIdle = "Spawnable_Scaler";
     private float _animationPopDuration;
 
     // etc

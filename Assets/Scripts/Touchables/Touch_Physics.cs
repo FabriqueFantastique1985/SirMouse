@@ -25,6 +25,7 @@ public class Touch_Physics : Touch_Action
     // physics ref
     private Touch_Physics_Object _physicsScriptOnSpawnedObject;
     private Rigidbody _rigidSpawnedObject;
+    private Animation _animationSpawnedObject;
 
     // values for following mouse  
     private bool _activatedFollowMouse;
@@ -57,9 +58,11 @@ public class Touch_Physics : Touch_Action
             AudioController.Instance.PlayAudio(AudioElements[0].Clip, AudioElements[0].Type);
             SpawnObject();
 
+            _animationSpawnedObject.Play(_animPop);
+            _animationSpawnedObject.PlayQueued(_animIdle);
+
             _activatedFollowMouse = true;
             _acted = true;
-
             this.enabled = true;
         }
     }
@@ -71,7 +74,7 @@ public class Touch_Physics : Touch_Action
         if (Input.GetMouseButtonUp(0))
         {
             AudioController.Instance.PlayAudio(AudioElements[1].Clip, AudioElements[1].Type);
-            LetGoOfMouse();
+            LetGoOfMouse();            
         }
         else if (_activatedFollowMouse == true)
         {
@@ -80,13 +83,12 @@ public class Touch_Physics : Touch_Action
     }
     private void LetGoOfMouse()
     {
-        //_animation.Play("Spawnable_Pop");
+        _animationSpawnedObject.Play(_animPop);
 
         _activatedFollowMouse = false;
         _acted = false;
 
         // there's physics present, calculate an offset so the object falls a litte bit
-
         Vector3 direction = -Camera.main.transform.forward;
         Vector3 calcualtedExtraDistance = direction * 5;
 
@@ -99,7 +101,6 @@ public class Touch_Physics : Touch_Action
 
         _rigidSpawnedObject.AddForce(Camera.main.transform.right * Input.GetAxis("Mouse X") * 10f, ForceMode.Impulse);
 
-        //StartCoroutine(_physicsScriptOnSpawnedObject.StopPhysicsUpdate(4f));
         StartCoroutine(StopPhysicsUpdate(4f, _rigidSpawnedObject, _colSpawnedObject));
 
         this.enabled = false;
@@ -114,7 +115,7 @@ public class Touch_Physics : Touch_Action
 
         if (Physics.Raycast(transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
         {
-            //Debug.DrawRay(ParentTransform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
+            //Debug.DrawRay(transform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
             _mouseWorldPositionXYZ = _hit.point;
             _spawnedObject.transform.position = _mouseWorldPositionXYZ;
         }
@@ -132,7 +133,9 @@ public class Touch_Physics : Touch_Action
         // collider things
         _colSpawnedObject = spawnedObject.AddComponent<SphereCollider>();
         _colSpawnedObject.radius = _spriteCollider.radius;
-        
+        // animation
+        _animationSpawnedObject = spawnedObject.GetComponent<Animation>();
+
         _spawnedObject = spawnedObject;
 
         // list addition

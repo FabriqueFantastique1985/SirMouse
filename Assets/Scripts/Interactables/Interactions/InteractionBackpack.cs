@@ -10,8 +10,8 @@ public class InteractionBackpack : Interaction
 
     protected override void SpecificAction(Player player)
     {
-        // needs the interactable utself and the type
-        BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, _interactionPickup.TypeOfPickup, _interactionPickup.SpriteRenderPickup);
+        // needs the interactable itself and the type
+        BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, _interactionPickup.TypeOfPickup, _interactionPickup.SpriteRenderPickup, 1);
         Debug.Log($"Added item: {gameObject}, {_interactionPickup.TypeOfPickup} to the backpack.");
     }
 }
