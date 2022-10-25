@@ -18,12 +18,13 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private GameObject _panelBackpackEatingPickups;
     [SerializeField]
+    private Animator _buttons_Backpack_FastTravel_Group;
+    [SerializeField]
     private GameObject _buttonBackpack;
-
-    private GameObject _uiImageForBag;
-
     [SerializeField]
     private GameObject _emptyGameobject;
+
+    private GameObject _uiImageForBag;
 
     [Header("testing backpack")]
 
@@ -89,8 +90,6 @@ public class BackpackController : MonoBehaviour
         var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
         var buttonScript = newButton.GetComponent<BackpackPickupButton>();
 
-        //var newButtonImage = Instantiate(interactable.transform.GetChild(0).gameObject, newButton.transform); // this was done in case the pickup exists out of multiple sprite (unfinished method)
-
         buttonScript.MyImage.sprite = pickupSpriteRender.sprite; 
         buttonScript.MyInteractable = interactable;
         buttonScript.MyPickupType = typeOfPickup;
@@ -152,20 +151,15 @@ public class BackpackController : MonoBehaviour
     {
         // get the world to screen pos of the interactible
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
-
-        //GameObject interactableSprite = interactable.transform.GetChild(0).gameObject; // change this so interactable sprite is better accessible
-        //_uiImageForBag = Instantiate(interactableSprite, _panelBackpackEatingPickups.transform);
-
         Sprite interactableSprite = interactable.GetComponent<InteractionPickup>().SpriteRenderPickup.sprite;
-        _uiImageForBag = Instantiate(_emptyGameobject, _panelBackpackEatingPickups.transform);
 
+        _uiImageForBag = Instantiate(_emptyGameobject, _panelBackpackEatingPickups.transform);
         var uiImageComponent = _uiImageForBag.AddComponent<Image>();
         uiImageComponent.sprite = interactableSprite;
         _uiImageForBag.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
 
         // the position of the bag
         var targetPosition = _buttonBackpack.transform.position;
-
         // Calculate distance to target
         float target_Distance = Vector2.Distance(targetPosition, screenPosition);
         float speed = 400f;
@@ -182,9 +176,9 @@ public class BackpackController : MonoBehaviour
         yield return null;
     }
     private void ImageArrivedInBag()
-    {      
+    {
         // activates animation bag
-        // TO DO
+        _buttons_Backpack_FastTravel_Group.Play("POP_Backpack");
 
         // destroy the UI image
         Destroy(_uiImageForBag);

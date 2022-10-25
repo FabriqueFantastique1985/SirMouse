@@ -31,8 +31,7 @@ public class MainGameSystem : GameSystem
         else
         {
             _groundColliders = newGroundColls;
-        }
-        
+        }       
     }
 
     public override void HandleInput()
