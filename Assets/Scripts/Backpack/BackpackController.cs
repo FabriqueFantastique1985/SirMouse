@@ -77,9 +77,9 @@ public class BackpackController : MonoBehaviour
     public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender, float scaleImage = 1)
     {
         interactable.transform.SetParent(GameManager.Instance.transform);
-        interactable.gameObject.SetActive(false);
+        //interactable.gameObject.SetActive(false);
         interactable.GetComponent<Collider>().enabled = false;
-        interactable.GetComponent<Interactable>().HideBalloonBackpack();
+        //interactable.GetComponent<Interactable>().HideBalloonBackpack();
 
         StartCoroutine(ForceObjectInBag(interactable, scaleImage));
 
