@@ -39,7 +39,7 @@ public class Interactable_PickupBackpack : Interactable
         Debug.Log("Backpacked");
 
         //HideBalloonBackpack();
-        BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, PickupType);
+        //BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, PickupType);
     }
 
     #endregion

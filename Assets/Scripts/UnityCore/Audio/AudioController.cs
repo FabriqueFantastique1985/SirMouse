@@ -150,11 +150,11 @@ namespace UnityCore
             private void AddJobClip(AudioJob job)
             {
                 // remove conflicting jobs
-                RemoveConflictingJobs(job.Type); // i think this ones fine
+                RemoveConflictingJobs(job.Clip); // i think this ones fine
 
                 // start job
                 IEnumerator jobRunner = RunAudioJobClip(job);
-                m_JobTable.Add(job.Type, jobRunner);
+                m_JobTable.Add(job.Clip, jobRunner);
                 StartCoroutine(jobRunner);
             }
             private IEnumerator RunAudioJobClip(AudioJob job)
@@ -214,9 +214,9 @@ namespace UnityCore
                     }
                 }
 
-                m_JobTable.Remove(job.Type);
+                m_JobTable.Remove(job.Clip);
 
-                Debug.Log("Job count + " + m_JobTable.Count);
+                //Debug.Log("Job count + " + m_JobTable.Count);
 
                 yield return null;
             }
@@ -231,58 +231,44 @@ namespace UnityCore
                 }
                 return null;
             }
-            private void RemoveConflictingJobs(AudioType type)
+            private void RemoveConflictingJobs(AudioClip clip)
             {
-                if (m_JobTable.ContainsKey(type))
+                if (m_JobTable.ContainsKey(clip))
                 {
-                    RemoveJob(type);
+                    RemoveJob(clip);
                 }
 
-                AudioType conflictAudio = AudioType.None;
+                AudioClip conflictAudio = null;
                 foreach (DictionaryEntry entry in m_JobTable)
                 {
-                    AudioType audioType = (AudioType)entry.Key;                 
-                    AudioTrack audioTrackInUse = (AudioTrack)AudioTable[audioType];  // write this differently
+                    AudioClip audioClip = (AudioClip)entry.Key;
+                    AudioTrack audioTrackInUse = (AudioTrack)AudioTable[audioClip];  // write this differently
 
-                    //AudioTrack track = (AudioTrack)AudioTable[job.Type];
-                    //switch (job.Type)
-                    //{
-                    //    case AudioType.OST:
-                    //        track = Tracks[0];
-                    //        break;
-                    //    case AudioType.SFX_UI:
-                    //        track = Tracks[1];
-                    //        break;
-                    //    case AudioType.SFX_World:
-                    //        track = Tracks[2];
-                    //        break;
-                    //}
+                    Debug.Log((AudioTrack)AudioTable[audioClip] + "using this track");
 
-
-                    Debug.Log((AudioTrack)AudioTable[audioType] + "using this track");
-                    AudioTrack audioTrackNeeded = (AudioTrack)AudioTable[type];
+                    AudioTrack audioTrackNeeded = (AudioTrack)AudioTable[clip];
 
                     if (audioTrackNeeded.Source == audioTrackInUse.Source)  // bug here when calling play of same type close to each other
                     {
                         // conflict
-                        conflictAudio = audioType;
+                        conflictAudio = audioClip;
                     }
                 }
-                if (conflictAudio != AudioType.None)
+                if (conflictAudio != null)
                 {
                     RemoveJob(conflictAudio);
                 }
             }
-            private void RemoveJob(AudioType type)
+            private void RemoveJob(AudioClip clip)
             {
-                if (m_JobTable.ContainsKey(type) == false)
+                if (m_JobTable.ContainsKey(clip) == false)
                 {
                     Debug.Log("trying to stop a job that is not running");
                 }
 
-                IEnumerator runningJob = (IEnumerator)m_JobTable[type];
+                IEnumerator runningJob = (IEnumerator)m_JobTable[clip];
                 StopCoroutine(runningJob);
-                m_JobTable.Remove(type);
+                m_JobTable.Remove(clip);
             }
 
             #endregion

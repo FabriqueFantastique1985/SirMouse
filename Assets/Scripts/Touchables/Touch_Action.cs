@@ -7,6 +7,12 @@ public class Touch_Action : MonoBehaviour
 {
     protected Touchable _touchableScript;
 
+    [SerializeField]
+    protected Animation _animationComponent;
+
+    protected const string _animPop = "Spawnable_Pop";
+    protected const string _animIdle = "Spawnable_Scaler";
+
     // audio
     public List<AudioElement> AudioElements = new List<AudioElement>();
 
@@ -30,6 +36,6 @@ public class Touch_Action : MonoBehaviour
 
     public virtual void Act()
     {
-        // nothing special on the base script
+
     }
 }

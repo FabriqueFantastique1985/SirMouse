@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
 
+[RequireComponent(typeof(Touch_Action))]
 public class Touchable : MonoBehaviour
 {
     public Touch_Action _touchComponent;
@@ -23,9 +24,6 @@ public class Touchable : MonoBehaviour
     private Collider _collider; // all
 
     // above this is base
-
-    private const string _animPop = "Spawnable_Pop";
-    private const string _animIdle = "Spawnable_Scaler";
     private float _animationPopDuration;
 
     // etc
@@ -65,27 +63,6 @@ public class Touchable : MonoBehaviour
     }
 
     #endregion
-    //if (CanBeMoved == true) // if true, enables update
-    //{
-    //    _activatedFollowMouse = true;
-    //    this.enabled = true;
-    //}
-    //// checks for spawned object and animations
-
-    //if (SpawnsAPrefab == true)
-    //{
-    //    SpawnedObjecLogic();
-    //}
-    //else
-    //{
-    //}
-
-
-
-
-
-
-
 
 
 

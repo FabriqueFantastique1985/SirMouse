@@ -34,11 +34,13 @@ public class Touch_Move : Touch_Action
         {
             base.Act();
 
-            //AudioController.Instance.PlayAudio(AudioElements[0].Clip, AudioElements[0].Type);
+            AudioController.Instance.PlayAudio(AudioElements[0].Clip, AudioElements[0].Type);
+
+            _animationComponent.Play(_animPop);
+            _animationComponent.PlayQueued(_animIdle);
 
             _activatedFollowMouse = true;
             _acted = true;
-
             this.enabled = true;
         }
     }
@@ -49,7 +51,7 @@ public class Touch_Move : Touch_Action
     {
         if (Input.GetMouseButtonUp(0))
         {
-            //AudioController.Instance.PlayAudio(AudioElements[1].Clip, AudioElements[1].Type);
+            AudioController.Instance.PlayAudio(AudioElements[1].Clip, AudioElements[1].Type);
             LetGoOfMouse();
         }
         else if (_activatedFollowMouse == true)
@@ -59,11 +61,10 @@ public class Touch_Move : Touch_Action
     }
     private void LetGoOfMouse()
     {
-        //_animation.Play("Spawnable_Pop");
+        _animationComponent.Play(_animPop);
 
         _activatedFollowMouse = false;
         _acted = false;
-
         this.enabled = false;
     }
 
@@ -76,7 +77,7 @@ public class Touch_Move : Touch_Action
 
         if (Physics.Raycast(transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
         {
-            //Debug.DrawRay(ParentTransform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
+            //Debug.DrawRay(transform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
             _mouseWorldPositionXYZ = _hit.point;
             transform.position = _mouseWorldPositionXYZ;
         }

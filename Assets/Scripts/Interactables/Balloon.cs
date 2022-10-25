@@ -52,6 +52,8 @@ public class Balloon : MonoBehaviour
 
     private Rect _imageOriginalRect;
 
+    private GameObject _currentSpriteObject;
+
     #endregion
 
     #region Methods
@@ -121,6 +123,13 @@ public class Balloon : MonoBehaviour
     //    // this method will see change
     //}
 
+    public void SetSprite(GameObject newSpriteObject)
+    {
+        if (_currentSpriteObject != null) _currentSpriteObject.SetActive(false);
+        _currentSpriteObject = newSpriteObject;
+        _currentSpriteObject.SetActive(true);
+    }
+    
     #endregion
 
 }
