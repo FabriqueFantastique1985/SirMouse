@@ -36,7 +36,7 @@ public class Encounterable : MonoBehaviour
         if (AudioEM.Clip != null)
         {
             // there exists 1 Type more than there are Tracks -> move down by 1
-            audioControl.AddAudioElement(AudioEM, ((int)AudioEM.Type) - 1); 
+            audioControl.AddAudioElement(AudioEM); 
         }
     }
 
@@ -74,7 +74,7 @@ public class Encounterable : MonoBehaviour
         }
 
         // also play sound effect
-        AudioController.Instance.PlayAudio(AudioEM.Clip, AudioEM.Type);
+        AudioController.Instance.PlayAudio(AudioEM);
     }
 
     #endregion

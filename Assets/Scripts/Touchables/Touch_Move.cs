@@ -34,7 +34,7 @@ public class Touch_Move : Touch_Action
         {
             base.Act();
 
-            AudioController.Instance.PlayAudio(AudioElements[0].Clip, AudioElements[0].Type);
+            AudioController.Instance.PlayAudio(AudioElements[0]);
 
             _animationComponent.Play(_animPop);
             _animationComponent.PlayQueued(_animIdle);
@@ -51,7 +51,7 @@ public class Touch_Move : Touch_Action
     {
         if (Input.GetMouseButtonUp(0))
         {
-            AudioController.Instance.PlayAudio(AudioElements[1].Clip, AudioElements[1].Type);
+            AudioController.Instance.PlayAudio(AudioElements[1]);
             LetGoOfMouse();
         }
         else if (_activatedFollowMouse == true)

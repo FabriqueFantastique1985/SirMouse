@@ -8,8 +8,6 @@ namespace UnityCore
     {
         public class TestAudio : MonoBehaviour
         {
-            public AudioController AudioControl;
-
             public List<AudioElement> AudioElementals = new List<AudioElement>();
             public List<AudioElement> AudioOST = new List<AudioElement>();
             public List<AudioElement> AudioUI = new List<AudioElement>();
@@ -20,21 +18,21 @@ namespace UnityCore
                 {
                     if (em != null)
                     {
-                        AudioControl.AddAudioElement(em, 2);
+                        AudioController.Instance.AddAudioElement(em);
                     }                   
                 }
                 foreach (var em in AudioOST)
                 {
                     if (em != null)
                     {
-                        AudioControl.AddAudioElement(em, 0);
+                        AudioController.Instance.AddAudioElement(em);
                     }                    
                 }
                 foreach (var em in AudioUI)
                 {
                     if (em != null)
                     {
-                        AudioControl.AddAudioElement(em, 1);
+                        AudioController.Instance.AddAudioElement(em);
                     }                   
                 }
             }
@@ -45,40 +43,40 @@ namespace UnityCore
                 /// world sounds testing ///
                 if (Input.GetKeyUp(KeyCode.T))
                 {
-                    AudioControl.PlayAudio(AudioElementals[0].Clip, AudioElementals[0].Type);
+                    AudioController.Instance.PlayAudio(AudioElementals[0]);  // this not working
                 }
                 if (Input.GetKeyUp(KeyCode.G))
                 {
-                    AudioControl.StopAudio(AudioElementals[0].Type);
+                    AudioController.Instance.StopAudio(AudioElementals[0].Type);
                 }
                 if (Input.GetKeyUp(KeyCode.B))
                 {
-                    AudioControl.RestartAudio(AudioElementals[0].Type);
+                    AudioController.Instance.RestartAudio(AudioElementals[0].Type);
                 }
 
                 if (Input.GetKeyUp(KeyCode.Y))
                 {
-                    AudioControl.PlayAudio(AudioElementals[1].Clip, AudioElementals[1].Type);
+                    AudioController.Instance.PlayAudio(AudioElementals[1]);
                 }
 
 
                 /// OST testing ///
                 if (Input.GetKeyUp(KeyCode.U))
                 {
-                    AudioControl.PlayAudio(AudioOST[0].Clip, AudioOST[0].Type);
+                    AudioController.Instance.PlayAudio(AudioOST[0]);
                 }
                 if (Input.GetKeyUp(KeyCode.J))
                 {
-                    AudioControl.StopAudio(AudioOST[0].Type);
+                    AudioController.Instance.StopAudio(AudioOST[0].Type);
                 }
                 if (Input.GetKeyUp(KeyCode.M))
                 {
-                    AudioControl.RestartAudio(AudioOST[0].Type);
+                    AudioController.Instance.RestartAudio(AudioOST[0].Type);
                 }
 
                 if (Input.GetKeyUp(KeyCode.I))
                 {
-                    AudioControl.PlayAudio(AudioOST[1].Clip, AudioOST[1].Type);
+                    AudioController.Instance.PlayAudio(AudioOST[1]);
                 }
 
 
@@ -86,20 +84,20 @@ namespace UnityCore
                 /// UI testing ///
                 if (Input.GetKeyUp(KeyCode.E))
                 {
-                    AudioControl.PlayAudio(AudioUI[0].Clip, AudioUI[0].Type);
+                    AudioController.Instance.PlayAudio(AudioUI[0]);
                 }
                 if (Input.GetKeyUp(KeyCode.D))
                 {
-                    AudioControl.StopAudio(AudioUI[0].Type);
+                    AudioController.Instance.StopAudio(AudioUI[0].Type);
                 }
                 if (Input.GetKeyUp(KeyCode.C))
                 {
-                    AudioControl.RestartAudio(AudioUI[0].Type);
+                    AudioController.Instance.RestartAudio(AudioUI[0].Type);
                 }
 
                 if (Input.GetKeyUp(KeyCode.R))
                 {
-                    AudioControl.PlayAudio(AudioUI[1].Clip, AudioUI[1].Type);
+                    AudioController.Instance.PlayAudio(AudioUI[1]);
                 }
             }
         }

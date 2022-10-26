@@ -16,6 +16,8 @@ namespace UnityCore
             public Hashtable AudioTable; // relationship between audio clips (key) and audio tracks (value)
             private Hashtable m_JobTable;   // relationship between audio clips (key) or types and jobs (value) (Coroutine, IEnumerator)
 
+            private AudioJob _lastViableJob;
+
 
             #region Extra Classes
 
@@ -81,9 +83,13 @@ namespace UnityCore
 
             #region Public Functions
 
-            public void PlayAudio(AudioClip clip, AudioType type, bool fade = false, float delay = 0f)
+            //public void PlayAudio(AudioClip clip, AudioType type, bool fade = false, float delay = 0f)
+            //{
+            //    AddJobClip(new AudioJob(clip, type, AudioAction.START, fade, delay));
+            //}
+            public void PlayAudio(AudioElement audioEm, bool fade = false, float delay = 0f)
             {
-                AddJobClip(new AudioJob(clip, type, AudioAction.START, fade, delay));
+                AddJobClip(new AudioJob(audioEm.Clip, audioEm.Type, AudioAction.START, fade, delay));
             }
             // restart and stop should not require a specific clip, but should realize what the currently playing clip is
             public void StopAudio(AudioType type, bool fade = false, float delay = 0f)
@@ -95,7 +101,7 @@ namespace UnityCore
                 AddJobClip(new AudioJob(type, AudioAction.RESTART, fade, delay));
             }
             // adding of world sounds call from interactable/encounterable scripts
-            public void AddAudioElement(AudioElement audioEM, int trackValue = 2) // default is world sounds track
+            public void AddAudioElement(AudioElement audioEM) // default is world sounds track
             {
                 if (AudioTable.ContainsKey(audioEM.Clip))
                 {
@@ -103,10 +109,26 @@ namespace UnityCore
                 }
                 else
                 {
-                    Tracks[trackValue].AudioElements.Add(audioEM);
-                    AudioTable.Add(audioEM.Clip, Tracks[trackValue]);
+                    int neededTrackIndex = (int)audioEM.Type - 1;
+                    Tracks[neededTrackIndex].AudioElements.Add(audioEM);
+                    AudioTable.Add(audioEM.Clip, Tracks[neededTrackIndex]);
                 }            
-            } 
+            }
+            //public void AddAudioElement(AudioElement audioEM, int trackValue = 2) // default is world sounds track
+            //{
+            //    if (AudioTable.ContainsKey(audioEM.Clip))
+            //    {
+            //        Debug.Log("I've already been registered in the audio table");
+            //    }
+            //    else
+            //    {
+            //        Tracks[(int)audioEM.Type - 1].AudioElements.Add(audioEM);
+            //        AudioTable.Add(audioEM.Clip, Tracks[trackValue]);
+
+            //        //Tracks[trackValue].AudioElements.Add(audioEM);
+            //        //AudioTable.Add(audioEM.Clip, Tracks[trackValue]);
+            //    }
+            //}
 
             #endregion
 
@@ -149,12 +171,21 @@ namespace UnityCore
             }
             private void AddJobClip(AudioJob job)
             {
-                // remove conflicting jobs
-                RemoveConflictingJobs(job.Clip); // i think this ones fine
+                IEnumerator jobRunner = null;
 
+                if (job.Clip == null)
+                {
+                    job.Clip = _lastViableJob.Clip;
+                    job.Type = _lastViableJob.Type;
+                }
+
+                // remove conflicting jobs
+                RemoveConflictingJobs(job.Clip); 
                 // start job
-                IEnumerator jobRunner = RunAudioJobClip(job);
+                jobRunner = RunAudioJobClip(job);
                 m_JobTable.Add(job.Clip, jobRunner);
+                _lastViableJob = job;
+                
                 StartCoroutine(jobRunner);
             }
             private IEnumerator RunAudioJobClip(AudioJob job)
@@ -171,8 +202,11 @@ namespace UnityCore
                     case AudioType.SFX_UI:
                         track = Tracks[1];
                         break;
-                    case AudioType.SFX_World:
+                    case AudioType.SFX_SirMouse:
                         track = Tracks[2];
+                        break;
+                    case AudioType.SFX_World:
+                        track = Tracks[3];
                         break;
                 }
 
@@ -233,7 +267,7 @@ namespace UnityCore
             }
             private void RemoveConflictingJobs(AudioClip clip)
             {
-                if (m_JobTable.ContainsKey(clip))
+                if (m_JobTable.ContainsKey(clip)) 
                 {
                     RemoveJob(clip);
                 }

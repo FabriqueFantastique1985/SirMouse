@@ -27,7 +27,7 @@ public class Touch_Action : MonoBehaviour
             if (audioEm.Clip != null)
             {
                 // there exists 1 Type more than there are Tracks -> move down by 1
-                audioControl.AddAudioElement(audioEm, ((int)audioEm.Type) - 1);
+                audioControl.AddAudioElement(audioEm);
             }
         }
     }

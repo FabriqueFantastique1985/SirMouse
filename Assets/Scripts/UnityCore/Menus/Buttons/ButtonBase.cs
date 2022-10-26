@@ -31,12 +31,12 @@ namespace UnityCore
                 if (_soundEffectOn.Clip != null)
                 {
                     // there exists 1 Type more than there are Tracks -> move down by 1
-                    audioControl.AddAudioElement(_soundEffectOn, ((int)_soundEffectOn.Type) - 1);
+                    audioControl.AddAudioElement(_soundEffectOn);
                 }
                 if (_soundEffectOff.Clip != null)
                 {
                     // there exists 1 Type more than there are Tracks -> move down by 1
-                    audioControl.AddAudioElement(_soundEffectOff, ((int)_soundEffectOff.Type) - 1);
+                    audioControl.AddAudioElement(_soundEffectOff);
                 }
             }
 
@@ -45,12 +45,12 @@ namespace UnityCore
                 if (PageController.Instance.PageIsOn(_turnOnThisPage) == true)
                 {
                     PageController.Instance.TurnPageOff(_turnOnThisPage);
-                    AudioController.Instance.PlayAudio(_soundEffectOff.Clip, _soundEffectOff.Type);
+                    AudioController.Instance.PlayAudio(_soundEffectOff);
                 }
                 else
                 {
                     PageController.Instance.TurnPageOn(_turnOnThisPage);
-                    AudioController.Instance.PlayAudio(_soundEffectOn.Clip, _soundEffectOn.Type);
+                    AudioController.Instance.PlayAudio(_soundEffectOn);
                 }
 
                 if (_animatorForThisButton != null && _animationName != string.Empty)
