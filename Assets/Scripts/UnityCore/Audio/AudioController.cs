@@ -83,10 +83,6 @@ namespace UnityCore
 
             #region Public Functions
 
-            //public void PlayAudio(AudioClip clip, AudioType type, bool fade = false, float delay = 0f)
-            //{
-            //    AddJobClip(new AudioJob(clip, type, AudioAction.START, fade, delay));
-            //}
             public void PlayAudio(AudioElement audioEm, bool fade = false, float delay = 0f)
             {
                 AddJobClip(new AudioJob(audioEm.Clip, audioEm.Type, AudioAction.START, fade, delay));
@@ -114,21 +110,6 @@ namespace UnityCore
                     AudioTable.Add(audioEM.Clip, Tracks[neededTrackIndex]);
                 }            
             }
-            //public void AddAudioElement(AudioElement audioEM, int trackValue = 2) // default is world sounds track
-            //{
-            //    if (AudioTable.ContainsKey(audioEM.Clip))
-            //    {
-            //        Debug.Log("I've already been registered in the audio table");
-            //    }
-            //    else
-            //    {
-            //        Tracks[(int)audioEM.Type - 1].AudioElements.Add(audioEM);
-            //        AudioTable.Add(audioEM.Clip, Tracks[trackValue]);
-
-            //        //Tracks[trackValue].AudioElements.Add(audioEM);
-            //        //AudioTable.Add(audioEM.Clip, Tracks[trackValue]);
-            //    }
-            //}
 
             #endregion
 

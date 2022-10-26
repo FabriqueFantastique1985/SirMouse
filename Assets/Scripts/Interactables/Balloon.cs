@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,10 +39,9 @@ public class Balloon : MonoBehaviour
 
     [Header("BalloonSprite")]
     [SerializeField]
-    private SpriteRenderer _spriteInBalloon;
-    //[SerializeField]
-    //private GameObject _spriteInBalloonParent;
+    private AudioElement _soundEffectClick;
 
+    [Header("BalloonSprite")]
     [SerializeField]
     private Image _objectImageRenderer;
 
@@ -67,6 +67,7 @@ public class Balloon : MonoBehaviour
     {
         if (_balloonAnimator != null) _balloonAnimator.Play(_animPop);
         if (_disableOnClick) StartCoroutine(DisableBalloon());
+        AudioController.Instance.PlayAudio(_soundEffectClick);
         OnBalloonClicked?.Invoke(this, player);
     }
     
@@ -92,7 +93,7 @@ public class Balloon : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetSprite(Sprite newSprite)
+    public void SetSprite(Sprite newSprite)  // methodology for when the balloon is a UI/canvas object
     {
         var oldSprite = _objectImageRenderer.sprite;
 
@@ -116,20 +117,13 @@ public class Balloon : MonoBehaviour
         // Apply new sprite
         _objectImageRenderer.sprite = newSprite;
     }
-    
-    //public void SetSprite(GameObject newSpriteParent)
-    //{
-    //    _spriteInBalloonParent = newSpriteParent;
-    //    // this method will see change
-    //}
-
-    public void SetSprite(GameObject newSpriteObject)
+    public void SetSprite(GameObject newSpriteObject) // methodology for when the balloon is SpriteRender
     {
         if (_currentSpriteObject != null) _currentSpriteObject.SetActive(false);
         _currentSpriteObject = newSpriteObject;
         _currentSpriteObject.SetActive(true);
-    }
-    
+    } 
+
     #endregion
 
 }

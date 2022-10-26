@@ -4,25 +4,18 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    [SerializeField]
-    private Sprite _interactionSprite;
+    //[SerializeField]
+    //private Sprite _interactionSprite;
 
     [SerializeField]
-    private GameObject _spriteObject;
+    private GameObject _spriteObjectInteractionInBalloon;
 
     [SerializeField]
     protected AnimationClip _animationClip;
     
-    public Sprite InteractionSprite => _interactionSprite;
-
-    public GameObject SpriteObject => _spriteObject;
+    //public Sprite InteractionSprite => _interactionSprite;
+    public GameObject SpriteObjectInteractionBalloon => _spriteObjectInteractionInBalloon;
     
-    
-    
-    //[SerializeField]
-    //private GameObject _interactionSprite;
-
-    //public GameObject InteractionSprite => _interactionSprite;
 
     public void Execute(Player player)
     {

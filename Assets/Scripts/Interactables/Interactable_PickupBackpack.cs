@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//  OUTDATED //
 public class Interactable_PickupBackpack : Interactable
 {
     public Type_Pickup PickupType; // this pickuptype should be on the component 

@@ -11,8 +11,8 @@ public class Touchable : MonoBehaviour
     // usage values
     public bool OneTimeUse;
     public bool HasACooldown;
-    [HideInInspector]
-    public bool UsedSuccesfully;
+
+    private bool _usedSuccesfully;
     private bool _onCooldown;
     [SerializeField]
     private float _cooldownLength;
@@ -46,18 +46,26 @@ public class Touchable : MonoBehaviour
     // logic for what should happen when this gets tapped
     public void PlayTapEvent()
     {
-        if (OneTimeUse == false || OneTimeUse == true && UsedSuccesfully == false)
+        if (OneTimeUse == false || OneTimeUse == true && _usedSuccesfully == false)
         {
             if (_onCooldown == false)
             {
                 // calls the acting function on the Touch_Action
                 _touchComponent.Act();
-               
+
+                // plays animation (only if my touch component is not the "Move")
+                if (_animator != null && GetComponent<Touch_Move>() == null)
+                {
+                    _animator.SetTrigger("Activate");
+                }
+           
                 // if cooldown is present
                 if (HasACooldown == true)
                 {
                     StartCoroutine(ActivateCooldown());
                 }
+
+                _usedSuccesfully = true;
             }
         }
     }

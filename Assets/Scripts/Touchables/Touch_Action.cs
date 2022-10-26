@@ -14,6 +14,7 @@ public class Touch_Action : MonoBehaviour
     protected const string _animIdle = "Spawnable_Scaler";
 
     // audio
+    [Header("Audio")]
     public List<AudioElement> AudioElements = new List<AudioElement>();
 
     protected virtual void Start()

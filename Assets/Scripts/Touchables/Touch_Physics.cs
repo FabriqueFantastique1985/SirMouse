@@ -5,6 +5,7 @@ using UnityCore.Audio;
 
 public class Touch_Physics : Touch_Action
 {
+    [Header("Specifics")]
     [SerializeField]
     private GameObject _objectToSpawn; // drag in the Sprite_Parent 
     private GameObject _spawnedObject;
@@ -125,7 +126,7 @@ public class Touch_Physics : Touch_Action
     private void SpawnObject()
     {
         // might be better to use object pooling here...
-        var spawnedObject = Instantiate(_objectToSpawn);
+        var spawnedObject = Instantiate(_objectToSpawn, transform);
 
         _rigidSpawnedObject = spawnedObject.AddComponent<Rigidbody>();
         _rigidSpawnedObject.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;

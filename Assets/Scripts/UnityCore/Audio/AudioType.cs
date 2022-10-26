@@ -12,8 +12,7 @@ namespace UnityCore
             SFX_UI = 2,
             SFX_SirMouse = 3,
             SFX_World = 4
-            // custom audio types..
-            // split it into 3 -> soundtracks, ui sounds, world sounds
+            // should correspond with the amount of tracks...
         }
     }
 }

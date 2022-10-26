@@ -6,6 +6,7 @@ using UnityCore.Menus;
 using System;
 using static UnityCore.Scene.SceneController;
 
+//  OUTDATED  //
 public class Interactable_NextLevel : Interactable
 {
     [SerializeField]

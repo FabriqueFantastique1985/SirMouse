@@ -21,7 +21,7 @@ public class Encounterable : MonoBehaviour
     private bool _usedSuccesfully;
 
     [Header("Audio")]
-    public AudioElement AudioEM;
+    public AudioElement SoundEffect;
 
     #endregion
 
@@ -33,10 +33,10 @@ public class Encounterable : MonoBehaviour
         var audioControl = AudioController.Instance;
 
         // add the possible sound effect to the AudioTable and the correct track       
-        if (AudioEM.Clip != null)
+        if (SoundEffect.Clip != null)
         {
             // there exists 1 Type more than there are Tracks -> move down by 1
-            audioControl.AddAudioElement(AudioEM); 
+            audioControl.AddAudioElement(SoundEffect); 
         }
     }
 
@@ -74,7 +74,9 @@ public class Encounterable : MonoBehaviour
         }
 
         // also play sound effect
-        AudioController.Instance.PlayAudio(AudioEM);
+        AudioController.Instance.PlayAudio(SoundEffect);
+
+        _usedSuccesfully = true;
     }
 
     #endregion

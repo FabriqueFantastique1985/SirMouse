@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public Player Player;
     public Character Character;
     public NavMeshAgent Agent;
-    public PlayerReferences PlayerRefs;
+    //public PlayerReferences PlayerRefs;
     
 
     public static GameManager Instance { get; private set; }
