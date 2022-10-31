@@ -45,11 +45,13 @@ namespace UnityCore
                 if (PageController.Instance.PageIsOn(_turnOnThisPage) == true)
                 {
                     PageController.Instance.TurnPageOff(_turnOnThisPage);
+                    ExtraLogicPageOff();
                     AudioController.Instance.PlayAudio(_soundEffectOff);
                 }
                 else
                 {
-                    PageController.Instance.TurnPageOn(_turnOnThisPage);
+                    PageController.Instance.TurnPageOn(_turnOnThisPage);                 
+                    ExtraLogicPageOn();
                     AudioController.Instance.PlayAudio(_soundEffectOn);
                 }
 
@@ -66,6 +68,16 @@ namespace UnityCore
                         _animationSwapped = false;
                     }                   
                 }              
+            }
+
+
+            public virtual void ExtraLogicPageOn()
+            {
+
+            }
+            public virtual void ExtraLogicPageOff()
+            {
+
             }
         }
     }

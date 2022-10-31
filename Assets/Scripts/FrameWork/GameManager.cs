@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public PlayField PlayField;
     public Player Player;
     public Character Character;
+    public CharacterRigReferences CharacterRigRefs;
+    public CharacterRigReferences CharacterRigRefsUI;
     public NavMeshAgent Agent;
     //public PlayerReferences PlayerRefs;
     

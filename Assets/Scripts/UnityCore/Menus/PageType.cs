@@ -9,7 +9,8 @@ namespace UnityCore
             None,
             Loading,
             Menu,
-            Backpack
+            Backpack,
+            Closet
         }
     }
 }

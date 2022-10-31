@@ -16,9 +16,9 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private GameObject _pageBackpack;
     [SerializeField]
-    private GameObject _panelBackpackEatingPickups;
+    private GameObject _panelInstantiatedUI;
     [SerializeField]
-    private Animator _buttons_Backpack_FastTravel_Group;
+    private Animator _buttons_UI_Group;
     [SerializeField]
     private GameObject _buttonBackpack;
     [SerializeField]
@@ -77,11 +77,14 @@ public class BackpackController : MonoBehaviour
     public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender, float scaleImage = 1)
     {
         interactable.transform.SetParent(GameManager.Instance.transform);
-        //interactable.gameObject.SetActive(false);
+
+        // disable the sprite + collider immediately, disable the full interactable after a bit
         interactable.GetComponent<Collider>().enabled = false;
-        //interactable.GetComponent<Interactable>().HideBalloonBackpack();
+        var spriteParent = pickupSpriteRender.gameObject.transform.parent.gameObject;
+        spriteParent.SetActive(false);
 
         StartCoroutine(ForceObjectInBag(interactable, scaleImage));
+        StartCoroutine(SetObjectToFalseAfterDelay(interactable, spriteParent));
 
         ItemsInBackpack.Add(typeOfPickup);
         InteractablesInBackpack.Add(interactable);
@@ -146,14 +149,21 @@ public class BackpackController : MonoBehaviour
 
     #endregion
 
+    IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
+    {
+        yield return new WaitForSeconds(0.25f);
 
+        interactable.SetActive(false);
+        spriteParent.SetActive(true);
+        interactable.GetComponent<Interactable>().HideBalloonBackpack();
+    }
     IEnumerator ForceObjectInBag(GameObject interactable, float scaleForImage)
     {
         // get the world to screen pos of the interactible
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
         Sprite interactableSprite = interactable.GetComponent<InteractionPickup>().SpriteRenderPickup.sprite;
 
-        _uiImageForBag = Instantiate(_emptyGameobject, _panelBackpackEatingPickups.transform);
+        _uiImageForBag = Instantiate(_emptyGameobject, _panelInstantiatedUI.transform);
         var uiImageComponent = _uiImageForBag.AddComponent<Image>();
         uiImageComponent.sprite = interactableSprite;
         _uiImageForBag.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
@@ -178,7 +188,7 @@ public class BackpackController : MonoBehaviour
     private void ImageArrivedInBag()
     {
         // activates animation bag
-        _buttons_Backpack_FastTravel_Group.Play("POP_Backpack");
+        _buttons_UI_Group.Play("POP_Backpack");
 
         // destroy the UI image
         Destroy(_uiImageForBag);
@@ -192,9 +202,7 @@ public class BackpackController : MonoBehaviour
     float _arcHeight;
     float _stepScale;
     float _progress;
-
     GameObject _objectToMove;
-
     Vector2 _startPos, _endPos;
 
     public void AllocateValues(float speed, float arcHeight, float stepScale, float progress, Vector2 startPos, Vector2 endPos, GameObject uICopy)
@@ -209,29 +217,4 @@ public class BackpackController : MonoBehaviour
 
         _objectToMove = uICopy;
     }
-
-    
-
-
-
-    /// adding an interactable to my backpack ///
-    /*
- * - instantiate a prefab button pn the panel of the inventory (panel should have a layout group)
- * - this button has need the knowdledge that it should activate certain interactable
- *   - assign it a script BackpackReference
- * - parent the interactable to gamemanager (or any other part of dont destroyonload)
- * - setActive(false) the interactable
- * - add the itemType to the list
- */
-
-    /// taking an interactable out of the backpack ///
-    /*
- * - disable ui for backpack
- * - setActive(true) the interactable
- * - parent it to sir mouse 
- * - assign it to sir mouses EquipedItem
- * - remove the itemType from the list
- * - destroy the button
- */
-
 }
