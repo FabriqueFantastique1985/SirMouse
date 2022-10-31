@@ -250,6 +250,7 @@ public class SkinController : MonoBehaviour
         var uiImageComponent = _uiImageForCloset.AddComponent<Image>();
         uiImageComponent.sprite = interactableSprite;
         _uiImageForCloset.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
+        _uiImageForCloset.SetActive(true);
 
         // the position of the bag
         var targetPosition = _buttonCloset.transform.position;
@@ -380,22 +381,24 @@ public class SkinController : MonoBehaviour
         {
             if (listToCycleThrough[i].activeSelf == true && foundActiveSkin == false)
             {
-                Debug.Log("COUNTING " + listToCycleThrough.Count + " and this is the i " + i);
+                //Debug.Log("COUNTING " + listToCycleThrough.Count + " and this is the i " + i);
 
-                listToCycleThrough[i].SetActive(false);
-                listToCycleThroughUI[i].SetActive(false);
+                Debug.Log("DISABLING " + listToCycleThrough[i] + " and " + listToCycleThroughUI[i]);
+
+                listToCycleThrough[i].SetActive(false);  // HERE !!!!
+                listToCycleThroughUI[i].SetActive(false);  // HERE !!!!
                 // if i am at the end of the list -> active 0
                 if ((i + 1) == listToCycleThrough.Count)
                 {
                     listToCycleThrough[0].SetActive(true);
                     listToCycleThroughUI[0].SetActive(true);
-                    Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[0].name);
+                    //Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[0].name);
                 }
                 else // else active the next list object
                 {
                     listToCycleThrough[i + 1].SetActive(true);
                     listToCycleThroughUI[i + 1].SetActive(true);
-                    Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[i + 1].name);
+                    //Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[i + 1].name);
                 }
 
                 foundActiveSkin = true;
