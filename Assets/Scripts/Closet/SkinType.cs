@@ -24,24 +24,3 @@ public enum SkinType
     FootLeft = 16,
     FootRight = 17
 }
-public enum SkinOrientation
-{
-    None = 0,
-    Left = 1,
-    Right = 2
-}
-
-//public enum SkinType 
-//{
-//    Hat = 0,
-//    Head = 1,
-//    Body = 2,
-//    ArmUpper = 3,
-//    ArmLower = 4,
-//    Hand = 5,
-//    Tail = 6,
-//    LegUpper = 7,
-//    Knee = 8,
-//    LegLower = 9,
-//    Foot = 10,
-//}

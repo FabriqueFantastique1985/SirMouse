@@ -8,6 +8,6 @@ public class ButtonSkinCycle : MonoBehaviour
 
     public void Clicked()
     {
-        SkinController.Instance.CycleSkinPiece(_skinType, SkinOrientation.None);
+        SkinController.Instance.CycleSkinPiece(_skinType);
     }
 }

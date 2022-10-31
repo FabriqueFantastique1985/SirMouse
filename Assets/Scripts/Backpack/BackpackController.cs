@@ -26,8 +26,16 @@ public class BackpackController : MonoBehaviour
 
     private GameObject _uiImageForBag;
 
-    [Header("testing backpack")]
+    // vars for throwing in bag
+    float _speed;
+    float _arcHeight;
+    float _stepScale;
+    float _progress;
+    GameObject _objectToMove;
+    Vector2 _startPos, _endPos;
+    //
 
+    [Header("testing backpack")]
     [SerializeField]
     private bool _playerHasEquipedItem;
     [SerializeField]
@@ -49,7 +57,6 @@ public class BackpackController : MonoBehaviour
 
         this.enabled = false;
     }
-
     private void Update() // only enable this script once a pickup is thrown into bag
     {
         // Increment our progress from 0 at the start, to 1 when we arrive.
@@ -97,7 +104,6 @@ public class BackpackController : MonoBehaviour
         buttonScript.MyInteractable = interactable;
         buttonScript.MyPickupType = typeOfPickup;
     }
-
     public void RemoveItemFromBackpack(GameObject interactable, Type_Pickup typeOfPickup, GameObject pickupButton)
     {
         // check if the player alrdy has an item..
@@ -146,9 +152,6 @@ public class BackpackController : MonoBehaviour
         buttonScript.MyInteractable = interactable;
         buttonScript.MyPickupType = typeOfPickup;
     }
-
-    #endregion
-
     IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
     {
         yield return new WaitForSeconds(0.25f);
@@ -195,17 +198,7 @@ public class BackpackController : MonoBehaviour
 
         this.enabled = false;
     }
-
-
-    // this was assigned (and disabled) on the pointer with with backpack interaction //
-    float _speed;
-    float _arcHeight;
-    float _stepScale;
-    float _progress;
-    GameObject _objectToMove;
-    Vector2 _startPos, _endPos;
-
-    public void AllocateValues(float speed, float arcHeight, float stepScale, float progress, Vector2 startPos, Vector2 endPos, GameObject uICopy)
+    private void AllocateValues(float speed, float arcHeight, float stepScale, float progress, Vector2 startPos, Vector2 endPos, GameObject uICopy)
     {
         _speed = speed;
         _progress = progress;
@@ -217,4 +210,6 @@ public class BackpackController : MonoBehaviour
 
         _objectToMove = uICopy;
     }
+
+    #endregion
 }

@@ -7,20 +7,6 @@ public class SkinController : MonoBehaviour
 {
     public static SkinController Instance { get; private set; }
 
-    #region Lists of Skins (old)
-    //private List<GameObject> _skinsHats = new List<GameObject>();
-    //private List<GameObject> _skinsHeads = new List<GameObject>();
-    //private List<GameObject> _skinsBody = new List<GameObject>();
-    //private List<GameObject> _skinsArmUpper = new List<GameObject>();
-    //private List<GameObject> _skinsArmLower = new List<GameObject>();
-    //private List<GameObject> _skinsHand = new List<GameObject>();
-    //private List<GameObject> _skinsTail = new List<GameObject>();
-    //private List<GameObject> _skinsLegUpper = new List<GameObject>();
-    //private List<GameObject> _skinsKnee = new List<GameObject>();
-    //private List<GameObject> _skinsLegLower = new List<GameObject>();
-    //private List<GameObject> _skinsFoot = new List<GameObject>();
-    #endregion
-
     #region Lists Of Skins
     private List<List<GameObject>> _allLists = new List<List<GameObject>>();
 
@@ -85,6 +71,7 @@ public class SkinController : MonoBehaviour
 
     #endregion
 
+    #region Unity Functions
 
     private void Awake()
     {
@@ -122,128 +109,130 @@ public class SkinController : MonoBehaviour
         }
     }
 
+    #endregion
+
     #region Public Functions
 
-    public void AddSkinPieceToCloset(SkinType skinType, GameObject skinObject, string nameSpriteObj)  // this is called from the InteractionClosetAdd
+    public void AddSkinPieceToCloset(SkinType skinType, GameObject skinObject, string nameSpriteObj, SkinTransform transformSkin)  // this is called from the InteractionClosetAdd
     {
         switch ((int)skinType)
         {
             case 0:
-                AddSkinPieceToCorrectList(_skinsHats, _skinsUIHats, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsHats, _skinsUIHats, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 1:
-                AddSkinPieceToCorrectList(_skinsHeads, _skinsUIHeads, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsHeads, _skinsUIHeads, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 2:
-                AddSkinPieceToCorrectList(_skinsBody, _skinsUIBody, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsBody, _skinsUIBody, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 3:
-                AddSkinPieceToCorrectList(_skinsArmUpperLeft, _skinsUIArmUpperLeft, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsArmUpperLeft, _skinsUIArmUpperLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 4:
-                AddSkinPieceToCorrectList(_skinsArmUpperRight, _skinsUIArmUpperRight, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsArmUpperRight, _skinsUIArmUpperRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 5:
-                AddSkinPieceToCorrectList(_skinsArmLowerLeft, _skinsUIArmLowerLeft, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsArmLowerLeft, _skinsUIArmLowerLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 6:
-                AddSkinPieceToCorrectList(_skinsArmLowerRight, _skinsUIArmLowerRight, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsArmLowerRight, _skinsUIArmLowerRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 7:
-                AddSkinPieceToCorrectList(_skinsHandLeft, _skinsUIHandLeft, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsHandLeft, _skinsUIHandLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 8:
-                AddSkinPieceToCorrectList(_skinsHandRight, _skinsUIHandRight, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsHandRight, _skinsUIHandRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 9:
-                AddSkinPieceToCorrectList(_skinsTail, _skinsUITail, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsTail, _skinsUITail, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 10:
-                AddSkinPieceToCorrectList(_skinsLegUpperLeft, _skinsUILegUpperLeft, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsLegUpperLeft, _skinsUILegUpperLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 11:
-                AddSkinPieceToCorrectList(_skinsLegUpperRight, _skinsUILegUpperRight, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsLegUpperRight, _skinsUILegUpperRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 12:
-                AddSkinPieceToCorrectList(_skinsKneeLeft, _skinsUIKneeLeft, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsKneeLeft, _skinsUIKneeLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 13:
-                AddSkinPieceToCorrectList(_skinsKneeRight, _skinsUIKneeRight, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsKneeRight, _skinsUIKneeRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 14:
-                AddSkinPieceToCorrectList(_skinsLegLowerLeft, _skinsUILegLowerLeft, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsLegLowerLeft, _skinsUILegLowerLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 15:
-                AddSkinPieceToCorrectList(_skinsLegLowerRight, _skinsUILegLowerRight, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsLegLowerRight, _skinsUILegLowerRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 16:
-                AddSkinPieceToCorrectList(_skinsFootLeft, _skinsUIFootLeft, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsFootLeft, _skinsUIFootLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case 17:
-                AddSkinPieceToCorrectList(_skinsFootRight, _skinsUIFootRight, skinObject, skinType, nameSpriteObj);
+                AddSkinPieceToCorrectList(_skinsFootRight, _skinsUIFootRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             default:
                 Debug.Log("could not find the SkinType");
                 break;
         }
     }
-    public void CycleSkinPiece(SkinType skinType, SkinOrientation skinOrient)
+    public void CycleSkinPiece(SkinType skinType)
     {
         switch ((int)skinType)
         {
             case 0:
-                CycleCorrectSkinPiece(_skinsHats, _skinsUIHats, skinOrient);
+                CycleCorrectSkinPiece(_skinsHats, _skinsUIHats);
                 break;
             case 1:
-                CycleCorrectSkinPiece(_skinsHeads, _skinsUIHeads, skinOrient);
+                CycleCorrectSkinPiece(_skinsHeads, _skinsUIHeads);
                 break;
             case 2:
-                CycleCorrectSkinPiece(_skinsBody, _skinsUIBody, skinOrient);
+                CycleCorrectSkinPiece(_skinsBody, _skinsUIBody);
                 break;
             case 3:
-                CycleCorrectSkinPiece(_skinsArmUpperLeft, _skinsUIArmUpperLeft, skinOrient);
+                CycleCorrectSkinPiece(_skinsArmUpperLeft, _skinsUIArmUpperLeft);
                 break;
             case 4:
-                CycleCorrectSkinPiece(_skinsArmUpperRight, _skinsUIArmUpperRight, skinOrient);
+                CycleCorrectSkinPiece(_skinsArmUpperRight, _skinsUIArmUpperRight);
                 break;
             case 5:
-                CycleCorrectSkinPiece(_skinsArmLowerLeft, _skinsUIArmLowerLeft, skinOrient);
+                CycleCorrectSkinPiece(_skinsArmLowerLeft, _skinsUIArmLowerLeft);
                 break;
             case 6:
-                CycleCorrectSkinPiece(_skinsArmLowerRight, _skinsUIArmLowerRight, skinOrient);
+                CycleCorrectSkinPiece(_skinsArmLowerRight, _skinsUIArmLowerRight);
                 break;
             case 7:
-                CycleCorrectSkinPiece(_skinsHandLeft, _skinsUIHandLeft, skinOrient);
+                CycleCorrectSkinPiece(_skinsHandLeft, _skinsUIHandLeft);
                 break;
             case 8:
-                CycleCorrectSkinPiece(_skinsHandRight, _skinsUIHandRight, skinOrient);
+                CycleCorrectSkinPiece(_skinsHandRight, _skinsUIHandRight);
                 break;
             case 9:
-                CycleCorrectSkinPiece(_skinsTail, _skinsUITail, skinOrient);
+                CycleCorrectSkinPiece(_skinsTail, _skinsUITail);
                 break;
             case 10:
-                CycleCorrectSkinPiece(_skinsLegUpperLeft, _skinsUILegUpperLeft, skinOrient);
+                CycleCorrectSkinPiece(_skinsLegUpperLeft, _skinsUILegUpperLeft);
                 break;
             case 11:
-                CycleCorrectSkinPiece(_skinsLegUpperRight, _skinsUILegUpperRight, skinOrient);
+                CycleCorrectSkinPiece(_skinsLegUpperRight, _skinsUILegUpperRight);
                 break;
             case 12:
-                CycleCorrectSkinPiece(_skinsKneeLeft, _skinsUIKneeLeft, skinOrient);
+                CycleCorrectSkinPiece(_skinsKneeLeft, _skinsUIKneeLeft);
                 break;
             case 13:
-                CycleCorrectSkinPiece(_skinsKneeRight, _skinsUIKneeRight, skinOrient);
+                CycleCorrectSkinPiece(_skinsKneeRight, _skinsUIKneeRight);
                 break;
             case 14:
-                CycleCorrectSkinPiece(_skinsLegLowerLeft, _skinsUILegLowerLeft, skinOrient);
+                CycleCorrectSkinPiece(_skinsLegLowerLeft, _skinsUILegLowerLeft);
                 break;
             case 15:
-                CycleCorrectSkinPiece(_skinsLegLowerRight, _skinsUILegLowerRight, skinOrient);
+                CycleCorrectSkinPiece(_skinsLegLowerRight, _skinsUILegLowerRight);
                 break;
             case 16:
-                CycleCorrectSkinPiece(_skinsFootLeft, _skinsUIFootLeft, skinOrient);
+                CycleCorrectSkinPiece(_skinsFootLeft, _skinsUIFootLeft);
                 break;
             case 17:
-                CycleCorrectSkinPiece(_skinsFootRight, _skinsUIFootRight, skinOrient);
+                CycleCorrectSkinPiece(_skinsFootRight, _skinsUIFootRight);
                 break;
             default:
                 Debug.Log("could not find the SkinType");
@@ -278,6 +267,14 @@ public class SkinController : MonoBehaviour
         this.enabled = true;
 
         yield return null;
+    }
+    public IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        interactable.SetActive(false);
+        spriteParent.SetActive(true);
+        interactable.GetComponent<Interactable>().HideBalloonBackpack();
     }
 
     #endregion
@@ -335,7 +332,7 @@ public class SkinController : MonoBehaviour
             _allLists[i][0].SetActive(true);
         }
     }
-    private void AddSkinPieceToCorrectList(List<GameObject> listToExpand, List<GameObject> listToExpandUI, GameObject skinObject, SkinType skinType, string nameSpriteObj)
+    private void AddSkinPieceToCorrectList(List<GameObject> listToExpand, List<GameObject> listToExpandUI, GameObject skinObject, SkinType skinType, string nameSpriteObj, SkinTransform transformSkin)
     {
         // loop through all items in the list -- if an item has the exact same name -> it will have alrdy been added
         bool addedToList = false;
@@ -366,18 +363,16 @@ public class SkinController : MonoBehaviour
             toAddSkinObjectSirMouse.transform.localPosition = new Vector3(0, 0, 0);
             toAddSkinObjectSirMouseUI.transform.localPosition = new Vector3(0, 0, 0);
             // TO DO
-            // position/scale/rotate the pieces during runtime so they fit..
-            // copy the transform values that makes it fit..
-            // assign these values to the clothing piece itself in an extra value that is given through
+            PositionSkinPieceProperly(toAddSkinObjectSirMouse, toAddSkinObjectSirMouseUI, transformSkin);
 
-            // add to list
+            // add to list (this string is what is checked for whether it's been added (change to different logic ?))
             toAddSkinObjectSirMouse.name = nameSpriteObj;
 
             listToExpandUI.Add(toAddSkinObjectSirMouseUI);
             listToExpand.Add(toAddSkinObjectSirMouse);
         }
     }
-    private void CycleCorrectSkinPiece(List<GameObject> listToCycleThrough, List<GameObject> listToCycleThroughUI, SkinOrientation skinOrient)
+    private void CycleCorrectSkinPiece(List<GameObject> listToCycleThrough, List<GameObject> listToCycleThroughUI)
     {
         bool foundActiveSkin = false;
 
@@ -407,7 +402,18 @@ public class SkinController : MonoBehaviour
             }
         }
     }
+    private void PositionSkinPieceProperly(GameObject object1, GameObject object2, SkinTransform transfSkin)
+    {
+        object1.transform.localPosition = transfSkin.Position;
+        object1.transform.localRotation = Quaternion.Euler(transfSkin.Rotation);
+        //object1.transform.localRotation = transfSkin.Rotation;
+        object1.transform.localScale = transfSkin.Scale;
 
+        object2.transform.localPosition = transfSkin.Position;
+        object2.transform.localRotation = Quaternion.Euler(transfSkin.Rotation);
+        //object2.transform.localRotation = transfSkin.Rotation;
+        object2.transform.localScale = transfSkin.Scale;
+    }
     // duplicate logic from BackpackController
     private void ImageArrivedInCloset()
     {
