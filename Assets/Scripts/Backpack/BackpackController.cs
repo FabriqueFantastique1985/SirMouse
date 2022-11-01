@@ -18,10 +18,6 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private GameObject _panelInstantiatedUI;
     [SerializeField]
-    private Animator _buttons_UI_Group;
-    [SerializeField]
-    private GameObject _buttonBackpack;
-    [SerializeField]
     private GameObject _emptyGameobject;
 
     private GameObject _uiImageForBag;
@@ -41,6 +37,12 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private GameObject _interactableEquiped;
 
+    [Header("Button Animation Components")]
+    [SerializeField]
+    private ButtonBaseNew _buttonBackpack;
+    [SerializeField]
+    private ButtonBaseNew _buttonCloset;
+
 
     #region Unity Functions
 
@@ -59,6 +61,11 @@ public class BackpackController : MonoBehaviour
     }
     private void Update() // only enable this script once a pickup is thrown into bag
     {
+        ChugObjectIntoBag();      
+    }
+
+    private void ChugObjectIntoBag()
+    {
         // Increment our progress from 0 at the start, to 1 when we arrive.
         _progress = Mathf.Min(_progress + Time.deltaTime * _stepScale, 1.0f);
         // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
@@ -73,7 +80,7 @@ public class BackpackController : MonoBehaviour
         if (_progress == 1.0f)
         {
             ImageArrivedInBag();
-        }       
+        }
     }
 
     #endregion
@@ -98,7 +105,8 @@ public class BackpackController : MonoBehaviour
 
         // depending on the quantity of items in the backpack, a different child should be selected
         var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
-        var buttonScript = newButton.GetComponent<BackpackPickupButton>();
+        //var buttonScript = newButton.GetComponent<BackpackPickupButton>();
+        var buttonScript = newButton.GetComponent<ButtonPickupBackpack>();
 
         buttonScript.MyImage.sprite = pickupSpriteRender.sprite; 
         buttonScript.MyInteractable = interactable;
@@ -115,20 +123,7 @@ public class BackpackController : MonoBehaviour
             AddEquipedItemToBackpack(interactableScript.gameObject, interactableScript.PickupType);
         }
 
-        PageController.Instance.TurnPageOff(PageType.Backpack);
-
-        interactable.SetActive(true);
-        interactable.transform.SetParent(GameManager.Instance.Player.transform); // update this with sirmouse's hand
-        interactable.transform.localPosition = new Vector3(0,0,0);
-
-        // assign to EquipedItem
-        _playerHasEquipedItem = true;
-        _interactableEquiped = interactable;
-
-        ItemsInBackpack.Remove(typeOfPickup);
-        InteractablesInBackpack.Remove(interactable);
-
-        Destroy(pickupButton);
+        StartCoroutine(GetObjectOutOfBag(interactable, typeOfPickup, pickupButton));
     }
 
     #endregion
@@ -146,7 +141,8 @@ public class BackpackController : MonoBehaviour
 
         // depending on the quantity of items in the backpack, a different child should be selected (could be children on a different page !)
         var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
-        var buttonScript = newButton.GetComponent<BackpackPickupButton>();
+        //var buttonScript = newButton.GetComponent<BackpackPickupButton>();
+        var buttonScript = newButton.GetComponent<ButtonPickupBackpack>();
 
         buttonScript.MyImage.sprite = interactable.transform.GetChild(0).transform.GetComponent<SpriteRenderer>().sprite; // update interactable structure so this is less ugly
         buttonScript.MyInteractable = interactable;
@@ -188,10 +184,29 @@ public class BackpackController : MonoBehaviour
 
         yield return null;
     }
+    IEnumerator GetObjectOutOfBag(GameObject interactable, Type_Pickup typeOfPickup, GameObject pickupButton)
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        PageController.Instance.TurnPageOff(PageType.Backpack);  // only do all of the bottom stuff after a delay (set up timer in this update)
+
+        interactable.SetActive(true);
+        interactable.transform.SetParent(GameManager.Instance.Player.transform); // update this with sirmouse's hand
+        interactable.transform.localPosition = new Vector3(0, 0, 0);
+
+        // assign to EquipedItem
+        _playerHasEquipedItem = true;
+        _interactableEquiped = interactable;
+
+        ItemsInBackpack.Remove(typeOfPickup);
+        InteractablesInBackpack.Remove(interactable);
+
+        Destroy(pickupButton);
+    }
     private void ImageArrivedInBag()
     {
         // activates animation bag
-        _buttons_UI_Group.Play("POP_Backpack");
+        _buttonBackpack.PlayAnimationPress();
 
         // destroy the UI image
         Destroy(_uiImageForBag);

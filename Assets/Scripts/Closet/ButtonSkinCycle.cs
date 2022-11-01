@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
+using UnityCore.Menus;
 using UnityEngine;
 
-public class ButtonSkinCycle : MonoBehaviour
+public class ButtonSkinCycle : ButtonBaseNew
 {
     public SkinType _skinType;
 
-    public void Clicked()
+    public override void ClickedButton()
     {
+        base.ClickedButton();
+
         SkinController.Instance.CycleSkinPiece(_skinType);
     }
 }

@@ -64,7 +64,6 @@ namespace UnityCore
                 page.gameObject.SetActive(true);
                 page.Animate(true);
             }
-
             public void TurnPageOff(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None, bool waitForExit = false)
             {
                 if (typeToTurnOff == PageType.None) return;
@@ -94,7 +93,6 @@ namespace UnityCore
                     }
                 }
             }
-
             public bool PageIsOn(PageType pageType)
             {
                 if (PageExists(pageType) == false)
@@ -105,6 +103,54 @@ namespace UnityCore
 
                 return GetPage(pageType).isOn;
             }
+            // custom methods below
+            public void TurnAllPagesOffExcept(PageType turnOn)
+            {
+                for (int i = 0; i < PagesScene.Length; i++)
+                {
+                    if (PageIsOn(PagesScene[i].Type) == true)
+                    {
+                        TurnPageOff(PagesScene[i].Type);
+                    }
+                }
+                TurnPageOn(turnOn);
+            }
+            public IEnumerator TurnPageOffDelay(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None, bool waitForExit = false, float delayTime = 0.25f)
+            {
+                yield return new WaitForSeconds(delayTime);
+
+                if (typeToTurnOff == PageType.None)
+                {
+                    Debug.Log("You're trying to turn Nothing off");
+                }
+                if (PageExists(typeToTurnOff) == false)
+                {
+                    Debug.Log("You're trying to turn a page off [" + typeToTurnOff + "] that has not been registered");
+                }
+
+                Page offPage = GetPage(typeToTurnOff);
+                if (offPage.gameObject.activeSelf == true)
+                {
+                    offPage.Animate(false);
+                }
+
+                if (typeToTurnOn != PageType.None)
+                {
+                    Page onPage = GetPage(typeToTurnOn);
+                    if (waitForExit == true)
+                    {
+                        StopCoroutine(WaitForPageExit(onPage, offPage));
+                        StartCoroutine(WaitForPageExit(onPage, offPage));
+                    }
+                    else
+                    {
+                        TurnPageOn(onPage.Type);
+                    }
+                }
+
+                BackpackController.BackpackInstance.enabled = false;
+            }
+
 
             #endregion
 
@@ -121,7 +167,6 @@ namespace UnityCore
 
                 TurnPageOn(on.Type);
             }
-
             private void RegisterAllPages()
             {
                 for (int i = 0; i <  PagesScene.Length; i++)
@@ -129,7 +174,6 @@ namespace UnityCore
                     RegisterPage(PagesScene[i]);
                 }
             }
-
             private void RegisterPage(Page page)
             {
                 if (PageExists(page.Type))
@@ -140,7 +184,6 @@ namespace UnityCore
 
                 m_Pages.Add(page.Type, page);
             }
-
             private Page GetPage(PageType type)
             {
                 if (PageExists(type) == false)
@@ -151,7 +194,6 @@ namespace UnityCore
 
                 return (Page)m_Pages[type];
             }
-
             private bool PageExists(PageType type)
             {
                 return m_Pages.ContainsKey(type);

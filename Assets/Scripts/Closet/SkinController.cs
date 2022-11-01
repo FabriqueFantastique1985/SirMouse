@@ -55,9 +55,7 @@ public class SkinController : MonoBehaviour
     [SerializeField]
     private GameObject _panelInstantiatedUI;
     [SerializeField]
-    private Animator _buttons_UI_Group;
-    [SerializeField]
-    private GameObject _buttonCloset;
+    private ButtonBaseNew _buttonCloset;
     [SerializeField]
     private GameObject _emptyGameObject;
     private GameObject _uiImageForCloset;
@@ -421,7 +419,7 @@ public class SkinController : MonoBehaviour
     private void ImageArrivedInCloset()
     {
         // activates animation bag
-        _buttons_UI_Group.Play("POP_Closet");
+        _buttonCloset.PlayAnimationPress();
 
         // destroy the UI image
         Destroy(_uiImageForCloset);

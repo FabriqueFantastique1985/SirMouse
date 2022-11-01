@@ -50,6 +50,8 @@ MonoBehaviour:
   PlayField: {fileID: 0}
   Player: {fileID: 0}
   Character: {fileID: 0}
+  CharacterRigRefs: {fileID: 0}
+  CharacterRigRefsUI: {fileID: 0}
   Agent: {fileID: 0}
 --- !u!1 &2383446140884378214
 GameObject:
@@ -169,8 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panelInstantiatedUI: {fileID: 1569402875123550148}
-  _buttons_UI_Group: {fileID: 1990100879531507936}
-  _buttonCloset: {fileID: 4000401575572195853}
+  _buttonCloset: {fileID: 7580134227799164493}
   _emptyGameObject: {fileID: 4353691802206600010, guid: 7ea7b2a2737a6a84c8432c80b0b95963,
     type: 3}
 --- !u!1001 &1990100879516186720
@@ -388,18 +389,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1990100879516186720}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1990100879531507936 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 23738496, guid: 19ad83a7f3ac81a429015275d334b015,
+--- !u!114 &7580134227799164493 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8263060640784907821, guid: 19ad83a7f3ac81a429015275d334b015,
     type: 3}
   m_PrefabInstance: {fileID: 1990100879516186720}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4000401575572195853 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3177863744175075949, guid: 19ad83a7f3ac81a429015275d334b015,
-    type: 3}
-  m_PrefabInstance: {fileID: 1990100879516186720}
-  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8b96e6aae7c0143a11318f74572c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3673575338445627708
 PrefabInstance:
   m_ObjectHideFlags: 0
