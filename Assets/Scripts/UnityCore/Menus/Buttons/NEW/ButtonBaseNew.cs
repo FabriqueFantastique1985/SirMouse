@@ -9,9 +9,6 @@ public class ButtonBaseNew : MonoBehaviour
     private Animation _animationComponent;
     [SerializeField]
     protected string _animationName;
-    [SerializeField]
-    protected string _animationName_1;
-    private bool _animationSwapped;
 
     [SerializeField]
     protected AudioElement _soundEffect;
@@ -41,15 +38,7 @@ public class ButtonBaseNew : MonoBehaviour
 
     public void PlayAnimationPress()
     {
-        if (_animationSwapped == true)
-        {
-            _animationComponent.Play(_animationName_1);
-            _animationSwapped = false;
-        }
-        else
-        {
-            _animationComponent.Play(_animationName);
-            _animationSwapped = true;
-        }
+        _animationComponent.Stop();
+        _animationComponent.Play(_animationName);
     }
 }
