@@ -4,7 +4,7 @@ using UnityCore.Audio;
 using UnityEngine;
 
 [RequireComponent(typeof(Touch_Action))]
-public class Touchable : MonoBehaviour
+public class Touchable : MonoBehaviour, IClickable
 {
     public Touch_Action _touchComponent;
 
@@ -44,7 +44,7 @@ public class Touchable : MonoBehaviour
     #region Public Functions
 
     // logic for what should happen when this gets tapped
-    public void PlayTapEvent()
+    public void Click(Player player)
     {
         if (OneTimeUse == false || OneTimeUse == true && _usedSuccesfully == false)
         {

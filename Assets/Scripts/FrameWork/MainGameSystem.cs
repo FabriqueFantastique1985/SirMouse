@@ -51,22 +51,17 @@ public class MainGameSystem : GameSystem
                 {
                     if (hit.collider == _groundColliders[i])
                     {
-                        _player.SetState(new WalkingState(_player, hit.point));
+                        if (_player.State is WalkingState currentState) currentState.SetTarget(_player, hit.point); 
+                        else _player.SetState(new WalkingState(_player, hit.point));
                         return;
                     }
                 }
 
-                //Debug.Log("Hit " + hit.transform.name);
+                Debug.Log("Hit " + hit.transform.name);
 
-                //hit.transform.GetComponent<InteractBalloon>()?.Click(_player);
-                if (hit.transform.TryGetComponent(out Balloon balloon))
+                if (hit.transform.TryGetComponent<IClickable>(out IClickable clickable))
                 {
-                    balloon.Click(_player);
-                    _onCooldown = true;
-                }
-                else if (hit.transform.TryGetComponent(out Touchable touchAble))
-                {
-                    touchAble.PlayTapEvent();
+                    clickable.Click(_player);
                     _onCooldown = true;
                 }
             }

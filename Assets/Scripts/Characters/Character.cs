@@ -6,16 +6,36 @@ using UnityEngine.Serialization;
 
 public class Character : MonoBehaviour
 {
+    #region Enums
+
     public enum States
     {
         Idle = 0,
         Walking = 1,
         Jumping = 2,
         PickUp = 3,
-        Drop = 4
+        UnEquip = 4,
+        Drop = 5,
+        TwoHanded,
     };
+
+    #endregion
+
+    #region Events
+
+    public delegate void CharacterEvent(States state);
+
+    public event CharacterEvent AnimationDoneEvent;
+    public event CharacterEvent InteractionDoneEvent;
+
+    public event CharacterEvent EnteredIdleEvent;
+
+    #endregion
     
-    public Animator AnimatorRM;
+    #region EditorFields
+
+    [FormerlySerializedAs("AnimatorRM")] [SerializeField]
+    private Animator _animatorRM;
 
     [FormerlySerializedAs("_runCondition")] [SerializeField]
     private string _walkName = "Run";
@@ -32,71 +52,131 @@ public class Character : MonoBehaviour
     [FormerlySerializedAs("_dropCondition")] [SerializeField]
     private string _dropName = "Drop";
 
+    [SerializeField]
+    private string _unEquipName = "UnEquip";
+
     [FormerlySerializedAs("_blinkCondition")]
     [SerializeField]
     private string _blinkName = "Blink";
 
+    [SerializeField]
+    private string _twoHandedPickUpBool = "TwoHanded";
+
+    #endregion
+
+    #region Fields
+
     private Vector3 _originalScale;
+
+    #endregion
     
     // Start is called before the first frame update
     void Start()
     {
-        if (AnimatorRM == null) Debug.LogError("Animator is null, did you forget to give a reference to it?");
+        if (_animatorRM == null) Debug.LogError("Animator is null, did you forget to give a reference to it?");
         _originalScale = transform.localScale;
     }
 
-    public virtual void SetAnimator(States state, bool mirror = false, AnimationClip clip = null)
+   // /// <summary>
+   // /// Sets the animator
+   // /// </summary>
+   // /// <param name="state"></param>
+   // /// <param name="mirror"></param>
+   // /// <returns></returns>
+   // public virtual float SetAnimator(States state, bool mirror = false)
+   // {
+   //     return _animatorRM.GetCurrentAnimatorStateInfo(0).length;
+   // }
+
+    public void SetAnimatorTrigger(States state, bool mirror = false)
     {
-        //if (AnimatorRM != null)
-        //{
-            ResetAllTriggers();
+        ResetAllTriggers();
+        SetCharacterMirrored(mirror);
 
-            if (mirror)
-                transform.localScale = new Vector3(  _originalScale.x * -1, _originalScale.y,
-                    _originalScale.z);
-            else
-            {
-                transform.localScale = new Vector3( _originalScale.x , _originalScale.y,
-                    _originalScale.z);
-            }
+        string animationString = _idleName;
 
-            switch (state)
-            {
-                case States.Idle:
-                    AnimatorRM.SetTrigger(_idleName);
-                    break;
-                case States.Walking:
-                    AnimatorRM.SetTrigger(_walkName);
-                    break;
-                case States.Jumping:
-                    break;
-                case States.PickUp:
-                    AnimatorRM.SetTrigger(_pickupName);
-                    break;
-                case States.Drop:
-                    AnimatorRM.SetTrigger(_dropName);
-                    break;
-                default:
-                 //   AnimatorRM.playableGraph.
-                    break;
+        switch (state)
+        {
+            case States.Idle:
+                animationString = _idleName;
+                break;
+            case States.Walking:
+                animationString = _walkName;
+                break;
+            case States.Jumping:
+                break;
+            case States.PickUp:
+                animationString = _pickupName;
+                break;
+            case States.UnEquip:
+                animationString = _unEquipName;
+                break;
+            case States.Drop:
+                animationString = _dropName;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
-        //}
+        
+        _animatorRM.SetTrigger(animationString);
     }
 
+    public void SetAnimatorBool(States state, bool setValue)
+    {
+        switch (state)
+        {
+            case States.TwoHanded:
+                _animatorRM.SetBool(_twoHandedPickUpBool, setValue);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(state), state, null);
+        }
+    }
+
+    public void SetCharacterMirrored(bool mirror)
+    {
+        if (mirror)
+            transform.localScale = new Vector3(_originalScale.x * -1, _originalScale.y,
+                _originalScale.z);
+        else
+        {
+            transform.localScale = new Vector3(_originalScale.x, _originalScale.y,
+                _originalScale.z);
+        }
+    }
+    
     private void ResetAllTriggers()
     {
-        for (int i = 0; i < AnimatorRM.parameterCount; i++)
+        for (int i = 0; i < _animatorRM.parameterCount; i++)
         {
-            if (AnimatorRM.parameters[i].type == AnimatorControllerParameterType.Trigger)
+            if (_animatorRM.parameters[i].type == AnimatorControllerParameterType.Trigger)
             {
-                AnimatorRM.ResetTrigger(AnimatorRM.parameters[i].name);
+                _animatorRM.ResetTrigger(_animatorRM.parameters[i].name);
             }
-        }  
+        }
     }
 
     IEnumerator BlinkTimer()
     {
         yield return new WaitForSeconds(UnityEngine.Random.Range(2.0f, 4.0f));
-        AnimatorRM.SetTrigger(_blinkName);
+        _animatorRM.SetTrigger(_blinkName);
+    }
+    
+    public void AnimationDone(States state)
+    {
+        AnimationDoneEvent?.Invoke(state);
+        Debug.Log(" Animation done for State: " + state);
+    }
+
+    public void InteractionDone(States state)
+    {
+        InteractionDoneEvent?.Invoke(state);
+        Debug.Log("Interaction done for State: " + state);
+    }
+
+    public void EnteredIdle()
+    {
+        EnteredIdleEvent?.Invoke(States.Idle);
+        Debug.Log("Entered Idle state");
     }
 }

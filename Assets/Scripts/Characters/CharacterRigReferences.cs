@@ -28,49 +28,58 @@ public class CharacterRigReferences : MonoBehaviour
     public Transform FootRightTransform;
 
 
-    public Transform FindCorrectTransform(SkinType skinType)
-    {
-        switch ((int)skinType)
-        {
-            case 0:
-                return HatTransform;
-            case 1:
-                return HeadTransform;
-            case 2:
-                return BodyTransform;
-            case 3:
-                return ArmUpperLeftTransform;
-            case 4:
-                return ArmUpperRightTransform;
-            case 5:
-                return ArmLowerLeftTransform;
-            case 6:
-                return ArmLowerRightTransform;
-            case 7:
-                return HandLeftTransform;
-            case 8:
-                return HandRightTransform;
-            case 9:
-                return TailTransform;
-            case 10:
-                return LegUpperLeftTransform;
-            case 11:
-                return LegUpperRightTransform;
-            case 12:
-                return KneeLeftTransform;
-            case 13:
-                return KneeRightTransform;
-            case 14:
-                return LegLowerLeftTransform;
-            case 15:
-                return LegLowerRightTransform;
-            case 16:
-                return FootLeftTransform;
-            case 17:
-                return FootRightTransform;
-            default:
-                Debug.Log("could not find a corresponding transform for the skin in CharacterRigReferences");
-                return null;
-        }
-    }
+    [SerializeField]
+    private Transform _equipItemTransform;
+
+    /// <summary>
+    /// Reference to the transform that is used to equip items with.
+    /// </summary>
+    public Transform EquipItemTransform => _equipItemTransform;
+    
+    
+   public Transform FindCorrectTransform(SkinType skinType)
+   {
+       switch ((int)skinType)
+       {
+           case 0:
+               return HatTransform;
+           case 1:
+               return HeadTransform;
+           case 2:
+               return BodyTransform;
+           case 3:
+               return ArmUpperLeftTransform;
+           case 4:
+               return ArmUpperRightTransform;
+           case 5:
+               return ArmLowerLeftTransform;
+           case 6:
+               return ArmLowerRightTransform;
+           case 7:
+               return HandLeftTransform;
+           case 8:
+               return HandRightTransform;
+           case 9:
+               return TailTransform;
+           case 10:
+               return LegUpperLeftTransform;
+           case 11:
+               return LegUpperRightTransform;
+           case 12:
+               return KneeLeftTransform;
+           case 13:
+               return KneeRightTransform;
+           case 14:
+               return LegLowerLeftTransform;
+           case 15:
+               return LegLowerRightTransform;
+           case 16:
+               return FootLeftTransform;
+           case 17:
+               return FootRightTransform;
+           default:
+               Debug.Log("could not find a corresponding transform for the skin in CharacterRigReferences");
+               return null;
+       }
+   }
 }

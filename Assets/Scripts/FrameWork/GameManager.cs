@@ -12,14 +12,28 @@ public class GameManager : MonoBehaviour
     public Character Character;
     public CharacterRigReferences CharacterRigRefs;
     public CharacterRigReferences CharacterRigRefsUI;
+
     public NavMeshAgent Agent;
     //public PlayerReferences PlayerRefs;
-    
 
     public static GameManager Instance { get; private set; }
 
-    private GameSystem _currentGameSystem;
+    #region Fields
 
+    private GameSystem _currentGameSystem;
+    private bool _blockInput = false;
+
+    #endregion
+
+    #region Properties
+
+    public bool BlockInput
+    {
+        get => _blockInput; 
+        set => _blockInput = value;
+    }
+
+    #endregion
 
     private void Awake()
     {
@@ -29,38 +43,35 @@ public class GameManager : MonoBehaviour
             Destroy(this);
             return;
         }
+
         Instance = this;
         DontDestroyOnLoad(Instance);
 
         // 1 protected player gets assigned here -> make this player part of dont destroyonload...
-        _currentGameSystem = new MainGameSystem(Player, new int[2]
+        _currentGameSystem = new MainGameSystem(Player, new int[1]
         {
-            Player.gameObject.layer, PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
+            /*Player.gameObject.layer, */
+            PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
         });
 
         // set the 
         //Player.transform.SetParent(this.gameObject.transform);
     }
 
-
-
     // call this from scene controller when a scene is loaded
     public void AdjustGameSystem(Collider[] newGroundColliders)
     {
         _currentGameSystem = new MainGameSystem(Player, new int[2]
-        {
-            Player.gameObject.layer, PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
-        }, 
-        newGroundColliders);
+            {
+                Player.gameObject.layer,
+                PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
+            },
+            newGroundColliders);
     }
-
-
-
 
     private void Update()
     {
-        _currentGameSystem.HandleInput();
+        if (_blockInput == false) _currentGameSystem.HandleInput();
         _currentGameSystem.Update();
     }
 }
-

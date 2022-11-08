@@ -10,17 +10,25 @@ public abstract class SirMouseState
     public Action EnteredAction;
     public Action ExitedAction;
 
-    public SirMouseState(Player player)
+    private bool _blockInput = false;
+
+    protected bool IsMirrored => Direction.x <= 0.0f;
+
+    public SirMouseState(Player player, bool blockInput = false)
     {
+        _blockInput = blockInput;
     }
     
     public virtual void OnEnter(Player player)
     {
+        GameManager.Instance.BlockInput = _blockInput;
+        _player = player;
         EnteredAction?.Invoke();
     }
 
     public virtual void OnExit(Player player)
     {
+        GameManager.Instance.BlockInput = false;
         ExitedAction?.Invoke();
     }
     
@@ -30,33 +38,37 @@ public abstract class SirMouseState
     }
 }
 
-
-
 public class WalkingState : SirMouseState
 {
     // Minimum distance to reach for reaching the destination.
     private const float _minDistanceFromTarget = 0.1f;
-    
     private Vector3 _target;
+    
     public WalkingState(Player player, Vector3 target) : base(player)
     {
-        //_target = target;
+        SetTarget(player, target);
+    }
+
+    public void SetTarget(Player player, Vector3 target)
+    {
         player.SetTarget(target);
         _target =  player.Agent.path.corners.Last();
-
         Direction = target - player.transform.position;
+        player.Character.SetCharacterMirrored(IsMirrored);
     }
 
     public override void OnEnter(Player player)
     {
         //  change animation of the player
-        player.Character.SetAnimator(Character.States.Walking, Direction.x <= 0 );
+        player.Character.SetAnimatorTrigger(Character.States.Walking, Direction.x <= 0 );
+        
+        Debug.Log("Entered Walking State");
     }
 
     public override SirMouseState Update(Player player)
     {
         float sqrDistToTarget = (player.transform.position - _target).sqrMagnitude;
-        if (sqrDistToTarget < _minDistanceFromTarget * _minDistanceFromTarget) return new IdleState(player);
+        if (sqrDistToTarget < _minDistanceFromTarget * _minDistanceFromTarget) player.SetState(new IdleState(player));
 
         return null;
     }
@@ -71,42 +83,96 @@ public class IdleState : SirMouseState
         
     }
 
-    public override SirMouseState Update(Player player)
-    {
-        return null;
-    }
-
     public override void OnEnter(Player player)
     {
-        player.Character.SetAnimator(Character.States.Idle, Direction.x <= 0.0f);
+        base.OnEnter(player);
+        player.Character.SetAnimatorTrigger(Character.States.Idle, Direction.x <= 0.0f);
+        
+        Debug.Log("Entered Idle state");
     }
 }
 
-
-
-
-public class InteractionState : SirMouseState
+public class PickUpState : SirMouseState
 {
-    private float _timeInState;
-   
-    public InteractionState(Player player, AnimationClip animationClip, Action actionOnEnter = null, Action actionOnExit = null) : base(player)
+    private Interactable _interactable;
+    private bool _isTwoHandPickup = false;
+    
+    public PickUpState(Player player, Interactable pickUp, bool isTwoHandPickup = false)
+        : base(player, true)
     {
-        _timeInState = animationClip.length;
-        EnteredAction = actionOnEnter;
-        ExitedAction = actionOnExit;
+        _interactable = pickUp;
+        _isTwoHandPickup = isTwoHandPickup;
     }
 
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
-        //player.Character.SetAnimator();
+        
+        player.Character.SetAnimatorTrigger(Character.States.PickUp, IsMirrored);
+        player.Character.SetAnimatorBool(Character.States.TwoHanded, _isTwoHandPickup);
+        player.Character.AnimationDoneEvent += OnAnimationDone;
+        player.Character.InteractionDoneEvent += OnInteractionDone;
+        player.Character.EnteredIdleEvent += OnIdleEntered;
+        
+        Debug.Log("Entered PickUp State");
     }
 
-    public override SirMouseState Update(Player player)
-    {
-        _timeInState -= Time.deltaTime;
-        if (_timeInState <= 0.0f) return new IdleState(player);
 
-        return null;
+    public override void OnExit(Player player)
+    {
+        base.OnExit(player);
+        
+        player.Character.AnimationDoneEvent -= OnAnimationDone;
+        player.Character.InteractionDoneEvent -= OnInteractionDone;
+        player.Character.EnteredIdleEvent -= OnIdleEntered;
+    }
+
+    private void OnAnimationDone(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
+    }
+    
+    private void OnIdleEntered(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
+    }
+    
+    private void OnInteractionDone(Character.States state)
+    {
+        _player.Equip(_interactable);
+    }
+}
+
+public class DropState : SirMouseState
+{
+    public DropState(Player player) : base(player, true)
+    {
+        player.Character.InteractionDoneEvent += OnInteractionDone;
+        player.Character.EnteredIdleEvent += OnEnteredIdle;
+    }
+
+    public override void OnEnter(Player player)
+    {
+        base.OnEnter(player);
+        
+        player.Character.SetAnimatorTrigger(Character.States.Drop, IsMirrored);
+    }
+
+    public override void OnExit(Player player)
+    {
+        base.OnExit(player);
+        
+        player.Character.InteractionDoneEvent -= OnInteractionDone;
+        player.Character.EnteredIdleEvent -= OnEnteredIdle;
+    }
+
+    private void OnInteractionDone(Character.States state)
+    {
+        _player.Drop();
+    }
+    
+    private void OnEnteredIdle(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
     }
 }

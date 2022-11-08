@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _agent: {fileID: 8949820397834355846}
   _character: {fileID: 5655939743336485181}
-  _equippedItemTransform: {fileID: 0}
+  _characterRigReferences: {fileID: 0}
 --- !u!195 &8949820397834355846
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -108,6 +108,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8949820397834355867}
     m_Modifications:
+    - target: {fileID: 2000821820048947996, guid: 2d79d0fbbce0fb64c9a2ec9d3cabfec4,
+        type: 3}
+      propertyPath: _equipItemTransform
+      value: 
+      objectReference: {fileID: 5846227828754508976}
     - target: {fileID: 4755618880304595068, guid: 2d79d0fbbce0fb64c9a2ec9d3cabfec4,
         type: 3}
       propertyPath: m_Name
@@ -188,3 +193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbff0bcc386b5244b98a4fc6ce0eaa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &5846227828754508976 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 123405728674382633, guid: 2d79d0fbbce0fb64c9a2ec9d3cabfec4,
+    type: 3}
+  m_PrefabInstance: {fileID: 5807275065700052889}
+  m_PrefabAsset: {fileID: 0}

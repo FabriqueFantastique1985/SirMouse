@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider))]
-public class Balloon : MonoBehaviour
+public class Balloon : MonoBehaviour, IClickable
 {
     #region Events
 
@@ -125,5 +125,4 @@ public class Balloon : MonoBehaviour
     } 
 
     #endregion
-
 }

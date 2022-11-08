@@ -55,7 +55,7 @@ public class InteractionClosetAdd : Interaction
     {
         base.SpecificAction(player);
 
-        SkinController.Instance.StartCoroutine(SkinController.Instance.ForceObjectInCloset(this.gameObject, SkinObjectWithSrite.transform.localScale.x));
+        SkinController.Instance.StartCoroutine(SkinController.Instance.ForceObjectInCloset(this, SkinObjectWithSrite.transform.localScale.x));
         SkinController.Instance.StartCoroutine(SkinController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
 
         SkinController.Instance.AddSkinPieceToCloset(_skinType, SkinObjectWithSrite, _nameSpriteObject, _transformForSirMouse);
