@@ -10,7 +10,10 @@ namespace UnityCore
             Loading,
             Menu,
             Backpack,
-            Closet
+            Closet,
+            ClosetHeadTorsoTail,
+            ClosetLegs,
+            ClosetArms
         }
     }
 }

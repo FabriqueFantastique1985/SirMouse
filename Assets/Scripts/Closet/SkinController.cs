@@ -238,11 +238,11 @@ public class SkinController : MonoBehaviour
         }
     }
     // duplicate logic from BackpackController
-    public IEnumerator ForceObjectInCloset(GameObject interactable, float scaleForImage = 1)
+    public IEnumerator ForceObjectInCloset(InteractionClosetAdd interactCloset, float scaleForImage = 1)
     {
         // get the world to screen pos of the interactible
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
-        Sprite interactableSprite = interactable.GetComponent<InteractionClosetAdd>().SkinSpriteRenderer.sprite;
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactCloset.transform.position);
+        Sprite interactableSprite = interactCloset.SkinSpriteRenderer.sprite;
 
         _uiImageForCloset = Instantiate(_emptyGameObject, _panelInstantiatedUI.transform);
         var uiImageComponent = _uiImageForCloset.AddComponent<Image>();
