@@ -18,6 +18,12 @@ public class CharacterGeoReferences : MonoBehaviour
     public Texture2D HandsDark;
 
 
+    private void Start()
+    {
+        SirMouseBody.mainTexture = DefaultTex;
+        SirMouseHands.mainTexture = HandsLight;
+    }
+
 
     public void ChangeTextureSirMouse(int index)
     {

@@ -7,7 +7,7 @@ public class ButtonClosetMouseCycle : ButtonBaseNew
 {
     // turn on correct page for mouse skin cycle
     // turn off other ones
-
+    protected SkinController _skinInstance;
     protected PageController _pageInstance;
 
     [SerializeField]
@@ -19,7 +19,9 @@ public class ButtonClosetMouseCycle : ButtonBaseNew
     protected override void Start()
     {
         base.Start();
+
         _pageInstance = PageController.Instance;
+        _skinInstance = SkinController.Instance;
     }
 
     public override void ClickedButton()
@@ -44,14 +46,17 @@ public class ButtonClosetMouseCycle : ButtonBaseNew
             case 0:
                 _pageInstance.TurnPageOff(PageType.ClosetArms);
                 _pageInstance.TurnPageOn(PageType.ClosetHeadTorsoTail);
+                _skinInstance.ClosetWrapInsideCamera.Play("Closet_Zoom_Normal");
                 break;
             case 1:
                 _pageInstance.TurnPageOff(PageType.ClosetHeadTorsoTail);
                 _pageInstance.TurnPageOn(PageType.ClosetLegs);
+                _skinInstance.ClosetWrapInsideCamera.Play("Closet_Zoom_Legs");
                 break;
             case 2:
                 _pageInstance.TurnPageOff(PageType.ClosetLegs);
                 _pageInstance.TurnPageOn(PageType.ClosetArms);
+                _skinInstance.ClosetWrapInsideCamera.Play("Closet_Zoom_Arms");
                 break;
         }
     }

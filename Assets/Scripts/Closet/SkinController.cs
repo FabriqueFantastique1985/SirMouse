@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SkinController : MonoBehaviour
 {
     public static SkinController Instance { get; private set; }
+    public Animator ClosetWrapInsideCamera;
 
     #region Lists Of Skins
     private List<List<GameObject>> _allLists = new List<List<GameObject>>();
@@ -113,60 +114,60 @@ public class SkinController : MonoBehaviour
 
     public void AddSkinPieceToCloset(SkinType skinType, GameObject skinObject, string nameSpriteObj, SkinTransform transformSkin)  // this is called from the InteractionClosetAdd
     {
-        switch ((int)skinType)
+        switch (skinType)
         {
-            case 0:
+            case SkinType.Hat:
                 AddSkinPieceToCorrectList(_skinsHats, _skinsUIHats, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 1:
+            case SkinType.Head:
                 AddSkinPieceToCorrectList(_skinsHeads, _skinsUIHeads, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 2:
+            case SkinType.Body:
                 AddSkinPieceToCorrectList(_skinsBody, _skinsUIBody, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 3:
+            case SkinType.ArmUpperLeft:
                 AddSkinPieceToCorrectList(_skinsArmUpperLeft, _skinsUIArmUpperLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 4:
+            case SkinType.ArmUpperRight:
                 AddSkinPieceToCorrectList(_skinsArmUpperRight, _skinsUIArmUpperRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 5:
+            case SkinType.ArmLowerLeft:
                 AddSkinPieceToCorrectList(_skinsArmLowerLeft, _skinsUIArmLowerLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 6:
+            case SkinType.ArmLowerRight:
                 AddSkinPieceToCorrectList(_skinsArmLowerRight, _skinsUIArmLowerRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 7:
+            case SkinType.HandLeft:
                 AddSkinPieceToCorrectList(_skinsHandLeft, _skinsUIHandLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 8:
+            case SkinType.HandRight:
                 AddSkinPieceToCorrectList(_skinsHandRight, _skinsUIHandRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 9:
+            case SkinType.Tail:
                 AddSkinPieceToCorrectList(_skinsTail, _skinsUITail, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 10:
+            case SkinType.LegUpperLeft:
                 AddSkinPieceToCorrectList(_skinsLegUpperLeft, _skinsUILegUpperLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 11:
+            case SkinType.LegUpperRight:
                 AddSkinPieceToCorrectList(_skinsLegUpperRight, _skinsUILegUpperRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 12:
+            case SkinType.KneeLeft:
                 AddSkinPieceToCorrectList(_skinsKneeLeft, _skinsUIKneeLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 13:
+            case SkinType.KneeRight:
                 AddSkinPieceToCorrectList(_skinsKneeRight, _skinsUIKneeRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 14:
+            case SkinType.LegLowerLeft:
                 AddSkinPieceToCorrectList(_skinsLegLowerLeft, _skinsUILegLowerLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 15:
+            case SkinType.LegLowerRight:
                 AddSkinPieceToCorrectList(_skinsLegLowerRight, _skinsUILegLowerRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 16:
+            case SkinType.FootLeft:
                 AddSkinPieceToCorrectList(_skinsFootLeft, _skinsUIFootLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case 17:
+            case SkinType.FootRight:
                 AddSkinPieceToCorrectList(_skinsFootRight, _skinsUIFootRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             default:
@@ -235,6 +236,51 @@ public class SkinController : MonoBehaviour
             default:
                 Debug.Log("could not find the SkinType");
                 break;
+        }
+    }
+    public bool IsListSizeGreaterThan1(SkinType skinType)
+    {
+        switch (skinType)
+        {
+            case SkinType.Hat:
+                if (_skinsHats.Count >= 2) return true; else return false;
+            case SkinType.Head:
+                if (_skinsHeads.Count >= 2) return true; else return false;
+            case SkinType.Body:
+                if (_skinsBody.Count >= 2) return true; else return false;
+            case SkinType.ArmUpperLeft:
+                if (_skinsArmUpperLeft.Count >= 2) return true; else return false;
+            case SkinType.ArmUpperRight:
+                if (_skinsArmUpperRight.Count >= 2) return true; else return false;
+            case SkinType.ArmLowerLeft:
+                if (_skinsArmLowerLeft.Count >= 2) return true; else return false;
+            case SkinType.ArmLowerRight:
+                if (_skinsArmLowerRight.Count >= 2) return true; else return false;
+            case SkinType.HandLeft:
+                if (_skinsHandLeft.Count >= 2) return true; else return false;
+            case SkinType.HandRight:
+                if (_skinsHandRight.Count >= 2) return true; else return false;
+            case SkinType.Tail:
+                if (_skinsTail.Count >= 2) return true; else return false;
+            case SkinType.LegUpperLeft:
+                if (_skinsLegUpperLeft.Count >= 2) return true; else return false;
+            case SkinType.LegUpperRight:
+                if (_skinsLegUpperRight.Count >= 2) return true; else return false;
+            case SkinType.KneeLeft:
+                if (_skinsKneeLeft.Count >= 2) return true; else return false;
+            case SkinType.KneeRight:
+                if (_skinsKneeRight.Count >= 2) return true; else return false;
+            case SkinType.LegLowerLeft:
+                if (_skinsLegLowerLeft.Count >= 2) return true; else return false;
+            case SkinType.LegLowerRight:
+                if (_skinsLegLowerRight.Count >= 2) return true; else return false;
+            case SkinType.FootLeft:
+                if (_skinsFootLeft.Count >= 2) return true; else return false;
+            case SkinType.FootRight:
+                if (_skinsFootRight.Count >= 2) return true; else return false;
+            default:
+                Debug.Log("could not find the SkinType");
+                return false;
         }
     }
     // duplicate logic from BackpackController
