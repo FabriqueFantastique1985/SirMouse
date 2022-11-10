@@ -17,6 +17,29 @@ public class CharacterGeoReferences : MonoBehaviour
     public Texture2D HandsLight;
     public Texture2D HandsDark;
 
+    [Header("Mesh References")]
+    public SkinnedMeshRenderer Head;
+    public SkinnedMeshRenderer EarL;
+    public SkinnedMeshRenderer EarR;
+    public SkinnedMeshRenderer ShoulderL;
+    public SkinnedMeshRenderer ShoulderR;
+    public SkinnedMeshRenderer ArmUpL;
+    public SkinnedMeshRenderer ArmUpR;
+    public SkinnedMeshRenderer ElbowL;
+    public SkinnedMeshRenderer ElbowR;
+    public SkinnedMeshRenderer HandL;
+    public SkinnedMeshRenderer HandR;
+    public SkinnedMeshRenderer Chest;
+    public SkinnedMeshRenderer Tail;
+    public SkinnedMeshRenderer LegUpL;
+    public SkinnedMeshRenderer LegUpR;
+    public SkinnedMeshRenderer KneeL;
+    public SkinnedMeshRenderer KneeR;
+    public SkinnedMeshRenderer LegLowL;
+    public SkinnedMeshRenderer LegLowR;
+    public SkinnedMeshRenderer FootL;
+    public SkinnedMeshRenderer FootR;
+
 
     private void Start()
     {

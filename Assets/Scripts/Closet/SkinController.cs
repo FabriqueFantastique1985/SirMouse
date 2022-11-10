@@ -51,14 +51,16 @@ public class SkinController : MonoBehaviour
     private List<GameObject> _skinsUIFootRight = new List<GameObject>();
     #endregion
 
+    [SerializeField]
+    private GameObject _emptyGameObject;
+
     #region Variables For Throwing To UI
 
     [SerializeField]
     private GameObject _panelInstantiatedUI;
     [SerializeField]
     private ButtonBaseNew _buttonCloset;
-    [SerializeField]
-    private GameObject _emptyGameObject;
+
     private GameObject _uiImageForCloset;
 
     float _speed;
@@ -110,9 +112,11 @@ public class SkinController : MonoBehaviour
 
     #endregion
 
-    #region Public Functions
 
-    public void AddSkinPieceToCloset(SkinType skinType, GameObject skinObject, string nameSpriteObj, SkinTransform transformSkin)  // this is called from the InteractionClosetAdd
+
+    #region Public Functions
+    // this is called from the InteractionClosetAdd
+    public void AddSkinPieceToCloset(SkinType skinType, GameObject skinObject, string nameSpriteObj, SkinTransform transformSkin)  
     {
         switch (skinType)
         {
@@ -177,60 +181,60 @@ public class SkinController : MonoBehaviour
     }
     public void CycleSkinPiece(SkinType skinType)
     {
-        switch ((int)skinType)
+        switch (skinType)
         {
-            case 0:
+            case SkinType.Hat:
                 CycleCorrectSkinPiece(_skinsHats, _skinsUIHats);
                 break;
-            case 1:
+            case SkinType.Head:
                 CycleCorrectSkinPiece(_skinsHeads, _skinsUIHeads);
                 break;
-            case 2:
+            case SkinType.Body:
                 CycleCorrectSkinPiece(_skinsBody, _skinsUIBody);
                 break;
-            case 3:
+            case SkinType.ArmUpperLeft:
                 CycleCorrectSkinPiece(_skinsArmUpperLeft, _skinsUIArmUpperLeft);
                 break;
-            case 4:
+            case SkinType.ArmUpperRight:
                 CycleCorrectSkinPiece(_skinsArmUpperRight, _skinsUIArmUpperRight);
                 break;
-            case 5:
+            case SkinType.ArmLowerLeft:
                 CycleCorrectSkinPiece(_skinsArmLowerLeft, _skinsUIArmLowerLeft);
                 break;
-            case 6:
+            case SkinType.ArmLowerRight:
                 CycleCorrectSkinPiece(_skinsArmLowerRight, _skinsUIArmLowerRight);
                 break;
-            case 7:
+            case SkinType.HandLeft:
                 CycleCorrectSkinPiece(_skinsHandLeft, _skinsUIHandLeft);
                 break;
-            case 8:
+            case SkinType.HandRight:
                 CycleCorrectSkinPiece(_skinsHandRight, _skinsUIHandRight);
                 break;
-            case 9:
+            case SkinType.Tail:
                 CycleCorrectSkinPiece(_skinsTail, _skinsUITail);
                 break;
-            case 10:
+            case SkinType.LegUpperLeft:
                 CycleCorrectSkinPiece(_skinsLegUpperLeft, _skinsUILegUpperLeft);
                 break;
-            case 11:
+            case SkinType.LegUpperRight:
                 CycleCorrectSkinPiece(_skinsLegUpperRight, _skinsUILegUpperRight);
                 break;
-            case 12:
+            case SkinType.KneeLeft:
                 CycleCorrectSkinPiece(_skinsKneeLeft, _skinsUIKneeLeft);
                 break;
-            case 13:
+            case SkinType.KneeRight:
                 CycleCorrectSkinPiece(_skinsKneeRight, _skinsUIKneeRight);
                 break;
-            case 14:
+            case SkinType.LegLowerLeft:
                 CycleCorrectSkinPiece(_skinsLegLowerLeft, _skinsUILegLowerLeft);
                 break;
-            case 15:
+            case SkinType.LegLowerRight:
                 CycleCorrectSkinPiece(_skinsLegLowerRight, _skinsUILegLowerRight);
                 break;
-            case 16:
+            case SkinType.FootLeft:
                 CycleCorrectSkinPiece(_skinsFootLeft, _skinsUIFootLeft);
                 break;
-            case 17:
+            case SkinType.FootRight:
                 CycleCorrectSkinPiece(_skinsFootRight, _skinsUIFootRight);
                 break;
             default:
@@ -327,7 +331,6 @@ public class SkinController : MonoBehaviour
 
 
 
-
     #region Private Functions
 
     private void FillListAllLists()
@@ -341,6 +344,7 @@ public class SkinController : MonoBehaviour
         _allLists.Add(_skinsArmLowerRight);
         _allLists.Add(_skinsHandLeft);
         _allLists.Add(_skinsHandRight);
+        _allLists.Add(_skinsTail);
         _allLists.Add(_skinsLegUpperLeft);
         _allLists.Add(_skinsLegUpperRight);
         _allLists.Add(_skinsKneeLeft);
@@ -359,6 +363,7 @@ public class SkinController : MonoBehaviour
         _allLists.Add(_skinsUIArmLowerRight);
         _allLists.Add(_skinsUIHandLeft);
         _allLists.Add(_skinsUIHandRight);
+        _allLists.Add(_skinsUITail);
         _allLists.Add(_skinsUILegUpperLeft);
         _allLists.Add(_skinsUILegUpperRight);
         _allLists.Add(_skinsUIKneeLeft);
@@ -368,18 +373,20 @@ public class SkinController : MonoBehaviour
         _allLists.Add(_skinsUIFootLeft);
         _allLists.Add(_skinsUIFootRight);
     }
-    private void AddEmptyGameObjectToEachList()
+    private void AddEmptyGameObjectToEachList() // empty gameObject == the default look of SirMouse
     {
         for (int i = 0; i < _allLists.Count; i++)
         {
-            _allLists[i].Add(_emptyGameObject);
+            var newEmptyObject = Instantiate(_emptyGameObject);
+
+            _allLists[i].Add(newEmptyObject);
             // set the empty object to true
             _allLists[i][0].SetActive(true);
         }
     }
     private void AddSkinPieceToCorrectList(List<GameObject> listToExpand, List<GameObject> listToExpandUI, GameObject skinObject, SkinType skinType, string nameSpriteObj, SkinTransform transformSkin)
     {
-        // loop through all items in the list -- if an item has the exact same name -> it will have alrdy been added
+        // loop through all items in the list - if an item has the exact same name -> it will have alrdy been added (change this maybe from String check to Enum check ?)
         bool addedToList = false;
 
         for (int i = 0; i < listToExpand.Count; i++)
@@ -419,33 +426,29 @@ public class SkinController : MonoBehaviour
     }
     private void CycleCorrectSkinPiece(List<GameObject> listToCycleThrough, List<GameObject> listToCycleThroughUI)
     {
-        bool foundActiveSkin = false;
-
-        for (int i = 0; i < listToCycleThrough.Count; i++)
+        for (int i = 0; i < listToCycleThrough.Count; i++)  
         {
-            if (listToCycleThrough[i].activeSelf == true && foundActiveSkin == false)
+            if (listToCycleThrough[i].activeSelf == true) 
             {
-                //Debug.Log("COUNTING " + listToCycleThrough.Count + " and this is the i " + i);
+                // disable the current one
+                listToCycleThrough[i].SetActive(false);  
+                listToCycleThroughUI[i].SetActive(false);  
 
-                Debug.Log("DISABLING " + listToCycleThrough[i] + " and " + listToCycleThroughUI[i]);
-
-                listToCycleThrough[i].SetActive(false);  // HERE !!!!
-                listToCycleThroughUI[i].SetActive(false);  // HERE !!!!
-                // if i am at the end of the list -> active 0
+                // if i am at the end of the list -> activate 0
                 if ((i + 1) == listToCycleThrough.Count)
                 {
                     listToCycleThrough[0].SetActive(true);
                     listToCycleThroughUI[0].SetActive(true);
                     //Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[0].name);
+                    break;
                 }
-                else // else active the next list object
+                else // else activate the next object
                 {
                     listToCycleThrough[i + 1].SetActive(true);
                     listToCycleThroughUI[i + 1].SetActive(true);
-                    //Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[i + 1].name);
+                    Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[i + 1].name);
+                    break;
                 }
-
-                foundActiveSkin = true;
             }
         }
     }
@@ -453,12 +456,10 @@ public class SkinController : MonoBehaviour
     {
         object1.transform.localPosition = transfSkin.Position;
         object1.transform.localRotation = Quaternion.Euler(transfSkin.Rotation);
-        //object1.transform.localRotation = transfSkin.Rotation;
         object1.transform.localScale = transfSkin.Scale;
 
         object2.transform.localPosition = transfSkin.Position;
         object2.transform.localRotation = Quaternion.Euler(transfSkin.Rotation);
-        //object2.transform.localRotation = transfSkin.Rotation;
         object2.transform.localScale = transfSkin.Scale;
     }
     // duplicate logic from BackpackController

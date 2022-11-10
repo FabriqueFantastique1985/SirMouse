@@ -16,7 +16,9 @@ public class Player : MonoBehaviour, IClickable
 
     [SerializeField]
     private CharacterRigReferences _characterRigReferences;
-    
+    [SerializeField]
+    private CharacterGeoReferences _characterGeoReferences;
+
     #endregion
 
     #region Properties

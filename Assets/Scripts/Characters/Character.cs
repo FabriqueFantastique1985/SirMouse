@@ -177,6 +177,6 @@ public class Character : MonoBehaviour
     public void EnteredIdle()
     {
         EnteredIdleEvent?.Invoke(States.Idle);
-        Debug.Log("Entered Idle state");
+        //Debug.Log("Entered Idle state");
     }
 }

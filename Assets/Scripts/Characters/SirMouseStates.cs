@@ -62,7 +62,7 @@ public class WalkingState : SirMouseState
         //  change animation of the player
         player.Character.SetAnimatorTrigger(Character.States.Walking, Direction.x <= 0 );
         
-        Debug.Log("Entered Walking State");
+        //Debug.Log("Entered Walking State");
     }
 
     public override SirMouseState Update(Player player)
@@ -88,7 +88,7 @@ public class IdleState : SirMouseState
         base.OnEnter(player);
         player.Character.SetAnimatorTrigger(Character.States.Idle, Direction.x <= 0.0f);
         
-        Debug.Log("Entered Idle state");
+        //Debug.Log("Entered Idle state");
     }
 }
 
