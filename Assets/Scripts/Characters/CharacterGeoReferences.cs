@@ -41,13 +41,6 @@ public class CharacterGeoReferences : MonoBehaviour
     public SkinnedMeshRenderer FootR;
 
 
-    private void Start()
-    {
-        SirMouseBody.mainTexture = DefaultTex;
-        SirMouseHands.mainTexture = HandsLight;
-    }
-
-
     public void ChangeTextureSirMouse(int index)
     {
         switch (index)
@@ -63,6 +56,10 @@ public class CharacterGeoReferences : MonoBehaviour
             case 2:
                 SirMouseBody.mainTexture = ArmsLight;
                 SirMouseHands.mainTexture = HandsLight;
+                break;
+            case 3:
+                SirMouseBody.mainTexture = HeadLight;
+                SirMouseHands.mainTexture = HandsDark;
                 break;
         }
     }

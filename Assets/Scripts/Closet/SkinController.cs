@@ -135,10 +135,10 @@ public class SkinController : MonoBehaviour
             case SkinType.ArmUpperRight:
                 AddSkinPieceToCorrectList(_skinsArmUpperRight, _skinsUIArmUpperRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case SkinType.ArmLowerLeft:
+            case SkinType.ElbowLeft:
                 AddSkinPieceToCorrectList(_skinsArmLowerLeft, _skinsUIArmLowerLeft, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
-            case SkinType.ArmLowerRight:
+            case SkinType.ElbowRight:
                 AddSkinPieceToCorrectList(_skinsArmLowerRight, _skinsUIArmLowerRight, skinObject, skinType, nameSpriteObj, transformSkin);
                 break;
             case SkinType.HandLeft:
@@ -198,10 +198,10 @@ public class SkinController : MonoBehaviour
             case SkinType.ArmUpperRight:
                 CycleCorrectSkinPiece(_skinsArmUpperRight, _skinsUIArmUpperRight);
                 break;
-            case SkinType.ArmLowerLeft:
+            case SkinType.ElbowLeft:
                 CycleCorrectSkinPiece(_skinsArmLowerLeft, _skinsUIArmLowerLeft);
                 break;
-            case SkinType.ArmLowerRight:
+            case SkinType.ElbowRight:
                 CycleCorrectSkinPiece(_skinsArmLowerRight, _skinsUIArmLowerRight);
                 break;
             case SkinType.HandLeft:
@@ -256,9 +256,9 @@ public class SkinController : MonoBehaviour
                 if (_skinsArmUpperLeft.Count >= 2) return true; else return false;
             case SkinType.ArmUpperRight:
                 if (_skinsArmUpperRight.Count >= 2) return true; else return false;
-            case SkinType.ArmLowerLeft:
+            case SkinType.ElbowLeft:
                 if (_skinsArmLowerLeft.Count >= 2) return true; else return false;
-            case SkinType.ArmLowerRight:
+            case SkinType.ElbowRight:
                 if (_skinsArmLowerRight.Count >= 2) return true; else return false;
             case SkinType.HandLeft:
                 if (_skinsHandLeft.Count >= 2) return true; else return false;

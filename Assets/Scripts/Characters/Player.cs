@@ -55,6 +55,10 @@ public class Player : MonoBehaviour, IClickable
         
         //test code
         s_WalkingState = new WalkingState(this, _agent.destination);
+
+        // reset material texture
+        _characterGeoReferences.SirMouseBody.mainTexture = _characterGeoReferences.DefaultTex;
+        _characterGeoReferences.SirMouseHands.mainTexture = _characterGeoReferences.HandsLight;
     }
     
     public void SetTarget(Vector3 target)
