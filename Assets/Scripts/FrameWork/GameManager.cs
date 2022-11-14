@@ -10,13 +10,17 @@ public class GameManager : MonoBehaviour
     public PlayField PlayField;
     public Player Player;
     public Character Character;
+
     public CharacterRigReferences CharacterRigRefs;
     public CharacterRigReferences CharacterRigRefsUI;
+    public CharacterGeoReferences characterGeoReferences;
+    public CharacterGeoReferences characterGeoReferencesUI;
 
     public NavMeshAgent Agent;
     //public PlayerReferences PlayerRefs;
 
     public static GameManager Instance { get; private set; }
+
 
     #region Fields
 

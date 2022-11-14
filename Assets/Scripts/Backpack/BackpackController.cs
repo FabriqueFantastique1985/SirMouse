@@ -114,8 +114,11 @@ public class BackpackController : MonoBehaviour
     }
     public void RemoveItemFromBackpack(GameObject interactable, Type_Pickup typeOfPickup, GameObject pickupButton)
     {
+        var interactableComponent = interactable.GetComponent<Interactable>();
+
         // check if the player alrdy has an item..
         //  -> if true, the alrdy held item goes into the backpack (AddItemToBackpack function)
+
         if (_playerHasEquipedItem == true)
         {
             // get the player equiped interactable & type
@@ -123,7 +126,7 @@ public class BackpackController : MonoBehaviour
             AddEquipedItemToBackpack(interactableScript.gameObject, interactableScript.PickupType);
         }
 
-        StartCoroutine(GetObjectOutOfBag(interactable, typeOfPickup, pickupButton));
+        StartCoroutine(GetObjectOutOfBag(interactable, interactableComponent, typeOfPickup, pickupButton));
     }
 
     #endregion
@@ -160,7 +163,7 @@ public class BackpackController : MonoBehaviour
     {
         // get the world to screen pos of the interactible
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
-        Sprite interactableSprite = interactable.GetComponent<InteractionPickup>().SpriteRenderPickup.sprite;
+        Sprite interactableSprite = interactable.GetComponent<PickupInteraction>().SpriteRenderPickup.sprite;
 
         _uiImageForBag = Instantiate(_emptyGameobject, _panelInstantiatedUI.transform);
         var uiImageComponent = _uiImageForBag.AddComponent<Image>();
@@ -184,19 +187,21 @@ public class BackpackController : MonoBehaviour
 
         yield return null;
     }
-    IEnumerator GetObjectOutOfBag(GameObject interactable, Type_Pickup typeOfPickup, GameObject pickupButton)
+    IEnumerator GetObjectOutOfBag(GameObject interactable, Interactable interactableComponent ,Type_Pickup typeOfPickup, GameObject pickupButton)
     {
         yield return new WaitForSeconds(0.25f);
 
         PageController.Instance.TurnPageOff(PageType.Backpack);  // only do all of the bottom stuff after a delay (set up timer in this update)
 
-        interactable.SetActive(true);
-        interactable.transform.SetParent(GameManager.Instance.Player.transform); // update this with sirmouse's hand
-        interactable.transform.localPosition = new Vector3(0, 0, 0);
+        // actually putting the object into my hands
+        GameManager.Instance.Player.PushState(new PickUpState(GameManager.Instance.Player, interactableComponent, typeOfPickup, true));
 
-        // assign to EquipedItem
-        _playerHasEquipedItem = true;
-        _interactableEquiped = interactable;
+        //interactable.SetActive(true);
+        //interactable.transform.SetParent(GameManager.Instance.Player.transform); // update this with sirmouse's hand
+        //interactable.transform.localPosition = new Vector3(0, 0, 0);
+
+        // state still needs to enable the object !!!
+        // check equpiedItem status in states !!!
 
         ItemsInBackpack.Remove(typeOfPickup);
         InteractablesInBackpack.Remove(interactable);

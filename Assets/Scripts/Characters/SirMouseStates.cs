@@ -95,12 +95,14 @@ public class IdleState : SirMouseState
 public class PickUpState : SirMouseState
 {
     private Interactable _interactable;
+    private Type_Pickup _typePickup;
     private bool _isTwoHandPickup = false;
     
-    public PickUpState(Player player, Interactable pickUp, bool isTwoHandPickup = false)
+    public PickUpState(Player player, Interactable pickUp, Type_Pickup typePickup, bool isTwoHandPickup = false)
         : base(player, true)
     {
         _interactable = pickUp;
+        _typePickup = typePickup;
         _isTwoHandPickup = isTwoHandPickup;
     }
 

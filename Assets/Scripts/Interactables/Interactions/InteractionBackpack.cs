@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(InteractionPickup))]
+[RequireComponent(typeof(PickupInteraction))]
 public class InteractionBackpack : Interaction
 {
+    //[SerializeField]
+    //private InteractionPickup _interactionPickup;
+
     [SerializeField]
-    private InteractionPickup _interactionPickup;
+    private PickupInteraction _interactionPickup;
 
     protected override void SpecificAction(Player player)
     {

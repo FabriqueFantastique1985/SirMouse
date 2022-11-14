@@ -30,6 +30,7 @@ public class CharacterGeoReferences : MonoBehaviour
     public SkinnedMeshRenderer HandL;
     public SkinnedMeshRenderer HandR;
     public SkinnedMeshRenderer Chest;
+    public SkinnedMeshRenderer Skirt;
     public SkinnedMeshRenderer Tail;
     public SkinnedMeshRenderer LegUpL;
     public SkinnedMeshRenderer LegUpR;

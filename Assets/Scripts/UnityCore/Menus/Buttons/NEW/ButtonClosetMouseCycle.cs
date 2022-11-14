@@ -10,9 +10,6 @@ public class ButtonClosetMouseCycle : ButtonBaseNew
     protected SkinController _skinInstance;
     protected PageController _pageInstance;
 
-    [SerializeField]
-    private CharacterGeoReferences _geoRefsInCamera;
-
     public int Index = 3;
     private int _limit = 3;
 
@@ -63,12 +60,12 @@ public class ButtonClosetMouseCycle : ButtonBaseNew
 
     public void ChangeTextureMouse()
     {
-        _geoRefsInCamera.ChangeTextureSirMouse(Index);
+        GameManager.Instance.characterGeoReferencesUI.ChangeTextureSirMouse(Index);
     }
 
     public void ResetTextureSirMouse()
     {
-        _geoRefsInCamera.DefaultTextureSirMouse();
+        GameManager.Instance.characterGeoReferencesUI.DefaultTextureSirMouse();
     }
 
 }

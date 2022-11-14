@@ -184,58 +184,58 @@ public class SkinController : MonoBehaviour
         switch (skinType)
         {
             case SkinType.Hat:
-                CycleCorrectSkinPiece(_skinsHats, _skinsUIHats);
+                CycleCorrectSkinPiece(_skinsHats, _skinsUIHats, skinType);
                 break;
             case SkinType.Head:
-                CycleCorrectSkinPiece(_skinsHeads, _skinsUIHeads);
+                CycleCorrectSkinPiece(_skinsHeads, _skinsUIHeads, skinType);
                 break;
             case SkinType.Body:
-                CycleCorrectSkinPiece(_skinsBody, _skinsUIBody);
+                CycleCorrectSkinPiece(_skinsBody, _skinsUIBody, skinType);
                 break;
             case SkinType.ArmUpperLeft:
-                CycleCorrectSkinPiece(_skinsArmUpperLeft, _skinsUIArmUpperLeft);
+                CycleCorrectSkinPiece(_skinsArmUpperLeft, _skinsUIArmUpperLeft, skinType);
                 break;
             case SkinType.ArmUpperRight:
-                CycleCorrectSkinPiece(_skinsArmUpperRight, _skinsUIArmUpperRight);
+                CycleCorrectSkinPiece(_skinsArmUpperRight, _skinsUIArmUpperRight, skinType);
                 break;
             case SkinType.ElbowLeft:
-                CycleCorrectSkinPiece(_skinsArmLowerLeft, _skinsUIArmLowerLeft);
+                CycleCorrectSkinPiece(_skinsArmLowerLeft, _skinsUIArmLowerLeft, skinType);
                 break;
             case SkinType.ElbowRight:
-                CycleCorrectSkinPiece(_skinsArmLowerRight, _skinsUIArmLowerRight);
+                CycleCorrectSkinPiece(_skinsArmLowerRight, _skinsUIArmLowerRight, skinType);
                 break;
             case SkinType.HandLeft:
-                CycleCorrectSkinPiece(_skinsHandLeft, _skinsUIHandLeft);
+                CycleCorrectSkinPiece(_skinsHandLeft, _skinsUIHandLeft, skinType);
                 break;
             case SkinType.HandRight:
-                CycleCorrectSkinPiece(_skinsHandRight, _skinsUIHandRight);
+                CycleCorrectSkinPiece(_skinsHandRight, _skinsUIHandRight, skinType);
                 break;
             case SkinType.Tail:
-                CycleCorrectSkinPiece(_skinsTail, _skinsUITail);
+                CycleCorrectSkinPiece(_skinsTail, _skinsUITail, skinType);
                 break;
             case SkinType.LegUpperLeft:
-                CycleCorrectSkinPiece(_skinsLegUpperLeft, _skinsUILegUpperLeft);
+                CycleCorrectSkinPiece(_skinsLegUpperLeft, _skinsUILegUpperLeft, skinType);
                 break;
             case SkinType.LegUpperRight:
-                CycleCorrectSkinPiece(_skinsLegUpperRight, _skinsUILegUpperRight);
+                CycleCorrectSkinPiece(_skinsLegUpperRight, _skinsUILegUpperRight, skinType);
                 break;
             case SkinType.KneeLeft:
-                CycleCorrectSkinPiece(_skinsKneeLeft, _skinsUIKneeLeft);
+                CycleCorrectSkinPiece(_skinsKneeLeft, _skinsUIKneeLeft, skinType);
                 break;
             case SkinType.KneeRight:
-                CycleCorrectSkinPiece(_skinsKneeRight, _skinsUIKneeRight);
+                CycleCorrectSkinPiece(_skinsKneeRight, _skinsUIKneeRight, skinType);
                 break;
             case SkinType.LegLowerLeft:
-                CycleCorrectSkinPiece(_skinsLegLowerLeft, _skinsUILegLowerLeft);
+                CycleCorrectSkinPiece(_skinsLegLowerLeft, _skinsUILegLowerLeft, skinType);
                 break;
             case SkinType.LegLowerRight:
-                CycleCorrectSkinPiece(_skinsLegLowerRight, _skinsUILegLowerRight);
+                CycleCorrectSkinPiece(_skinsLegLowerRight, _skinsUILegLowerRight, skinType);
                 break;
             case SkinType.FootLeft:
-                CycleCorrectSkinPiece(_skinsFootLeft, _skinsUIFootLeft);
+                CycleCorrectSkinPiece(_skinsFootLeft, _skinsUIFootLeft, skinType);
                 break;
             case SkinType.FootRight:
-                CycleCorrectSkinPiece(_skinsFootRight, _skinsUIFootRight);
+                CycleCorrectSkinPiece(_skinsFootRight, _skinsUIFootRight, skinType);
                 break;
             default:
                 Debug.Log("could not find the SkinType");
@@ -424,15 +424,18 @@ public class SkinController : MonoBehaviour
             listToExpand.Add(toAddSkinObjectSirMouse);
         }
     }
-    private void CycleCorrectSkinPiece(List<GameObject> listToCycleThrough, List<GameObject> listToCycleThroughUI)
+    private void CycleCorrectSkinPiece(List<GameObject> listToCycleThrough, List<GameObject> listToCycleThroughUI, SkinType skinType)
     {
         for (int i = 0; i < listToCycleThrough.Count; i++)  
         {
-            if (listToCycleThrough[i].activeSelf == true) 
+            if (listToCycleThrough[i].activeSelf == true)
             {
-                // disable the current one
-                listToCycleThrough[i].SetActive(false);  
-                listToCycleThroughUI[i].SetActive(false);  
+                // disable the current skin piece
+                listToCycleThrough[i].SetActive(false);
+                listToCycleThroughUI[i].SetActive(false);
+
+                // enable the skin mesh renderers depending on what skintype this is --> i==count want mesh enabled (cuzz piece to enable will jump to index 0, which is an empty skin piece)
+                CheckSpecificMesh(skinType, i, listToCycleThrough.Count);
 
                 // if i am at the end of the list -> activate 0
                 if ((i + 1) == listToCycleThrough.Count)
@@ -440,18 +443,33 @@ public class SkinController : MonoBehaviour
                     listToCycleThrough[0].SetActive(true);
                     listToCycleThroughUI[0].SetActive(true);
                     //Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[0].name);
+
                     break;
                 }
                 else // else activate the next object
                 {
                     listToCycleThrough[i + 1].SetActive(true);
                     listToCycleThroughUI[i + 1].SetActive(true);
-                    Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[i + 1].name);
+                    //Debug.Log("disabled " + listToCycleThrough[i].name + " to enable " + listToCycleThrough[i + 1].name);
+
                     break;
                 }
             }
         }
     }
+
+    private void CheckSpecificMesh(SkinType skinType, int i, int listCount)
+    {
+        if (i == listCount - 1)
+        {
+            CheckSpecificSirMouseMesh(skinType, true);
+        }
+        else
+        {
+            CheckSpecificSirMouseMesh(skinType, false);
+        }
+    }
+
     private void PositionSkinPieceProperly(GameObject object1, GameObject object2, SkinTransform transfSkin)
     {
         object1.transform.localPosition = transfSkin.Position;
@@ -461,6 +479,86 @@ public class SkinController : MonoBehaviour
         object2.transform.localPosition = transfSkin.Position;
         object2.transform.localRotation = Quaternion.Euler(transfSkin.Rotation);
         object2.transform.localScale = transfSkin.Scale;
+    }
+    private void CheckSpecificSirMouseMesh(SkinType skinType, bool enabled)
+    {
+        switch (skinType)
+        {
+            case SkinType.Body:
+                GameManager.Instance.characterGeoReferences.Chest.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.Chest.gameObject.SetActive(enabled);
+                // + bottom
+                GameManager.Instance.characterGeoReferences.Skirt.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.Skirt.gameObject.SetActive(enabled);
+                break;
+            case SkinType.ArmUpperLeft:
+                GameManager.Instance.characterGeoReferences.ArmUpL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.ArmUpL.gameObject.SetActive(enabled);
+                // + elbow
+                GameManager.Instance.characterGeoReferences.ElbowL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.ElbowL.gameObject.SetActive(enabled);
+                // + shoulder
+                GameManager.Instance.characterGeoReferences.ShoulderL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.ShoulderL.gameObject.SetActive(enabled);
+                break;
+            case SkinType.ArmUpperRight:
+                GameManager.Instance.characterGeoReferences.ArmUpR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.ArmUpR.gameObject.SetActive(enabled);
+                // + elbow
+                GameManager.Instance.characterGeoReferences.ElbowR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.ElbowR.gameObject.SetActive(enabled);
+                // + shoulder
+                GameManager.Instance.characterGeoReferences.ShoulderR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.ShoulderR.gameObject.SetActive(enabled);
+                break;
+            case SkinType.HandLeft:
+                GameManager.Instance.characterGeoReferences.HandL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.HandL.gameObject.SetActive(enabled);
+                break;
+            case SkinType.HandRight:
+                GameManager.Instance.characterGeoReferences.HandR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.HandR.gameObject.SetActive(enabled);
+                break;
+            case SkinType.Tail:
+                GameManager.Instance.characterGeoReferences.Tail.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.Tail.gameObject.SetActive(enabled);
+                break;
+            case SkinType.LegUpperLeft:
+                GameManager.Instance.characterGeoReferences.LegUpL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.LegUpL.gameObject.SetActive(enabled);
+                break;
+            case SkinType.LegUpperRight:
+                GameManager.Instance.characterGeoReferences.LegUpR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.LegUpR.gameObject.SetActive(enabled);
+                break;
+            case SkinType.KneeLeft:
+                GameManager.Instance.characterGeoReferences.KneeL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.KneeL.gameObject.SetActive(enabled);
+                break;
+            case SkinType.KneeRight:
+                GameManager.Instance.characterGeoReferences.KneeR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.KneeR.gameObject.SetActive(enabled);
+                break;
+            case SkinType.LegLowerLeft:
+                GameManager.Instance.characterGeoReferences.LegLowL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.LegLowL.gameObject.SetActive(enabled);
+                break;
+            case SkinType.LegLowerRight:
+                GameManager.Instance.characterGeoReferences.LegLowR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.LegLowR.gameObject.SetActive(enabled);
+                break;
+            case SkinType.FootLeft:
+                GameManager.Instance.characterGeoReferences.FootL.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.FootL.gameObject.SetActive(enabled);
+                break;
+            case SkinType.FootRight:
+                GameManager.Instance.characterGeoReferences.FootR.gameObject.SetActive(enabled);
+                GameManager.Instance.characterGeoReferencesUI.FootR.gameObject.SetActive(enabled);
+                break;
+            default:
+                Debug.Log("not a SkinType that needs mesh disabling");
+                break;
+        }
     }
     // duplicate logic from BackpackController
     private void ImageArrivedInCloset()
