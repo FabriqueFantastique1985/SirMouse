@@ -64,100 +64,90 @@ public class BackpackController : MonoBehaviour
         ChugObjectIntoBag();      
     }
 
-    private void ChugObjectIntoBag()
-    {
-        // Increment our progress from 0 at the start, to 1 when we arrive.
-        _progress = Mathf.Min(_progress + Time.deltaTime * _stepScale, 1.0f);
-        // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
-        float parabola = 1.0f - 4.0f * (_progress - 0.5f) * (_progress - 0.5f);
-        // Travel in a straight line from our start position to the target.        
-        Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, _progress);
-        // Then add a vertical arc in excess of this.
-        nextPos.y += parabola * _arcHeight;
-        // Continue as before.
-        _objectToMove.transform.position = nextPos;
-        // if at destination...
-        if (_progress == 1.0f)
-        {
-            ImageArrivedInBag();
-        }
-    }
-
     #endregion
 
 
     #region Public Functions
 
-    public void AddItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender, float scaleImage = 1)
+    // instantly called on interaction click
+    public void AddItemToBackpackFromFloor(Interactable interactableComp, GameObject interactableObj, 
+        Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender, float scaleImage = 1)
     {
-        interactable.transform.SetParent(GameManager.Instance.transform);
+        ParentPickupToGameManager(interactableObj); 
 
-        // disable the sprite + collider immediately, disable the full interactable after a bit
-        interactable.GetComponent<Collider>().enabled = false;
-        var spriteParent = pickupSpriteRender.gameObject.transform.parent.gameObject;
-        spriteParent.SetActive(false);
+        ThrowPickupIntoBackpack(interactableComp, interactableObj, scaleImage, pickupSpriteRender); // only for pickups on the floor
 
-        StartCoroutine(ForceObjectInBag(interactable, scaleImage));
-        StartCoroutine(SetObjectToFalseAfterDelay(interactable, spriteParent));
-
-        ItemsInBackpack.Add(typeOfPickup);
-        InteractablesInBackpack.Add(interactable);
-
-        // depending on the quantity of items in the backpack, a different child should be selected
-        var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
-        //var buttonScript = newButton.GetComponent<BackpackPickupButton>();
-        var buttonScript = newButton.GetComponent<ButtonPickupBackpack>();
-
-        buttonScript.MyImage.sprite = pickupSpriteRender.sprite; 
-        buttonScript.MyInteractable = interactable;
-        buttonScript.MyPickupType = typeOfPickup;
+        BackpackListAddition(interactableObj, typeOfPickup);
+        BackpackButtonCreation(interactableComp, typeOfPickup, pickupSpriteRender);
     }
-    public void RemoveItemFromBackpack(GameObject interactable, Type_Pickup typeOfPickup, GameObject pickupButton)
+
+    // not instant! should be called on interaction ended in BackpackExtractionState
+    public void AddItemToBackpackFromHands(Interactable interactableComp, GameObject interactableObj, 
+        Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender, float scaleImage = 1)
     {
-        var interactableComponent = interactable.GetComponent<Interactable>();
+        ParentPickupToGameManager(interactableObj); 
+        interactableObj.SetActive(false);
 
-        // check if the player alrdy has an item..
-        //  -> if true, the alrdy held item goes into the backpack (AddItemToBackpack function)
+        BackpackListAddition(interactableObj, typeOfPickup);
+        BackpackButtonCreation(interactableComp, typeOfPickup, pickupSpriteRender);
+    }
 
-        if (_playerHasEquipedItem == true)
-        {
-            // get the player equiped interactable & type
-            var interactableScript = _interactableEquiped.GetComponent<Interactable_PickupBackpack>(); // assign _interactacbleEquiped for testing
-            AddEquipedItemToBackpack(interactableScript.gameObject, interactableScript.PickupType);
-        }
-
-        StartCoroutine(GetObjectOutOfBag(interactable, interactableComponent, typeOfPickup, pickupButton));
+    public void RemoveItemFromBackpackThroughButton(Interactable interactable, Type_Pickup typeOfPickup, GameObject pickupButton)
+    {
+        StartCoroutine(GetObjectOutOfBag(interactable.gameObject, interactable, typeOfPickup, pickupButton));
     }
 
     #endregion
 
 
+
+
     #region Private Functions
 
-    private void AddEquipedItemToBackpack(GameObject interactable, Type_Pickup typeOfPickup)
+    private static void ParentPickupToGameManager(GameObject interactableObj)
     {
-        interactable.transform.SetParent(GameManager.Instance.transform);
-        interactable.gameObject.SetActive(false);
-
+        interactableObj.transform.SetParent(GameManager.Instance.transform);
+    }
+    private void ThrowPickupIntoBackpack(Interactable interactableComp, GameObject interactableObj, float scaleImage, SpriteRenderer spriteRenderer)
+    {
+        // disable the sprite + collider immediately, disable the full interactable after a bit
+        GameObject spriteParent = DisableVisualsPickup(interactableObj, spriteRenderer);
+        // throwing into UI element and enabling some children after delay
+        StartCoroutine(ForceObjectInBag(interactableObj, scaleImage));
+        StartCoroutine(SetObjectToFalseAfterDelay(interactableComp, interactableObj, spriteParent, 0.25f));
+    }
+    private static GameObject DisableVisualsPickup(GameObject interactableObj, SpriteRenderer pickupSpriteRender)
+    {
+        interactableObj.GetComponent<Collider>().enabled = false;
+        var spriteParent = pickupSpriteRender.gameObject.transform.parent.gameObject;
+        spriteParent.SetActive(false);
+        return spriteParent;
+    }
+    private static void BackpackListAddition(GameObject interactableObj, Type_Pickup typeOfPickup)
+    {
         ItemsInBackpack.Add(typeOfPickup);
-        InteractablesInBackpack.Add(interactable);
-
-        // depending on the quantity of items in the backpack, a different child should be selected (could be children on a different page !)
+        InteractablesInBackpack.Add(interactableObj);
+    }
+    private void BackpackButtonCreation(Interactable interactableComp, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender)
+    {
+        // depending on the quantity of items in the backpack, a different child should be selected
         var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
         //var buttonScript = newButton.GetComponent<BackpackPickupButton>();
         var buttonScript = newButton.GetComponent<ButtonPickupBackpack>();
 
-        buttonScript.MyImage.sprite = interactable.transform.GetChild(0).transform.GetComponent<SpriteRenderer>().sprite; // update interactable structure so this is less ugly
-        buttonScript.MyInteractable = interactable;
+        buttonScript.MyImage.sprite = pickupSpriteRender.sprite;
+        buttonScript.MyInteractable = interactableComp;
         buttonScript.MyPickupType = typeOfPickup;
     }
-    IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
-    {
-        yield return new WaitForSeconds(0.25f);
 
-        interactable.SetActive(false);
+
+    IEnumerator SetObjectToFalseAfterDelay(Interactable interactableComp, GameObject interactableObj, GameObject spriteParent, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        interactableObj.SetActive(false);
         spriteParent.SetActive(true);
-        interactable.GetComponent<Interactable>().HideBalloonBackpack();
+        interactableComp.HideBalloonBackpack();
     }
     IEnumerator ForceObjectInBag(GameObject interactable, float scaleForImage)
     {
@@ -191,23 +181,20 @@ public class BackpackController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.25f);
 
-        PageController.Instance.TurnPageOff(PageType.Backpack);  // only do all of the bottom stuff after a delay (set up timer in this update)
+        PageController.Instance.TurnPageOff(PageType.Backpack);  
 
-        // actually putting the object into my hands
-        GameManager.Instance.Player.PushState(new PickUpState(GameManager.Instance.Player, interactableComponent, typeOfPickup, true));
-
-        //interactable.SetActive(true);
-        //interactable.transform.SetParent(GameManager.Instance.Player.transform); // update this with sirmouse's hand
-        //interactable.transform.localPosition = new Vector3(0, 0, 0);
-
-        // state still needs to enable the object !!!
-        // check equpiedItem status in states !!!
-
+        // SirMouse State change  // --> plays animation ---> set equiped item
+        var player = GameManager.Instance.Player;
+        var pickupInteraction = interactableComponent.GetComponent<PickupInteraction>();
+        player.PushState(new BackpackExtractionState(player, interactableComponent, typeOfPickup, pickupInteraction.IsTwoHandPickup, pickupButton));
+       
+        
         ItemsInBackpack.Remove(typeOfPickup);
         InteractablesInBackpack.Remove(interactable);
-
         Destroy(pickupButton);
     }
+
+
     private void ImageArrivedInBag()
     {
         // activates animation bag
@@ -229,6 +216,24 @@ public class BackpackController : MonoBehaviour
         _endPos = endPos;
 
         _objectToMove = uICopy;
+    }
+    private void ChugObjectIntoBag()
+    {
+        // Increment our progress from 0 at the start, to 1 when we arrive.
+        _progress = Mathf.Min(_progress + Time.deltaTime * _stepScale, 1.0f);
+        // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
+        float parabola = 1.0f - 4.0f * (_progress - 0.5f) * (_progress - 0.5f);
+        // Travel in a straight line from our start position to the target.        
+        Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, _progress);
+        // Then add a vertical arc in excess of this.
+        nextPos.y += parabola * _arcHeight;
+        // Continue as before.
+        _objectToMove.transform.position = nextPos;
+        // if at destination...
+        if (_progress == 1.0f)
+        {
+            ImageArrivedInBag();
+        }
     }
 
     #endregion

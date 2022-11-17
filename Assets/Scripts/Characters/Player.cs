@@ -114,6 +114,7 @@ public class Player : MonoBehaviour, IClickable
     public void Equip(Interactable itemToEquip)
     {
         _equippedItem = itemToEquip;
+        _equippedItem.gameObject.SetActive(true);
         _equippedItem.transform.parent = _characterRigReferences.HandRightTransform;
         _equippedItem.transform.localPosition = Vector3.zero;
         //_equippedItem.transform.localRotation = Quaternion.identity;
@@ -123,7 +124,10 @@ public class Player : MonoBehaviour, IClickable
     {
         _equippedItem.transform.parent = null;
         var playerPos = transform.position;
+
         _equippedItem.transform.position = new Vector3(playerPos.x, 0.0f, playerPos.z);
+        _equippedItem.transform.localScale = new Vector3(1, 1, 1 ); // always the same orientation
+
         _equippedItem = null;
     }
 

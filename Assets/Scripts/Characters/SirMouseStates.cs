@@ -178,3 +178,99 @@ public class DropState : SirMouseState
         _player.SetState(new IdleState(_player));
     }
 }
+
+
+
+
+public class BackpackExtractionState : SirMouseState
+{
+    private Interactable _interactableToExtract;
+    private Type_Pickup _typePickupToExtract;
+    private bool _isTwoHandPickup = false;
+    private GameObject _pressedButton;
+
+    //private Interactable _interactableToPutInBackpack;
+    //private Type_Pickup _typePickupToPutInBackpack;
+    //private SpriteRenderer _spriteRendererPickup;
+
+    public BackpackExtractionState(Player player, Interactable pickUpToExtract, Type_Pickup typePickupToExtract, bool isTwoHandPickup = false, GameObject pressedButton = null)
+        : base(player, true)
+    {
+        _interactableToExtract = pickUpToExtract;
+        _typePickupToExtract = typePickupToExtract;
+        _isTwoHandPickup = isTwoHandPickup;
+        _pressedButton = pressedButton;
+
+        //_interactableToPutInBackpack = equipedPickup;
+        //_typePickupToPutInBackpack = equipedType;
+        //_spriteRendererPickup = spriteRenderer;
+    }
+
+    public override void OnEnter(Player player)
+    {
+        base.OnEnter(player);
+
+        player.Character.SetAnimatorTrigger(Character.States.BackpackExtraction, IsMirrored);  // i keep re-entering the state (coroutine issue ?)
+        //player.Character.SetAnimatorBool(Character.States.TwoHanded, _isTwoHandPickup);
+
+        // reset the layer weights so the animation on body plays as intended
+        GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(2, 0);
+        GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(3, 0); // always 2 handed animation...
+
+        player.Character.AnimationDoneEvent += OnAnimationDone;
+        player.Character.InteractionDoneEvent += OnInteractionDone;
+        player.Character.EnteredIdleEvent += OnIdleEntered;
+
+        Debug.Log("Entered Backpack-Extracting State");
+    }
+
+
+    public override void OnExit(Player player)
+    {
+        base.OnExit(player);
+
+        player.Character.AnimationDoneEvent -= OnAnimationDone;
+        player.Character.InteractionDoneEvent -= OnInteractionDone;
+        player.Character.EnteredIdleEvent -= OnIdleEntered;
+    }
+
+    private void OnAnimationDone(Character.States state)
+    {
+        // 3) set layer weights depending on the interactable specifics
+        if (_isTwoHandPickup == true)
+        {
+            GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(3, 1);
+        }
+        else
+        {
+            GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(3, 0);
+            GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(2, 1);
+        }
+        
+
+        _player.SetState(new IdleState(_player));
+    }
+
+    private void OnIdleEntered(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
+    }
+
+    private void OnInteractionDone(Character.States state)
+    {
+        // 1) put equiped item in backpack
+        var backPack = BackpackController.BackpackInstance;
+        var player = GameManager.Instance.Player;       
+        if (player.EquippedItem != null)
+        {
+            var pickupInteraction = player.EquippedItem.GetComponent<PickupInteraction>();
+            backPack.AddItemToBackpackFromHands(player.EquippedItem, player.EquippedItem.gameObject, pickupInteraction.TypeOfPickup, pickupInteraction.SpriteRenderPickup);
+        }
+        // 2) put new pickup into hands (player.equip) -- update lists + buttons
+
+        //
+        //backPack.RemoveItemFromBackpackThroughButton(_interactableToExtract, _typePickupToExtract, _pressedButton);  // this is already called on the button ....
+        //
+        _player.Equip(_interactableToExtract);
+    }
+}

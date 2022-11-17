@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class ButtonPickupBackpack : ButtonPaging
 {
-    public GameObject MyInteractable;
+    public Interactable MyInteractable;
     public Type_Pickup MyPickupType;
 
     public Image MyImage;
 
     protected override void TurnOnPage()
     {
-        BackpackController.BackpackInstance.RemoveItemFromBackpack(MyInteractable, MyPickupType, this.gameObject);
+        BackpackController.BackpackInstance.RemoveItemFromBackpackThroughButton(MyInteractable, MyPickupType, this.gameObject);
     }
 }

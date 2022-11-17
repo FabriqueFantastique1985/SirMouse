@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(PickupInteraction))]
 public class InteractionBackpack : Interaction
 {
-    //[SerializeField]
-    //private InteractionPickup _interactionPickup;
+    [SerializeField]
+    private Interactable _interactableComponent;
 
     [SerializeField]
     private PickupInteraction _interactionPickup;
@@ -14,7 +14,7 @@ public class InteractionBackpack : Interaction
     protected override void SpecificAction(Player player)
     {
         // needs the interactable itself and the type
-        BackpackController.BackpackInstance.AddItemToBackpack(this.gameObject, _interactionPickup.TypeOfPickup, _interactionPickup.SpriteRenderPickup, 1);
+        BackpackController.BackpackInstance.AddItemToBackpackFromFloor(_interactableComponent, this.gameObject, _interactionPickup.TypeOfPickup, _interactionPickup.SpriteRenderPickup, 1);
         Debug.Log($"Added item: {gameObject}, {_interactionPickup.TypeOfPickup} to the backpack.");
     }
 }

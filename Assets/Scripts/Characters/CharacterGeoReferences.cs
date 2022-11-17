@@ -13,7 +13,7 @@ public class CharacterGeoReferences : MonoBehaviour
 
     public Texture2D DefaultTex; 
 
-    [Header("Hands")]
+    [Header("Textures Hands")]
     public Texture2D HandsLight;
     public Texture2D HandsDark;
 
@@ -40,6 +40,11 @@ public class CharacterGeoReferences : MonoBehaviour
     public SkinnedMeshRenderer LegLowR;
     public SkinnedMeshRenderer FootL;
     public SkinnedMeshRenderer FootR;
+
+    //[Header("Mesh References")]
+    //public SkinnedMeshRenderer Sword;
+    //public SkinnedMeshRenderer Shield;
+
 
 
     public void ChangeTextureSirMouse(int index)

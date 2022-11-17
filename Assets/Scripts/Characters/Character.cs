@@ -16,7 +16,8 @@ public class Character : MonoBehaviour
         PickUp = 3,
         UnEquip = 4,
         Drop = 5,
-        TwoHanded,
+        TwoHanded = 6,
+        BackpackExtraction = 7
     };
 
     #endregion
@@ -51,6 +52,10 @@ public class Character : MonoBehaviour
 
     [FormerlySerializedAs("_dropCondition")] [SerializeField]
     private string _dropName = "Drop";
+
+    [FormerlySerializedAs("_backpackExtractionCondition")]
+    [SerializeField]
+    private string _backpackExtractionName = "BackpackExtraction";
 
     [SerializeField]
     private string _unEquipName = "UnEquip";
@@ -113,6 +118,9 @@ public class Character : MonoBehaviour
                 break;
             case States.Drop:
                 animationString = _dropName;
+                break;
+            case States.BackpackExtraction:
+                animationString = _backpackExtractionName;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
