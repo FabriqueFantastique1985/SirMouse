@@ -187,4 +187,23 @@ public class Character : MonoBehaviour
         EnteredIdleEvent?.Invoke(States.Idle);
         //Debug.Log("Entered Idle state");
     }
+
+
+    // animation events
+    public void UnEquipGear()
+    {
+        GameManager.Instance.characterGeoReferences.Sword.gameObject.SetActive(false);
+        GameManager.Instance.characterGeoReferences.Shield.gameObject.SetActive(false);
+
+        GameManager.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(true);
+        GameManager.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(true);
+    }
+    public void EquipGear()
+    {
+        GameManager.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(false);
+        GameManager.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(false);
+
+        GameManager.Instance.characterGeoReferences.Sword.gameObject.SetActive(true);
+        GameManager.Instance.characterGeoReferences.Shield.gameObject.SetActive(true);
+    }
 }

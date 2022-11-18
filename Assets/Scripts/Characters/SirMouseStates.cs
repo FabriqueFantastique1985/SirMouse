@@ -271,6 +271,6 @@ public class BackpackExtractionState : SirMouseState
         //
         //backPack.RemoveItemFromBackpackThroughButton(_interactableToExtract, _typePickupToExtract, _pressedButton);  // this is already called on the button ....
         //
-        _player.Equip(_interactableToExtract);
+        _player.Equip(_interactableToExtract, true);
     }
 }

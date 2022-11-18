@@ -111,13 +111,20 @@ public class Player : MonoBehaviour, IClickable
         currentState?.OnExit(this);
     }
 
-    public void Equip(Interactable itemToEquip)
+    public void Equip(Interactable itemToEquip, bool outOfBackpack = false)
     {
         _equippedItem = itemToEquip;
         _equippedItem.gameObject.SetActive(true);
         _equippedItem.transform.parent = _characterRigReferences.HandRightTransform;
         _equippedItem.transform.localPosition = Vector3.zero;
+
         //_equippedItem.transform.localRotation = Quaternion.identity;
+        if (outOfBackpack == true)
+        {
+            // fix rotation of interactable
+            itemToEquip.transform.localEulerAngles = new Vector3(60, 117.618f, 0);
+        }
+
     }
 
     public void Drop()
@@ -127,6 +134,9 @@ public class Player : MonoBehaviour, IClickable
 
         _equippedItem.transform.position = new Vector3(playerPos.x, 0.0f, playerPos.z);
         _equippedItem.transform.localScale = new Vector3(1, 1, 1 ); // always the same orientation
+
+        // activate collider again
+        _equippedItem.GetComponent<Collider>().enabled = true;
 
         _equippedItem = null;
     }

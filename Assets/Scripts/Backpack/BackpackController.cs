@@ -118,7 +118,7 @@ public class BackpackController : MonoBehaviour
     }
     private static GameObject DisableVisualsPickup(GameObject interactableObj, SpriteRenderer pickupSpriteRender)
     {
-        interactableObj.GetComponent<Collider>().enabled = false;
+        interactableObj.GetComponent<Collider>().enabled = false; // turn this on again when dropping it (+ hide the balloon ?)
         var spriteParent = pickupSpriteRender.gameObject.transform.parent.gameObject;
         spriteParent.SetActive(false);
         return spriteParent;
@@ -187,7 +187,6 @@ public class BackpackController : MonoBehaviour
         var player = GameManager.Instance.Player;
         var pickupInteraction = interactableComponent.GetComponent<PickupInteraction>();
         player.PushState(new BackpackExtractionState(player, interactableComponent, typeOfPickup, pickupInteraction.IsTwoHandPickup, pickupButton));
-       
         
         ItemsInBackpack.Remove(typeOfPickup);
         InteractablesInBackpack.Remove(interactable);
