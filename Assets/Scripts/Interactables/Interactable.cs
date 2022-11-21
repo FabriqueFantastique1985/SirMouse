@@ -9,8 +9,8 @@ public class Interactable : MonoBehaviour
     /// Balloon used to execute an interaction.
     /// </summary>
     [Header("Balloon components")]
-    [SerializeField]
-    private Balloon _interactionBalloon;
+    
+    public Balloon InteractionBalloon;
 
     /// <summary>
     /// Balloon used to scroll between the interactions
@@ -28,8 +28,8 @@ public class Interactable : MonoBehaviour
 
     private void Start()
     {
-        _interactionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
-        _interactionBalloon.gameObject.SetActive(false);
+        InteractionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
+        InteractionBalloon.gameObject.SetActive(false);
 
         if (_swapBalloon != null)
         {
@@ -45,7 +45,7 @@ public class Interactable : MonoBehaviour
     protected virtual void Initialize()
     {
         // extra method that inheriting classes can use to still use the Start function
-        _interactionBalloon.SetSprite(_interactions[0].SpriteObjectInteractionBalloon);
+        InteractionBalloon.SetSprite(_interactions[0].SpriteObjectInteractionBalloon);
     }
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
@@ -78,7 +78,7 @@ public class Interactable : MonoBehaviour
     private void AdjustInteraction()
     {
         _currentInteractionIndex = (_currentInteractionIndex + 1) % _interactions.Count;
-        _interactionBalloon.SetSprite(_interactions[_currentInteractionIndex].SpriteObjectInteractionBalloon);
+        InteractionBalloon.SetSprite(_interactions[_currentInteractionIndex].SpriteObjectInteractionBalloon);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -104,7 +104,7 @@ public class Interactable : MonoBehaviour
         // No balloon required when there are no interactions
         if (_interactions.Count <= 0) return;
         
-        _interactionBalloon.Show();
+        InteractionBalloon.Show();
         
         // Swap balloon is required if there's more than one interaction
         if (_interactions.Count > 1) _swapBalloon.Show();
@@ -115,7 +115,7 @@ public class Interactable : MonoBehaviour
         // Nothing to hide if there are no interactions to begin with
         if (_interactions.Count <= 0) return;
         
-        _interactionBalloon.Hide();
+        InteractionBalloon.Hide();
         
         // Also hide the swapballoon if there's more than one interaction
         if (_interactions.Count > 1) _swapBalloon.Hide();

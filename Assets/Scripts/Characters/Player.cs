@@ -137,6 +137,7 @@ public class Player : MonoBehaviour, IClickable
 
         // activate collider again
         _equippedItem.GetComponent<Collider>().enabled = true;
+        _equippedItem.InteractionBalloon.BalloonTrigger.enabled = true;
 
         _equippedItem = null;
     }

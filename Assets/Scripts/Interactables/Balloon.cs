@@ -21,8 +21,7 @@ public class Balloon : MonoBehaviour, IClickable
 
     #region EditorFields
 
-    [SerializeField]
-    private Collider _balloonTrigger;
+    public Collider BalloonTrigger;
 
     [SerializeField]
     protected Animator _balloonAnimator;
@@ -74,12 +73,12 @@ public class Balloon : MonoBehaviour, IClickable
     private IEnumerator DisableBalloon()
     {
         // disable the collider -> wait a bit -> disable the gameobject + enable the collider
-        _balloonTrigger.enabled = false;
+        BalloonTrigger.enabled = false;
 
         yield return new WaitForSeconds(0.35f); // should be the length of the animation "Pop"
 
         gameObject.SetActive(false);
-        _balloonTrigger.enabled = true;
+        BalloonTrigger.enabled = true;
     }
     
     public void Show()
