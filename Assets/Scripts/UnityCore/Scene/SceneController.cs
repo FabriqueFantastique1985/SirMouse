@@ -20,11 +20,11 @@ namespace UnityCore
             private PageController m_Menu;
             private PageController _menu
             {
-                get 
+                get
                 {
-                    if (m_Menu == null) { m_Menu = PageController.Instance; }
-                    if (m_Menu == null) { Debug.Log("You are trying to access the Pagecontroller, but no instance was found."); }
-                    return m_Menu;
+                    var instance = PageController.Instance;
+                    if (instance == null) Debug.Log("You are trying to access the Pagecontroller, but no instance was found.");
+                    return instance;
                 }
             }
             private SceneType m_TargetScene;

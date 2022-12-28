@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Interaction : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class Interaction : MonoBehaviour
 
     [SerializeField]
     protected AnimationClip _animationClip;
+
+    [SerializeField]
+    private List<UnityEvent> _completeActions;
     
     //public Sprite InteractionSprite => _interactionSprite;
     public GameObject SpriteObjectInteractionBalloon => _spriteObjectInteractionInBalloon;
@@ -28,6 +33,7 @@ public class Interaction : MonoBehaviour
         SpecificAction(player);
         
         Debug.Log("Interaction Executed");
+        _completeActions.ForEach(x => x?.Invoke());
     }
 
     /// <summary>
