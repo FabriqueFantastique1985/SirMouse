@@ -16,9 +16,13 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private GameObject _pageBackpack;
     [SerializeField]
-    private GameObject _panelInstantiatedUI;
+    private GameObject _panelInstantiatedUI;    
     [SerializeField]
     private GameObject _emptyGameobject;
+
+    private Transform _chosenBackpackGroup;
+    [SerializeField]
+    private Transform _backpackGroup0, _backpackGroup1, _backpackGroup2, _backpackGroup3;
 
     private GameObject _uiImageForBag;
 
@@ -131,7 +135,10 @@ public class BackpackController : MonoBehaviour
     private void BackpackButtonCreation(Interactable interactableComp, Type_Pickup typeOfPickup, SpriteRenderer pickupSpriteRender)
     {
         // depending on the quantity of items in the backpack, a different child should be selected
-        var newButton = Instantiate(ButtonPrefab, _pageBackpack.transform.GetChild(0));
+        DecideOnBackpackGroup();
+
+        // create the button
+        var newButton = Instantiate(ButtonPrefab, _chosenBackpackGroup);
         //var buttonScript = newButton.GetComponent<BackpackPickupButton>();
         var buttonScript = newButton.GetComponent<ButtonPickupBackpack>();
 
@@ -188,9 +195,15 @@ public class BackpackController : MonoBehaviour
         var pickupInteraction = interactableComponent.GetComponent<PickupInteraction>();
         player.PushState(new BackpackExtractionState(player, interactableComponent, typeOfPickup, pickupInteraction.IsTwoHandPickup, pickupButton));
         
+        // update lists
         ItemsInBackpack.Remove(typeOfPickup);
         InteractablesInBackpack.Remove(interactable);
+
+        // destroy the current button
         Destroy(pickupButton);
+
+        // re-organize the backpack
+        ReOriganizeBackpack();
     }
 
 
@@ -235,5 +248,53 @@ public class BackpackController : MonoBehaviour
         }
     }
 
+
+    private void DecideOnBackpackGroup()
+    {
+        var interactableCount = InteractablesInBackpack.Count;
+        if (interactableCount > 32)
+        {
+            // TOO MANY ITEMS (figure out a fix)
+        }
+        else if (interactableCount > 24)
+        {
+            _chosenBackpackGroup = _backpackGroup3;
+        }
+        else if (interactableCount > 16)
+        {
+            _chosenBackpackGroup = _backpackGroup2;
+        }
+        else if (interactableCount > 8)
+        {
+            _chosenBackpackGroup = _backpackGroup1;
+        }
+        else
+        {
+            _chosenBackpackGroup = _backpackGroup0;
+        }
+    }
+    private void ReOriganizeBackpack()
+    {
+        // when I click a button in Group0, and I'm already using another Group ...
+        // - get the highest group being used
+        // - get a child in it
+        // - set this child a different parent
+
+        var interactableCount = InteractablesInBackpack.Count;
+        if (interactableCount > 24)
+        {
+            _backpackGroup3.GetChild(0).transform.SetParent(_backpackGroup2);
+        }
+        else if (interactableCount > 16)
+        {
+            _backpackGroup2.GetChild(0).transform.SetParent(_backpackGroup1);
+        }
+        else if (interactableCount > 8)
+        {
+            _backpackGroup1.GetChild(0).transform.SetParent(_backpackGroup0);
+        }
+    }
+
     #endregion
 }
+

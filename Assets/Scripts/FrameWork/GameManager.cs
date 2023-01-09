@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log(_blockInput + " block bool");
+
         if (_blockInput == false) _currentGameSystem.HandleInput();
         _currentGameSystem.Update();
     }

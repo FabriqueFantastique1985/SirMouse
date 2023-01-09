@@ -52,6 +52,8 @@ public class SkinController : MonoBehaviour
     #endregion
 
     [SerializeField]
+    private Transform _emptyObjectsParent;
+    [SerializeField]
     private GameObject _emptyGameObject;
 
     #region Variables For Throwing To UI
@@ -377,7 +379,7 @@ public class SkinController : MonoBehaviour
     {
         for (int i = 0; i < _allLists.Count; i++)
         {
-            var newEmptyObject = Instantiate(_emptyGameObject);
+            var newEmptyObject = Instantiate(_emptyGameObject, _emptyObjectsParent);
 
             _allLists[i].Add(newEmptyObject);
             // set the empty object to true

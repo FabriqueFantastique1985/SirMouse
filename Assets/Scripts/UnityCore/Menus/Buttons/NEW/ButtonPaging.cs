@@ -55,10 +55,32 @@ public class ButtonPaging : ButtonBaseNew
         if (_pageInstance.PageIsOn(_turnThisPage) == true)
         {
             _pageInstance.TurnPageOff(_turnThisPage);
+
+            if (DoIHaveActivePages() == false)
+            {
+                GameManager.Instance.BlockInput = false;
+            }
         }
         else
         {
             _pageInstance.TurnPageOn(_turnThisPage);
+
+            GameManager.Instance.BlockInput = true;
         }
+    }
+
+
+    protected virtual bool DoIHaveActivePages()
+    {
+        for (int i = 0; i < _pageInstance.PagesScene.Length; i++)
+        {
+            // if even a single page is on ---> do not re-enable input
+            if (_pageInstance.PagesScene[i].isOn == true)
+            {
+                return true;
+            }          
+        }
+
+        return false;
     }
 }

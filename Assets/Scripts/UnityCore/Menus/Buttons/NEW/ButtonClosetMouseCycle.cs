@@ -27,9 +27,9 @@ public class ButtonClosetMouseCycle : ButtonBaseNew
 
         // perhaps add logic here that makes the character zoom in on bodyparts of interest
 
-        Debug.Log(Index + "current index");
+        //Debug.Log(Index + "current index");
         Index = (Index + 1) % _limit;
-        Debug.Log(Index + "after index");
+        //Debug.Log(Index + "after index");
 
         ChangeTextureMouse();
         TurnOnPage(Index);

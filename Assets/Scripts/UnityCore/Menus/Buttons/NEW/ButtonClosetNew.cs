@@ -6,9 +6,6 @@ using UnityEngine;
 public class ButtonClosetNew : ButtonPaging
 {
     [SerializeField]
-    private GameObject _closetWrap;
-
-    [SerializeField]
     private ButtonClosetMouseCycle _buttonMouseCycle;
 
     public override void ClickedButton()
@@ -22,16 +19,38 @@ public class ButtonClosetNew : ButtonPaging
         if (_pageInstance.PageIsOn(_turnThisPage) == true)
         {
             _pageInstance.TurnPageOff(_turnThisPage);
+
+            // i should also turn off the specific pages inside the closet page (bigfix)
+            _pageInstance.TurnPageOff(PageType.ClosetHeadTorsoTail);
+            _pageInstance.TurnPageOff(PageType.ClosetLegs);
+            _pageInstance.TurnPageOff(PageType.ClosetArms);
+
+            _pageInstance.OpenClosetImage(false);
+            _pageInstance.OpenBagImage(false);
+            
+            if (DoIHaveActivePages() == false)
+            {
+                GameManager.Instance.BlockInput = false;
+            }
+
             _buttonMouseCycle.ResetTextureSirMouse();
-            _closetWrap.SetActive(false);
+
+            SkinController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
         }
         else
         {
-            _pageInstance.TurnPageOn(_turnThisPage);
+            //_pageInstance.TurnPageOn(_turnThisPage);
+            _pageInstance.TurnAllPagesOffExcept(_turnThisPage);
+
+            _pageInstance.OpenClosetImage(true);
+            _pageInstance.OpenBagImage(false);
+
+            GameManager.Instance.BlockInput = true;
+
             // turn on the the correct page within the closet...
             OpenCorrectPageInCloset();
 
-            _closetWrap.SetActive(true);
+            SkinController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
         }
     }
 

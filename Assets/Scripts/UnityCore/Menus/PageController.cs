@@ -17,7 +17,7 @@ namespace UnityCore
 
             private Hashtable m_Pages;
 
-
+            public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
 
             #region Unity Functions
 
@@ -64,6 +64,7 @@ namespace UnityCore
                 Page page = GetPage(typeToTurnOn);
                 page.gameObject.SetActive(true);
                 page.Animate(true);
+
             }
             public void TurnPageOff(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None, bool waitForExit = false)
             {
@@ -150,6 +151,18 @@ namespace UnityCore
                 }
 
                 BackpackController.BackpackInstance.enabled = false;
+            }
+
+
+            public void OpenBagImage(bool state)
+            {
+                BackpackImage0.SetActive(!state);
+                BackpackImage1.SetActive(state);
+            }
+            public void OpenClosetImage(bool state)
+            {
+                ClosetImage0.SetActive(!state);
+                ClosetImage1.SetActive(state);
             }
 
 
