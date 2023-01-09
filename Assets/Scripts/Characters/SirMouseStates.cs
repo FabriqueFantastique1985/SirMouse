@@ -158,6 +158,8 @@ public class DropState : SirMouseState
         base.OnEnter(player);
         
         player.Character.SetAnimatorTrigger(Character.States.Drop, IsMirrored);
+
+        Debug.Log("Entered DropState State");
     }
 
     public override void OnExit(Player player)
@@ -189,10 +191,6 @@ public class BackpackExtractionState : SirMouseState
     private bool _isTwoHandPickup = false;
     private GameObject _pressedButton;
 
-    //private Interactable _interactableToPutInBackpack;
-    //private Type_Pickup _typePickupToPutInBackpack;
-    //private SpriteRenderer _spriteRendererPickup;
-
     public BackpackExtractionState(Player player, Interactable pickUpToExtract, Type_Pickup typePickupToExtract, bool isTwoHandPickup = false, GameObject pressedButton = null)
         : base(player, true)
     {
@@ -200,17 +198,13 @@ public class BackpackExtractionState : SirMouseState
         _typePickupToExtract = typePickupToExtract;
         _isTwoHandPickup = isTwoHandPickup;
         _pressedButton = pressedButton;
-
-        //_interactableToPutInBackpack = equipedPickup;
-        //_typePickupToPutInBackpack = equipedType;
-        //_spriteRendererPickup = spriteRenderer;
     }
 
     public override void OnEnter(Player player)
     {
         base.OnEnter(player);
 
-        player.Character.SetAnimatorTrigger(Character.States.BackpackExtraction, IsMirrored);  // i keep re-entering the state (coroutine issue ?)
+        player.Character.SetAnimatorTrigger(Character.States.BackpackExtraction, IsMirrored);  
         //player.Character.SetAnimatorBool(Character.States.TwoHanded, _isTwoHandPickup);
 
         // reset the layer weights so the animation on body plays as intended
@@ -258,7 +252,7 @@ public class BackpackExtractionState : SirMouseState
 
     private void OnInteractionDone(Character.States state)
     {
-        // 1) put equiped item in backpack
+        // 1) put equiped item in backpack 
         var backPack = BackpackController.BackpackInstance;
         var player = GameManager.Instance.Player;       
         if (player.EquippedItem != null)
@@ -266,11 +260,8 @@ public class BackpackExtractionState : SirMouseState
             var pickupInteraction = player.EquippedItem.GetComponent<PickupInteraction>();
             backPack.AddItemToBackpackFromHands(player.EquippedItem, player.EquippedItem.gameObject, pickupInteraction.TypeOfPickup, pickupInteraction.SpriteRenderPickup);
         }
-        // 2) put new pickup into hands (player.equip) -- update lists + buttons
 
-        //
-        //backPack.RemoveItemFromBackpackThroughButton(_interactableToExtract, _typePickupToExtract, _pressedButton);  // this is already called on the button ....
-        //
+        // 2) put new pickup into hands (player.equip) 
         _player.Equip(_interactableToExtract, true);
     }
 }

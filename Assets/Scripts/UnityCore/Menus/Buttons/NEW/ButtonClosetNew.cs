@@ -33,7 +33,7 @@ public class ButtonClosetNew : ButtonPaging
                 GameManager.Instance.BlockInput = false;
             }
 
-            _buttonMouseCycle.ResetTextureSirMouse();
+            _buttonMouseCycle.ResetTextureSirMouse(); 
 
             SkinController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
         }

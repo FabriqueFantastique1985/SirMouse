@@ -104,6 +104,8 @@ public class Touch_Physics : Touch_Action
 
         StartCoroutine(StopPhysicsUpdate(4f, _rigidSpawnedObject, _colSpawnedObject));
 
+        GameManager.Instance.BlockInput = false;
+
         this.enabled = false;
     }
 

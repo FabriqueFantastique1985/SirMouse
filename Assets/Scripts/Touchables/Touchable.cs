@@ -50,6 +50,8 @@ public class Touchable : MonoBehaviour, IClickable
         {
             if (_onCooldown == false)
             {
+                GameManager.Instance.BlockInput = true;
+
                 // calls the acting function on the Touch_Action
                 _touchComponent.Act();
 

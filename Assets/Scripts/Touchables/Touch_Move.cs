@@ -65,6 +65,9 @@ public class Touch_Move : Touch_Action
 
         _activatedFollowMouse = false;
         _acted = false;
+
+        GameManager.Instance.BlockInput = false;
+
         this.enabled = false;
     }
 

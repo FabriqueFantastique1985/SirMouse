@@ -80,6 +80,9 @@ public class Touch_Spawn : Touch_Action
 
         _activatedFollowMouse = false;
         _acted = false;
+
+        GameManager.Instance.BlockInput = false;
+
         this.enabled = false;    
     }
 

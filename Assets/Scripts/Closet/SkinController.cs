@@ -90,26 +90,6 @@ public class SkinController : MonoBehaviour
     {
         FillListAllLists();
         AddEmptyGameObjectToEachList();
-
-        this.enabled = false;
-    }
-    private void Update()
-    {
-        // Increment our progress from 0 at the start, to 1 when we arrive.
-        _progress = Mathf.Min(_progress + Time.deltaTime * _stepScale, 1.0f);
-        // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
-        float parabola = 1.0f - 4.0f * (_progress - 0.5f) * (_progress - 0.5f);
-        // Travel in a straight line from our start position to the target.        
-        Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, _progress);
-        // Then add a vertical arc in excess of this.
-        nextPos.y += parabola * _arcHeight;
-        // Continue as before.
-        _objectToMove.transform.position = nextPos;
-        // if at destination...
-        if (_progress == 1.0f)
-        {
-            ImageArrivedInCloset();
-        }
     }
 
     #endregion
@@ -296,26 +276,31 @@ public class SkinController : MonoBehaviour
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactCloset.transform.position);
         Sprite interactableSprite = interactCloset.SkinSpriteRenderer.sprite;
 
-        _uiImageForCloset = Instantiate(_emptyGameObject, _panelInstantiatedUI.transform);
-        var uiImageComponent = _uiImageForCloset.AddComponent<Image>();
+        var uiImageForCloset = Instantiate(_emptyGameObject, _panelInstantiatedUI.transform);
+        var uiImageComponent = uiImageForCloset.AddComponent<Image>();
         uiImageComponent.sprite = interactableSprite;
-        _uiImageForCloset.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
-        _uiImageForCloset.SetActive(true);
+
+        uiImageForCloset.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
+        uiImageForCloset.SetActive(true);
 
         // the position of the bag
         var targetPosition = _buttonCloset.transform.position;
         // Calculate distance to target
         float target_Distance = Vector2.Distance(targetPosition, screenPosition);
-        float speed = 400f;
-        float arcHeight = 0.5f;
-        float _stepScale = 0f;
-        float _progress = 0f;
-        _stepScale = speed / target_Distance;
-        arcHeight = arcHeight * target_Distance;
 
-        AllocateValues(speed, arcHeight, _stepScale, _progress, screenPosition, targetPosition, _uiImageForCloset);
+        _speed = 400f;
+        _arcHeight = 0.5f;
+        _stepScale = 0f;
+        _progress = 0f;
+        _stepScale = _speed / target_Distance;
+        _arcHeight = _arcHeight * target_Distance;
 
-        this.enabled = true;
+        _startPos = screenPosition;
+        _endPos = targetPosition;
+        _objectToMove = uiImageForCloset;
+
+
+        StartCoroutine(ChugObjectIntoBag(_objectToMove));
 
         yield return null;
     }
@@ -471,7 +456,6 @@ public class SkinController : MonoBehaviour
             CheckSpecificSirMouseMesh(skinType, false);
         }
     }
-
     private void PositionSkinPieceProperly(GameObject object1, GameObject object2, SkinTransform transfSkin)
     {
         object1.transform.localPosition = transfSkin.Position;
@@ -562,28 +546,40 @@ public class SkinController : MonoBehaviour
                 break;
         }
     }
+
+
+
     // duplicate logic from BackpackController
-    private void ImageArrivedInCloset()
+    private void ImageArrivedInCloset(GameObject objectChugged)
     {
         // activates animation bag
         _buttonCloset.PlayAnimationPress();
 
         // destroy the UI image
-        Destroy(_uiImageForCloset);
-
-        this.enabled = false;
+        Destroy(objectChugged);
     }
-    private void AllocateValues(float speed, float arcHeight, float stepScale, float progress, Vector2 startPos, Vector2 endPos, GameObject uICopy)
+    private IEnumerator ChugObjectIntoBag(GameObject objectChugged)
     {
-        _speed = speed;
-        _progress = progress;
-        _stepScale = stepScale;
-        _arcHeight = arcHeight;
+        float progress = 0;
+        float arcHeight = _arcHeight;
 
-        _startPos = startPos;
-        _endPos = endPos;
+        while (progress < 1.0f)
+        {
+            // Increment our progress from 0 at the start, to 1 when we arrive.
+            progress = Mathf.Min(progress + Time.deltaTime * _stepScale, 1.0f);
+            // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
+            float parabola = 1.0f - 4.0f * (progress - 0.5f) * (progress - 0.5f);
+            // Travel in a straight line from our start position to the target.        
+            Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, progress);
+            // Then add a vertical arc in excess of this.
+            nextPos.y += parabola * arcHeight;
+            // Continue as before.                            
+            objectChugged.transform.position = nextPos;
 
-        _objectToMove = uICopy;
+            yield return new WaitForEndOfFrame();
+        }
+
+        ImageArrivedInCloset(objectChugged);
     }
 
     #endregion

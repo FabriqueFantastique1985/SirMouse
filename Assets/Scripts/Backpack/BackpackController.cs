@@ -24,8 +24,6 @@ public class BackpackController : MonoBehaviour
     [SerializeField]
     private Transform _backpackGroup0, _backpackGroup1, _backpackGroup2, _backpackGroup3;
 
-    private GameObject _uiImageForBag;
-
     // vars for throwing in bag
     float _speed;
     float _arcHeight;
@@ -60,12 +58,6 @@ public class BackpackController : MonoBehaviour
         }
         BackpackInstance = this;
         DontDestroyOnLoad(BackpackInstance);
-
-        this.enabled = false;
-    }
-    private void Update() // only enable this script once a pickup is thrown into bag
-    {
-        ChugObjectIntoBag();      
     }
 
     #endregion
@@ -159,28 +151,33 @@ public class BackpackController : MonoBehaviour
     IEnumerator ForceObjectInBag(GameObject interactable, float scaleForImage)
     {
         // get the world to screen pos of the interactible
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position);
-        Sprite interactableSprite = interactable.GetComponent<PickupInteraction>().SpriteRenderPickup.sprite;
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position); //
+        Sprite interactableSprite = interactable.GetComponent<PickupInteraction>().SpriteRenderPickup.sprite; //
 
-        _uiImageForBag = Instantiate(_emptyGameobject, _panelInstantiatedUI.transform);
-        var uiImageComponent = _uiImageForBag.AddComponent<Image>();
-        uiImageComponent.sprite = interactableSprite;
-        _uiImageForBag.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
+        var uiImageForBag = Instantiate(_emptyGameobject, _panelInstantiatedUI.transform);
+
+        var uiImageComponent = uiImageForBag.AddComponent<Image>(); 
+        uiImageComponent.sprite = interactableSprite; //
+        uiImageForBag.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage); 
 
         // the position of the bag
-        var targetPosition = _buttonBackpack.transform.position;
+        var targetPosition = _buttonBackpack.transform.position; 
         // Calculate distance to target
-        float target_Distance = Vector2.Distance(targetPosition, screenPosition);
-        float speed = 400f;
-        float arcHeight = 0.5f;
-        float _stepScale = 0f;
-        float _progress = 0f;
-        _stepScale = speed / target_Distance;
-        arcHeight = arcHeight * target_Distance;
+        float target_Distance = Vector2.Distance(targetPosition, screenPosition); 
 
-        AllocateValues(speed, arcHeight, _stepScale, _progress, screenPosition, targetPosition, _uiImageForBag);
+        _speed = 400f;
+        _arcHeight = 0.5f;
+        _stepScale = 0f;
+        _progress = 0f;
+        _stepScale = _speed / target_Distance;
+        _arcHeight = _arcHeight * target_Distance;
 
-        this.enabled = true;
+        _startPos = screenPosition;
+        _endPos = targetPosition; 
+        _objectToMove = uiImageForBag;
+             
+
+        StartCoroutine(ChugObjectIntoBag(_objectToMove));
 
         yield return null;
     }
@@ -207,45 +204,36 @@ public class BackpackController : MonoBehaviour
     }
 
 
-    private void ImageArrivedInBag()
+    private void ImageArrivedInBag(GameObject imageObj)
     {
         // activates animation bag
         _buttonBackpack.PlayAnimationPress();
 
         // destroy the UI image
-        Destroy(_uiImageForBag);
-
-        this.enabled = false;
+        Destroy(imageObj);
     }
-    private void AllocateValues(float speed, float arcHeight, float stepScale, float progress, Vector2 startPos, Vector2 endPos, GameObject uICopy)
+    private IEnumerator ChugObjectIntoBag(GameObject objectChugged)
     {
-        _speed = speed;
-        _progress = progress;
-        _stepScale = stepScale;
-        _arcHeight = arcHeight;
+        float progress = 0;
+        float arcHeight = _arcHeight;
 
-        _startPos = startPos;
-        _endPos = endPos;
-
-        _objectToMove = uICopy;
-    }
-    private void ChugObjectIntoBag()
-    {
-        // Increment our progress from 0 at the start, to 1 when we arrive.
-        _progress = Mathf.Min(_progress + Time.deltaTime * _stepScale, 1.0f);
-        // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
-        float parabola = 1.0f - 4.0f * (_progress - 0.5f) * (_progress - 0.5f);
-        // Travel in a straight line from our start position to the target.        
-        Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, _progress);
-        // Then add a vertical arc in excess of this.
-        nextPos.y += parabola * _arcHeight;
-        // Continue as before.
-        _objectToMove.transform.position = nextPos;
-        // if at destination...
-        if (_progress == 1.0f)
+        while (progress < 1.0f)
         {
-            ImageArrivedInBag();
+            // Increment our progress from 0 at the start, to 1 when we arrive.
+            progress = Mathf.Min(progress + Time.deltaTime * _stepScale, 1.0f);
+            // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
+            float parabola = 1.0f - 4.0f * (progress - 0.5f) * (progress - 0.5f);
+            // Travel in a straight line from our start position to the target.        
+            Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, progress);
+            // Then add a vertical arc in excess of this.
+            nextPos.y += parabola * arcHeight;
+            // Continue as before.                            
+            objectChugged.transform.position = nextPos;
+
+            yield return new WaitForEndOfFrame();
         }
+
+        ImageArrivedInBag(objectChugged);       
     }
 
 

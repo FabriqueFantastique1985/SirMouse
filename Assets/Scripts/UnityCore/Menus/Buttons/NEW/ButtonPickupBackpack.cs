@@ -13,5 +13,7 @@ public class ButtonPickupBackpack : ButtonPaging
     protected override void TurnOnPage()
     {
         BackpackController.BackpackInstance.RemoveItemFromBackpackThroughButton(MyInteractable, MyPickupType, this.gameObject);
+
+        _pageInstance.OpenBagImage(false);
     }
 }
