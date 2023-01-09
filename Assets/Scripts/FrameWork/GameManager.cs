@@ -5,7 +5,7 @@ using UnityCore.Scene;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourSingleton<GameManager>
 {
     public PlayField PlayField;
     public Player Player;
@@ -19,13 +19,11 @@ public class GameManager : MonoBehaviour
     public NavMeshAgent Agent;
     //public PlayerReferences PlayerRefs;
 
-    public static GameManager Instance { get; private set; }
-
-
     #region Fields
 
-    private GameSystem _currentGameSystem;
     private bool _blockInput = false;
+    private GameSystem _currentGameSystem;
+    private Chain _chain = new Chain();
 
     #endregion
 
@@ -36,30 +34,19 @@ public class GameManager : MonoBehaviour
         get => _blockInput; 
         set => _blockInput = value;
     }
+    
+    public Chain Chain => _chain;
 
     #endregion
 
     private void Awake()
     {
-        // Singleton 
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-            return;
-        }
+        base.Awake();
 
-        Instance = this;
-        DontDestroyOnLoad(Instance);
-
-        // 1 protected player gets assigned here -> make this player part of dont destroyonload...
         _currentGameSystem = new MainGameSystem(Player, new int[1]
         {
-            /*Player.gameObject.layer, */
             PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
         });
-
-        // set the 
-        //Player.transform.SetParent(this.gameObject.transform);
     }
 
     // call this from scene controller when a scene is loaded
@@ -79,5 +66,7 @@ public class GameManager : MonoBehaviour
 
         if (_blockInput == false) _currentGameSystem.HandleInput();
         _currentGameSystem.Update();
+
+        _chain.UpdateChain(Time.deltaTime);
     }
 }
