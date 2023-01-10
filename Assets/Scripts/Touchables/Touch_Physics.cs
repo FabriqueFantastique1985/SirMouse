@@ -54,7 +54,7 @@ public class Touch_Physics : Touch_Action
     {
         if (_acted == false)
         {
-            base.Act();
+            //base.Act();
 
             AudioController.Instance.PlayAudio(AudioElements[0]);
             SpawnObject();

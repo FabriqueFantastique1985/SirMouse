@@ -32,7 +32,7 @@ public class Touch_Move : Touch_Action
     {
         if (_acted == false)
         {
-            base.Act();
+            //base.Act();
 
             AudioController.Instance.PlayAudio(AudioElements[0]);
 
@@ -78,11 +78,31 @@ public class Touch_Move : Touch_Action
 
         transform.position = _mouseWorldPosXY;
 
-        if (Physics.Raycast(transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+        //Debug.Log(_mouseWorldPosXY + " screeworldpos");
+
+        if (_mouseWorldPosXY.y > 0)
         {
-            //Debug.DrawRay(transform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
-            _mouseWorldPositionXYZ = _hit.point;
-            transform.position = _mouseWorldPositionXYZ;
+            // this only works if I'm moving things above half the screen (create opposite raycast for bottom half screen)
+            if (Physics.Raycast(transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+            {
+                Debug.DrawRay(transform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
+
+                _mouseWorldPositionXYZ = _hit.point;
+
+                transform.position = _mouseWorldPositionXYZ;
+            }
         }
+        else
+        {
+            if (Physics.Raycast(transform.position, -Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+            {
+                Debug.DrawRay(transform.position, -Camera.main.transform.forward * _hit.distance, Color.yellow);
+
+                _mouseWorldPositionXYZ = _hit.point;
+
+                transform.position = _mouseWorldPositionXYZ;
+            }
+        }
+
     }
 }
