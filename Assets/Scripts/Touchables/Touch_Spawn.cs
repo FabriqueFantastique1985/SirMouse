@@ -93,12 +93,22 @@ public class Touch_Spawn : Touch_Action
 
         _spawnedObject.transform.position = _mouseWorldPosXY;
 
-        if (Physics.Raycast(transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+        if (_mouseWorldPosXY.y > 0)
         {
-            //Debug.DrawRay(transform.position, Camera.main.transform.forward * _hit.distance, Color.yellow);
-            _mouseWorldPositionXYZ = _hit.point;
-            _spawnedObject.transform.position = _mouseWorldPositionXYZ;
-        }   
+            if (Physics.Raycast(_spawnedObject.transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+            {
+                _mouseWorldPositionXYZ = _hit.point;
+                _spawnedObject.transform.position = _mouseWorldPositionXYZ;
+            }
+        }
+        else
+        {
+            if (Physics.Raycast(_spawnedObject.transform.position, -Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+            {
+                _mouseWorldPositionXYZ = _hit.point;
+                _spawnedObject.transform.position = _mouseWorldPositionXYZ;
+            }
+        }
     }
 
 
