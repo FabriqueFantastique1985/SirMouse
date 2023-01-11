@@ -13,7 +13,7 @@ public class Touch_Action : MonoBehaviour
     protected const string _animPop = "Spawnable_Pop";
     protected const string _animIdle = "Spawnable_Scaler";
 
-    // audio
+    // audio // specifically for events of : tap / let go
     [Header("Audio")]
     public List<AudioElement> AudioElements = new List<AudioElement>();
 

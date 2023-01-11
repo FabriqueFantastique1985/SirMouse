@@ -5,9 +5,14 @@ using UnityCore.Audio;
 
 public class Touch_Physics : Touch_Action
 {
-    [Header("Specifics")]
+    [Header("Spawner/Physics Specifics")]
     [SerializeField]
     private GameObject _objectToSpawn; // drag in the Sprite_Parent 
+    [SerializeField]
+    private SpriteRenderer _spriteUnderParentToSpawn;
+    [SerializeField]
+    private List<Sprite> _possibleSpawnedSprites = new List<Sprite>();
+
     private GameObject _spawnedObject;
 
     [SerializeField]
@@ -137,15 +142,26 @@ public class Touch_Physics : Touch_Action
 
     private void SpawnObject()
     {
-        // might be better to use object pooling here...
-        var spawnedObject = Instantiate(_objectToSpawn, transform);
+        GameObject spawnedObject = null;
+        // randomize the sprite if possible
+        if (_possibleSpawnedSprites.Count > 1)
+        {
+            var randomIndex = Random.Range(0, _possibleSpawnedSprites.Count - 1);
+            _spriteUnderParentToSpawn.sprite = _possibleSpawnedSprites[randomIndex];
+        }
+        spawnedObject = Instantiate(_objectToSpawn, transform);
+
+        // make it visible
+        spawnedObject.SetActive(true);
 
         _rigidSpawnedObject = spawnedObject.AddComponent<Rigidbody>();
         _rigidSpawnedObject.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
         _physicsScriptOnSpawnedObject = spawnedObject.AddComponent<Touch_Physics_Object>();
+
         // collider things
         _colSpawnedObject = spawnedObject.AddComponent<SphereCollider>();
         _colSpawnedObject.radius = _spriteCollider.radius;
+
         // animation
         _animationSpawnedObject = spawnedObject.GetComponent<Animation>();
 

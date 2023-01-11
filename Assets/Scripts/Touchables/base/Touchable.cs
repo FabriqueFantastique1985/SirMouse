@@ -29,14 +29,24 @@ public class Touchable : MonoBehaviour, IClickable
     // etc
     public LayerMask LayersToCastOn; // should perhaps be the same as gamemanager layers
 
-
+    // audio // specifically for animation events
+    [Header("Audio")]
+    public List<AudioElement> AudioElements = new List<AudioElement>();
 
     #region Unity Functions
 
     private void Start()
     {
-        // for update method de-activation
-        this.enabled = false;
+        var audioControl = AudioController.Instance;
+        // add the possible sound effects to the AudioTable and the correct track
+        foreach (AudioElement audioEm in AudioElements)
+        {
+            if (audioEm.Clip != null)
+            {
+                // there exists 1 Type more than there are Tracks -> move down by 1
+                audioControl.AddAudioElement(audioEm);
+            }
+        }
     }
 
     #endregion
@@ -70,6 +80,12 @@ public class Touchable : MonoBehaviour, IClickable
                 _usedSuccesfully = true;
             }
         }
+    }
+
+    // play animation event
+    public void PlayAnimationEventSound(int index)
+    {
+        AudioController.Instance.PlayAudio(AudioElements[index]);
     }
 
     #endregion

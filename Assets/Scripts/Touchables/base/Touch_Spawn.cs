@@ -5,9 +5,14 @@ using UnityEngine;
 
 public class Touch_Spawn : Touch_Action
 {
-    [Header("Specifics")]
+    [Header("Spawner/Physics Specifics")]
     [SerializeField]
     private GameObject _objectToSpawn; // drag in the Sprite_Parent 
+    [SerializeField]
+    private SpriteRenderer _spriteUnderParentToSpawn;
+    [SerializeField]
+    private List<Sprite> _possibleSpawnedSprites = new List<Sprite>();
+
     private GameObject _spawnedObject;
 
     [SerializeField]
@@ -114,10 +119,19 @@ public class Touch_Spawn : Touch_Action
 
     private void SpawnObject()
     {
-        // might be better to use object pooling here...
-        var spawnedObject = Instantiate(_objectToSpawn, transform);
-        _spawnedObject = spawnedObject;
+        GameObject spawnedObject = null;
+        // randomize the sprite if possible
+        if (_possibleSpawnedSprites.Count > 1)
+        {
+            var randomIndex = Random.Range(0, _possibleSpawnedSprites.Count - 1);
+            _spriteUnderParentToSpawn.sprite = _possibleSpawnedSprites[randomIndex];
+        }
+        spawnedObject = Instantiate(_objectToSpawn, transform);
 
+        // make it visible
+        spawnedObject.SetActive(true);
+
+        _spawnedObject = spawnedObject;
         _animationSpawnedObject = spawnedObject.GetComponent<Animation>();
 
         // list addition

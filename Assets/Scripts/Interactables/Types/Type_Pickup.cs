@@ -6,5 +6,8 @@ public enum Type_Pickup
 {
     None = 0,
     Example_1 = 1, 
-    Example_2 = 2
+    Example_2 = 2,
+    Swamp_Bottle_0 = 3,
+    Swamp_Mushroom_0 = 4
+        
 }
