@@ -20,6 +20,9 @@ public class Encounterable : MonoBehaviour
     private bool _onCooldown;
     private bool _usedSuccesfully;
 
+    [SerializeField]
+    private bool _giveRandomOffsetAnimationIdle;
+
     [Header("Audio")]
     public AudioElement SoundEffect;
 
@@ -37,6 +40,14 @@ public class Encounterable : MonoBehaviour
         {
             // there exists 1 Type more than there are Tracks -> move down by 1
             audioControl.AddAudioElement(SoundEffect); 
+        }
+
+        if (_giveRandomOffsetAnimationIdle == true)
+        {
+            _animator.enabled = false;
+
+            float randomOffset = Random.Range(0.0f, 2.0f);
+            StartCoroutine(ActivateAnimatorOffsetted(randomOffset));
         }
     }
 
@@ -92,6 +103,13 @@ public class Encounterable : MonoBehaviour
         yield return new WaitForSeconds(_cooldownLength);
 
         _onCooldown = false;
+    }
+
+    private IEnumerator ActivateAnimatorOffsetted(float randomTime)
+    {
+        yield return new WaitForSeconds(randomTime);
+
+        _animator.enabled = true;
     }
 
     #endregion

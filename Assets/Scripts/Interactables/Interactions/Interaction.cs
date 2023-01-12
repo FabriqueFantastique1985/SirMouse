@@ -12,8 +12,8 @@ public class Interaction : MonoBehaviour
     [SerializeField]
     private GameObject _spriteObjectInteractionInBalloon;
 
-    [SerializeField]
-    protected AnimationClip _animationClip;
+    //[SerializeField]
+    //protected AnimationClip _animationClip;
 
     [SerializeField]
     private List<UnityEvent> _completeActions;
