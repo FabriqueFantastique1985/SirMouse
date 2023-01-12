@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fabrique;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,7 +17,7 @@ public class Interaction : MonoBehaviour
     //protected AnimationClip _animationClip;
 
     [SerializeField]
-    private List<UnityEvent> _completeActions;
+    private List<ChainAction> _completeActions;
     
     //public Sprite InteractionSprite => _interactionSprite;
     public GameObject SpriteObjectInteractionBalloon => _spriteObjectInteractionInBalloon;
@@ -33,7 +34,11 @@ public class Interaction : MonoBehaviour
         SpecificAction(player);
         
         Debug.Log("Interaction Executed");
-        _completeActions.ForEach(x => x?.Invoke());
+
+        Chain chain = GameManager.Instance.Chain;
+        
+        _completeActions.ForEach(x =>chain.AddAction(x));
+        chain.StartNextChainAction();
     }
 
     /// <summary>
