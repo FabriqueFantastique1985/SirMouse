@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Fabrique
 {
-    [CreateAssetMenu(fileName = "Objective", menuName = "ScriptableObjects/Objective", order = 1)]
+    [CreateAssetMenu(fileName = "Objective", menuName = "ScriptableObjects/Objective", order = 2)]
     public class Objective : ScriptableObject
     {
         #region Events
@@ -23,12 +23,6 @@ namespace Fabrique
         private string _name = "objective_x";
 
         [SerializeField]
-        private List<ChainAction> _onStartActions = new List<ChainAction>();
-        
-        [SerializeField]
-        private List<ChainAction> _onCompleteActions = new List<ChainAction>();
-
-        [SerializeField]
         private bool _isBlocked = true;
         
         #endregion
@@ -37,14 +31,18 @@ namespace Fabrique
 
         private bool _isCompleted = false;
 
-        #endregion        
+        #endregion
+
+        #region Properties
+
+
+        #endregion
 
         
         public void Enter()
         {
             _isBlocked = false;
             
-            _onStartActions.ForEach(x => GameManager.Instance.Chain.AddAction(x)); 
         }
 
         public void SetObjectiveReached()
@@ -53,8 +51,6 @@ namespace Fabrique
 
             _isCompleted = true;
             
-            _onCompleteActions.ForEach(x => GameManager.Instance.Chain.AddAction(x)); 
-            
             Debug.Log($"Objective {this.name} is reached");
             ObjectiveCompleteEvent?.Invoke(this);
         }
@@ -62,5 +58,22 @@ namespace Fabrique
         public void Exit()
         {
         }
+
+        /*public void AddChainAction(ChainAction.ChainActionType actionType)
+        {
+            ChainAction newAction = new PlayAudioAction();
+            switch (actionType)
+            {
+                case ChainAction.ChainActionType.Audio:
+                    newAction = new PlayAudioAction();
+                    break;
+                case ChainAction.ChainActionType.Cutscene:
+                    break;
+                case ChainAction.ChainActionType.MovePlayer:
+                    break;
+            }
+
+            _onStartActions.Add(newAction);
+        }*/
     }
 }

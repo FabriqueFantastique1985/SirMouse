@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace Fabrique
 {
-    public class Mission : MonoBehaviour
+    [CreateAssetMenu(fileName = "Mission", menuName = "ScriptableObjects/Mission", order = 1)]
+    public class Mission : ScriptableObject
     {
         #region Events
 
