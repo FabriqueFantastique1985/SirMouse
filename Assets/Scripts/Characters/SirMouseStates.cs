@@ -208,8 +208,8 @@ public class BackpackExtractionState : SirMouseState
         //player.Character.SetAnimatorBool(Character.States.TwoHanded, _isTwoHandPickup);
 
         // reset the layer weights so the animation on body plays as intended
-        GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(2, 0);
-        GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(3, 0); // always 2 handed animation...
+        player.Character.GetComponent<Animator>().SetLayerWeight(2, 0);
+        player.Character.GetComponent<Animator>().SetLayerWeight(3, 0); // always 2 handed animation...
 
         player.Character.AnimationDoneEvent += OnAnimationDone;
         player.Character.InteractionDoneEvent += OnInteractionDone;
@@ -233,12 +233,12 @@ public class BackpackExtractionState : SirMouseState
         // 3) set layer weights depending on the interactable specifics
         if (_isTwoHandPickup == true)
         {
-            GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(3, 1);
+            _player.Character.GetComponent<Animator>().SetLayerWeight(3, 1);
         }
         else
         {
-            GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(3, 0);
-            GameManager.Instance.Character.GetComponent<Animator>().SetLayerWeight(2, 1);
+            _player.Character.GetComponent<Animator>().SetLayerWeight(3, 0);
+            _player.Character.GetComponent<Animator>().SetLayerWeight(2, 1);
         }
         
 

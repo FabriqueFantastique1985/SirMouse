@@ -27,7 +27,6 @@ public class Player : MonoBehaviour, IClickable
     public Character Character => _character;
     public NavMeshAgent Agent => _agent;
     public Interactable EquippedItem => _equippedItem;
-    public static SirMouseState s_WalkingState;
     
     #endregion
 
@@ -53,9 +52,6 @@ public class Player : MonoBehaviour, IClickable
     {
         _stateStack.Push(new IdleState(this));
         
-        //test code
-        s_WalkingState = new WalkingState(this, _agent.destination);
-
         // reset material texture
         _characterGeoReferences.SirMouseBody.mainTexture = _characterGeoReferences.DefaultTex;
         _characterGeoReferences.SirMouseHands.mainTexture = _characterGeoReferences.HandsLight;
@@ -71,14 +67,6 @@ public class Player : MonoBehaviour, IClickable
         var currentState = _stateStack?.Peek();
 
         if (currentState != null) currentState.Update(this);
-        
-      // SirMouseState state = _state.Update(this);
-      // if (state != null)
-      // {
-      //     _state?.OnExit(this);
-      //     _state = state;
-      //     _state.OnEnter(this);
-      // }
     }
 
     public void SetState(SirMouseState newState)
@@ -89,10 +77,6 @@ public class Player : MonoBehaviour, IClickable
         
         _stateStack.Push(newState);
         newState.OnEnter(this);
-        
-        // _state?.OnExit(this);
-        // _state = newState;
-        // _state.OnEnter(this);
     }
 
     public void PushState(SirMouseState newState)
