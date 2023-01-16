@@ -17,7 +17,18 @@ public class Interaction : MonoBehaviour
     //protected AnimationClip _animationClip;
 
     [SerializeField]
-    private List<ChainAction> _completeActions;
+    private List<ChainAction> _instantActions;
+
+    
+    [SerializeField, Tooltip("When true, a new chain will be generated to play the ChainActions, " +
+                             "rather than using the existing chain owned by the GameManager. ")]
+    private bool _useNewChain = false;
+    
+    /// <summary>
+    /// Reference to the list of chainActions
+    /// </summary>
+    [SerializeField]
+    private List<ChainAction> _chainActions;
     
     //public Sprite InteractionSprite => _interactionSprite;
     public GameObject SpriteObjectInteractionBalloon => _spriteObjectInteractionInBalloon;
@@ -35,9 +46,10 @@ public class Interaction : MonoBehaviour
         
         Debug.Log("Interaction Executed");
 
-        Chain chain = GameManager.Instance.Chain;
+        Chain chain = _useNewChain ? GameManager.Instance.Chain : new Chain(true);
         
-        _completeActions.ForEach(x =>chain.AddAction(x));
+        _chainActions.ForEach(x =>chain.AddAction(x));
+        _instantActions.ForEach(x => x.Execute());
         chain.StartNextChainAction();
     }
 
