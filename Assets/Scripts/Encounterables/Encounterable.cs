@@ -22,6 +22,8 @@ public class Encounterable : MonoBehaviour
 
     [SerializeField]
     private bool _giveRandomOffsetAnimationIdle;
+    [SerializeField]
+    private float _randomOffsetUpperLimit = 2.0f;
 
     [Header("Audio")]
     public AudioElement SoundEffect;
@@ -46,7 +48,7 @@ public class Encounterable : MonoBehaviour
         {
             _animator.enabled = false;
 
-            float randomOffset = Random.Range(0.0f, 2.0f);
+            float randomOffset = Random.Range(0.0f, _randomOffsetUpperLimit);
             StartCoroutine(ActivateAnimatorOffsetted(randomOffset));
         }
     }
