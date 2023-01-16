@@ -14,7 +14,6 @@ namespace UnityCore
             public delegate void SceneLoadDelegate(SceneType scene);
 
             public static SceneController SceneControllerInstance;
-            public GameManager ManagerInstance;
 
 
             private PageController m_Menu;
@@ -91,7 +90,7 @@ namespace UnityCore
                 _nextSceneSpawnLocation = spawnLocationValue;
 
                 // Make the player a child of the GameManager (so it's part of DontDestroy)
-                ManagerInstance.Player.transform.SetParent(ManagerInstance.transform);
+                GameManager.Instance.Player.transform.SetParent(GameManager.Instance.transform);
 
                 StartCoroutine(LoadScene());
             }
@@ -139,8 +138,8 @@ namespace UnityCore
 
 
                 // updating the playfield and colliders I can cast on
-                ManagerInstance.PlayField = FindObjectOfType<PlayField>();
-                ManagerInstance.AdjustGameSystem(ManagerInstance.PlayField.GroundColliders);
+                GameManager.Instance.PlayField = FindObjectOfType<PlayField>();
+                GameManager.Instance.AdjustGameSystem(GameManager.Instance.PlayField.GroundColliders);
 
 
                 // setting the player at the correct position
@@ -158,6 +157,8 @@ namespace UnityCore
             private void SpawnPlayerOnCorrectPosition()
             {
                 Interactable_NextLevel[] spawnScripts = FindObjectsOfType<Interactable_NextLevel>();
+                var player = GameManager.Instance.Player;
+
                 if (spawnScripts != null)
                 {
                     foreach (Interactable_NextLevel spawnScript in spawnScripts)
@@ -166,9 +167,9 @@ namespace UnityCore
                         if (spawnScript.SpawnValue == _nextSceneSpawnLocation)
                         {
                             // move the player over there
-                            ManagerInstance.Agent.enabled = false;
-                            ManagerInstance.Player.transform.position = spawnScript.transform.position;
-                            ManagerInstance.Agent.enabled = true;
+                           player.Agent.enabled = false;
+                           player.transform.position = spawnScript.transform.position;
+                           player.Agent.enabled = true;
                         }
                     }
                 }
@@ -176,9 +177,9 @@ namespace UnityCore
                 {
                     Debug.Log("Could not find a spawn for the player, setting player to coordinates 0,0,0,");
                     // move the player over there
-                    ManagerInstance.Agent.enabled = false;
-                    ManagerInstance.Player.transform.position = new Vector3(0, 0, 0);
-                    ManagerInstance.Agent.enabled = true;
+                    player.Agent.enabled = false;
+                    player.transform.position = new Vector3(0, 0, 0);
+                    player.Agent.enabled = true;
                 }
             }
 
