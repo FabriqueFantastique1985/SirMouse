@@ -31,7 +31,11 @@ public class Interaction : MonoBehaviour
     private List<ChainAction> _chainActions;
     
     //public Sprite InteractionSprite => _interactionSprite;
-    public GameObject SpriteObjectInteractionBalloon => _spriteObjectInteractionInBalloon;
+    public GameObject SpriteObjectInteractionBalloon
+    {
+        get => _spriteObjectInteractionInBalloon;
+        set => _spriteObjectInteractionInBalloon = value;
+    }
     
 
     public void Execute(Player player)
