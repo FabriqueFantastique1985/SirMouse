@@ -9,21 +9,19 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 {
     public PlayField PlayField;
     public Player Player;
-    public Character Character;
 
     public CharacterRigReferences CharacterRigRefs;
     public CharacterRigReferences CharacterRigRefsUI;
     public CharacterGeoReferences characterGeoReferences;
     public CharacterGeoReferences characterGeoReferencesUI;
 
-    public NavMeshAgent Agent;
     //public PlayerReferences PlayerRefs;
 
     #region Fields
 
     private bool _blockInput = false;
     private GameSystem _currentGameSystem;
-    private Chain _chain = new Chain();
+    private Chain _chain = new Chain(false);
 
     #endregion
 

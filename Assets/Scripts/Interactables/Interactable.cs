@@ -26,6 +26,18 @@ public class Interactable : MonoBehaviour
 
     protected int _currentInteractionIndex = 0;
 
+    #region Properties
+
+    /// <summary>
+    /// Reference to the list of possible Interactions of this Interactable.
+    /// </summary>
+    public List<Interaction> Interactions
+    {
+        get => _interactions;
+    }
+
+    #endregion
+    
     private void Start()
     {
         InteractionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
