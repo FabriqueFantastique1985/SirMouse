@@ -5,7 +5,7 @@ using UnityEngine;
 public class Stirring : MonoBehaviour
 {
     // PUBLIC
-    public Pointer_Cooking pointer_Cooking;
+    public InteractionCooking InteractionCooking;
 
     // PRIVATE
     public float _stirringValue;
@@ -25,7 +25,7 @@ public class Stirring : MonoBehaviour
 
         if (Physics.Raycast(_ray, out hit, Mathf.Infinity))
         {
-            if (hit.collider.tag == "StirringArea" && pointer_Cooking.dishState == 8)
+            if (hit.collider.tag == "StirringArea" && InteractionCooking.dishState == 8)
             {
                 if (_stirringValue < 1)
                 {
@@ -33,7 +33,7 @@ public class Stirring : MonoBehaviour
                 }
                 else
                 {
-                    pointer_Cooking.ShowInstruction();
+                    InteractionCooking.ShowInstruction();
                     _stirringValue = 0;
                 }
             }

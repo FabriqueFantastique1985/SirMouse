@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class AttachChefHat : MonoBehaviour
 {
-    public Pointer_Cooking hat;
+    public InteractionCooking InteractionCooking;
 
     public void AttachHat()
     {
-        hat.AttachChefHat();
+        InteractionCooking.AttachChefHat();
     }
 }

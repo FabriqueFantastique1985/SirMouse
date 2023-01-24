@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteObjectInteractionInBalloon: {fileID: 3921633745181989413}
-  _completeActions: []
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
   _type: 1
   _specificSlotType: 4
   _spriteRendererCollectible: {fileID: 5614443649555063615}
@@ -100,6 +102,11 @@ PrefabInstance:
     - target: {fileID: 2920538921964016199, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+        type: 3}
+      propertyPath: _interactions.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,

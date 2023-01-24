@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1487502541590148081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2277290158847004299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b6b014506073574c86c679e251c4821, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteObjectInteractionInBalloon: {fileID: 2277290158534901702}
-  _completeActions: []
-  _type: 1
-  _specificSlotType: 5
-  _spriteRendererCollectible: {fileID: 7213777630357325532}
-  _animationComponentSpriteParent: {fileID: 2838937485979087603}
 --- !u!111 &2838937485979087603
 Animation:
   m_ObjectHideFlags: 0
@@ -34,6 +16,26 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &1487502541590148081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2277290158847004299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b6b014506073574c86c679e251c4821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteObjectInteractionInBalloon: {fileID: 2277290158534901702}
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _type: 1
+  _specificSlotType: 5
+  _spriteRendererCollectible: {fileID: 7213777630357325532}
+  _animationComponentSpriteParent: {fileID: 2838937485979087603}
 --- !u!1001 &8134938132669820048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,6 +102,11 @@ PrefabInstance:
     - target: {fileID: 2920538921964016199, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+        type: 3}
+      propertyPath: _interactions.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,

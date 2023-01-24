@@ -7,18 +7,20 @@ public class Touch_Physics : Touch_Action
 {
     [Header("Spawner/Physics Specifics")]
     [SerializeField]
-    private GameObject _objectToSpawn; // drag in the Sprite_Parent 
+    protected GameObject _objectToSpawn; // drag in the Sprite_Parent 
     [SerializeField]
-    private SpriteRenderer _spriteUnderParentToSpawn;
+    protected SpriteRenderer _spriteUnderParentToSpawn;
     [SerializeField]
-    private List<Sprite> _possibleSpawnedSprites = new List<Sprite>();
+    protected List<Sprite> _possibleSpawnedSprites = new List<Sprite>();
 
-    private GameObject _spawnedObject;
+    protected GameObject _spawnedObject;
 
     [SerializeField]
     private GameObject _prefabParticlePoof;
 
-    private List<GameObject> _spawnedObjects = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> SpawnedObjects = new List<GameObject>();
+
     [SerializeField]
     private int _spawnLimit = 5;
 
@@ -29,7 +31,7 @@ public class Touch_Physics : Touch_Action
     private bool _acted;
 
     // physics ref
-    private Touch_Physics_Object _physicsScriptOnSpawnedObject;
+    protected Touch_Physics_Object _physicsScriptOnSpawnedObject;
     private Rigidbody _rigidSpawnedObject;
     private Animation _animationSpawnedObject;
 
@@ -75,7 +77,7 @@ public class Touch_Physics : Touch_Action
 
 
     // logic for having object follow the mouse
-    private void FollowMouseLogic()
+    protected virtual void FollowMouseLogic()
     {
         if (Input.GetMouseButtonUp(0))
         {
@@ -87,7 +89,7 @@ public class Touch_Physics : Touch_Action
             FollowMouseCalculations();
         }
     }
-    private void LetGoOfMouse()
+    protected virtual void LetGoOfMouse()
     {
         _animationSpawnedObject.Play(_animPop);
 
@@ -114,7 +116,7 @@ public class Touch_Physics : Touch_Action
         this.enabled = false;
     }
 
-    private void FollowMouseCalculations()
+    protected virtual void FollowMouseCalculations()
     {
         _mousePosition = Input.mousePosition;
         _mouseWorldPosXY = Camera.main.ScreenToWorldPoint(_mousePosition);
@@ -140,7 +142,7 @@ public class Touch_Physics : Touch_Action
     }
 
 
-    private void SpawnObject()
+    protected virtual void SpawnObject()
     {
         GameObject spawnedObject = null;
         // randomize the sprite if possible
@@ -156,8 +158,10 @@ public class Touch_Physics : Touch_Action
 
         _rigidSpawnedObject = spawnedObject.AddComponent<Rigidbody>();
         _rigidSpawnedObject.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-        _physicsScriptOnSpawnedObject = spawnedObject.AddComponent<Touch_Physics_Object>();
 
+        // add correct script to spawned object (override perhaps)
+        AddPhysicsScript(spawnedObject);
+        
         // collider things
         _colSpawnedObject = spawnedObject.AddComponent<SphereCollider>();
         _colSpawnedObject.radius = _spriteCollider.radius;
@@ -168,24 +172,29 @@ public class Touch_Physics : Touch_Action
         _spawnedObject = spawnedObject;
 
         // list addition
-        _spawnedObjects.Add(spawnedObject);
+        SpawnedObjects.Add(spawnedObject);
 
         // remove the object (limited for performance/memory)
-        if (_spawnedObjects.Count > _spawnLimit)
+        if (SpawnedObjects.Count > _spawnLimit)
         {
             AudioController.Instance.PlayAudio(AudioElements[2]);
 
-            Instantiate(_prefabParticlePoof, _spawnedObjects[0].transform.position, Quaternion.identity);
+            Instantiate(_prefabParticlePoof, SpawnedObjects[0].transform.position, Quaternion.identity);
 
-            Destroy(_spawnedObjects[0]);
-            _spawnedObjects.RemoveAt(0);
+            Destroy(SpawnedObjects[0]);
+            SpawnedObjects.RemoveAt(0);
         }
+    }
+
+    protected virtual void AddPhysicsScript(GameObject spawnedObj = null)
+    {
+        _physicsScriptOnSpawnedObject = spawnedObj.AddComponent<Touch_Physics_Object>();
     }
 
 
 
     // called from the override event on pointer_x
-    private IEnumerator StopPhysicsUpdate(float timeActive, Rigidbody rigidSpawnedobject, Collider collSpawnedObject)
+    protected virtual IEnumerator StopPhysicsUpdate(float timeActive, Rigidbody rigidSpawnedobject, Collider collSpawnedObject)
     {
         yield return new WaitForSeconds(timeActive);
 
