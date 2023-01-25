@@ -158,6 +158,9 @@ public class BackpackController : MonoBehaviour
 
         var uiImageComponent = uiImageForBag.AddComponent<Image>(); 
         uiImageComponent.sprite = interactableSprite; //
+
+        //uiImageComponent.SetNativeSize();
+
         uiImageForBag.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage); 
 
         // the position of the bag
