@@ -57,6 +57,7 @@ public class CollectibleController : MonoBehaviour
                 break;
             }
         }
+
         // assign typeOfSlot
         for (int i = 0; i < _chosesCollectibleRefs.CollectibleSlots.Count; i++)
         {
@@ -65,6 +66,7 @@ public class CollectibleController : MonoBehaviour
                 _chosesCollectibleRefs.SlotToUse = _chosesCollectibleRefs.CollectibleSlots[i].gameObject;
             }
         }
+
         // assign spriteToAssign
         _chosesCollectibleRefs.ImageComponentObjectToSlotIn.sprite = spriteToAssign;
         _chosesCollectibleRefs.ImageComponentObjectToSlotIn.SetNativeSize();
@@ -73,31 +75,29 @@ public class CollectibleController : MonoBehaviour
         // poof appear the Shelf    
         _chosesCollectibleRefs.ShelfToUse.gameObject.SetActive(true);
         _chosesCollectibleRefs.ShelfToUse.Play(_popIn);
+
         yield return new WaitForSeconds(0.5f);
         // poof appear the ObjectToSlotIn
+        _chosesCollectibleRefs.ObjectToSlotIn.transform.position = _chosesCollectibleRefs.SlotToUse.transform.position; // putting it in the correct position
         _chosesCollectibleRefs.ObjectToSlotIn.gameObject.SetActive(true);
         _chosesCollectibleRefs.ObjectToSlotIn.Play(_popIn);
 
-        yield return new WaitForSeconds(0.3f);
-        // CHANGE THIS ---> make object just appear in slot, don't waste time moving it !!!!
-        // 3) move ObjectToSlotIn to correct slot
-        while (Vector3.Distance(_chosesCollectibleRefs.ObjectToSlotIn.transform.position, _chosesCollectibleRefs.SlotToUse.transform.position) > 0.01f)
-        {
-            _chosesCollectibleRefs.ObjectToSlotIn.transform.position = Vector3.MoveTowards(_chosesCollectibleRefs.ObjectToSlotIn.transform.position, _chosesCollectibleRefs.SlotToUse.transform.position, _chosesCollectibleRefs.Step);
+        // DATED move logic
+        //yield return new WaitForSeconds(0.3f);
+        //// 3) move ObjectToSlotIn to correct slot
+        //while (Vector3.Distance(_chosesCollectibleRefs.ObjectToSlotIn.transform.position, _chosesCollectibleRefs.SlotToUse.transform.position) > 0.01f)
+        //{
+        //    _chosesCollectibleRefs.ObjectToSlotIn.transform.position = Vector3.MoveTowards(_chosesCollectibleRefs.ObjectToSlotIn.transform.position, _chosesCollectibleRefs.SlotToUse.transform.position, _chosesCollectibleRefs.Step);
 
-            yield return new WaitForEndOfFrame();
-        }
+        //    yield return new WaitForEndOfFrame();
+        //}
+
+        yield return new WaitForSeconds(0.5f);
         // once arrived at the desired location, activate the slotted in sprite on the shelf
-        _chosesCollectibleRefs.SlotToUse.transform.GetChild(0).gameObject.SetActive(true);       
-        // reset position _objectToSlotIn
-        _chosesCollectibleRefs.ObjectToSlotIn.transform.position = _chosesCollectibleRefs.StartPosition;
-        _chosesCollectibleRefs.ObjectToSlotIn.Play(_popExtra);
-
-        yield return new WaitForSeconds(0.3f);
+        _chosesCollectibleRefs.SlotToUse.transform.GetChild(0).gameObject.SetActive(true);  
         _chosesCollectibleRefs.ObjectToSlotIn.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(0.8f);
-        // 4) after succesfull move, poof away the crown, return control to player
+        yield return new WaitForSeconds(0.2f);
         _chosesCollectibleRefs.ShelfToUse.Play(_popOut);
 
         GameManager.Instance.BlockInput = false;

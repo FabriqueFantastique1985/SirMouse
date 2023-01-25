@@ -16,4 +16,13 @@ public class Touch_Ingredient : Touch_Physics
 
         _physicsScriptOnSpawnedObject = spawnedObj.GetComponent<Touch_Physics_Object>();      
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Kettle")
+        {
+            RemoveObjectFromList(this.gameObject);
+        }
+    }
 }

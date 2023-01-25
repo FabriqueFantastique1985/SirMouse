@@ -63,7 +63,11 @@ public class Touch_Physics : Touch_Action
         {
             //base.Act();
 
-            AudioController.Instance.PlayAudio(AudioElements[0]);
+            if (AudioElements.Count > 0)
+            {
+                AudioController.Instance.PlayAudio(AudioElements[0]);
+            }
+            
             SpawnObject();
 
             _animationSpawnedObject.Play(_animPop);
@@ -81,7 +85,12 @@ public class Touch_Physics : Touch_Action
     {
         if (Input.GetMouseButtonUp(0))
         {
-            AudioController.Instance.PlayAudio(AudioElements[1]);
+
+            if (AudioElements.Count > 1)
+            {
+                AudioController.Instance.PlayAudio(AudioElements[1]);
+            }
+            
             LetGoOfMouse();            
         }
         else if (_activatedFollowMouse == true)
@@ -177,13 +186,32 @@ public class Touch_Physics : Touch_Action
         // remove the object (limited for performance/memory)
         if (SpawnedObjects.Count > _spawnLimit)
         {
-            AudioController.Instance.PlayAudio(AudioElements[2]);
+
+            if (AudioElements.Count > 2)
+            {
+                AudioController.Instance.PlayAudio(AudioElements[2]);
+            }
+            
 
             Instantiate(_prefabParticlePoof, SpawnedObjects[0].transform.position, Quaternion.identity);
 
+            RemoveObjectFromList();
+        }
+    }
+
+    protected virtual void RemoveObjectFromList(GameObject obj = null)
+    {
+        if (obj != null)
+        {
+            Destroy(obj);
+            SpawnedObjects.Remove(obj);
+        }
+        else
+        {
             Destroy(SpawnedObjects[0]);
             SpawnedObjects.RemoveAt(0);
         }
+
     }
 
     protected virtual void AddPhysicsScript(GameObject spawnedObj = null)
