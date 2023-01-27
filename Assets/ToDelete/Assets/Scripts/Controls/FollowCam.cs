@@ -15,6 +15,8 @@ public class FollowCam : MonoBehaviour
 
     private float resOffset;
 
+    public GameObject PointForRaycasting;
+
     private void Awake()
     {
         resOffset = Mathf.RoundToInt((GetComponent<Camera>().aspect - 1.3f) * 10) * 0.4f + 0.2f;

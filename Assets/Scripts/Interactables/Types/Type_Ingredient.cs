@@ -5,8 +5,9 @@ using UnityEngine;
 public enum Type_Ingredient 
 {
     None = 0,
-    Apple = 1,
-    Potato = 2,
-    Tomato = 3,
-    Garlic = 4
+    Ingredient_1 = 1,
+    Ingredient_2 = 2,
+    Ingredient_3 = 3,
+    Ingredient_4 = 4,
+    Ingredient_5 = 5
 }

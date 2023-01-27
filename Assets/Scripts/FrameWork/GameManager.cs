@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public CharacterGeoReferences characterGeoReferences;
     public CharacterGeoReferences characterGeoReferencesUI;
 
+    public Camera MainCamera;
+    public FollowCam MainCameraScript;
+
     //public PlayerReferences PlayerRefs;
 
     #region Fields

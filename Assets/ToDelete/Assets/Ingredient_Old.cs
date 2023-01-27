@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ingredient : MonoBehaviour
+public class Ingredient_Old : MonoBehaviour
 {
     public GameObject ingredientPrefab;
 }

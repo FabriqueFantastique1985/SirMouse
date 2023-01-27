@@ -91,7 +91,7 @@ public class SpawnIngredient : MonoBehaviour
                     //playerControls.walkingEnabled = false;
                     GameManager.Instance.BlockInput = true;
                 }
-                _IngredientClone = Instantiate(hit.collider.GetComponent<Ingredient>().ingredientPrefab, hit.collider.transform.position, Quaternion.Euler(0, 0, 0));
+                //_IngredientClone = Instantiate(hit.collider.GetComponent<Ingredient>().ingredientPrefab, hit.collider.transform.position, Quaternion.Euler(0, 0, 0));
                 _pickedUp = true;
             }
         }

@@ -25,24 +25,24 @@ public class Touch_Physics : Touch_Action
     private int _spawnLimit = 5;
 
     [SerializeField]
-    private SphereCollider _spriteCollider;
-    private SphereCollider _colSpawnedObject;
+    protected SphereCollider _spriteCollider;
+    protected SphereCollider _colSpawnedObject;
 
-    private bool _acted;
+    protected bool _acted;
 
     // physics ref
     protected Touch_Physics_Object _physicsScriptOnSpawnedObject;
-    private Rigidbody _rigidSpawnedObject;
-    private Animation _animationSpawnedObject;
+    protected Rigidbody _rigidSpawnedObject;
+    protected Animation _animationSpawnedObject;
 
     // values for following mouse  
-    private bool _activatedFollowMouse;
+    protected bool _activatedFollowMouse;
 
-    private Vector3 _mousePosition;
-    private Vector3 _mouseWorldPosXY;
-    private Vector3 _mouseWorldPositionXYZ;
+    protected Vector3 _mousePosition;
+    protected Vector3 _mouseWorldPosXY;
+    protected Vector3 _mouseWorldPositionXYZ;
 
-    private RaycastHit _hit;
+    protected RaycastHit _hit;
 
 
     protected override void Start()
@@ -111,11 +111,13 @@ public class Touch_Physics : Touch_Action
 
         _spawnedObject.transform.position = _spawnedObject.transform.position + calcualtedExtraDistance;
 
+        _physicsScriptOnSpawnedObject.LetGo = true;
         _physicsScriptOnSpawnedObject.enabled = true;
 
         _rigidSpawnedObject.useGravity = true;
         _rigidSpawnedObject.isKinematic = false;
 
+        _rigidSpawnedObject.velocity = Vector3.zero;
         _rigidSpawnedObject.AddForce(Camera.main.transform.right * Input.GetAxis("Mouse X") * 10f, ForceMode.Impulse);
 
         StartCoroutine(StopPhysicsUpdate(4f, _rigidSpawnedObject, _colSpawnedObject));
@@ -128,26 +130,40 @@ public class Touch_Physics : Touch_Action
     protected virtual void FollowMouseCalculations()
     {
         _mousePosition = Input.mousePosition;
-        _mouseWorldPosXY = Camera.main.ScreenToWorldPoint(_mousePosition);
+        _mouseWorldPosXY = GameManager.Instance.MainCamera.ScreenToWorldPoint(_mousePosition);
 
+        // puts the object from screenXY into world
         _spawnedObject.transform.position = _mouseWorldPosXY;
 
+        // if-else is to fix casting under ground bug
         if (_mouseWorldPosXY.y > 0)
         {
-            if (Physics.Raycast(_spawnedObject.transform.position, Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+            if (Physics.Raycast(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
             {
+                Debug.Log(_hit.collider + " collider hit");
+
+                Debug.DrawRay(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward * _hit.distance, Color.yellow);
+
                 _mouseWorldPositionXYZ = _hit.point;
                 _spawnedObject.transform.position = _mouseWorldPositionXYZ;
             }
         }
         else
         {
-            if (Physics.Raycast(_spawnedObject.transform.position, -Camera.main.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
+            if (Physics.Raycast(_spawnedObject.transform.position, -GameManager.Instance.MainCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
             {
+
+                Debug.DrawRay(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward * _hit.distance, Color.yellow);
+
                 _mouseWorldPositionXYZ = _hit.point;
                 _spawnedObject.transform.position = _mouseWorldPositionXYZ;
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        
     }
 
 
@@ -199,7 +215,7 @@ public class Touch_Physics : Touch_Action
         }
     }
 
-    protected virtual void RemoveObjectFromList(GameObject obj = null)
+    public virtual void RemoveObjectFromList(GameObject obj = null)
     {
         if (obj != null)
         {
