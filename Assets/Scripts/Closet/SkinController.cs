@@ -280,6 +280,9 @@ public class SkinController : MonoBehaviour
         var uiImageComponent = uiImageForCloset.AddComponent<Image>();
         uiImageComponent.sprite = interactableSprite;
 
+        // fix size of sprite
+        uiImageComponent.SetNativeSize();
+
         uiImageForCloset.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
         uiImageForCloset.SetActive(true);
 

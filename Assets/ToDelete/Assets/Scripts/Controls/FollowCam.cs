@@ -15,6 +15,8 @@ public class FollowCam : MonoBehaviour
 
     private float resOffset;
 
+    public GameObject PointForRaycasting;
+
     private void Awake()
     {
         resOffset = Mathf.RoundToInt((GetComponent<Camera>().aspect - 1.3f) * 10) * 0.4f + 0.2f;
@@ -56,6 +58,29 @@ public class FollowCam : MonoBehaviour
 
         Vector3 smoothPosition = Vector3.Lerp(transform.position, boundPosition, smoothFactor * Time.fixedDeltaTime);
         transform.position = smoothPosition;
+    }
+
+    public IEnumerator ZoomOut(float zoomGoal)
+    {
+        float originalSize = GameManager.Instance.MainCamera.orthographicSize;
+
+        while (GameManager.Instance.MainCamera.orthographicSize < originalSize + zoomGoal)
+        {
+            GameManager.Instance.MainCamera.orthographicSize += 0.05f;
+            yield return new WaitForEndOfFrame();
+        }
+
+        GameManager.Instance.MainCamera.orthographicSize = originalSize + zoomGoal;
+    }
+    public IEnumerator ZoomInNormal()
+    {
+        while (GameManager.Instance.MainCamera.orthographicSize > 5)
+        {
+            GameManager.Instance.MainCamera.orthographicSize -= 0.05f;
+            yield return new WaitForEndOfFrame();
+        }
+
+        GameManager.Instance.MainCamera.orthographicSize = 5;
     }
 
     IEnumerator Delay()

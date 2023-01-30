@@ -20,8 +20,8 @@ public class Touchable : MonoBehaviour, IClickable
     // components any tap-able would have
     [SerializeField]
     private Animator _animator; // all
-    [SerializeField]
-    private Collider _collider; // all
+    
+    public Collider Collider; // all
 
     // above this is base
     private float _animationPopDuration;
@@ -95,12 +95,12 @@ public class Touchable : MonoBehaviour, IClickable
     public IEnumerator ActivateCooldown()
     {
         _onCooldown = true;
-        _collider.enabled = false;
+        Collider.enabled = false;
 
         yield return new WaitForSeconds(_cooldownLength);
 
         _onCooldown = false;
-        _collider.enabled = true;
+        Collider.enabled = true;
     }
     private IEnumerator DisableAnimationComponent()
     {
