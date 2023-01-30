@@ -41,44 +41,35 @@ public class Touch_Ingredient : Touch_Physics
 
         Debug.DrawRay(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection * 40, Color.red);
 
-        // if-else is to fix casting under ground bug
-        //if (_mouseWorldPosXY.y > 0)
+        Ray ray = GameManager.Instance.MainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        //if (Physics.Raycast(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
         //{
-        //    if (Physics.Raycast(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
+        //    Debug.Log(_hit.collider + " collider hit");
+
+        //    Debug.DrawRay(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection * _hit.distance, Color.yellow);
+
+        //    _mouseWorldPositionXYZ = _hit.point;
+        //    _spawnedObject.transform.position = _mouseWorldPositionXYZ;
+        //    if (_raycastTestObject != null)
         //    {
-        //        Debug.Log(_hit.collider + " collider hit");
-
-        //        //Debug.DrawRay(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward * _hit.distance, Color.yellow);
-
-        //        _mouseWorldPositionXYZ = _hit.point;
-        //        _spawnedObject.transform.position = _mouseWorldPositionXYZ;
+        //        _raycastTestObject.transform.position = _mouseWorldPositionXYZ;
         //    }
-        //}
-        //else
-        //{
-        //    if (Physics.Raycast(_spawnedObject.transform.position, -GameManager.Instance.MainCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
-        //    {
 
-        //        //Debug.DrawRay(_spawnedObject.transform.position, -GameManager.Instance.MainCamera.transform.forward * _hit.distance, Color.yellow);
-
-        //        _mouseWorldPositionXYZ = _hit.point;
-        //        _spawnedObject.transform.position = _mouseWorldPositionXYZ;
-        //    }
         //}
 
-        if (Physics.Raycast(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
         {
-            Debug.Log(_hit.collider + " collider hit");
+            Debug.DrawLine(Camera.main.transform.position, hit.point);
 
-            Debug.DrawRay(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection * _hit.distance, Color.yellow);
-
-            _mouseWorldPositionXYZ = _hit.point;
+            _mouseWorldPositionXYZ = hit.point;
             _spawnedObject.transform.position = _mouseWorldPositionXYZ;
+
             if (_raycastTestObject != null)
             {
                 _raycastTestObject.transform.position = _mouseWorldPositionXYZ;
             }
-            
         }
     }
 

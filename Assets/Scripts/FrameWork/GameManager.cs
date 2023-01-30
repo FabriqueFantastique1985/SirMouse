@@ -53,12 +53,33 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     // call this from scene controller when a scene is loaded
     public void AdjustGameSystem(Collider[] newGroundColliders)
     {
-        _currentGameSystem = new MainGameSystem(Player, new int[2]
+        _currentGameSystem = new MainGameSystem(Player, new int[3]
             {
                 Player.gameObject.layer,
-                PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
+                PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer,
+                13
             },
             newGroundColliders);
+    }
+    public void EnterMainGameSystem()
+    {
+        _currentGameSystem = new MainGameSystem(Player, new int[3]
+            {
+                Player.gameObject.layer,
+                PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer,
+                13
+            },
+            GameManager.Instance.PlayField.GroundColliders);
+    }
+    public void EnterMiniGameSystem()
+    {
+        _currentGameSystem = new MiniGameSystem(Player, new int[3]
+            {
+                Player.gameObject.layer,
+                PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer,
+                13
+            }
+            );
     }
 
     private void Update()

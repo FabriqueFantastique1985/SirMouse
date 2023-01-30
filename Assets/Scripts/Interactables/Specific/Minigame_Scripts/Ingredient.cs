@@ -18,7 +18,4 @@ public class Ingredient : MonoBehaviour
 
     public bool Hidden = false;
     public bool HasBeenGiven = false;
-
-    
-
 }

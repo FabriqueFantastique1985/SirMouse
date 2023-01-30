@@ -12,17 +12,17 @@ public class RecipeController : MonoBehaviour
     public List<Recipe_Script> MyRecipes = new List<Recipe_Script>();
     public List<Sprite> PossibleSprites = new List<Sprite>();
     public List<float> SpriteScales = new List<float>();
+    public List<Health> MyHealth = new List<Health>();
     public List<Touchable> TouchableIngredients = new List<Touchable>();
 
-    //public Sprite SpriteStatusSuccess; // might just assign this to the Ingredient prefab
-    //public Sprite SpriteStatusFailure; // might end up obsolete 
+    public GameObject NewCameraTarget;
 
     public Animator RecipeScrollAnimator;
 
     // assigned at runtime
     public List<Type_Ingredient> CurrentRequiredIngredients = new List<Type_Ingredient>();
 
-
+    private int _currentHealth;
     private int _recipesCompleted = 0;
     private int _recipesRequiredToEndMainQuest = 5;
     private Type_Difficulty _currentDifficulty;
@@ -66,21 +66,64 @@ public class RecipeController : MonoBehaviour
     // called from interaction
     public void StartMinigame()
     {
-        //GameManager.Instance.BlockInput = true;
+        GameManager.Instance.MainCameraScript.target = NewCameraTarget.transform;
+        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomOut(2));
+        GameManager.Instance.EnterMiniGameSystem();
 
         // enables touchables
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
             TouchableIngredients[i].Collider.enabled = true;
         }
+        // set health to max
+        _currentHealth = 3;
 
         // show first scroll
         FirstScroll();
     }
     // called when failing/completing the minigame
-    public void EndMinigame()
+    private IEnumerator EndMinigame(bool failed = false)
     {
+        // animate the ingredients popping out (poofing)
+        for (int i = 0; i < _currentRecipe.MyIngredients.Count; i++)
+        {
+            _currentRecipe.MyIngredients[i].MyAnimationComponent.Play(_ingredientPoof);
+            yield return new WaitForSeconds(0.15f);
+        }
+        // reset the needed values (color of hidden ingredients, object states ...
+        for (int i = 0; i < _currentRecipe.MyIngredients.Count; i++)
+        {
+            _currentRecipe.MyIngredients[i].SpriteRendererIngredient.color = new Color(255, 255, 255);
+            _currentRecipe.MyIngredients[i].Hidden = false;
+            _currentRecipe.MyIngredients[i].HasBeenGiven = false;
+            _currentRecipe.MyIngredients[i].ObjectIngredient.SetActive(false);
+            _currentRecipe.MyIngredients[i].ObjectStatus.SetActive(false);
+        }
+
+        // poof the lives popping up 1 by 1, disable them afterwards
+        for (int i = 0; i < MyHealth.Count; i++)
+        {
+            MyHealth[i].MyAnimationComponent.Play(_ingredientPoof);
+            yield return new WaitForSeconds(0.2f);
+        }
+        for (int i = 0; i < MyHealth.Count; i++)
+        {
+            MyHealth[i].gameObject.SetActive(false);
+            MyHealth[i].ParticleExplosion.SetActive(false);
+            MyHealth[i].SpriteRenderer.sprite = MyHealth[i].SpriteHeadNormal;
+        }
+
+        // empty out required ingredients (in case of failure)
+        CurrentRequiredIngredients.Clear();
+
+
+        yield return new WaitForSeconds(0.3f);
+        // animate the scroll up
+        RecipeScrollAnimator.Play(_closeScroll);
+
+        yield return new WaitForSeconds(0.3f);
         RecipeScrollAnimator.Play(_endScroll);
+
         _recipesCompleted = 0;
 
         // disable touchables 
@@ -89,7 +132,9 @@ public class RecipeController : MonoBehaviour
             TouchableIngredients[i].Collider.enabled = false;
         }
 
-        //GameManager.Instance.BlockInput = false;
+        GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
+        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomInNormal());
+        GameManager.Instance.EnterMainGameSystem();
     }
 
 
@@ -111,6 +156,13 @@ public class RecipeController : MonoBehaviour
             _currentDifficulty = Type_Difficulty.Easiest;
 
             yield return new WaitForSeconds(1.2f);
+
+            // play the lives popping up 1 by 1
+            for (int i = 0; i < MyHealth.Count; i++)
+            {
+                MyHealth[i].gameObject.SetActive(true);
+                yield return new WaitForSeconds(0.2f);
+            }
         }
         else
         {
@@ -194,7 +246,7 @@ public class RecipeController : MonoBehaviour
             // remove the entered ingredient from the requirements
             CurrentRequiredIngredients.Remove(typeEntered);
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.4f);
 
             // check if this was the last required ingredient
             CheckRecipeCompletion();
@@ -220,6 +272,8 @@ public class RecipeController : MonoBehaviour
             {
                 // end the minigame
                 Debug.Log("YOU FINISHED THE GAME");
+
+                StartCoroutine(EndMinigame());
             }
             else // else, refresh the recipe
             {
@@ -379,6 +433,16 @@ public class RecipeController : MonoBehaviour
 
         // check if 2 ingredients alrdy have this (if so re-calculate the random)
         // TO DO
+        //do
+        //{
+
+        //}
+        //while ();
+
+        //if (_currentRecipe.MyIngredients[i].TypeOfIngredient)
+        //{
+
+        //}
 
         // adjust scale according to ingredient count
         float scaleToUse = 1;
@@ -392,48 +456,25 @@ public class RecipeController : MonoBehaviour
         }
 
         // assign type according to random
-        switch (randomInt)
-        {
-            case 1:
-                _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_1;
-                CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_1);
-
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[0];
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[0], SpriteScales[0], SpriteScales[0]) * scaleToUse;
-                break;
-            case 2:
-                _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_2;
-                CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_2);
-
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[1];
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[1], SpriteScales[1], SpriteScales[1]) * scaleToUse;
-                break;
-            case 3:
-                _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_3;
-                CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_3);
-
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[2];
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[2], SpriteScales[2], SpriteScales[2]) * scaleToUse;
-                break;
-            case 4:
-                _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_4;
-                CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_4);
-
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[3];
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[3], SpriteScales[3], SpriteScales[3]) * scaleToUse;
-                break;
-            case 5:
-                _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_5;
-                CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_5);
-
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[4];
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[4], SpriteScales[4], SpriteScales[4]) * scaleToUse;
-                break;
-        }      
+        _currentRecipe.MyIngredients[i].TypeOfIngredient = (Type_Ingredient)randomInt;
+        CurrentRequiredIngredients.Add((Type_Ingredient)randomInt);
+        // set sprite and scale
+        _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[randomInt - 1];
+        _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[randomInt - 1], SpriteScales[randomInt - 1], SpriteScales[randomInt - 1]) * scaleToUse;
     }
     private void PunishThePlayer()
     {
         Debug.Log("WRONG INGREDIENT FOOOOOOL");
+
+        _currentHealth -= 1;
+
+        MyHealth[_currentHealth].ParticleExplosion.SetActive(true);
+        MyHealth[_currentHealth].SpriteRenderer.sprite = MyHealth[_currentHealth].SpriteHeadExploded;
+
+        if (_currentHealth <= 0)
+        {
+            StartCoroutine(EndMinigame(true));
+        }
     }
 
 }

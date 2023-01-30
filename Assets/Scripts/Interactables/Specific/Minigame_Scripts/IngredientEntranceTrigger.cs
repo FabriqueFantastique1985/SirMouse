@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class IngredientEntranceTrigger : MonoBehaviour
@@ -22,6 +23,9 @@ public class IngredientEntranceTrigger : MonoBehaviour
 
                 // play particle sploosh ??
 
+                // play sound
+
+                //AudioController.Instance.PlayAudio()
             }
 
         }

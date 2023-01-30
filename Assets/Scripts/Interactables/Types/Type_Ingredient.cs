@@ -9,5 +9,9 @@ public enum Type_Ingredient
     Ingredient_2 = 2,
     Ingredient_3 = 3,
     Ingredient_4 = 4,
-    Ingredient_5 = 5
+    Ingredient_5 = 5,
+    Ingredient_6 = 6,
+    Ingredient_7 = 7,
+    Ingredient_8 = 8,
+    Ingredient_9 = 9
 }
