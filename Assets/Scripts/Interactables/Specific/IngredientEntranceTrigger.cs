@@ -13,7 +13,8 @@ public class IngredientEntranceTrigger : MonoBehaviour
         {
             if (touchablePhysicsIngredient.LetGo == true)
             {
-                _recipeController.UpdateRecipeStatus(touchablePhysicsIngredient.TypeOfIngredient);
+                //_recipeController.UpdateRecipeStatus(touchablePhysicsIngredient.TypeOfIngredient);
+                _recipeController.StartCoroutine(_recipeController.UpdateRecipeStatus(touchablePhysicsIngredient.TypeOfIngredient));
 
                 // destroy the ingredient AND first remove it from the list of its spawned objects
                 touchablePhysicsIngredient.SourceIComeFrom.RemoveObjectFromList(touchablePhysicsIngredient.gameObject);

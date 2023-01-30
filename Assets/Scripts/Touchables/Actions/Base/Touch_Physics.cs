@@ -248,7 +248,10 @@ public class Touch_Physics : Touch_Action
             rigidSpawnedobject.useGravity = false;
             collSpawnedObject.enabled = false;
 
-            _physicsScriptOnSpawnedObject.enabled = false;
+            if (_physicsScriptOnSpawnedObject != null)
+            {
+                _physicsScriptOnSpawnedObject.enabled = false;
+            }          
         }
     }
 }

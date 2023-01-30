@@ -11,6 +11,7 @@ public class RecipeController : MonoBehaviour
     // assign in inspector
     public List<Recipe_Script> MyRecipes = new List<Recipe_Script>();
     public List<Sprite> PossibleSprites = new List<Sprite>();
+    public List<float> SpriteScales = new List<float>();
     public List<Touchable> TouchableIngredients = new List<Touchable>();
 
     //public Sprite SpriteStatusSuccess; // might just assign this to the Ingredient prefab
@@ -123,6 +124,7 @@ public class RecipeController : MonoBehaviour
             {
                 _currentRecipe.MyIngredients[i].SpriteRendererIngredient.color = new Color(255, 255, 255);
                 _currentRecipe.MyIngredients[i].Hidden = false;
+                _currentRecipe.MyIngredients[i].HasBeenGiven = false;
                 _currentRecipe.MyIngredients[i].ObjectIngredient.SetActive(false);
                 _currentRecipe.MyIngredients[i].ObjectStatus.SetActive(false);
             }
@@ -158,7 +160,7 @@ public class RecipeController : MonoBehaviour
     /// <summary>
     /// Called on the OnTriggerEnter of "Trigger_To_Check_Ingredients"
     /// </summary>
-    public void UpdateRecipeStatus(Type_Ingredient typeEntered)
+    public IEnumerator UpdateRecipeStatus(Type_Ingredient typeEntered)
     {
         // figure out if we entered a correct ingredient...
         bool correctIngredient = false;
@@ -192,9 +194,10 @@ public class RecipeController : MonoBehaviour
             // remove the entered ingredient from the requirements
             CurrentRequiredIngredients.Remove(typeEntered);
 
+            yield return new WaitForSeconds(0.3f);
+
             // check if this was the last required ingredient
             CheckRecipeCompletion();
-
         }
         else
         {
@@ -377,40 +380,56 @@ public class RecipeController : MonoBehaviour
         // check if 2 ingredients alrdy have this (if so re-calculate the random)
         // TO DO
 
+        // adjust scale according to ingredient count
+        float scaleToUse = 1;
+        if (_currentRecipe.MyIngredients.Count < 2)
+        {
+            scaleToUse = 2;
+        }
+        else if (_currentRecipe.MyIngredients.Count < 4)
+        {
+            scaleToUse = 1.3f;
+        }
+
         // assign type according to random
         switch (randomInt)
         {
             case 1:
                 _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_1;
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[0];
-
                 CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_1);
+
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[0];
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[0], SpriteScales[0], SpriteScales[0]) * scaleToUse;
                 break;
             case 2:
                 _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_2;
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[1];
-
                 CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_2);
+
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[1];
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[1], SpriteScales[1], SpriteScales[1]) * scaleToUse;
                 break;
             case 3:
                 _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_3;
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[2];
-
                 CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_3);
+
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[2];
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[2], SpriteScales[2], SpriteScales[2]) * scaleToUse;
                 break;
             case 4:
                 _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_4;
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[3];
-
                 CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_4);
+
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[3];
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[3], SpriteScales[3], SpriteScales[3]) * scaleToUse;
                 break;
             case 5:
                 _currentRecipe.MyIngredients[i].TypeOfIngredient = Type_Ingredient.Ingredient_5;
-                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[4];
-
                 CurrentRequiredIngredients.Add(Type_Ingredient.Ingredient_5);
+
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[4];
+                _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[4], SpriteScales[4], SpriteScales[4]) * scaleToUse;
                 break;
-        }
+        }      
     }
     private void PunishThePlayer()
     {
