@@ -62,6 +62,7 @@ public class RecipeController : MonoBehaviour
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
             TouchableIngredients[i].Collider.enabled = false;
+            TouchableIngredients[i].ParticleGlowy.Stop();
         }
     }
 
@@ -78,6 +79,7 @@ public class RecipeController : MonoBehaviour
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
             TouchableIngredients[i].Collider.enabled = true;
+            TouchableIngredients[i].ParticleGlowy.Play();
         }
         // set health to max
         _currentHealth = 3;
@@ -134,6 +136,7 @@ public class RecipeController : MonoBehaviour
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
             TouchableIngredients[i].Collider.enabled = false;
+            TouchableIngredients[i].ParticleGlowy.Stop();
         }
 
         GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
