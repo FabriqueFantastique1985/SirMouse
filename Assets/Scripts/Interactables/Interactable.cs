@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    #region Events
+
+    public delegate void InteractableDelegate();
+
+    public event InteractableDelegate OnInteracted;
+
+    #endregion
+    
     /// <summary>
     /// Balloon used to execute an interaction.
     /// </summary>
@@ -61,8 +69,6 @@ public class Interactable : MonoBehaviour
     }
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
-        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
-        
         // Execute current interaction
         if (_currentInteractionIndex < 0 || _interactions.Count <= 0)
         {
@@ -70,6 +76,9 @@ public class Interactable : MonoBehaviour
             return;
         }
         _interactions[_currentInteractionIndex].Execute(player);
+
+        OnInteracted?.Invoke();
+        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
     }
     
     protected virtual void OnInteractSwapBalloonClicked(Balloon sender, Player player)

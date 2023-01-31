@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace Fabrique
@@ -32,6 +33,13 @@ namespace Fabrique
 
         #endregion
 
+        private void Awake()
+        {
+            for (int i = 0; i < _objectives.Count; i++)
+            {
+                _objectives[i] = LoadObjective();
+            }
+        }
 
         /// <summary>
         /// Starts the mission and sets the current objective
@@ -87,6 +95,16 @@ namespace Fabrique
 
             // Starts the next objective on this mission.
             SetObjective(_currentObjectiveIndex);
+        }
+        
+        Objective LoadObjective()
+        {
+            if (File.Exists("objective.json"))
+            {
+                string json = File.ReadAllText("objective.json");
+                return Objective.FromJson(json);
+            }
+            return null;
         }
     }
 }

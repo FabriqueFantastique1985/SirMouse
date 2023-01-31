@@ -15,6 +15,9 @@ public class MiniGameSystem : GameSystem
     private float _cooldownTimer;
     private float _cooldownLimit = 0.15f;
 
+    public delegate void MiniGameEvent(bool gameWon);
+    public event MiniGameEvent OnMiniGameEnded;
+    
     public MiniGameSystem(Player player, int[] layersToIgnore, Collider[] newGroundColls = null) : base(player, layersToIgnore)
     {
         for (int i = 0; i < layersToIgnore.Length; i++)
@@ -72,5 +75,10 @@ public class MiniGameSystem : GameSystem
                 _cooldownTimer = 0;
             }
         }
+    }
+
+    public void EndMinigame(bool hasWon)
+    {
+        OnMiniGameEnded?.Invoke(hasWon);
     }
 }

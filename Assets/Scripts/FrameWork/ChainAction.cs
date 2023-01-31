@@ -1,15 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Fabrique
-{
     [Serializable]
-    public abstract class ChainAction : MonoBehaviour
+    public class ChainAction
     {
         #region Enums
 
         public enum ChainActionType
         {
+            Empty,
             Audio,
             Cutscene,
             MovePlayer,
@@ -27,4 +26,3 @@ namespace Fabrique
         {
         }
     }
-}

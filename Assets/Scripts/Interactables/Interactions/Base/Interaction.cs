@@ -29,6 +29,10 @@ public class Interaction : MonoBehaviour
     /// </summary>
     [SerializeField]
     private List<ChainAction> _chainActions;
+
+    [Header("ToDelete")]
+    [SerializeField]
+    private List<ChainActionMonoBehaviour> _chainActionsMono;
     
     //public Sprite InteractionSprite => _interactionSprite;
     public GameObject SpriteObjectInteractionBalloon

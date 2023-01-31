@@ -88,6 +88,15 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
             },
             newGroundColliders);
     }
+
+    public void ExitMiniGameSystem(bool hasWon)
+    {
+        if (_currentGameSystem.GetType() == typeof(MiniGameSystem))
+        {
+            (_currentGameSystem as MiniGameSystem).EndMinigame(hasWon);
+        }
+    }
+    
     public void EnterMainGameSystem()
     {
         _currentGameSystem = new MainGameSystem(Player, new int[4]

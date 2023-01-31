@@ -44,6 +44,6 @@ public class InteractionMixingIngredients : Interaction
         //  ) if correct, continue, else explode
         //  ) get reward
 
-        RecipeControllerScript.StartMinigame();
+     //   RecipeControllerScript.StartMinigame();
     }
 }
