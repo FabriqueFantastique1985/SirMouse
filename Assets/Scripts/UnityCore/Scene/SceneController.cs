@@ -249,6 +249,7 @@ namespace UnityCore
                     case SceneType.Swamp: return "Swamp";
                     case SceneType.MisterWitch_Int: return "MisterWitch_Int";
                     case SceneType.PrinceTower_C: return "PrinceTower_C";
+                    case SceneType.ForestDuplicate: return "ForestLevelDuplicate";
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a string for a valid scene. ");
                         return string.Empty;
@@ -278,6 +279,7 @@ namespace UnityCore
                     case "Swamp": return SceneType.Swamp;
                     case "MisterWitch_Int": return SceneType.MisterWitch_Int;
                     case "PrinceTower_C": return SceneType.PrinceTower_C;
+                    case "ForestLevelDuplicate": return SceneType.ForestDuplicate;
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a type for a valid scene. ");
                         return SceneType.None;

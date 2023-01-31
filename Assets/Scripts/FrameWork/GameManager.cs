@@ -46,11 +46,8 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         base.Awake();
         SceneManager.sceneLoaded += OnSceneLoaded;
-        
-        _currentGameSystem = new MainGameSystem(Player, new int[1]
-        {
-            PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
-        });
+
+        EnterMainGameSystem();
     }
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)

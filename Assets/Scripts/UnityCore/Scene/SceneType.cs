@@ -29,7 +29,8 @@ namespace UnityCore
             ForestLevel = 17,
             Swamp = 18,
             MisterWitch_Int = 19,
-            PrinceTower_C = 20
+            PrinceTower_C = 20,
+            ForestDuplicate = 21
         }
     }
 }
