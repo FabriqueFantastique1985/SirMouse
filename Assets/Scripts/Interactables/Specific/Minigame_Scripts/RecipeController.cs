@@ -28,6 +28,8 @@ public class RecipeController : MonoBehaviour
 
     private int _currentHealth;
     private int _recipesCompleted = 0;
+    
+    [SerializeField]
     private int _recipesRequiredToEndMainQuest = 5;
     private Type_Difficulty _currentDifficulty;
     private Recipe_Script _currentRecipe;

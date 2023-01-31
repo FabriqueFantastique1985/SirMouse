@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ChainActionSceneLoaded : ChainActionMonoBehaviour
 {
-    [SerializeField]
-    private List<ChainActionMonoBehaviour> _chainActions;
+    public ChainActionMonoBehaviour[] _chainActions;
     
     private void Awake()
     {
@@ -16,7 +15,13 @@ public class ChainActionSceneLoaded : ChainActionMonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        _chainActions.ForEach(x => GameManager.Instance.ChainMono.AddAction(x));
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        for (int i = 0; i < _chainActions.Length; i++)
+        {
+            GameManager.Instance.ChainMono.AddAction(_chainActions[i]);
+        }
+
         GameManager.Instance.ChainMono.StartNextChainAction();
     }
 }
