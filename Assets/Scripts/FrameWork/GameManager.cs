@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     private bool _blockInput = false;
     private GameSystem _currentGameSystem;
     private Chain _chain = new Chain(false);
-
+    private ChainMono _chainMono = new ChainMono(false);
     #endregion
 
     #region Properties
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     }
     
     public Chain Chain => _chain;
+    public ChainMono ChainMono => _chainMono;
 
     #endregion
 
@@ -116,5 +117,6 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         _currentGameSystem.Update();
 
         _chain.UpdateChain(Time.deltaTime);
+        _chainMono.UpdateChain(Time.deltaTime);
     }
 }
