@@ -156,20 +156,20 @@ namespace UnityCore
 
             private void SpawnPlayerOnCorrectPosition()
             {
-                Interactable_NextLevel[] spawnScripts = FindObjectsOfType<Interactable_NextLevel>();
+                InteractionLevelChange[] spawnScripts = FindObjectsOfType<InteractionLevelChange>();
                 var player = GameManager.Instance.Player;
 
                 if (spawnScripts != null)
                 {
-                    foreach (Interactable_NextLevel spawnScript in spawnScripts)
+                    foreach (InteractionLevelChange spawnScript in spawnScripts)
                     {
                         // if the spawnvalues integer == the value on this script....
                         if (spawnScript.SpawnValue == _nextSceneSpawnLocation)
                         {
                             // move the player over there
-                           player.Agent.enabled = false;
-                           player.transform.position = spawnScript.transform.position;
-                           player.Agent.enabled = true;
+                            player.Agent.enabled = false;
+                            player.transform.position = spawnScript.transform.position;
+                            player.Agent.enabled = true;
                         }
                     }
                 }

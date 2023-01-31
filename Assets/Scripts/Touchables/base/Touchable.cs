@@ -19,14 +19,13 @@ public class Touchable : MonoBehaviour, IClickable
 
     // components any tap-able would have
     [SerializeField]
-    private Animator _animator; // all
-    
-    public Collider Collider; // all
+    private Animator _animator;     
+    public Collider Collider; 
+    public ParticleSystem ParticleGlowy;
 
-    // above this is base
+
     private float _animationPopDuration;
 
-    // etc
     public LayerMask LayersToCastOn; // should perhaps be the same as gamemanager layers
 
     // audio // specifically for animation events

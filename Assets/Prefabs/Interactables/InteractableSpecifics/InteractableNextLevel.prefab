@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteObjectInteractionInBalloon: {fileID: 6370669743992430431}
-  _animationClip: {fileID: 0}
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
   _sceneToTeleportTo: 3
   SpawnValue: 0
 --- !u!1001 &3969569115111689225
@@ -23,6 +25,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+        type: 3}
+      propertyPath: _interactions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: _interactions.Array.data[0]
