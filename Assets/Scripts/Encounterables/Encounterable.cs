@@ -53,7 +53,7 @@ public class Encounterable : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         // use layers so it only detects player entering
         if (_oneTimeUse == false || _oneTimeUse == true && _usedSuccesfully == false)
@@ -111,15 +111,11 @@ public class Encounterable : MonoBehaviour
     {
         yield return new WaitForSeconds(randomTime);
 
-        _animator.enabled = true;
+        if (_animator != null)
+        {
+            _animator.enabled = true;
+        }
     }
 
     #endregion
-
-
-
-
-
-
-
 }
