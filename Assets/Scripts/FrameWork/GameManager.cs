@@ -80,31 +80,31 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     // call this from scene controller when a scene is loaded
     public void AdjustGameSystem(Collider[] newGroundColliders)
     {
-        _currentGameSystem = new MainGameSystem(Player, new int[3]
+        _currentGameSystem = new MainGameSystem(Player, new int[4]
             {
                 Player.gameObject.layer,
                 PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer,
-                13
+                13, 14
             },
             newGroundColliders);
     }
     public void EnterMainGameSystem()
     {
-        _currentGameSystem = new MainGameSystem(Player, new int[3]
+        _currentGameSystem = new MainGameSystem(Player, new int[4]
             {
                 Player.gameObject.layer,
                 PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer,
-                13
+                13, 14
             },
             GameManager.Instance.PlayField.GroundColliders);
     }
     public void EnterMiniGameSystem()
     {
-        _currentGameSystem = new MiniGameSystem(Player, new int[3]
+        _currentGameSystem = new MiniGameSystem(Player, new int[4]
             {
                 Player.gameObject.layer,
                 PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer,
-                13
+                13, 14
             }
             );
     }
