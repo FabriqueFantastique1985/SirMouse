@@ -11,5 +11,17 @@ public class Health : MonoBehaviour
 
     public SpriteRenderer SpriteRenderer;
 
-    public GameObject ParticleExplosion;
+    public Animator ParticleExplosion;
+
+
+    public void PlayExplosion()
+    {
+        ParticleExplosion.gameObject.SetActive(true);
+        ParticleExplosion.SetTrigger("Activate");
+    }
+
+    public void ResetExplosion()
+    {
+        ParticleExplosion.gameObject.SetActive(false);
+    }
 }

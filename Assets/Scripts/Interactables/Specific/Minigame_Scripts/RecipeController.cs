@@ -111,7 +111,7 @@ public class RecipeController : MonoBehaviour
         for (int i = 0; i < MyHealth.Count; i++)
         {
             MyHealth[i].gameObject.SetActive(false);
-            MyHealth[i].ParticleExplosion.SetActive(false);
+            //MyHealth[i].ParticleExplosion.SetActive(false);
             MyHealth[i].SpriteRenderer.sprite = MyHealth[i].SpriteHeadNormal;
         }
 
@@ -471,7 +471,7 @@ public class RecipeController : MonoBehaviour
 
         _currentHealth -= 1;
 
-        MyHealth[_currentHealth].ParticleExplosion.SetActive(true);
+        MyHealth[_currentHealth].PlayExplosion();
         MyHealth[_currentHealth].SpriteRenderer.sprite = MyHealth[_currentHealth].SpriteHeadExploded;
 
         if (_currentHealth <= 0)
