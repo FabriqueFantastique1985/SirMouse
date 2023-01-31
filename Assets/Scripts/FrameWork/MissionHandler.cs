@@ -13,7 +13,7 @@ public class MissionHandler : MonoBehaviourSingleton<MissionHandler>
     protected override void Awake()
     {
         base.Awake();
-        if (_missions.Count > 0) _currentMission = _missions[0];
+//        if (_missions.Count > 0) _currentMission = _missions[0];
     }
 
     public void StartMission(Mission mission)

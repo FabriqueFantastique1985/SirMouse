@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class RecipeController : MonoBehaviour
 {
+    public delegate void RecipeGameEnded(bool hasWon);
+
+    public event RecipeGameEnded MiniGameEnded;
+    
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
 
@@ -137,6 +141,8 @@ public class RecipeController : MonoBehaviour
 
         GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
         StartCoroutine(GameManager.Instance.MainCameraScript.ZoomInNormal());
+
+        MiniGameEnded?.Invoke(!failed);
         GameManager.Instance.EnterMainGameSystem();
     }
 
