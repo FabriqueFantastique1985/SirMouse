@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityCore.Scene;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourSingleton<GameManager>
 {
@@ -43,11 +44,36 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     private void Awake()
     {
         base.Awake();
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
         _currentGameSystem = new MainGameSystem(Player, new int[1]
         {
             PlayField.Interactables.Length <= 0 ? 0 : PlayField.Interactables[0].gameObject.layer
         });
+    }
+
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        var players = FindObjectsOfType<Player>();
+
+        if (Player == null && players.Length > 0)
+        {
+            Player = players[0];
+        }
+        else if (Player != null && players.Length > 1)
+        {
+            foreach (var player in players)
+            {
+                if (player == Player) continue;
+                else Destroy(player);
+            }
+        }
+            
+        if (PlayField == null)
+        {
+            PlayField = FindObjectOfType<PlayField>();
+            if (PlayField == null) Debug.LogError($"No PlayField found in this scene {SceneManager.GetActiveScene()}");
+        }
     }
 
     // call this from scene controller when a scene is loaded
