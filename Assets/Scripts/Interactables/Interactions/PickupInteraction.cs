@@ -10,12 +10,11 @@ public class PickupInteraction : Interaction
    
     public bool IsTwoHandPickup = false;
 
-    public Type_Pickup TypeOfPickup;
     public SpriteRenderer SpriteRenderPickup;
 
     protected override void SpecificAction(Player player)
     {
-        player.PushState(new PickUpState(player, _pickUpInteractable, TypeOfPickup, IsTwoHandPickup));
+        player.PushState(new PickUpState(player, _pickUpInteractable, _pickUpInteractable.MyPickupType, IsTwoHandPickup));
     }
 
     protected override bool Prerequisite(Player player)

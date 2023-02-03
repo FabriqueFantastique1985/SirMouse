@@ -16,8 +16,7 @@ public class Interactable : MonoBehaviour
     /// <summary>
     /// Balloon used to execute an interaction.
     /// </summary>
-    [Header("Balloon components")]
-    
+    [Header("Balloon components")]  
     public Balloon InteractionBalloon;
 
     /// <summary>
@@ -25,6 +24,9 @@ public class Interactable : MonoBehaviour
     /// </summary>
     [SerializeField]
     private Balloon _swapBalloon;
+
+    [Header("Assign proper type if I have a pickup interaction")]
+    public Type_Pickup MyPickupType;
 
     /// <summary>
     /// List of possible interactions with this interactable

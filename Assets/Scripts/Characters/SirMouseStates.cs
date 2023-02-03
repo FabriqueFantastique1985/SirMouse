@@ -258,7 +258,7 @@ public class BackpackExtractionState : SirMouseState
         if (player.EquippedItem != null)
         {
             var pickupInteraction = player.EquippedItem.GetComponent<PickupInteraction>();
-            backPack.AddItemToBackpackFromHands(player.EquippedItem, player.EquippedItem.gameObject, pickupInteraction.TypeOfPickup, pickupInteraction.SpriteRenderPickup);
+            backPack.AddItemToBackpackFromHands(player.EquippedItem, player.EquippedItem.gameObject, player.EquippedPickupType, pickupInteraction.SpriteRenderPickup);
         }
 
         // 2) put new pickup into hands (player.equip) 

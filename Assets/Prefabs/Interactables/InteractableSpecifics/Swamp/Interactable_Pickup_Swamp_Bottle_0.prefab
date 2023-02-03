@@ -94,8 +94,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteObjectInteractionInBalloon: {fileID: 5175404995658675192}
-  _animationClip: {fileID: 0}
-  _completeActions: []
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
   _interactableComponent: {fileID: 6715316944727940634}
   _interactionPickup: {fileID: 4368417321372748689}
 --- !u!114 &4368417321372748689
@@ -111,11 +113,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteObjectInteractionInBalloon: {fileID: 7688703796007290290}
-  _animationClip: {fileID: 0}
-  _completeActions: []
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
   _pickUpInteractable: {fileID: 6715316944727940634}
   IsTwoHandPickup: 1
-  TypeOfPickup: 3
   SpriteRenderPickup: {fileID: 1239950598990396584}
 --- !u!1 &737172699195753333
 GameObject:
@@ -830,6 +833,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+        type: 3}
+      propertyPath: MyPickupType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}

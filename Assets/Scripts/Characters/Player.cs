@@ -27,6 +27,7 @@ public class Player : MonoBehaviour, IClickable
     public Character Character => _character;
     public NavMeshAgent Agent => _agent;
     public Interactable EquippedItem => _equippedItem;
+    public Type_Pickup EquippedPickupType => _equippedPickupType;
     
     #endregion
 
@@ -34,10 +35,11 @@ public class Player : MonoBehaviour, IClickable
 
     private Stack<SirMouseState> _stateStack = new Stack<SirMouseState>();
     private Interactable _equippedItem;
+    private Type_Pickup _equippedPickupType;
 
     #endregion
-    
-    
+
+
     //private void Awake()
     //{
     //    Initialize();
@@ -98,6 +100,8 @@ public class Player : MonoBehaviour, IClickable
     public void Equip(Interactable itemToEquip, bool outOfBackpack = false)
     {
         _equippedItem = itemToEquip;
+        _equippedPickupType = itemToEquip.MyPickupType;
+
         _equippedItem.gameObject.SetActive(true);
         _equippedItem.transform.parent = _characterRigReferences.HandRightTransform;
         _equippedItem.transform.localPosition = Vector3.zero;
@@ -124,6 +128,7 @@ public class Player : MonoBehaviour, IClickable
         _equippedItem.InteractionBalloon.BalloonTrigger.enabled = true;
 
         _equippedItem = null;
+        _equippedPickupType = Type_Pickup.None;
     }
 
     public void Click(Player player)

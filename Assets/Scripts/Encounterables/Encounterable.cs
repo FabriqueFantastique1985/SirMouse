@@ -9,6 +9,9 @@ public class Encounterable : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
+    [SerializeField]
+    private Type_Pickup _pickupTypeNeededToProc = Type_Pickup.None;
+
     [Header("Cooldown Related")]
     [SerializeField]
     private bool _oneTimeUse;
@@ -55,18 +58,22 @@ public class Encounterable : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        // use layers so it only detects player entering
-        if (_oneTimeUse == false || _oneTimeUse == true && _usedSuccesfully == false)
+        if (_pickupTypeNeededToProc != Type_Pickup.None && GameManager.Instance.Player.EquippedPickupType == _pickupTypeNeededToProc
+            || _pickupTypeNeededToProc == Type_Pickup.None)
         {
-            // check for cooldown
-            if (_onCooldown == false)
+            // use layers so it only detects player entering
+            if (_oneTimeUse == false || _oneTimeUse == true && _usedSuccesfully == false)
             {
-                GenericBehaviour();
-
-                // if cooldown is present
-                if (_hasACooldown == true)
+                // check for cooldown
+                if (_onCooldown == false)
                 {
-                    StartCoroutine(ActivateCooldown());
+                    GenericBehaviour();
+
+                    // if cooldown is present
+                    if (_hasACooldown == true)
+                    {
+                        StartCoroutine(ActivateCooldown());
+                    }
                 }
             }
         }
