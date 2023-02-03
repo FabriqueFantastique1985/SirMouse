@@ -12,6 +12,7 @@ namespace UnityCore
             public static AudioController Instance;
 
             public AudioTrack[] Tracks;
+            public int SourcesAmountOST, SourcesAmountUI, SourcesAmountSirMouse, SourcesAmountWorld; // assign these proper amount in inspector
 
             public Hashtable AudioTable; // relationship between audio clips (key) and audio tracks (value)
             private Hashtable m_JobTable;   // relationship between audio clips (key) or types and jobs (value) (Coroutine, IEnumerator)
@@ -164,7 +165,7 @@ namespace UnityCore
                // RemoveConflictingJobs(job.Clip); 
                 // start job
                 jobRunner = RunAudioJobClip(job);
-                m_JobTable.Add(job.Clip, jobRunner);
+                //m_JobTable.Add(job.Clip, jobRunner); // argument exception ??? "item has alrdy been added (dictionary)
                 _lastViableJob = job;
                 
                 StartCoroutine(jobRunner);
@@ -173,39 +174,40 @@ namespace UnityCore
             {
                 yield return new WaitForSeconds(job.Delay);
 
-                AudioTrack track = (AudioTrack)AudioTable[job.Type]; 
-
-                switch (job.Type)
-                {
-                    case AudioType.OST:
-                        track = Tracks[0];
-                        break;
-                    case AudioType.SFX_UI:
-                        track = Tracks[1];
-                        break;
-                    case AudioType.SFX_SirMouse:
-                        track = Tracks[2];
-                        break;
-                    case AudioType.SFX_World:
-                        track = Tracks[3];
-                        break;
-                }
+                //AudioTrack trackToUse = (AudioTrack)AudioTable[job.Type];
+                AudioTrack trackToUse = null;
+                trackToUse = FindTrackThatsCurrentlyNotPlaying(job.Type);
+                //switch (job.Type)
+                //{
+                //    case AudioType.OST:
+                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.OST, trackToUse);
+                //        break;
+                //    case AudioType.SFX_UI:
+                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.SFX_UI, trackToUse);
+                //        break;
+                //    case AudioType.SFX_SirMouse:
+                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.SFX_SirMouse, trackToUse);
+                //        break;
+                //    case AudioType.SFX_World: // making 4 tracks for World_Sounds                      
+                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.SFX_World, trackToUse);
+                //        break;
+                //}
 
                 switch (job.Action)
                 {
                     case AudioAction.START:
-                        track.Source.clip = job.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned
-                        track.Source.Play();
+                        trackToUse.Source.clip = job.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned // NULLREF???
+                        trackToUse.Source.Play();
                         break;
                     case AudioAction.STOP:
                         if (job.Fade == false)
                         {
-                            track.Source.Stop();
+                            trackToUse.Source.Stop();
                         }
                         break;
                     case AudioAction.RESTART:
-                        track.Source.Stop();
-                        track.Source.Play();
+                        trackToUse.Source.Stop();
+                        trackToUse.Source.Play();
                         break;
                 }
 
@@ -218,18 +220,18 @@ namespace UnityCore
 
                     while (timer <= duration)
                     {
-                        track.Source.volume = Mathf.Lerp(initial, target, timer / duration);
+                        trackToUse.Source.volume = Mathf.Lerp(initial, target, timer / duration);
                         timer += Time.deltaTime;
                         yield return null;
                     }
 
                     if (job.Action == AudioAction.STOP)
                     {
-                        track.Source.Stop();
+                        trackToUse.Source.Stop();
                     }
                 }
 
-                m_JobTable.Remove(job.Clip);
+                //m_JobTable.Remove(job.Clip);
 
                 //Debug.Log("Job count + " + m_JobTable.Count);
 
@@ -284,6 +286,71 @@ namespace UnityCore
                 IEnumerator runningJob = (IEnumerator)m_JobTable[clip];
                 StopCoroutine(runningJob);
                 m_JobTable.Remove(clip);
+            }
+
+            private AudioTrack FindTrackThatsCurrentlyNotPlaying(AudioType audioType)
+            {
+                AudioTrack trackToUse = null;
+
+                switch (audioType)
+                {
+                    case AudioType.OST:
+                        for (int i = 0; i < SourcesAmountOST; i++)
+                        {
+                            if (Tracks[i].Source.isPlaying == false)
+                            {
+                                trackToUse = Tracks[i];
+                                Debug.Log("using OST track..." + trackToUse);
+                                return trackToUse;
+                            }
+                        }
+                        trackToUse = Tracks[0];
+                        Debug.Log("using OST 0 track..." + trackToUse);
+                        return trackToUse;
+
+                    case AudioType.SFX_UI:
+                        for (int i = SourcesAmountOST; i < (SourcesAmountOST + SourcesAmountUI); i++)
+                        {
+                            if (Tracks[i].Source.isPlaying == false)
+                            {
+                                trackToUse = Tracks[i];
+                                Debug.Log("using UI track..." + trackToUse);
+                                return trackToUse;
+                            }
+                        }
+                        trackToUse = Tracks[SourcesAmountOST];
+                        Debug.Log("using UI 0 track..." + trackToUse);
+                        return trackToUse;
+                    case AudioType.SFX_SirMouse:
+                        for (int i = (SourcesAmountOST + SourcesAmountUI); i < (SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse); i++)
+                        {
+                            if (Tracks[i].Source.isPlaying == false)
+                            {
+                                trackToUse = Tracks[i];
+                                Debug.Log("using Mouse track..." + trackToUse);
+                                return trackToUse;
+                            }
+                        }
+                        trackToUse = Tracks[(SourcesAmountOST + SourcesAmountUI)];
+                        Debug.Log("using Mouse 0 track..." + trackToUse);
+                        return trackToUse;
+                    case AudioType.SFX_World:
+                        for (int i = (SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse); i < (SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse + SourcesAmountWorld); i++)
+                        {
+                            if (Tracks[i].Source.isPlaying == false)
+                            {
+                                trackToUse = Tracks[i];
+                                Debug.Log("using world track..." + trackToUse);
+                                return trackToUse;
+                            }
+                        }
+                        trackToUse = Tracks[(SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse)];
+                        Debug.Log("using world track 0..." + trackToUse);
+                        return trackToUse;
+                    default:
+                        Debug.Log("ADAM SANDLER HUHUHUHHUH " + trackToUse);
+                        return null;
+                }
             }
 
             #endregion
