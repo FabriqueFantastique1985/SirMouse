@@ -18,8 +18,8 @@ public class Touchable : MonoBehaviour, IClickable
     private float _cooldownLength;
 
     // components any tap-able would have
-    [SerializeField]
-    private Animator _animator;     
+
+    public Animator _animator;     
     public Collider Collider; 
     public ParticleSystem ParticleGlowy;
 

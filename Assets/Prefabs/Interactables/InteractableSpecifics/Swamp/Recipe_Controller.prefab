@@ -305,6 +305,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CompletedMainQuest: 0
+  MinigameActive: 0
+  EntranceIngredients: {fileID: 0}
   MyRecipes:
   - {fileID: 1145012646114798040}
   - {fileID: 8416937307820606840}
@@ -327,7 +329,7 @@ MonoBehaviour:
   - 0.5
   - 0.8
   - 0.4
-  - 0.5
+  - 0.3
   - 0.5
   - 0.35
   - 0.5
@@ -335,6 +337,7 @@ MonoBehaviour:
   - {fileID: 5163463570361530643}
   - {fileID: 989657361955046992}
   - {fileID: 5354094017235602685}
+  IngredientAnimator: {fileID: 0}
   TouchableIngredients:
   - {fileID: 0}
   - {fileID: 0}
@@ -347,7 +350,17 @@ MonoBehaviour:
   - {fileID: 0}
   NewCameraTarget: {fileID: 0}
   RecipeScrollAnimator: {fileID: 8876434517129934726}
+  CauldronAnimator: {fileID: 0}
+  ParticleSplash: {fileID: 0}
+  ParticleIdle: {fileID: 0}
+  ParticlesFromIngredientsForCauldron: []
+  ParticlesFinishers: []
   CurrentRequiredIngredients: 
+  _recipesRequiredToEndMainQuest: 5
+  TriggerCauldronShakeWeak: Cauldron_Shake_Weak
+  TriggerCauldronShakeNormal: Cauldron_Shake_Normal
+  TriggerCauldronShakeStrong: Cauldron_Shake_Strong
+  TriggerCauldronEnd: Cauldron_End
 --- !u!1 &8876434515150924647
 GameObject:
   m_ObjectHideFlags: 0
