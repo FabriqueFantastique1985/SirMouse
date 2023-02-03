@@ -161,7 +161,7 @@ namespace UnityCore
                 }
 
                 // remove conflicting jobs
-                RemoveConflictingJobs(job.Clip); 
+               // RemoveConflictingJobs(job.Clip); 
                 // start job
                 jobRunner = RunAudioJobClip(job);
                 m_JobTable.Add(job.Clip, jobRunner);
@@ -194,7 +194,7 @@ namespace UnityCore
                 switch (job.Action)
                 {
                     case AudioAction.START:
-                        track.Source.clip = GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned
+                        track.Source.clip = job.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned
                         track.Source.Play();
                         break;
                     case AudioAction.STOP:
