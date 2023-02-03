@@ -176,7 +176,7 @@ public class Touch_Physics : Touch_Action
             var randomIndex = Random.Range(0, _possibleSpawnedSprites.Count - 1);
             _spriteUnderParentToSpawn.sprite = _possibleSpawnedSprites[randomIndex];
         }
-        spawnedObject = Instantiate(_objectToSpawn, transform);
+        spawnedObject = Instantiate(_objectToSpawn);
 
         // make it visible
         spawnedObject.SetActive(true);

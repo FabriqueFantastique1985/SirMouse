@@ -11,17 +11,25 @@ public class RecipeController : MonoBehaviour
     
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
+    public bool MinigameActive;
 
     // assign in inspector
+    public IngredientEntranceTrigger EntranceIngredients;
     public List<Recipe_Script> MyRecipes = new List<Recipe_Script>();
     public List<Sprite> PossibleSprites = new List<Sprite>();
     public List<float> SpriteScales = new List<float>();
     public List<Health> MyHealth = new List<Health>();
+    public Animator IngredientAnimator;
     public List<Touchable> TouchableIngredients = new List<Touchable>();
 
     public GameObject NewCameraTarget;
 
     public Animator RecipeScrollAnimator;
+    public Animator CauldronAnimator;
+
+    public ParticleSystem ParticleSplash, ParticleIdle;
+    public List<ParticleSystem> ParticlesFromIngredientsForCauldron;
+    public List<ParticleSystem> ParticlesFinishers;
 
     // assigned at runtime
     public List<Type_Ingredient> CurrentRequiredIngredients = new List<Type_Ingredient>();
@@ -31,6 +39,7 @@ public class RecipeController : MonoBehaviour
     
     [SerializeField]
     private int _recipesRequiredToEndMainQuest = 5;
+
     private Type_Difficulty _currentDifficulty;
     private Recipe_Script _currentRecipe;
 
@@ -42,6 +51,14 @@ public class RecipeController : MonoBehaviour
     private const string _ingredientDefaultIdle = "Ingredient_Default_Idle_Anim";
     private const string _ingredientPoof = "Ingredient_Poof_Anim";
 
+    [HideInInspector]
+    public string TriggerCauldronShakeWeak = "Cauldron_Shake_Weak";
+    [HideInInspector]
+    public string TriggerCauldronShakeNormal = "Cauldron_Shake_Normal";
+    [HideInInspector]
+    public string TriggerCauldronShakeStrong = "Cauldron_Shake_Strong";
+    [HideInInspector]
+    public string TriggerCauldronEnd = "Cauldron_End";
 
     // below values could be adjusted in inspector for reproduction purposes
     #region DifficultyIncreasingValues 
@@ -60,12 +77,12 @@ public class RecipeController : MonoBehaviour
 
     private void Start()
     {
-        // disable touchables on start
-        for (int i = 0; i < TouchableIngredients.Count; i++)
-        {
-            TouchableIngredients[i].Collider.enabled = false;
-            TouchableIngredients[i].ParticleGlowy.Stop();
-        }
+        // disable touchables on start (not anymore)
+        //for (int i = 0; i < TouchableIngredients.Count; i++)
+        //{
+        //    TouchableIngredients[i].Collider.enabled = false;
+        //    TouchableIngredients[i].ParticleGlowy.Stop();
+        //}
     }
 
 
@@ -74,14 +91,20 @@ public class RecipeController : MonoBehaviour
     public void StartMinigame()
     {
         GameManager.Instance.MainCameraScript.target = NewCameraTarget.transform;
-        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomOut(2));
+        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomOut(0.58f));
         GameManager.Instance.EnterMiniGameSystem();
+
+        MinigameActive = true;
+        EntranceIngredients.ClearIngredientsAndParticlesAndAnimation();
+
+        IngredientAnimator.SetBool("Activated", true);
 
         // enables touchables
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
             TouchableIngredients[i].Collider.enabled = true;
             TouchableIngredients[i].ParticleGlowy.Play();
+            TouchableIngredients[i]._animator.SetBool("Activated", true);
         }
         // set health to max
         _currentHealth = 3;
@@ -92,6 +115,11 @@ public class RecipeController : MonoBehaviour
     // called when failing/completing the minigame
     private IEnumerator EndMinigame(bool failed = false)
     {
+        MinigameActive = false;
+
+        CauldronAnimator.SetTrigger(TriggerCauldronEnd);
+        IngredientAnimator.SetBool("Activated", false);
+
         // animate the ingredients popping out (poofing)
         for (int i = 0; i < _currentRecipe.MyIngredients.Count; i++)
         {
@@ -134,11 +162,12 @@ public class RecipeController : MonoBehaviour
 
         _recipesCompleted = 0;
 
-        // disable touchables 
+        // disable touchables (partly not anymore)
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
-            TouchableIngredients[i].Collider.enabled = false;
-            TouchableIngredients[i].ParticleGlowy.Stop();
+            //TouchableIngredients[i].Collider.enabled = false;
+            //TouchableIngredients[i].ParticleGlowy.Stop();
+            TouchableIngredients[i]._animator.SetBool("Activated", false);
         }
 
         GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
@@ -164,6 +193,9 @@ public class RecipeController : MonoBehaviour
         if (firstScroll == true)
         {
             RecipeScrollAnimator.Play(_enterScroll);
+
+            CauldronAnimator.Play("None");
+
             _currentDifficulty = Type_Difficulty.Easiest;
 
             yield return new WaitForSeconds(1.2f);
@@ -277,6 +309,20 @@ public class RecipeController : MonoBehaviour
         {
             // update _recipesCompleted
             _recipesCompleted += 1;
+
+            // check for amount of recipes done to choose trigger for cauldron animation
+            if (_recipesCompleted == 1)
+            {
+                CauldronAnimator.SetTrigger(TriggerCauldronShakeWeak);
+            }
+            else if (_recipesCompleted == (_recipesRequiredToEndMainQuest / 2))
+            {
+                CauldronAnimator.SetTrigger(TriggerCauldronShakeNormal);
+            }
+            else if (_recipesCompleted == (_recipesRequiredToEndMainQuest - 1))
+            {
+                CauldronAnimator.SetTrigger(TriggerCauldronShakeStrong);
+            }
 
             // check if this ends the minigame, else refresh the recipe to a newer (more difficult) one
             if (_recipesCompleted >= _recipesRequiredToEndMainQuest)

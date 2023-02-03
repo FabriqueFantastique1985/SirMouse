@@ -36,6 +36,19 @@ public class MiniGameSystem : GameSystem
             _groundColliders = newGroundColls;
         }
     }
+    public MiniGameSystem(Player player, LayerMask layerMask, Collider[] newGroundColls = null) : base(player, layerMask)
+    {
+        _layerMask = ~layerMask;
+
+        if (newGroundColls == null)
+        {
+            _groundColliders = GameManager.Instance.PlayField.GroundColliders;
+        }
+        else
+        {
+            _groundColliders = newGroundColls;
+        }
+    }
 
     public override void HandleInput()
     {
