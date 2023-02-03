@@ -87,8 +87,11 @@ public class Encounterable : MonoBehaviour
         }
 
         // also play sound effect
-        AudioController.Instance.PlayAudio(SoundEffect);
-
+        if (SoundEffect != null)
+        {
+            AudioController.Instance.PlayAudio(SoundEffect);
+        }
+        
         _usedSuccesfully = true;
     }
 

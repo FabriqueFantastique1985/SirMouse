@@ -33,6 +33,19 @@ public class MainGameSystem : GameSystem
             _groundColliders = newGroundColls;
         }       
     }
+    public MainGameSystem(Player player, LayerMask layerMask, Collider[] newGroundColls = null) : base(player, layerMask)
+    {
+        _layerMask = ~layerMask;
+
+        if (newGroundColls == null)
+        {
+            _groundColliders = GameManager.Instance.PlayField.GroundColliders;
+        }
+        else
+        {
+            _groundColliders = newGroundColls;
+        }
+    }
 
     public override void HandleInput()
     {
