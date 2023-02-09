@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviourSingleton<GameManager>
 {
     public PlayField PlayField;
@@ -48,8 +49,15 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     private void Awake()
     {
         base.Awake();
-        SceneManager.sceneLoaded += OnSceneLoaded;
 
+        if (PlayField == null)
+        {
+            PlayField = FindObjectOfType<PlayField>();
+        }
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
+        
         EnterMainGameSystem();
     }
 

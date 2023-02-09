@@ -36,13 +36,17 @@ public class ChainMono : IDisposable
         }
     }
 
-    public void AddAction(ChainActionMonoBehaviour action)
+    public void AddAction(ChainActionMonoBehaviour action, bool startImmediately = false)
     {
         _chainActions.Enqueue(action);
+        if (startImmediately) StartNextChainAction();
     }
 
     public void StartNextChainAction()
     {
+        // Exit current ChainAction
+        if (_currentChainAction != null) _currentChainAction.OnExit();
+        
         if (_isPlaying)
         {
             Debug.Log("ChainAction was still playing. Aborting StartNextChainAction call.");
@@ -62,6 +66,7 @@ public class ChainMono : IDisposable
             return;
         }
         
+        // Start Next Chain Action
         _currentChainAction = _chainActions.Dequeue();
         _elapsedTime = 0.0f;
         _currentChainAction.Execute();

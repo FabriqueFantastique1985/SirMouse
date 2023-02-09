@@ -338,12 +338,12 @@ public class PlayerTouchControls : MonoBehaviour
                     yield return new WaitForSeconds(0.1f);
 
 
-                    hit.collider.gameObject.GetComponent<DoAction>().DoTheAction();
+             //    hit.collider.gameObject.GetComponent<DoAction>().DoTheAction();
 
-                    if(hit.collider.gameObject.GetComponent<DoAction>().specificDestination)
-                    {
-                        agent.SetDestination(hit.collider.gameObject.GetComponent<DoAction>().destination);
-                    }
+             //    if(hit.collider.gameObject.GetComponent<DoAction>().specificDestination)
+             //    {
+             //        agent.SetDestination(hit.collider.gameObject.GetComponent<DoAction>().destination);
+             //    }
                     
                     yield return new WaitForSeconds(0.5f);
 

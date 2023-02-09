@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityCore.Menus;
 
-public class ButtonBackpack : ButtonPaging
+public class ButtonBackpack : ButtonPaging, IClickable
 {
     protected override void TurnOnPage()
     {
@@ -31,7 +31,12 @@ public class ButtonBackpack : ButtonPaging
             _pageInstance.OpenBagImage(true);
             _pageInstance.OpenClosetImage(false);
 
-            GameManager.Instance.BlockInput = true;
+        //    GameManager.Instance.BlockInput = true;
         }
+    }
+
+    public void Click(Player player)
+    {
+        ClickedButton();
     }
 }

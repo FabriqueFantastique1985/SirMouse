@@ -6,28 +6,32 @@ using UnityEngine;
 public class MinigameAction : ChainActionMonoBehaviour
 {
     [SerializeField]
-    private RecipeController _recipeGame;
+    private MiniGame _miniGame;
 
     [SerializeField]
-    private ChainActionMonoBehaviour _onMiniGameWonAction;
-
-    [SerializeField]
-    private ChainActionMonoBehaviour _onMiniGameLostAction;
+    private Step _stepToGoBackWhenFailed;
     
     private void Awake()
     {
-        _recipeGame.MiniGameEnded += OnMiniGameEnded;
+        _miniGame.OnMiniGameEnded += OnMiniGameEnded;
         _maxTime = Mathf.Infinity;
     }
 
     public override void Execute()
     {
         base.Execute();
-        _recipeGame.StartMinigame();
+        _miniGame.StartMiniGame();
     }
 
-    private void OnMiniGameEnded(bool hasWon)
+    private void OnMiniGameEnded(MiniGame minigame, MiniGame.MiniGameArgs args)
     {
-        if (hasWon) _maxTime = -1.0f;
+        if (args.SuccessfullyCompleted)
+        {
+            _maxTime = -1.0f;
+        }
+        else
+        {
+            _miniGame.SetCurrentStep(_stepToGoBackWhenFailed);
+        }
     }
 }

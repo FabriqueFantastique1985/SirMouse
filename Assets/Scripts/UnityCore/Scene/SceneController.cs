@@ -220,10 +220,6 @@ namespace UnityCore
                 return true;
             }
 
-
-
-
-
             // add extra scene names made for the game to this list of strings ?? 
             private string SceneTypeToString(SceneType scene)
             {

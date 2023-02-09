@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
 
-public class ButtonBaseNew : MonoBehaviour
+public class ButtonBaseNew : MonoBehaviour, IClickable
 {
     [SerializeField]
     private Animation _animationComponent;
@@ -23,7 +23,6 @@ public class ButtonBaseNew : MonoBehaviour
         }
     }
 
-
     public virtual void ClickedButton()
     {
         PlayAnimationPress();
@@ -40,5 +39,10 @@ public class ButtonBaseNew : MonoBehaviour
     {
         _animationComponent.Stop();
         _animationComponent.Play(_animationName);
+    }
+
+    public void Click(Player player)
+    {
+        ClickedButton();
     }
 }

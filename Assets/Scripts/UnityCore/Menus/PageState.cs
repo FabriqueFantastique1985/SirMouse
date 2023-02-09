@@ -9,8 +9,8 @@ namespace UnityCore
         public enum PageState
         {
             None,
-            On,
-            Off
+            FLAG_ON,
+            FLAG_OFF
         }
     }
 }

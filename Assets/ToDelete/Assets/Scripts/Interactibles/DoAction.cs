@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 
-public class DoAction : MonoBehaviour
+/*public class DoAction : MonoBehaviour
 {
     public UnityEvent onTriggerEnter;
     public bool specificDestination = false;
@@ -24,4 +24,4 @@ public class DoAction : MonoBehaviour
             onTriggerEnter.Invoke();
         }
     }
-}
+}*/

@@ -15,7 +15,7 @@ public class MainGameSystem : GameSystem
     private float _cooldownTimer;
     private float _cooldownLimit = 0.15f;
 
-    public MainGameSystem(Player player, int[] layersToIgnore, Collider[] newGroundColls = null) : base(player, layersToIgnore)
+    /*public MainGameSystem(Player player, int[] layersToIgnore, Collider[] newGroundColls = null) : base(player, layersToIgnore)
     {
         for (int i = 0; i < layersToIgnore.Length; i++)
         {
@@ -32,7 +32,7 @@ public class MainGameSystem : GameSystem
         {
             _groundColliders = newGroundColls;
         }       
-    }
+    }*/
     public MainGameSystem(Player player, LayerMask layerMask, Collider[] newGroundColls = null) : base(player, layerMask)
     {
         _layerMask = ~layerMask;

@@ -19,9 +19,19 @@ public class FollowCam : MonoBehaviour
 
     private void Awake()
     {
+        if (target == null)
+        {
+            target = GameManager.Instance.Player.transform;
+        }
+        
         resOffset = Mathf.RoundToInt((GetComponent<Camera>().aspect - 1.3f) * 10) * 0.4f + 0.2f;
         minValue.x += resOffset;
         maxValue.x -= resOffset;
+
+        if (offset == Vector3.zero)
+        {
+            offset = transform.position - target.position;
+        }
     }
 
     private void Update()

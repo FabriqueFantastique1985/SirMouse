@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecipeController : MonoBehaviour
+public class RecipeController : MiniGame
 {
-    public delegate void RecipeGameEnded(bool hasWon);
-
-    public event RecipeGameEnded MiniGameEnded;
+    [Header("Recipe specific")]
+    [SerializeField]
+    private CutsceneAction _bookCutscene;
     
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
@@ -88,7 +88,7 @@ public class RecipeController : MonoBehaviour
 
 
     // called from interaction
-    public void StartMinigame()
+    public override void StartMiniGame()
     {
         GameManager.Instance.MainCameraScript.target = NewCameraTarget.transform;
         StartCoroutine(GameManager.Instance.MainCameraScript.ZoomOut(0.58f));
@@ -173,7 +173,12 @@ public class RecipeController : MonoBehaviour
         GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
         StartCoroutine(GameManager.Instance.MainCameraScript.ZoomInNormal());
 
-        MiniGameEnded?.Invoke(!failed);
+        // Ends the mini game
+        var args = new MiniGameArgs();
+        args.SuccessfullyCompleted = true;
+        EndMiniGame(args);
+        
+        // Go back to the main Game System to control mouse
         GameManager.Instance.EnterMainGameSystem();
     }
 

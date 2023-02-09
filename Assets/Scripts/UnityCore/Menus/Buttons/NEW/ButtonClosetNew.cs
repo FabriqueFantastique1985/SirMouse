@@ -8,12 +8,6 @@ public class ButtonClosetNew : ButtonPaging
     [SerializeField]
     private ButtonClosetMouseCycle _buttonMouseCycle;
 
-    public override void ClickedButton()
-    {
-        base.ClickedButton();
-    }
-
-
     protected override void TurnOnPage()
     {
         if (_pageInstance.PageIsOn(_turnThisPage) == true)
@@ -45,7 +39,7 @@ public class ButtonClosetNew : ButtonPaging
             _pageInstance.OpenClosetImage(true);
             _pageInstance.OpenBagImage(false);
 
-            GameManager.Instance.BlockInput = true;
+            /*GameManager.Instance.BlockInput = true;*/
 
             // turn on the the correct page within the closet...
             OpenCorrectPageInCloset();

@@ -14,8 +14,8 @@ namespace UnityCore
             //public static readonly string FLAG_OFF = "Off";
             //public static readonly string FLAG_NONE = "None";
 
-            public static PageState FLAG_ON = PageState.On;
-            public static PageState FLAG_OFF = PageState.Off;
+            public static PageState FLAG_ON = PageState.FLAG_ON;
+            public static PageState FLAG_OFF = PageState.FLAG_OFF;
             public static PageState FLAG_NONE = PageState.None;
 
 
@@ -92,6 +92,7 @@ namespace UnityCore
                 }
 
                 // wait for animator to reach target state
+                var targetState = TargetState.ToString();
                 while (m_Animator.GetCurrentAnimatorStateInfo(0).IsName(TargetState.ToString()) == false)  // if my current state is the state I want to be in...
                 {
                     yield return null;

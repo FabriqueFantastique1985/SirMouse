@@ -6,6 +6,14 @@ using UnityEngine;
 [Serializable]
 public class ChainActionMonoBehaviour : MonoBehaviour
 {
+    #region Events
+
+    public delegate void ChainActionDelegate();
+
+    public event ChainActionDelegate ChainActionDone;
+
+    #endregion
+    
     #region Enums
 
     public enum ChainActionType
@@ -22,7 +30,7 @@ public class ChainActionMonoBehaviour : MonoBehaviour
     public float MaxTime => _maxTime;
 
     [SerializeField, HideInInspector]
-    private string _nameChainAction = "haha";
+    private string _nameChainAction = "DefaultChainAction";
 
     [HideInInspector]
     public ChainActionType ActionType;
@@ -31,6 +39,12 @@ public class ChainActionMonoBehaviour : MonoBehaviour
     {
     }
 
+    public virtual void OnExit()
+    {
+        ChainActionDone?.Invoke();
+        Debug.Log("ChainAction: " + _nameChainAction + " finished.");
+    }
+    
     private void OnEnable()
     {
         _nameChainAction = gameObject.name;
