@@ -16,10 +16,11 @@ public class Interaction : MonoBehaviour
     //[SerializeField]
     //protected AnimationClip _animationClip;
 
+    [Header("Chain Things")]
+
     [SerializeField]
     private List<ChainAction> _instantActions;
-
-    
+ 
     [SerializeField, Tooltip("When true, a new chain will be generated to play the ChainActions, " +
                              "rather than using the existing chain owned by the GameManager. ")]
     private bool _useNewChain = false;
