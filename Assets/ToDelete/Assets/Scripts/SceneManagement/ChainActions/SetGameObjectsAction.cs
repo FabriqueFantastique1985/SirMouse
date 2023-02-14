@@ -13,7 +13,7 @@ public class SetGameObjectsAction : ChainActionMonoBehaviour
 
     private void Awake()
     {
-        _maxTime = 0.0f;
+        _startMaxTime = 0.0f;
     }
 
     public override void Execute()

@@ -10,7 +10,7 @@ public class InteractionAction : ChainActionMonoBehaviour
 
    private void Awake()
    {
-      _maxTime = Mathf.Infinity;
+      _startMaxTime = Mathf.Infinity;
       _interactable.OnInteracted += OnInteracted;
    }
 

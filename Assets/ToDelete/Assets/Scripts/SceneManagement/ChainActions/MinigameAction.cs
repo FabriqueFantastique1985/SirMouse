@@ -14,7 +14,7 @@ public class MinigameAction : ChainActionMonoBehaviour
     private void Awake()
     {
         _miniGame.OnMiniGameEnded += OnMiniGameEnded;
-        _maxTime = Mathf.Infinity;
+        _startMaxTime = Mathf.Infinity;
     }
 
     public override void Execute()
@@ -31,7 +31,7 @@ public class MinigameAction : ChainActionMonoBehaviour
         }
         else
         {
-            _miniGame.SetCurrentStep(_stepToGoBackWhenFailed);
+            _miniGame.SetCurrentStep(_stepToGoBackWhenFailed, true);
         }
     }
 }

@@ -16,7 +16,7 @@ public class DoAction : ChainActionMonoBehaviour
     private void Awake()
     {
         // TO CHECK: does this cause the action to last a tick?
-        _maxTime = 0.0f;
+        _startMaxTime = 0.0f;
     }
 
     public override void Execute()

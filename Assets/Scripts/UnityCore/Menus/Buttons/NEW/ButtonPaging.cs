@@ -69,7 +69,6 @@ public class ButtonPaging : ButtonBaseNew
         }
     }
 
-
     protected virtual bool DoIHaveActivePages()
     {
         for (int i = 0; i < _pageInstance.PagesScene.Length; i++)
