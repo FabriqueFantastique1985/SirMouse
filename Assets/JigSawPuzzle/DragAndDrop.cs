@@ -8,7 +8,6 @@ public class DragAndDrop : MonoBehaviour
 {
     public Camera CameraPuzzle;
 
-    // NEEDS MORE // assign EVERYTHING BUT the puzzlePiece & board layers in the inspector
     [SerializeField]
     private LayerMask _ignoreMe;
 
@@ -20,6 +19,32 @@ public class DragAndDrop : MonoBehaviour
     private int _orderInLayerSelectedPiece;
 
     public GameObject _prefabParticleSuccess;
+
+
+    // !! call this on interaction for puzzle game !!
+    public void StartMiniGame()
+    {
+        // call gameManager to block the input OR change to minigamesystem
+        GameManager.Instance.BlockInput = true;
+
+        // hide the buttons for the closet and backpack
+        GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(false);
+
+        // enable the update on this script
+        this.enabled = true;
+    }
+    // call this on button puzzle (DONE)
+    public void EndMiniGame()
+    {
+        // disable the update on this script
+        this.enabled = false;
+
+        // un-hide the buttons for the closet and backpack
+        GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(true);
+
+        // call gameManager to un-block the input OR change to maingameSystem
+        GameManager.Instance.BlockInput = false;
+    }
 
 
 
@@ -34,8 +59,8 @@ public class DragAndDrop : MonoBehaviour
             {
                 Debug.Log("Hit puzzle " + hit.transform.name);
 
-                // NEEDS MORE // assign the puzzlePiece index in this if statement !!!!
-                if (hit.collider.gameObject.layer == 13)
+                // assign the puzzlePiece index in this if statement !!!!
+                if (hit.collider.gameObject.layer == 17)
                 {
                     SelectedPiece = hit.transform.gameObject;
                     _selectedPieceScript = SelectedPiece.GetComponent<PuzzlePieceScript>();

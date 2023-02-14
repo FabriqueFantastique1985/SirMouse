@@ -158,7 +158,7 @@ namespace UnityCore
                 if (job.Clip == null)
                 {
                     job.Clip = _lastViableJob.Clip;
-                    job.Type = _lastViableJob.Type;
+                    job.Type = _lastViableJob.Type;                   
                 }
 
                 // remove conflicting jobs

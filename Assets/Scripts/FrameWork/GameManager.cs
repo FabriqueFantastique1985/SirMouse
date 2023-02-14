@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public Camera MainCamera;
     public FollowCam MainCameraScript;
 
+    public GameObject PanelUIButtonsClosetAndBackpack;
+
     public LayerMask LayersMainGameSystemWillIgnore;
     public LayerMask LayersMiniGameSystemWillIgnore;
 
