@@ -10,8 +10,11 @@ public class PuzzlePieceCollector : MonoBehaviour
     [SerializeField]
     private List<Touch_PuzzlePiece> _puzzlePieces = new List<Touch_PuzzlePiece>();
 
-    private List<Touch_PuzzlePiece> _currentPuzzlePieces = new List<Touch_PuzzlePiece>();
-    
+    private int _collectedPiecesCount = 0;
+
+    [SerializeField]
+    private float _hintTimer;
+
     void Start()
     {
         foreach (var piece in _puzzlePieces)
@@ -20,16 +23,54 @@ public class PuzzlePieceCollector : MonoBehaviour
         }
     }
 
+    public void OnStartCollectingPieces()
+    {
+        if (_collectedPiecesCount == 0)
+        {
+            StartCoroutine(EnableParticle());
+        }
+    }
+
+    private IEnumerator EnableParticle()
+    {
+        int collectedPieces = _collectedPiecesCount;
+
+        yield return new WaitForSeconds(_hintTimer);
+
+        // If collected pieces amount is the same, turn on particle
+        if (collectedPieces == _collectedPiecesCount)
+        {
+            for (int i = 0; i < _puzzlePieces.Count; i++)
+            {
+                if (_puzzlePieces[i])
+                {
+                    var touchable = _puzzlePieces[i].gameObject.GetComponent<Touchable>();
+                    touchable?.ParticleGlowy.Play();
+                    break;
+                }
+            }
+        }
+    }
+
     private void OnPiecePickedUp(Touch_PuzzlePiece piece)
     {
-        if(!_currentPuzzlePieces.Contains(piece))
+        ++_collectedPiecesCount;
+
+        // Remove soon to be deleted piece from list of puzzle pieces
+        int idx = _puzzlePieces.IndexOf(piece);
+        if (idx >= 0 && idx < _puzzlePieces.Count)
         {
-            _currentPuzzlePieces.Add(piece);
+            _puzzlePieces[idx] = null;
         }
 
-        if (_currentPuzzlePieces.Count == _puzzlePieces.Count)
+        if (_collectedPiecesCount == _puzzlePieces.Count)
         {
             OnPiecesPickedUp?.Invoke();
+        }
+        else
+        {
+            // Enable particle for hint if no pieces have been collected
+            StartCoroutine(EnableParticle());
         }
     }
 }

@@ -13,6 +13,13 @@ public class CollectionAction : ChainActionMonoBehaviour
         _startMaxTime = Mathf.Infinity;
     }
 
+    public override void OnEnter()
+    {
+        base.OnEnter();
+
+        _puzzlePieceCollector.OnStartCollectingPieces();
+    }
+
     private void OnPiecesPickedUp()
     {
         _maxTime = -1.0f;
