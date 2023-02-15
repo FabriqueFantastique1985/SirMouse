@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
+using static MiniGame;
 
 public class DragAndDrop : MonoBehaviour
 {
+    public delegate void DragAndDropDelegate();
+
+    public event DragAndDropDelegate OnPuzzleCompleted;
+
+
     public Camera CameraPuzzle;
 
     [SerializeField]
@@ -20,6 +26,12 @@ public class DragAndDrop : MonoBehaviour
 
     public GameObject _prefabParticleSuccess;
 
+    [SerializeField]
+    private int _rowAmount;
+    [SerializeField]
+    private int _collumnAmount;
+
+    private int _correctAmount;
 
     // !! call this on interaction for puzzle game !!
     public void StartMiniGame()
@@ -31,13 +43,17 @@ public class DragAndDrop : MonoBehaviour
         GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(false);
 
         // enable the update on this script
+        this.enabled = true;
         gameObject.SetActive(true);
     }
+
     // call this on button puzzle (DONE)
     public void EndMiniGame()
     {
         // disable the update on this script
         this.enabled = false;
+        gameObject.SetActive(false);
+
 
         // un-hide the buttons for the closet and backpack
         GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(true);
@@ -45,8 +61,6 @@ public class DragAndDrop : MonoBehaviour
         // call gameManager to un-block the input OR change to maingameSystem
         GameManager.Instance.BlockInput = false;
     }
-
-
 
     void Update()
     {
@@ -79,9 +93,13 @@ public class DragAndDrop : MonoBehaviour
 
                 AdjustOrderPiece(false);
 
-                if (_selectedPieceScript.CheckLatchOnSpot() && _prefabParticleSuccess != null)
+                if (_selectedPieceScript.CheckLatchOnSpot())
                 {
-                    Instantiate(_prefabParticleSuccess, SelectedPiece.transform.position, Quaternion.identity);
+                    ++_correctAmount;
+                    if (_prefabParticleSuccess != null)
+                    {
+                        Instantiate(_prefabParticleSuccess, SelectedPiece.transform.position, Quaternion.identity);
+                    }
                 }
                 
                 SelectedPiece = null;
@@ -89,16 +107,17 @@ public class DragAndDrop : MonoBehaviour
             }
         }
 
-
-        
-
         if (_clickedPiece == true)
         {
             SelectedPiece.transform.position = CameraPuzzle.ScreenToWorldPoint(Input.mousePosition);
         }
+
+        if (_correctAmount == (_collumnAmount * _rowAmount))
+        {
+            EndMiniGame();
+            OnPuzzleCompleted?.Invoke();
+        }
     }
-
-
 
     private void AdjustOrderPiece(bool increaseOrder)
     {

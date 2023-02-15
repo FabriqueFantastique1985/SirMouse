@@ -29,7 +29,6 @@ public class PuzzlePieceCollector : MonoBehaviour
 
         if (_currentPuzzlePieces.Count == _puzzlePieces.Count)
         {
-            Debug.Log("You collected all the pieces! Yay!");
             OnPiecesPickedUp?.Invoke();
         }
     }
