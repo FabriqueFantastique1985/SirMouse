@@ -52,7 +52,7 @@ public class Touchable : MonoBehaviour, IClickable
     
     private void Start()
     {
-        Disable();
+        //Disable();
         var audioControl = AudioController.Instance;
         // add the possible sound effects to the AudioTable and the correct track
         foreach (AudioElement audioEm in AudioElements)

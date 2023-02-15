@@ -82,13 +82,6 @@ public class RecipeController : MiniGame
 
     private void Start()
     {
-        // disable touchables on start (not anymore)
-        //for (int i = 0; i < TouchableIngredients.Count; i++)
-        //{
-        //    TouchableIngredients[i].Collider.enabled = false;
-        //    TouchableIngredients[i].ParticleGlowy.Stop();
-        //}
-
         _currentRecipe = MyRecipes[0];
     }
 
@@ -175,7 +168,8 @@ public class RecipeController : MiniGame
         // disable touchables (partly not anymore)
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
-            TouchableIngredients[i].Disable();
+            //TouchableIngredients[i].Disable();
+            TouchableIngredients[i].Animator.SetBool("Activated", false);
         }
 
         GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
