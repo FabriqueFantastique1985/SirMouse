@@ -31,7 +31,7 @@ public class DragAndDrop : MonoBehaviour
         GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(false);
 
         // enable the update on this script
-        this.enabled = true;
+        gameObject.SetActive(true);
     }
     // call this on button puzzle (DONE)
     public void EndMiniGame()
