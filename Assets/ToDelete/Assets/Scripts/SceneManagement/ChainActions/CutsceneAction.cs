@@ -17,7 +17,7 @@ public class CutsceneAction : ChainActionMonoBehaviour
     
     private void Awake()
     {
-        _maxTime = (float)_cutscenePlayableDirector.duration;
+        _startMaxTime = (float)_cutscenePlayableDirector.duration;
     }
 
     public override void Execute()

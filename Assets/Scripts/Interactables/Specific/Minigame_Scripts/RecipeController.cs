@@ -8,7 +8,7 @@ public class RecipeController : MiniGame
     [Header("Recipe specific")]
     [SerializeField]
     private CutsceneAction _bookCutscene;
-    
+
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
     public bool MinigameActive;
@@ -34,9 +34,8 @@ public class RecipeController : MiniGame
     // assigned at runtime
     public List<Type_Ingredient> CurrentRequiredIngredients = new List<Type_Ingredient>();
 
-    private int _currentHealth;
     private int _recipesCompleted = 0;
-    
+
     [SerializeField]
     private int _recipesRequiredToEndMainQuest = 5;
 
@@ -53,15 +52,22 @@ public class RecipeController : MiniGame
 
     [HideInInspector]
     public string TriggerCauldronShakeWeak = "Cauldron_Shake_Weak";
+
     [HideInInspector]
     public string TriggerCauldronShakeNormal = "Cauldron_Shake_Normal";
+
     [HideInInspector]
     public string TriggerCauldronShakeStrong = "Cauldron_Shake_Strong";
+
     [HideInInspector]
     public string TriggerCauldronEnd = "Cauldron_End";
 
+    private int _currentHealth = 1;
+
+
     // below values could be adjusted in inspector for reproduction purposes
-    #region DifficultyIncreasingValues 
+
+    #region DifficultyIncreasingValues
 
     private const int _difficultyToIncrease_0_To_1 = 1;
     private const int _difficultyToIncrease_1_To_2 = 2;
@@ -74,22 +80,17 @@ public class RecipeController : MiniGame
     #endregion
 
 
-
     private void Start()
     {
-        // disable touchables on start (not anymore)
-        //for (int i = 0; i < TouchableIngredients.Count; i++)
-        //{
-        //    TouchableIngredients[i].Collider.enabled = false;
-        //    TouchableIngredients[i].ParticleGlowy.Stop();
-        //}
+        _currentRecipe = MyRecipes[0];
     }
-
 
 
     // called from interaction
     public override void StartMiniGame()
     {
+        base.StartMiniGame();
+        
         GameManager.Instance.MainCameraScript.target = NewCameraTarget.transform;
         StartCoroutine(GameManager.Instance.MainCameraScript.ZoomOut(0.58f));
         GameManager.Instance.EnterMiniGameSystem();
@@ -102,18 +103,18 @@ public class RecipeController : MiniGame
         // enables touchables
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
-            TouchableIngredients[i].Collider.enabled = true;
-            TouchableIngredients[i].ParticleGlowy.Play();
-            TouchableIngredients[i]._animator.SetBool("Activated", true);
+            TouchableIngredients[i].Enable();
         }
+
         // set health to max
         _currentHealth = 3;
 
         // show first scroll
         FirstScroll();
     }
+
     // called when failing/completing the minigame
-    private IEnumerator EndMinigame(bool failed = false)
+    private IEnumerator EndMiniGameCoroutine()
     {
         MinigameActive = false;
 
@@ -126,6 +127,7 @@ public class RecipeController : MiniGame
             _currentRecipe.MyIngredients[i].MyAnimationComponent.Play(_ingredientPoof);
             yield return new WaitForSeconds(0.15f);
         }
+
         // reset the needed values (color of hidden ingredients, object states ...
         for (int i = 0; i < _currentRecipe.MyIngredients.Count; i++)
         {
@@ -142,6 +144,7 @@ public class RecipeController : MiniGame
             MyHealth[i].MyAnimationComponent.Play(_ingredientPoof);
             yield return new WaitForSeconds(0.2f);
         }
+
         for (int i = 0; i < MyHealth.Count; i++)
         {
             MyHealth[i].gameObject.SetActive(false);
@@ -165,28 +168,28 @@ public class RecipeController : MiniGame
         // disable touchables (partly not anymore)
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
-            //TouchableIngredients[i].Collider.enabled = false;
-            //TouchableIngredients[i].ParticleGlowy.Stop();
-            TouchableIngredients[i]._animator.SetBool("Activated", false);
+            //TouchableIngredients[i].Disable();
+            TouchableIngredients[i].Animator.SetBool("Activated", false);
         }
 
         GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
         StartCoroutine(GameManager.Instance.MainCameraScript.ZoomInNormal());
 
-        // Ends the mini game
-        var args = new MiniGameArgs();
-        args.SuccessfullyCompleted = true;
-        EndMiniGame(args);
-        
         // Go back to the main Game System to control mouse
         GameManager.Instance.EnterMainGameSystem();
     }
 
+    public override void EndMiniGame(bool completeSuccesfully)
+    {
+        base.EndMiniGame(completeSuccesfully);
+        StartCoroutine(EndMiniGameCoroutine());
+    }
 
     public void FirstScroll()
     {
         StartCoroutine(SequenceScrollRefresh(true));
     }
+
     public void RefreshScroll()
     {
         StartCoroutine(SequenceScrollRefresh(false));
@@ -219,6 +222,7 @@ public class RecipeController : MiniGame
             {
                 _currentRecipe.MyIngredients[i].MyAnimationComponent.Play(_ingredientPoof);
             }
+
             // reset the needed values (color of hidden ingredients, object states ...
             for (int i = 0; i < _currentRecipe.MyIngredients.Count; i++)
             {
@@ -256,7 +260,6 @@ public class RecipeController : MiniGame
     }
 
 
-
     /// <summary>
     /// Called on the OnTriggerEnter of "Trigger_To_Check_Ingredients"
     /// </summary>
@@ -280,7 +283,8 @@ public class RecipeController : MiniGame
             Ingredient ingredientToUpdate = null;
             for (int i = 0; i < _currentRecipe.MyIngredients.Count; i++)
             {
-                if (_currentRecipe.MyIngredients[i].TypeOfIngredient == typeEntered && _currentRecipe.MyIngredients[i].HasBeenGiven == false) 
+                if (_currentRecipe.MyIngredients[i].TypeOfIngredient == typeEntered &&
+                    _currentRecipe.MyIngredients[i].HasBeenGiven == false)
                 {
                     ingredientToUpdate = _currentRecipe.MyIngredients[i];
 
@@ -302,10 +306,9 @@ public class RecipeController : MiniGame
         else
         {
             // what do we do on a wrong ingredient ? (lose, refresh, life system ???)
-            PunishThePlayer();         
+            PunishThePlayer();
         }
     }
-
 
 
     private void CheckRecipeCompletion()
@@ -332,10 +335,7 @@ public class RecipeController : MiniGame
             // check if this ends the minigame, else refresh the recipe to a newer (more difficult) one
             if (_recipesCompleted >= _recipesRequiredToEndMainQuest)
             {
-                // end the minigame
-                Debug.Log("YOU FINISHED THE GAME");
-
-                StartCoroutine(EndMinigame());
+                EndMiniGame(true);
             }
             else // else, refresh the recipe
             {
@@ -343,7 +343,7 @@ public class RecipeController : MiniGame
                 switch (_recipesCompleted)
                 {
                     case _difficultyToIncrease_0_To_1:
-                        _currentDifficulty = Type_Difficulty.Easy;                      
+                        _currentDifficulty = Type_Difficulty.Easy;
                         break;
                     case _difficultyToIncrease_1_To_2:
                         _currentDifficulty = Type_Difficulty.SubNormal;
@@ -366,9 +366,10 @@ public class RecipeController : MiniGame
                 }
 
                 RefreshScroll();
-            }          
+            }
         }
     }
+
     private void RandomizeRecipe()
     {
         // use the assigned difficultyLevel...
@@ -378,12 +379,14 @@ public class RecipeController : MiniGame
         for (int i = 0; i < MyRecipes.Count; i++)
         {
             // if I find recipes with difficulties I comply with...
-            if (((int)_currentDifficulty) >= (int)(MyRecipes[i].MyLowestDifficulty) && ((int)_currentDifficulty) <= ((int)MyRecipes[i].MyHightestDifficulty))
+            if (((int)_currentDifficulty) >= (int)(MyRecipes[i].MyLowestDifficulty) &&
+                ((int)_currentDifficulty) <= ((int)MyRecipes[i].MyHightestDifficulty))
             {
                 // add to list
                 possibleRecipes.Add(MyRecipes[i]);
             }
         }
+
         // pick a random one from the list
         int randomRecipe = UnityEngine.Random.Range(0, possibleRecipes.Count);
         // assign it
@@ -406,16 +409,18 @@ public class RecipeController : MiniGame
         // make some hidden if possible
         PossiblyHideSomeIngredients();
     }
+
     private void PossiblyHideSomeIngredients()
     {
         if (((int)_currentDifficulty) <= ((int)Type_Difficulty.SubNormal) && _currentRecipe.MyIngredients.Count > 1)
         {
             // hide 1
             int randomValue = UnityEngine.Random.Range(0, _currentRecipe.MyIngredients.Count);
-            _currentRecipe.MyIngredients[randomValue].SpriteRendererIngredient.color = new Color(0,0,0);
+            _currentRecipe.MyIngredients[randomValue].SpriteRendererIngredient.color = new Color(0, 0, 0);
             _currentRecipe.MyIngredients[randomValue].Hidden = true;
         }
-        else if (((int)_currentDifficulty) > ((int)Type_Difficulty.SubNormal) && ((int)_currentDifficulty) < ((int)Type_Difficulty.VeryHard) && _currentRecipe.MyIngredients.Count > 1)
+        else if (((int)_currentDifficulty) > ((int)Type_Difficulty.SubNormal) &&
+                 ((int)_currentDifficulty) < ((int)Type_Difficulty.VeryHard) && _currentRecipe.MyIngredients.Count > 1)
         {
             // hide 1
             int randomValue = UnityEngine.Random.Range(0, _currentRecipe.MyIngredients.Count);
@@ -441,7 +446,8 @@ public class RecipeController : MiniGame
                 _currentRecipe.MyIngredients[randomValue + 1].Hidden = true;
             }
         }
-        else if (((int)_currentDifficulty) > ((int)Type_Difficulty.VeryHard) && ((int)_currentDifficulty) < ((int)Type_Difficulty.God) && _currentRecipe.MyIngredients.Count > 3)
+        else if (((int)_currentDifficulty) > ((int)Type_Difficulty.VeryHard) &&
+                 ((int)_currentDifficulty) < ((int)Type_Difficulty.God) && _currentRecipe.MyIngredients.Count > 3)
         {
             // hide 3
             int randomValue = UnityEngine.Random.Range(0, _currentRecipe.MyIngredients.Count);
@@ -488,6 +494,7 @@ public class RecipeController : MiniGame
             }
         }
     }
+
     private void SetRandomIngredient(int i)
     {
         // get random
@@ -522,8 +529,11 @@ public class RecipeController : MiniGame
         CurrentRequiredIngredients.Add((Type_Ingredient)randomInt);
         // set sprite and scale
         _currentRecipe.MyIngredients[i].SpriteRendererIngredient.sprite = PossibleSprites[randomInt - 1];
-        _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale = new Vector3(SpriteScales[randomInt - 1], SpriteScales[randomInt - 1], SpriteScales[randomInt - 1]) * scaleToUse;
+        _currentRecipe.MyIngredients[i].SpriteRendererIngredient.transform.localScale =
+            new Vector3(SpriteScales[randomInt - 1], SpriteScales[randomInt - 1], SpriteScales[randomInt - 1]) *
+            scaleToUse;
     }
+
     private void PunishThePlayer()
     {
         Debug.Log("WRONG INGREDIENT FOOOOOOL");
@@ -533,10 +543,6 @@ public class RecipeController : MiniGame
         MyHealth[_currentHealth].PlayExplosion();
         MyHealth[_currentHealth].SpriteRenderer.sprite = MyHealth[_currentHealth].SpriteHeadExploded;
 
-        if (_currentHealth <= 0)
-        {
-            StartCoroutine(EndMinigame(true));
-        }
+        if (_currentHealth <= 0) EndMiniGame(false);
     }
-
 }

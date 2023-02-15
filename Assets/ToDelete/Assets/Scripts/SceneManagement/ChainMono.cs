@@ -10,10 +10,10 @@ public class ChainMono : IDisposable
 
     public event ChainEvent ChainEnded;
 
-    private ChainActionMonoBehaviour _currentChainAction;
-    private int _currentChainActionIndex = -1;
     private Queue<ChainActionMonoBehaviour> _chainActions = new Queue<ChainActionMonoBehaviour>();
+    private ChainActionMonoBehaviour _currentChainAction;
     
+    private int _currentChainActionIndex = -1;
     private float _elapsedTime = 0.0f;
 
     private bool _isPlaying = false;
@@ -44,14 +44,11 @@ public class ChainMono : IDisposable
 
     public void StartNextChainAction()
     {
+        // Check if not still playing an action
+        if (_isPlaying) return;
+            
         // Exit current ChainAction
         if (_currentChainAction != null) _currentChainAction.OnExit();
-        
-        if (_isPlaying)
-        {
-            Debug.Log("ChainAction was still playing. Aborting StartNextChainAction call.");
-            return;
-        }
         
         try
         {
@@ -65,15 +62,22 @@ public class ChainMono : IDisposable
             if (_destroyChainOnDone) Dispose();
             return;
         }
-        
+
         // Start Next Chain Action
         _currentChainAction = _chainActions.Dequeue();
         _elapsedTime = 0.0f;
+        _currentChainAction.OnEnter();
         _currentChainAction.Execute();
         _isPlaying = true;
     }
 
-
+    public void ClearChain()
+    {
+        _currentChainAction = null;
+        _isPlaying = false;
+        _chainActions.Clear();
+    }
+    
     private void ReleaseUnmanagedResources()
     {
         // TODO release unmanaged resources here

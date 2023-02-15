@@ -57,8 +57,8 @@ namespace UnityCore
                 {
                     m_Animator.SetBool("On", on);
 
-                    StopCoroutine(AwaitAnimation(on));
-                    StartCoroutine(AwaitAnimation(on));
+                    PageController.Instance.StopCoroutine(AwaitAnimation(on));
+                    PageController.Instance.StartCoroutine(AwaitAnimation(on));
                 }
                 else
                 {
@@ -98,14 +98,15 @@ namespace UnityCore
                     yield return null;
                 }
 
-                // wait for animator to finish animating
                 while (m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
                 {
+                    //Debug.Log(" INFINITE while LOOP");  // can this be the cause ?
                     yield return null;
                 }
 
                 TargetState = FLAG_NONE;
 
+                // did not get to this debug here at times !!!!
                 Debug.Log("Page [" + Type + "] finished transitioning to " + (on ? "On" : "Off"));
 
                 if (on == false)

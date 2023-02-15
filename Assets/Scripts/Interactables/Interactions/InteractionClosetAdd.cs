@@ -18,19 +18,12 @@ public class InteractionClosetAdd : Interaction
 
     private string _nameSpriteObject;
 
-    //[Header("Transform on SirMouse")]
-    //public Vector3 Position;
-    //public Vector3 Rotation;
-    //public Vector3 Scale;
-    //[Header("Transform on SirMouse Right")]
-    //public Vector3 PositionR;
-    //public Vector3 RotationR;
-    //public Vector3 ScaleR;
-
     [SerializeField]
     private SkinTransform _transformForSirMouse;
     [SerializeField]
     private SkinTransform _transformForSirMouseRight;
+
+
 
     private void Start()
     {
@@ -38,19 +31,7 @@ public class InteractionClosetAdd : Interaction
         SkinObjectWithSrite.name = SkinSpriteRenderer.sprite.name;
         _nameSpriteObject = SkinObjectWithSrite.name;
 
-        //StoreTransformValuesSkinPiece();
     }
-
-    //private void StoreTransformValuesSkinPiece()
-    //{
-    //    _transformForSirMouse = new SkinTransform(Position, Rotation, Scale);
-
-    //    if (_2TransformsPossible == true)
-    //    {
-    //        _transformForSirMouseRight = new SkinTransform(PositionR, RotationR, ScaleR);
-    //    }
-    //}
-
 
 
     protected override void SpecificAction(Player player)
@@ -62,7 +43,6 @@ public class InteractionClosetAdd : Interaction
 
         AddToLists();
     }
-
 
     public void AddToLists()
     {

@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(PickupInteraction))]
 public class InteractionBackpack : Interaction
 {
+    [Header("Other")]
+
     [SerializeField]
     private Interactable _interactableComponent;
 

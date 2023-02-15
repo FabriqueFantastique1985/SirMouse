@@ -19,6 +19,12 @@ public class MiniGame : MonoBehaviour
     }
     
     #endregion
+
+    /// <summary>
+    /// Reference to the game object that is used to quit the minigame.
+    /// </summary>
+    [SerializeField]
+    private GameObject _exitGameObject;
     
     [SerializeField] 
     private bool _hasBeenCompleted = false;
@@ -26,9 +32,17 @@ public class MiniGame : MonoBehaviour
     [SerializeField] 
     private Step[] _steps;
 
-    private Step CurrentStep => _steps[_currentStepIndex];
+    #region Fields
     
     private int _currentStepIndex = 0;
+
+    #endregion
+
+    #region Properties
+
+    private bool IsCurrentStepIndexInRange => _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
+
+    #endregion
     
     private void Awake()
     {
@@ -38,42 +52,52 @@ public class MiniGame : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        if (_hasBeenCompleted == false && CurrentStep != null)
+        if (_hasBeenCompleted == false && IsCurrentStepIndexInRange)
         {
-            CurrentStep.StepCompleted += OnStepCompleted;
-            CurrentStep.OnEnter();
+            _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
+            _steps[_currentStepIndex].OnEnter();
         }
     }
 
     private void OnSceneUnloaded(Scene arg0)
     {
-        CurrentStep.StepCompleted -= OnStepCompleted;
+        if (IsCurrentStepIndexInRange) _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
     }
     
     private void OnStepCompleted()
     {
-        CurrentStep.StepCompleted -= OnStepCompleted;
+        _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
         _currentStepIndex++;
-        if (_currentStepIndex >= _steps.Length) return;
-        CurrentStep.StepCompleted += OnStepCompleted;
-        CurrentStep.OnEnter();
+        if (IsCurrentStepIndexInRange == false) return;
+        _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
+        _steps[_currentStepIndex].OnEnter();
     }
 
-    public void EndMiniGame(MiniGameArgs args)
+    public virtual void EndMiniGame(bool completeSuccesfully)
     {
-        OnMiniGameEnded?.Invoke(this, args);
+        _exitGameObject.SetActive(false);
+        var MiniGameArgs = new MiniGameArgs();
+        MiniGameArgs.SuccessfullyCompleted = completeSuccesfully;
+        OnMiniGameEnded?.Invoke(this, MiniGameArgs);
     }
 
-    public void SetCurrentStep(Step newStep)
+    public void SetCurrentStep(Step newStep, bool forceEndStep)
     {
         //_currentStep.OnExit();
-        CurrentStep.StepCompleted -= OnStepCompleted;
+
+        if (IsCurrentStepIndexInRange)
+        {
+            if (forceEndStep) _steps[_currentStepIndex].ForceEnd();
+            _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
+        }
+        
         for (int i = 0; i < _steps.Length; i++)
         {
             if (newStep == _steps[i])
             {
                 _currentStepIndex = i;
-                CurrentStep.OnEnter();
+                _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
+                _steps[_currentStepIndex].OnEnter();
                 return;
             }
         }
@@ -83,6 +107,6 @@ public class MiniGame : MonoBehaviour
 
     public virtual void StartMiniGame()
     {
-        
+        _exitGameObject.SetActive(true);
     }
 }

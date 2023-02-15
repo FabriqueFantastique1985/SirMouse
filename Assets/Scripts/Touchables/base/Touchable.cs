@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Touch_Action))]
 public class Touchable : MonoBehaviour, IClickable
@@ -19,7 +20,7 @@ public class Touchable : MonoBehaviour, IClickable
 
     // components any tap-able would have
 
-    public Animator _animator;     
+    [FormerlySerializedAs("_animator")] public Animator Animator;     
     public Collider Collider; 
     public ParticleSystem ParticleGlowy;
 
@@ -34,8 +35,24 @@ public class Touchable : MonoBehaviour, IClickable
 
     #region Unity Functions
 
+
+    public void Disable()
+    {
+        Collider.enabled = false;
+        ParticleGlowy.Stop();
+        Animator.SetBool("Activated", false);
+    }
+
+    public void Enable()
+    {
+        Collider.enabled = true;
+        ParticleGlowy.Play();
+        Animator.SetBool("Activated", true);
+    }
+    
     private void Start()
     {
+        //Disable();
         var audioControl = AudioController.Instance;
         // add the possible sound effects to the AudioTable and the correct track
         foreach (AudioElement audioEm in AudioElements)
@@ -65,9 +82,9 @@ public class Touchable : MonoBehaviour, IClickable
                 _touchComponent.Act();
 
                 // plays animation (only if my touch component is not the "Move")
-                if (_animator != null && GetComponent<Touch_Move>() == null)
+                if (Animator != null && GetComponent<Touch_Move>() == null)
                 {
-                    _animator.SetTrigger("Activate");
+                    Animator.SetTrigger("Activate");
                 }
            
                 // if cooldown is present

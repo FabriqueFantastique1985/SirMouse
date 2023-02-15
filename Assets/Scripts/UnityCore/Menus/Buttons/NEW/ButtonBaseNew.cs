@@ -17,10 +17,11 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
     protected virtual void Start()
     {
         _audioInstance = AudioController.Instance;
-        if (_soundEffect.Clip != null)
-        {
-            _audioInstance.AddAudioElement(_soundEffect);
-        }
+
+        //if (_soundEffect.Clip != null)
+        //{
+        //    _audioInstance.AddAudioElement(_soundEffect);
+        //}
     }
 
     public virtual void ClickedButton()
@@ -31,14 +32,21 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
 
     protected virtual void PlaySoundEffect()
     {
-        _audioInstance.PlayAudio(_soundEffect);
+        if (_soundEffect != null)
+        {
+            _audioInstance.PlayAudio(_soundEffect);
+        }
+        
     }
 
 
     public void PlayAnimationPress()
     {
-        _animationComponent.Stop();
-        _animationComponent.Play(_animationName);
+        if (_animationComponent != null)
+        {
+            _animationComponent.Stop();
+            _animationComponent.Play(_animationName);
+        }
     }
 
     public void Click(Player player)

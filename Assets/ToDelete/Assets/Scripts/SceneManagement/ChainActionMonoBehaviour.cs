@@ -11,6 +11,7 @@ public class ChainActionMonoBehaviour : MonoBehaviour
     public delegate void ChainActionDelegate();
 
     public event ChainActionDelegate ChainActionDone;
+    public event ChainActionDelegate ChainActionStarted;
 
     #endregion
     
@@ -26,7 +27,7 @@ public class ChainActionMonoBehaviour : MonoBehaviour
 
     #endregion
     protected float _maxTime = 0.0f;
-
+    protected float _startMaxTime = 0.0f;
     public float MaxTime => _maxTime;
 
     [SerializeField, HideInInspector]
@@ -39,6 +40,13 @@ public class ChainActionMonoBehaviour : MonoBehaviour
     {
     }
 
+    public virtual void OnEnter()
+    {
+        _maxTime = _startMaxTime;
+        ChainActionStarted?.Invoke();
+        Debug.Log("ChainAction: " + _nameChainAction + " started.");
+    }
+    
     public virtual void OnExit()
     {
         ChainActionDone?.Invoke();
