@@ -147,8 +147,8 @@ namespace UnityCore
 
                 if (m_LoadingPage != PageType.None)
                 {
-                    await Task.Delay(1000);
-                    _menu.TurnPageOff(m_LoadingPage);
+                    await Task.Delay(1000); 
+                    _menu.TurnPageOff(m_LoadingPage); 
                 }
 
                 m_SceneIsLoading = false;
@@ -156,7 +156,9 @@ namespace UnityCore
 
             private void SpawnPlayerOnCorrectPosition()
             {
+                // change this so we don't iterate over all objects !!!
                 InteractionLevelChange[] spawnScripts = FindObjectsOfType<InteractionLevelChange>();
+
                 var player = GameManager.Instance.Player;
 
                 if (spawnScripts != null)
@@ -188,7 +190,8 @@ namespace UnityCore
                 if (m_LoadingPage != PageType.None)
                 {
                     _menu.TurnPageOn(m_LoadingPage);
-                    while (_menu.PageIsOn(m_LoadingPage))
+
+                    while (_menu.PageIsOn(m_LoadingPage) == false)
                     {
                         yield return null;
                     }
