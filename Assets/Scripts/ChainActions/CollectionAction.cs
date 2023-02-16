@@ -9,7 +9,7 @@ public class CollectionAction : ChainActionMonoBehaviour
 
     private void Start()
     {
-        _puzzlePieceCollector.OnPiecesPickedUp += OnPiecesPickedUp;
+        _puzzlePieceCollector.OnAllPiecesPickedUp += OnPiecesPickedUp;
         _startMaxTime = Mathf.Infinity;
     }
 

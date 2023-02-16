@@ -11,7 +11,7 @@ public class InteractionSolvingPuzzle : Interaction
 
     private void Start()
     {
-        _pieceCollector.OnPiecesPickedUp += OnPiecesPickedUp;
+        _pieceCollector.OnAllPiecesPickedUp += OnPiecesPickedUp;
         GetComponent<BoxCollider>().enabled = false;
     }
 

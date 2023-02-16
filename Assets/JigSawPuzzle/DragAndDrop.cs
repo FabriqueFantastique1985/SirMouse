@@ -57,8 +57,8 @@ public class DragAndDrop : MonoBehaviour
             if (_currentPicture < _puzzelPictures.Count)
             {
                 ++_currentPicture;
-                OnPuzzleRestarted?.Invoke(_puzzelPictures[_currentPicture]);
                 _currentPicture %= _puzzelPictures.Count;
+                OnPuzzleRestarted?.Invoke(_puzzelPictures[_currentPicture]);
             }
             else
             {

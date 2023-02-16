@@ -5,7 +5,8 @@ using UnityEngine;
 public class PuzzlePieceCollector : MonoBehaviour
 {
     public delegate void PuzzlePieceCollectorDelegate();
-    public event PuzzlePieceCollectorDelegate OnPiecesPickedUp;
+    public event PuzzlePieceCollectorDelegate OnAllPiecesPickedUp;
+    public event PuzzlePieceCollectorDelegate OnPieceCollected;
     
     [SerializeField]
     private List<Touch_PuzzlePiece> _puzzlePieces = new List<Touch_PuzzlePiece>();
@@ -14,11 +15,6 @@ public class PuzzlePieceCollector : MonoBehaviour
 
     [SerializeField]
     private float _hintTimer;
-
-    public int CollectedPieces
-    {
-        get => _collectedPiecesCount;
-    }
 
     public int MaxPieces
     {
@@ -64,6 +60,8 @@ public class PuzzlePieceCollector : MonoBehaviour
 
     private void OnPiecePickedUp(Touch_PuzzlePiece piece)
     {
+        OnPieceCollected?.Invoke();
+
         ++_collectedPiecesCount;
 
         // Remove soon to be deleted piece from list of puzzle pieces
@@ -73,9 +71,10 @@ public class PuzzlePieceCollector : MonoBehaviour
             _puzzlePieces[idx] = null;
         }
 
+        
         if (_collectedPiecesCount == MaxPieces)
         {
-            OnPiecesPickedUp?.Invoke();
+            OnAllPiecesPickedUp?.Invoke();
         }
         else
         {
