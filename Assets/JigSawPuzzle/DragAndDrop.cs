@@ -10,7 +10,7 @@ public class DragAndDrop : MonoBehaviour
     public delegate void DragAndDropDelegate();
 
     public event DragAndDropDelegate OnPuzzleCompleted;
-    public event DragAndDropDelegate OnPuzzleStarted;
+    public event DragAndDropDelegate OnPuzzleRestarted;
 
     public Camera CameraPuzzle;
 
@@ -48,7 +48,7 @@ public class DragAndDrop : MonoBehaviour
 
         if (_correctAmount == (_collumnAmount * _rowAmount))
         {
-            OnPuzzleStarted?.Invoke();
+            OnPuzzleRestarted?.Invoke();
 
             // reset variables
             _correctAmount = 0;

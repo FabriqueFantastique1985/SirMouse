@@ -21,7 +21,7 @@ public class PuzzlePieceScript : MonoBehaviour
         var _puzzleMinigame = FindObjectOfType<DragAndDrop>();
         if (_puzzleMinigame)
         {
-            _puzzleMinigame.OnPuzzleStarted += ScramblePieces;
+            _puzzleMinigame.OnPuzzleRestarted += ScramblePieces;
         }
     }
 
