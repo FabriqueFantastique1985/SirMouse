@@ -9,17 +9,27 @@ public class PuzzlePieceScript : MonoBehaviour
     public bool PutInCorrectPosition;
 
     private Collider _collider;
-    
-
-    
+        
     void Start()
     {
         CorrectPosition = transform.position;
         _collider = GetComponent<Collider>();
 
-        transform.localPosition = new Vector3(Random.Range(-12f, -2.5f), Random.Range(-9.5f, 0.5f));
+        ScramblePieces();
+
+        // Scramble pieces every time puzzle starts
+        var _puzzleMinigame = FindObjectOfType<DragAndDrop>();
+        if (_puzzleMinigame)
+        {
+            _puzzleMinigame.OnPuzzleStarted += ScramblePieces;
+        }
     }
 
+    private void ScramblePieces()
+    {
+        transform.localPosition = new Vector3(Random.Range(-12f, -2.5f), Random.Range(-9.5f, 0.5f));
+        _collider.enabled = true;
+    }
 
     public bool CheckLatchOnSpot()
     {
