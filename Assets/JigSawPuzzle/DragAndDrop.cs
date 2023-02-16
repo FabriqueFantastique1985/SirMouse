@@ -8,9 +8,10 @@ using static MiniGame;
 public class DragAndDrop : MonoBehaviour
 {
     public delegate void DragAndDropDelegate();
+    public delegate void RestartDelegate(Sprite sprite);
 
     public event DragAndDropDelegate OnPuzzleCompleted;
-    public event DragAndDropDelegate OnPuzzleRestarted;
+    public event RestartDelegate OnPuzzleRestarted;
 
     public Camera CameraPuzzle;
 
@@ -33,6 +34,10 @@ public class DragAndDrop : MonoBehaviour
 
     private int _correctAmount;
 
+    [SerializeField]
+    private List<Sprite> _puzzelPictures;
+    int _currentPicture;
+
     // !! call this on interaction for puzzle game !!
     public void StartMiniGame()
     {
@@ -48,7 +53,17 @@ public class DragAndDrop : MonoBehaviour
 
         if (_correctAmount == (_collumnAmount * _rowAmount))
         {
-            OnPuzzleRestarted?.Invoke();
+            // Give different sprite as parameter incase the puzzle gets changed
+            if (_currentPicture < _puzzelPictures.Count)
+            {
+                ++_currentPicture;
+                OnPuzzleRestarted?.Invoke(_puzzelPictures[_currentPicture]);
+                _currentPicture %= _puzzelPictures.Count;
+            }
+            else
+            {
+                OnPuzzleRestarted?.Invoke(null);
+            }
 
             // reset variables
             _correctAmount = 0;

@@ -9,26 +9,34 @@ public class PuzzlePieceScript : MonoBehaviour
     public bool PutInCorrectPosition;
 
     private Collider _collider;
+
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
         
     void Start()
     {
         CorrectPosition = transform.position;
         _collider = GetComponent<Collider>();
 
-        ScramblePieces();
+        RestartPuzzle(null);
 
         // Scramble pieces every time puzzle starts
         var _puzzleMinigame = FindObjectOfType<DragAndDrop>();
         if (_puzzleMinigame)
         {
-            _puzzleMinigame.OnPuzzleRestarted += ScramblePieces;
+            _puzzleMinigame.OnPuzzleRestarted += RestartPuzzle;
         }
     }
 
-    private void ScramblePieces()
+    private void RestartPuzzle(Sprite sprite)
     {
         transform.localPosition = new Vector3(Random.Range(-12f, -2.5f), Random.Range(-9.5f, 0.5f));
         _collider.enabled = true;
+
+        if (_spriteRenderer && sprite)
+        {
+            _spriteRenderer.sprite = sprite;
+        }
     }
 
     public bool CheckLatchOnSpot()

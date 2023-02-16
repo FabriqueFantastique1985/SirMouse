@@ -15,6 +15,16 @@ public class PuzzlePieceCollector : MonoBehaviour
     [SerializeField]
     private float _hintTimer;
 
+    public int CollectedPieces
+    {
+        get => _collectedPiecesCount;
+    }
+
+    public int MaxPieces
+    {
+        get => _puzzlePieces.Count;
+    }
+
     void Start()
     {
         foreach (var piece in _puzzlePieces)
@@ -40,7 +50,7 @@ public class PuzzlePieceCollector : MonoBehaviour
         // If collected pieces amount is the same, turn on particle
         if (collectedPieces == _collectedPiecesCount)
         {
-            for (int i = 0; i < _puzzlePieces.Count; i++)
+            for (int i = 0; i < MaxPieces; i++)
             {
                 if (_puzzlePieces[i])
                 {
@@ -58,12 +68,12 @@ public class PuzzlePieceCollector : MonoBehaviour
 
         // Remove soon to be deleted piece from list of puzzle pieces
         int idx = _puzzlePieces.IndexOf(piece);
-        if (idx >= 0 && idx < _puzzlePieces.Count)
+        if (idx >= 0 && idx < MaxPieces)
         {
             _puzzlePieces[idx] = null;
         }
 
-        if (_collectedPiecesCount == _puzzlePieces.Count)
+        if (_collectedPiecesCount == MaxPieces)
         {
             OnPiecesPickedUp?.Invoke();
         }
