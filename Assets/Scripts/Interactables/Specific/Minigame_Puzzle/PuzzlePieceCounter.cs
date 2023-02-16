@@ -12,12 +12,16 @@ public class PuzzlePieceCounter : MonoBehaviour
     [SerializeField]
     private List<SpriteRenderer> _puzzlePieceSprites = new List<SpriteRenderer>();
 
+    [SerializeField]
+    private Interactable _interactableBalloon;
+
     int _collectedPieces = 0;
 
     private void Start()
     {
         _puzzlePieceCollector.OnPieceCollected += OnPieceCollected;
-        _puzzlePieceCollector.OnAllPiecesPickedUp += OnAllPiecesPickedUp;
+
+        _interactableBalloon.OnInteracted += DisableBubble;
 
         Assert.AreEqual(_puzzlePieceSprites.Count, _puzzlePieceCollector.MaxPieces, "Amount of pieces in bubble not the same as amount of pieces to collect");
     }
@@ -28,14 +32,8 @@ public class PuzzlePieceCounter : MonoBehaviour
         ++_collectedPieces;
     }
 
-    private void OnAllPiecesPickedUp()
+    private void DisableBubble()
     {
-        StartCoroutine(DisableBubble());
-    }
-
-    private IEnumerator DisableBubble()
-    {
-        yield return new WaitForSeconds(5f);
         gameObject.SetActive(false);
     }
 }
