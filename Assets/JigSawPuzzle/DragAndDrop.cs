@@ -38,6 +38,9 @@ public class DragAndDrop : MonoBehaviour
     private List<Sprite> _puzzelPictures;
     int _currentPicture;
 
+    [SerializeField]
+    float _endMinigameDelay;
+
     // !! call this on interaction for puzzle game !!
     public void StartMiniGame()
     {
@@ -137,9 +140,15 @@ public class DragAndDrop : MonoBehaviour
 
         if (_correctAmount == (_collumnAmount * _rowAmount))
         {
-            EndMiniGame();
-            OnPuzzleCompleted?.Invoke();
+            StartCoroutine(EndingDelay());
         }
+    }
+
+    private IEnumerator EndingDelay()
+    {
+        yield return new WaitForSeconds(_endMinigameDelay);
+        EndMiniGame();
+        OnPuzzleCompleted?.Invoke();
     }
 
     private void AdjustOrderPiece(bool increaseOrder)
