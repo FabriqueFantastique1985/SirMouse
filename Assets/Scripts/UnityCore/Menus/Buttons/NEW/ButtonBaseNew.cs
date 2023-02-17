@@ -49,7 +49,7 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
         }
     }
 
-    public void Click(Player player)
+    public virtual void Click(Player player)
     {
         ClickedButton();
     }

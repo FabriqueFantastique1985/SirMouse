@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class SkinStarterSet : MonoBehaviour
 {
+
+    // DATED SCRIPT
+
+
     [SerializeField]
     private List<InteractionClosetAdd> _startingSkinPieceInteractions;
 
     private void Start()
     {
-        for (int i = 0; i < _startingSkinPieceInteractions.Count; i++)
-        {
-            _startingSkinPieceInteractions[i].AddToLists();
-        }
+        //for (int i = 0; i < _startingSkinPieceInteractions.Count; i++)
+        //{
+        //    _startingSkinPieceInteractions[i].AddToLists();
+        //}
     }
 }
