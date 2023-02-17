@@ -5,8 +5,10 @@ using UnityEngine;
 public class SkinsMouseController : MonoBehaviour
 {
     public static SkinsMouseController Instance { get; private set; }
+
     public Animator ClosetWrapInsideCamera;
 
+    [Header("Skins on player Rig")]
     // below scripts are present on the correct transform in the SirMouse Rig
     public SkinPiecesForThisBodyType SkinPiecesHat;
     public SkinPiecesForThisBodyType SkinPiecesHead;
@@ -17,8 +19,24 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyType SkinPiecesLegRight;
     public SkinPiecesForThisBodyType SkinPiecesFootLeft;
     public SkinPiecesForThisBodyType SkinPiecesFootRight;
+    public SkinPiecesForThisBodyType SkinPiecesTail;
     //
 
+    [Header("Skins on player Rig in UI")]
+    // below scripts are present on the correct transform in the SirMouse Rig
+    public SkinPiecesForThisBodyType SkinPiecesUIHat;
+    public SkinPiecesForThisBodyType SkinPiecesUIHead;
+    public SkinPiecesForThisBodyType SkinPiecesUIChest;
+    public SkinPiecesForThisBodyType SkinPiecesUIArmLeft;
+    public SkinPiecesForThisBodyType SkinPiecesUIArmRight;
+    public SkinPiecesForThisBodyType SkinPiecesUILegLeft;
+    public SkinPiecesForThisBodyType SkinPiecesUILegRight;
+    public SkinPiecesForThisBodyType SkinPiecesUIFootLeft;
+    public SkinPiecesForThisBodyType SkinPiecesUIFootRight;
+    public SkinPiecesForThisBodyType SkinPiecesUITail;
+    //
+
+    [Header("Skins on buttons in UI closet")]
     // below scripts are present on the buttons in the closet
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonHat;
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonHead;
@@ -29,9 +47,21 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonLegRight;
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonFootLeft;
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonFootRight;
+    public SkinPiecesForThisBodyTypeButton SkinPiecesButtonTail;
     //
 
+    private void Awake()
+    {
+        // Singleton 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
 
+    // called on the interaction add...
     public void UnlockSkinPiece(Type_Body bodyType, Type_Skin skinType)
     {
         SkinPiecesForThisBodyTypeButton skinPieceForBodyX = null;
@@ -68,11 +98,14 @@ public class SkinsMouseController : MonoBehaviour
             case Type_Body.FootRight:
                 skinPieceForBodyX = SkinPiecesButtonFootRight;
                 break;
+            case Type_Body.Tail:
+                skinPieceForBodyX = SkinPiecesButtonTail;
+                break;
         }
 
         FindCorrectSkinPieceButton(skinPieceForBodyX, skinType, bodyType);
     }
-
+    // called when a piece is dragged onto SirMouse...
     public void EquipSkinPiece(Type_Body bodyType, Type_Skin skinType)
     {
         SkinPiecesForThisBodyType skinPieceForBodyX = null;
@@ -108,6 +141,9 @@ public class SkinsMouseController : MonoBehaviour
                 break;
             case Type_Body.FootRight:
                 skinPieceForBodyX = SkinPiecesFootRight;
+                break;
+            case Type_Body.Tail:
+                skinPieceForBodyX = SkinPiecesTail;
                 break;
         }
 
@@ -206,29 +242,4 @@ public class SkinsMouseController : MonoBehaviour
 
         }
     }
-
-    /*
-    public SkinnedMeshRenderer Head;
-    public SkinnedMeshRenderer EarL;
-    public SkinnedMeshRenderer EarR;
-    public SkinnedMeshRenderer ShoulderL;
-    public SkinnedMeshRenderer ShoulderR;
-    public SkinnedMeshRenderer ArmUpL;
-    public SkinnedMeshRenderer ArmUpR;
-    public SkinnedMeshRenderer ElbowL;
-    public SkinnedMeshRenderer ElbowR;
-    public SkinnedMeshRenderer HandL;
-    public SkinnedMeshRenderer HandR;
-    public SkinnedMeshRenderer Chest;
-    public SkinnedMeshRenderer Skirt;
-    public SkinnedMeshRenderer Tail;
-    public SkinnedMeshRenderer LegUpL;
-    public SkinnedMeshRenderer LegUpR;
-    public SkinnedMeshRenderer KneeL;
-    public SkinnedMeshRenderer KneeR;
-    public SkinnedMeshRenderer LegLowL;
-    public SkinnedMeshRenderer LegLowR;
-    public SkinnedMeshRenderer FootL;
-    public SkinnedMeshRenderer FootR;
-    */
 }

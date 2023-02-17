@@ -38,10 +38,13 @@ public class InteractionClosetAdd : Interaction
     {
         base.SpecificAction(player);
 
-        SkinController.Instance.StartCoroutine(SkinController.Instance.ForceObjectInCloset(this, SkinObjectWithSrite.transform.localScale.x));
-        SkinController.Instance.StartCoroutine(SkinController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
+        ClosetController.Instance.StartCoroutine(ClosetController.Instance.ForceObjectInCloset(this, SkinObjectWithSrite.transform.localScale.x));
+        ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
 
-        AddToLists();
+        //SkinController.Instance.StartCoroutine(SkinController.Instance.ForceObjectInCloset(this, SkinObjectWithSrite.transform.localScale.x));
+        //SkinController.Instance.StartCoroutine(SkinController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
+
+        //AddToLists();
     }
 
     public void AddToLists()
