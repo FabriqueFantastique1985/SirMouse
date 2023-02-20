@@ -15,13 +15,19 @@ public class ButtonSkinPiece : ButtonBaseNew
 
     public override void ClickedButton()
     {
+        // if this is a skinPiece I have found...
         if (Found == true)  
         {
-            // anim + sound on base
-            base.ClickedButton();
+            // if I don't already have a skinPiece on my finger...
+            if (ClosetController.Instance.ActivatedFollowMouse == false)
+            {
+                // anim + sound on base
+                base.ClickedButton();
 
-            // create copy of skinPiece
-            ClosetController.Instance.ClickedSkinPieceButton(MySpriteToDuplicateAndMove, MySkinPieceElement);
+                // create copy of skinPiece
+                ClosetController.Instance.ClickedSkinPieceButton(MySpriteToDuplicateAndMove, MySkinPieceElement, this.transform.position);
+            }
+
         }
     }
 

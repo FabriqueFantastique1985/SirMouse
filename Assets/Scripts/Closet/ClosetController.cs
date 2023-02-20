@@ -9,6 +9,7 @@ public class ClosetController : MonoBehaviour
     public static ClosetController Instance { get; private set; }
 
     public LayerMask LayersToCastOn;
+    public GameObject PanelToInstantiateClosetImagesOn;
 
     public List<Page> PagesWithinCloset = new List<Page>();
 
@@ -31,6 +32,7 @@ public class ClosetController : MonoBehaviour
 
     private RaycastHit _hit;
 
+    // below is for chugging things in the closet ...(am i sure bout this?)
     [SerializeField]
     private GameObject _emptyGameObject;
 
@@ -82,6 +84,9 @@ public class ClosetController : MonoBehaviour
     {
         ActivatedFollowMouse = false;
 
+        // check whether I'm currently in the field where letting go would equip the piece
+        SkinsMouseController.Instance.EquipSkinPiece(CurrentlyHeldSkinPiece);
+
         // remove the object 
         Destroy(CurrentlyHeldObject);
         CurrentlyHeldSkinPiece.MyBodyType = Type_Body.None;
@@ -117,9 +122,10 @@ public class ClosetController : MonoBehaviour
 
 
 
-    public void ClickedSkinPieceButton(GameObject objectToSpawn, SkinPieceElement skinPieceElement)
+    public void ClickedSkinPieceButton(GameObject objectToSpawn, SkinPieceElement skinPieceElement, Vector3 spawnPosition)
     {
-        CurrentlyHeldObject = Instantiate(objectToSpawn, transform.position, Quaternion.identity);
+        CurrentlyHeldObject = Instantiate(objectToSpawn, PanelToInstantiateClosetImagesOn.transform);
+        CurrentlyHeldObject.transform.position = spawnPosition;
 
         CurrentlyHeldSkinPiece.MyBodyType = skinPieceElement.MyBodyType;  // null ref
         CurrentlyHeldSkinPiece.MySkinType = skinPieceElement.MySkinType;
