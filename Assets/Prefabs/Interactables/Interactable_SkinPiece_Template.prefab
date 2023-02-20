@@ -13,18 +13,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteObjectInteractionInBalloon: {fileID: 6680601717942332358}
-  _animationClip: {fileID: 0}
-  _skinType: 0
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
+  _mySkinPieceElement: {fileID: 7848956734484268227}
   SkinObjectWithSrite: {fileID: 7510955991793026700}
   SkinSpriteRenderer: {fileID: 2823950481552675548}
-  _2TransformsPossible: 0
-  _skinTypeRight: 4
-  Position: {x: 0, y: 0, z: 0}
-  Rotation: {x: 90, y: 0, z: 0}
-  Scale: {x: 0.1, y: 0.1, z: 0.1}
-  PositionR: {x: 0, y: 0, z: 0}
-  RotationR: {x: 0, y: 0, z: 0}
-  ScaleR: {x: 0, y: 0, z: 0}
+--- !u!114 &7848956734484268227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6680601717588335243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyBodyType: 0
+  MySkinType: 0
+  HidesSirMouseGeometry: 0
 --- !u!1001 &3731750887601109136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
+      propertyPath: _interactions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+        type: 3}
       propertyPath: _interactions.Array.data[0]
       value: 
       objectReference: {fileID: 6230316225360265171}
@@ -127,7 +142,7 @@ PrefabInstance:
     - target: {fileID: 8034303490400576027, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_Name
-      value: Interactable_SkinPiece_Test Variant
+      value: Interactable_SkinPiece_Template
       objectReference: {fileID: 0}
     - target: {fileID: 8034303490400576028, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}

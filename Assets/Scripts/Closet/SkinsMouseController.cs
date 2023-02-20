@@ -72,11 +72,11 @@ public class SkinsMouseController : MonoBehaviour
 
     #region Public Functions
     // called on the interaction add...
-    public void UnlockSkinPiece(Type_Body bodyType, Type_Skin skinType)
+    public void UnlockSkinPiece(SkinPieceElement skinPieceElement)
     {
         SkinPiecesForThisBodyTypeButton skinPieceForBodyX = null;
 
-        switch (bodyType)
+        switch (skinPieceElement.MyBodyType)
         {
             case Type_Body.None:
                 skinPieceForBodyX = null;
@@ -113,7 +113,7 @@ public class SkinsMouseController : MonoBehaviour
                 break;
         }
 
-        FindCorrectSkinPieceButton(skinPieceForBodyX, skinType, bodyType);
+        FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
     }
     // called when a piece is dragged onto SirMouse...
     public void EquipSkinPiece(SkinPieceElement skinPieceElement)
@@ -179,11 +179,11 @@ public class SkinsMouseController : MonoBehaviour
 
 
     #region Private Functions
-    private void FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, Type_Skin skinType, Type_Body bodyType)
+    private void FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, SkinPieceElement skinPieceElement)
     {
         for (int i = 0; i < skinPiecesForBodyX.MySkinPiecesButtons.Count; i++)
         {
-            if (skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.MySkinType == skinType)
+            if (skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.MySkinType == skinPieceElement.MySkinType)
             {
                 // activate the button
                 skinPiecesForBodyX.MySkinPiecesButtons[i].Found = true;

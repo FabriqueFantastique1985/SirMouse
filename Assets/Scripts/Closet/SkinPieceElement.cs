@@ -11,11 +11,4 @@ public class SkinPieceElement : MonoBehaviour
     public Type_Skin MySkinType;
 
     public bool HidesSirMouseGeometry;
-
-    public SkinPieceElement(Type_Body bodyType, Type_Skin skinType, bool hideGeo)
-    {
-        MyBodyType = bodyType;
-        MySkinType = skinType;
-        HidesSirMouseGeometry = hideGeo;
-    }
 }
