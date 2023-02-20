@@ -8213,7 +8213,7 @@ Canvas:
   m_GameObject: {fileID: 494516593}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -8222,7 +8222,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1457668865
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &494516597
@@ -8234,7 +8234,7 @@ RectTransform:
   m_GameObject: {fileID: 494516593}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1862231438}
   m_Father: {fileID: 0}
@@ -8243,8 +8243,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 1080, y: 608}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &573508398
 GameObject:
   m_ObjectHideFlags: 0
@@ -11652,7 +11652,7 @@ MonoBehaviour:
   _nameChainAction: Cutscene_4_Action
   ActionType: 0
   _cutscenePlayableDirector: {fileID: 1630100996}
-  _disableInputWhilePlaying: 0
+  _disableInputWhilePlaying: 1
 --- !u!1 &825147635
 GameObject:
   m_ObjectHideFlags: 0
@@ -12783,7 +12783,7 @@ MonoBehaviour:
   _nameChainAction: Cutscene_2_Action
   ActionType: 0
   _cutscenePlayableDirector: {fileID: 876164308}
-  _disableInputWhilePlaying: 0
+  _disableInputWhilePlaying: 1
 --- !u!4 &1190394265
 Transform:
   m_ObjectHideFlags: 0
@@ -12805,6 +12805,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2807105749534687581, guid: f8c80563635f73e4d90e1d2d78627f76,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807105749534687581, guid: f8c80563635f73e4d90e1d2d78627f76,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4380598106594203298, guid: f8c80563635f73e4d90e1d2d78627f76,
         type: 3}
       propertyPath: m_RootOrder
@@ -12864,6 +12874,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: '[SCENE_SETUP]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7725687401914790883, guid: f8c80563635f73e4d90e1d2d78627f76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8c80563635f73e4d90e1d2d78627f76, type: 3}
@@ -25037,7 +25052,7 @@ MonoBehaviour:
   _nameChainAction: Cutscene_1_Action
   ActionType: 0
   _cutscenePlayableDirector: {fileID: 1598223438}
-  _disableInputWhilePlaying: 0
+  _disableInputWhilePlaying: 1
 --- !u!4 &1902210043
 Transform:
   m_ObjectHideFlags: 0
