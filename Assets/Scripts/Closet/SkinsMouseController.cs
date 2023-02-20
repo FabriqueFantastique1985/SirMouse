@@ -202,11 +202,18 @@ public class SkinsMouseController : MonoBehaviour
         List<SkinPieceElement> tempListToClearUI = new List<SkinPieceElement>();
         for (int i = 0; i < skinPiecesForBodyX.MySkinPieces.Count; i++)
         {
+            // find corresponding skinTypes in the list of skinPieces (will not enter the if, if I'm using default --- check tempList size count 0)
             if (skinPiecesForBodyX.MySkinPieces[i].MySkinType == skinPieceElement.MySkinType)
             {
                 tempListToClear.Add(skinPiecesForBodyX.MySkinPieces[i]);
                 tempListToClearUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);     
             }
+        }
+
+        // indicating that we're trying to equip a Sir Mouse default skinPiece
+        if (tempListToClear.Count == 0)
+        {
+            SetSirMouseGeometryState(skinPieceElement.MyBodyType, true);
         }
 
         // iterate through the temp lists
