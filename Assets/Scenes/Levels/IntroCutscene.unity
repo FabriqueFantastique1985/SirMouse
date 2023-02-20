@@ -8245,6 +8245,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &573508398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 573508399}
+  - component: {fileID: 573508400}
+  m_Layer: 0
+  m_Name: LoadForest_Action
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &573508399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573508398}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 687257589}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &573508400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573508398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2ef1a4b5e58ef4c9b18397a9ceedef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameChainAction: LoadForest_Action
+  ActionType: 0
+  _scene:
+    sceneAsset: {fileID: 102900000, guid: c4b38e267a195dd4c982ea9b08ad371a, type: 3}
+    sceneName: Scenes/Levels/Forest/ForestLevel
 --- !u!1 &634840101
 GameObject:
   m_ObjectHideFlags: 0
@@ -8587,6 +8635,52 @@ Transform:
   m_Father: {fileID: 955016935}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &687257588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 687257589}
+  - component: {fileID: 687257590}
+  m_Layer: 0
+  m_Name: Step_5_LoadForest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &687257589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687257588}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 573508399}
+  m_Father: {fileID: 1637163861}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &687257590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687257588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945b6da4a7d1ed04898c44feee376b00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEnterChainActions:
+  - {fileID: 573508400}
 --- !u!4 &692212286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4706931401683266931, guid: 5c67d7fa002122f4ba97bec9c0b98022,
@@ -14280,6 +14374,7 @@ Transform:
   - {fileID: 82236611}
   - {fileID: 1607049168}
   - {fileID: 704925321}
+  - {fileID: 687257589}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30065,6 +30160,7 @@ MonoBehaviour:
   - {fileID: 82236610}
   - {fileID: 1607049169}
   - {fileID: 704925322}
+  - {fileID: 687257590}
 --- !u!4 &2017957628
 Transform:
   m_ObjectHideFlags: 0

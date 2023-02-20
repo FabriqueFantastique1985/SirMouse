@@ -39,6 +39,4 @@ public class LoadLevel : MonoBehaviour
         }
         SceneManager.LoadScene(_index);
     }
-
-    
 }
