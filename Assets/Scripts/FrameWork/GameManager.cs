@@ -33,16 +33,17 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     private GameSystem _currentGameSystem;
     private Chain _chain = new Chain(false);
     private ChainMono _chainMono = new ChainMono(false);
+
     #endregion
 
     #region Properties
 
     public bool BlockInput
     {
-        get => _blockInput; 
+        get => _blockInput;
         set => _blockInput = value;
     }
-    
+
     public Chain Chain => _chain;
     public ChainMono ChainMono => _chainMono;
 
@@ -56,10 +57,10 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         {
             PlayField = FindObjectOfType<PlayField>();
         }
-        
+
         SceneManager.sceneLoaded += OnSceneLoaded;
-        
-        
+
+
         EnterMainGameSystem();
     }
 
@@ -79,11 +80,15 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
                 else Destroy(player);
             }
         }
-            
+
         if (PlayField == null)
         {
             PlayField = FindObjectOfType<PlayField>();
             if (PlayField == null) Debug.LogError($"No PlayField found in this scene {SceneManager.GetActiveScene()}");
+            else
+            {
+                AdjustGameSystem(PlayField.GroundColliders);
+            }
         }
     }
 
@@ -100,11 +105,13 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
             (_currentGameSystem as MiniGameSystem).EndMinigame(hasWon);
         }
     }
-    
+
     public void EnterMainGameSystem()
     {
-        _currentGameSystem = new MainGameSystem(Player, LayersMainGameSystemWillIgnore, GameManager.Instance.PlayField.GroundColliders);
+        _currentGameSystem = new MainGameSystem(Player, LayersMainGameSystemWillIgnore,
+            GameManager.Instance.PlayField.GroundColliders);
     }
+
     public void EnterMiniGameSystem()
     {
         _currentGameSystem = new MiniGameSystem(Player, LayersMiniGameSystemWillIgnore);
