@@ -13,7 +13,7 @@ public class FollowCam : MonoBehaviour
 
     public bool follow = false;
 
-    private float resOffset;
+ //   private float resOffset;
 
     public GameObject PointForRaycasting;
 
@@ -24,9 +24,9 @@ public class FollowCam : MonoBehaviour
             target = GameManager.Instance.Player.transform;
         }
         
-        resOffset = Mathf.RoundToInt((GetComponent<Camera>().aspect - 1.3f) * 10) * 0.4f + 0.2f;
-        minValue.x += resOffset;
-        maxValue.x -= resOffset;
+      // resOffset = Mathf.RoundToInt((GetComponent<Camera>().aspect - 1.3f) * 10) * 0.4f + 0.2f;
+      // minValue.x += resOffset;
+      // maxValue.x -= resOffset;
 
         if (offset == Vector3.zero)
         {
@@ -72,25 +72,25 @@ public class FollowCam : MonoBehaviour
 
     public IEnumerator ZoomOut(float zoomGoal)
     {
-        float originalSize = GameManager.Instance.MainCamera.orthographicSize;
+        float originalSize = GameManager.Instance.CurrentCamera.orthographicSize;
 
-        while (GameManager.Instance.MainCamera.orthographicSize < originalSize + zoomGoal)
+        while (GameManager.Instance.CurrentCamera.orthographicSize < originalSize + zoomGoal)
         {
-            GameManager.Instance.MainCamera.orthographicSize += 0.05f;
+            GameManager.Instance.CurrentCamera.orthographicSize += 0.05f;
             yield return new WaitForEndOfFrame();
         }
 
-        GameManager.Instance.MainCamera.orthographicSize = originalSize + zoomGoal;
+        GameManager.Instance.CurrentCamera.orthographicSize = originalSize + zoomGoal;
     }
     public IEnumerator ZoomInNormal()
     {
-        while (GameManager.Instance.MainCamera.orthographicSize > 5)
+        while (GameManager.Instance.CurrentCamera.orthographicSize > 5)
         {
-            GameManager.Instance.MainCamera.orthographicSize -= 0.05f;
+            GameManager.Instance.CurrentCamera.orthographicSize -= 0.05f;
             yield return new WaitForEndOfFrame();
         }
 
-        GameManager.Instance.MainCamera.orthographicSize = 5;
+        GameManager.Instance.CurrentCamera.orthographicSize = 5;
     }
 
     IEnumerator Delay()
@@ -103,5 +103,18 @@ public class FollowCam : MonoBehaviour
             yield return null;
         }
         follow = true;
+    }
+
+    /// <summary>
+    /// Sets the bounds of the follow camera with values of a collider
+    /// </summary>
+    /// <param name="collider"></param>
+    public void SetBounds(BoxCollider collider)
+    {
+        var maxBounds = new Vector3(collider.size.x / 2.0f, collider.size.y / 2.0f, collider.size.z / 2.0f);
+        var minBounds = -maxBounds;
+
+        minValue = minBounds;
+        maxValue = maxBounds;
     }
 }
