@@ -9,6 +9,12 @@ public class RecipeController : MiniGame
     [SerializeField]
     private CutsceneAction _bookCutscene;
 
+    /// <summary>
+    /// When interacted with this interactable, we start the game.
+    /// </summary>
+    [SerializeField]
+    private Interactable _startGameInteractable;
+
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
     public bool MinigameActive;
@@ -83,6 +89,16 @@ public class RecipeController : MiniGame
     private void Start()
     {
         _currentRecipe = MyRecipes[0];
+        if (IsCurrentStepIndexInRange == false)
+        {
+            _startGameInteractable.gameObject.SetActive(true);
+        }
+        _startGameInteractable.OnInteracted += OnInteractedStartGame;
+    }
+
+    private void OnInteractedStartGame()
+    {
+        StartMiniGame();
     }
 
 

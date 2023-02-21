@@ -31,12 +31,6 @@ public class DataPersistenceManager : MonoBehaviour
         _dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
     }
-
-    private void Start()
-    {
-
-    }
-
     public void NewGame()
     {
         _gameData = new GameData();

@@ -9,7 +9,7 @@ public class Step : MonoBehaviour
 {
     #region Events
 
-    public delegate void StepDelegate();
+    public delegate void StepDelegate(bool autoSave);
 
     public event StepDelegate StepCompleted;
 
@@ -18,6 +18,12 @@ public class Step : MonoBehaviour
     [SerializeField]
     private ChainActionMonoBehaviour[] _onEnterChainActions;
 
+    /// <summary>
+    /// When true, an auto save will occur.
+    /// </summary>
+    [SerializeField, Tooltip("When true, an autoSave will occur.")]
+    private bool _autoSave = false;
+    
     private ChainMono _chain;
 
     private void Awake()
@@ -36,7 +42,7 @@ public class Step : MonoBehaviour
 
     private void OnLastChainActionDone()
     {
-        StepCompleted?.Invoke();
+        StepCompleted?.Invoke(_autoSave);
         Debug.Log($"Step: {gameObject.name} completed.");
     }
 
