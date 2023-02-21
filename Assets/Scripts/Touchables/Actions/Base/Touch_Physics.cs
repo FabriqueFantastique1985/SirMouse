@@ -63,10 +63,7 @@ public class Touch_Physics : Touch_Action
         {
             //base.Act();
 
-            if (AudioElements.Count > 0)
-            {
-                AudioController.Instance.PlayAudio(AudioElements[0]);
-            }
+            AudioController.Instance.PlayAudio(AudioElements[0]);
             
             SpawnObject();
 
@@ -86,11 +83,8 @@ public class Touch_Physics : Touch_Action
         if (Input.GetMouseButtonUp(0))
         {
 
-            if (AudioElements.Count > 1)
-            {
-                AudioController.Instance.PlayAudio(AudioElements[1]);
-            }
-            
+            AudioController.Instance.PlayAudio(AudioElements[Random.Range(0, AudioElements.Count + 1)]);
+
             LetGoOfMouse();            
         }
         else if (_activatedFollowMouse == true)
