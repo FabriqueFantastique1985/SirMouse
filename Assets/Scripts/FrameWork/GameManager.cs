@@ -5,6 +5,7 @@ using UnityCore.Scene;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviourSingleton<GameManager>
@@ -17,8 +18,8 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public CharacterGeoReferences characterGeoReferences;
     public CharacterGeoReferences characterGeoReferencesUI;
 
-    public Camera MainCamera;
-    public FollowCam MainCameraScript;
+    [FormerlySerializedAs("MainCamera")] public Camera CurrentCamera;
+    [FormerlySerializedAs("MainCameraScript")] public FollowCam FollowCamera;
 
     public GameObject PanelUIButtonsClosetAndBackpack;
 
