@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviour, IDataPersistence
 {
     #region Events
 
@@ -12,6 +12,15 @@ public class Interactable : MonoBehaviour
     public event InteractableDelegate OnInteracted;
 
     #endregion
+
+    [SerializeField]
+    private string id;
+
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
     
     /// <summary>
     /// Balloon used to execute an interaction.
@@ -155,4 +164,12 @@ public class Interactable : MonoBehaviour
 
     #endregion
 
+    public void LoadData(GameData data)
+    {
+        
+    }
+
+    public void SaveData(ref GameData data)
+    {
+    }
 }
