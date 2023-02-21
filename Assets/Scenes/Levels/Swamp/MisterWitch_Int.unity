@@ -2108,6 +2108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onEnterChainActions:
   - {fileID: 1481963619}
+  _autoSave: 0
 --- !u!1 &255696221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,7 +2920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &401775320
 Animator:
   serializedVersion: 3
@@ -6449,6 +6450,11 @@ PrefabInstance:
       propertyPath: _steps.Array.data[4]
       value: 
       objectReference: {fileID: 2086505126}
+    - target: {fileID: 3190461176604182698, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
+        type: 3}
+      propertyPath: _startGameInteractable
+      value: 
+      objectReference: {fileID: 1163326683}
     - target: {fileID: 3446477862672311473, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
         type: 3}
       propertyPath: moveWithTransform
@@ -6515,6 +6521,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5328996342156338940, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
+        type: 3}
+      propertyPath: _interactions.Array.data[0]
+      value: 
+      objectReference: {fileID: 1163326684}
     - target: {fileID: 6147801793549702344, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
         type: 3}
       propertyPath: AudioElements.Array.size
@@ -7126,12 +7137,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onEnterChainActions:
   - {fileID: 2145889387}
+  _autoSave: 0
 --- !u!1 &1163326682 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9112540729622580249, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
     type: 3}
   m_PrefabInstance: {fileID: 1041853228}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1163326683 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5328996342156338940, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1041853228}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163326682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811a002b75b6bc746a7308289b451d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1163326684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163326682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac20f8fd52d83c499cfef35e90e7f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteObjectInteractionInBalloon: {fileID: 1384670985}
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
 --- !u!1 &1175866386 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8034303490400576027, guid: c96cc19a541c95c4fa33a5e4a5d357df,
@@ -8204,6 +8245,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1384670985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9112540729968196948, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1041853228}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1395600028
 GameObject:
   m_ObjectHideFlags: 0
@@ -11752,6 +11799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onEnterChainActions:
   - {fileID: 282860600}
+  _autoSave: 0
 --- !u!1 &1831785204
 GameObject:
   m_ObjectHideFlags: 0
@@ -13091,6 +13139,7 @@ MonoBehaviour:
   _onEnterChainActions:
   - {fileID: 519895474}
   - {fileID: 590973003}
+  _autoSave: 1
 --- !u!4 &2086505127
 Transform:
   m_ObjectHideFlags: 0
@@ -13153,6 +13202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onEnterChainActions:
   - {fileID: 759090168}
+  _autoSave: 1
 --- !u!1 &2145889385
 GameObject:
   m_ObjectHideFlags: 0
