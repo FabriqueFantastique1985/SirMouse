@@ -91,8 +91,8 @@ public class RecipeController : MiniGame
     {
         base.StartMiniGame();
         
-        GameManager.Instance.MainCameraScript.target = NewCameraTarget.transform;
-        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomOut(0.58f));
+        GameManager.Instance.FollowCamera.target = NewCameraTarget.transform;
+        StartCoroutine(GameManager.Instance.FollowCamera.ZoomOut(0.58f));
         GameManager.Instance.EnterMiniGameSystem();
 
         MinigameActive = true;
@@ -172,8 +172,8 @@ public class RecipeController : MiniGame
             TouchableIngredients[i].Animator.SetBool("Activated", false);
         }
 
-        GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
-        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomInNormal());
+        GameManager.Instance.FollowCamera.target = GameManager.Instance.Player.transform;
+        StartCoroutine(GameManager.Instance.FollowCamera.ZoomInNormal());
 
         // Go back to the main Game System to control mouse
         GameManager.Instance.EnterMainGameSystem();
