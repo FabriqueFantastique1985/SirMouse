@@ -83,7 +83,7 @@ public class Touch_Physics : Touch_Action
         if (Input.GetMouseButtonUp(0))
         {
 
-            AudioController.Instance.PlayAudio(AudioElements[Random.Range(0, AudioElements.Count + 1)]);
+            AudioController.Instance.PlayAudio(AudioElements[Random.Range(0, AudioElements.Count)]);
 
             LetGoOfMouse();            
         }
