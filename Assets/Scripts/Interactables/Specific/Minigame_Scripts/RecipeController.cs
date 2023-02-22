@@ -9,6 +9,18 @@ public class RecipeController : MiniGame
     [SerializeField]
     private CutsceneAction _bookCutscene;
 
+    /// <summary>
+    /// When interacted with this interactable, we start the game.
+    /// </summary>
+    [SerializeField]
+    private Interactable _startGameInteractable;
+
+    /// <summary>
+    /// dummy interactable used only the first time the minigame is played
+    /// </summary>
+    [SerializeField]
+    private Interactable _startGameMissionInteractableDummy;
+    
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
     public bool MinigameActive;
@@ -83,6 +95,15 @@ public class RecipeController : MiniGame
     private void Start()
     {
         _currentRecipe = MyRecipes[0];
+        
+        _startGameInteractable.gameObject.SetActive(IsCurrentStepIndexInRange == false);
+        _startGameMissionInteractableDummy.gameObject.SetActive(IsCurrentStepIndexInRange);
+        _startGameInteractable.OnInteracted += OnInteractedStartGame;
+    }
+
+    private void OnInteractedStartGame()
+    {
+        StartMiniGame();
     }
 
 
@@ -91,8 +112,8 @@ public class RecipeController : MiniGame
     {
         base.StartMiniGame();
         
-        GameManager.Instance.MainCameraScript.target = NewCameraTarget.transform;
-        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomOut(0.58f));
+        GameManager.Instance.FollowCamera.target = NewCameraTarget.transform;
+        StartCoroutine(GameManager.Instance.FollowCamera.ZoomOut(0.58f));
         GameManager.Instance.EnterMiniGameSystem();
 
         MinigameActive = true;
@@ -172,8 +193,8 @@ public class RecipeController : MiniGame
             TouchableIngredients[i].Animator.SetBool("Activated", false);
         }
 
-        GameManager.Instance.MainCameraScript.target = GameManager.Instance.Player.transform;
-        StartCoroutine(GameManager.Instance.MainCameraScript.ZoomInNormal());
+        GameManager.Instance.FollowCamera.target = GameManager.Instance.Player.transform;
+        StartCoroutine(GameManager.Instance.FollowCamera.ZoomInNormal());
 
         // Go back to the main Game System to control mouse
         GameManager.Instance.EnterMainGameSystem();

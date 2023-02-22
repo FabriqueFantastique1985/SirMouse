@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-public class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviour, IDataPersistence
 {
     #region Events
 
@@ -12,6 +13,15 @@ public class Interactable : MonoBehaviour
     public event InteractableDelegate OnInteracted;
 
     #endregion
+
+    [SerializeField]
+    private string id;
+
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
     
     /// <summary>
     /// Balloon used to execute an interaction.
@@ -36,6 +46,16 @@ public class Interactable : MonoBehaviour
 
     protected int _currentInteractionIndex = 0;
 
+    [Header("Shine")]
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
+    [SerializeField]
+    private float _shineDelay;
+    [SerializeField]
+    private float _shineScale;
+    [SerializeField]
+    private bool _isShineActive;
+
     #region Properties
 
     /// <summary>
@@ -57,6 +77,12 @@ public class Interactable : MonoBehaviour
         {
             _swapBalloon.OnBalloonClicked += OnInteractSwapBalloonClicked;
             _swapBalloon.gameObject.SetActive(false);
+        }
+
+        if (_spriteRenderer)
+        {
+
+            StartCoroutine(MoveShine());
         }
 
         Initialize();
@@ -94,6 +120,27 @@ public class Interactable : MonoBehaviour
     #endregion
 
     #region Private Functions
+
+    private IEnumerator MoveShine()
+    {
+        float showDuration = _spriteRenderer.material.GetFloat("_ScrollSpeed");
+        _spriteRenderer.material.SetFloat("_Scale", _shineScale);
+        while (_isShineActive)
+        {
+            float timer = 0f;
+            while (timer < _shineDelay + showDuration)
+            {
+                timer += Time.deltaTime;
+
+                if (timer < 1f / showDuration)
+                {
+                    _spriteRenderer.material.SetFloat("_ScrollTime", timer);
+                }
+
+                yield return null;
+            }
+        }
+    }
 
 
     // current way of adjusting interaction will not always work
@@ -155,4 +202,12 @@ public class Interactable : MonoBehaviour
 
     #endregion
 
+    public void LoadData(GameData data)
+    {
+        
+    }
+
+    public void SaveData(ref GameData data)
+    {
+    }
 }

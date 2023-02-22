@@ -27,7 +27,7 @@ public class Touch_Ingredient : Touch_Physics
         //base.FollowMouseCalculations();
 
         _mousePosition = Input.mousePosition;
-        _mouseWorldPosXY = GameManager.Instance.MainCamera.ScreenToWorldPoint(_mousePosition);
+        _mouseWorldPosXY = GameManager.Instance.CurrentCamera.ScreenToWorldPoint(_mousePosition);
 
         // puts the object from screenXY into world
         _spawnedObject.transform.position = _mouseWorldPosXY;
@@ -36,12 +36,12 @@ public class Touch_Ingredient : Touch_Physics
             _raycastTestObject.transform.position = _mouseWorldPosXY;
         }
 
-        GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position = new Vector3(_mouseWorldPosXY.x, _mouseWorldPosXY.y, GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position.z);
-        var newDirection = (_mouseWorldPosXY - GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position).normalized;
+        GameManager.Instance.FollowCamera.PointForRaycasting.transform.position = new Vector3(_mouseWorldPosXY.x, _mouseWorldPosXY.y, GameManager.Instance.FollowCamera.PointForRaycasting.transform.position.z);
+        var newDirection = (_mouseWorldPosXY - GameManager.Instance.FollowCamera.PointForRaycasting.transform.position).normalized;
 
-        Debug.DrawRay(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection * 40, Color.red);
+        Debug.DrawRay(GameManager.Instance.FollowCamera.PointForRaycasting.transform.position, newDirection * 40, Color.red);
 
-        Ray ray = GameManager.Instance.MainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = GameManager.Instance.CurrentCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         //if (Physics.Raycast(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MiniGame : MonoBehaviour
+public class MiniGame : MonoBehaviour, IDataPersistence
 {
     #region Events
 
@@ -27,20 +27,20 @@ public class MiniGame : MonoBehaviour
     private GameObject _exitGameObject;
     
     [SerializeField] 
-    private bool _hasBeenCompleted = false;
+    protected bool _hasBeenCompleted = false;
 
     [SerializeField] 
     private Step[] _steps;
 
     #region Fields
     
-    private int _currentStepIndex = 0;
+    protected int _currentStepIndex = 0;
 
     #endregion
 
     #region Properties
 
-    private bool IsCurrentStepIndexInRange => _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
+    protected bool IsCurrentStepIndexInRange => _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
 
     #endregion
     
@@ -64,10 +64,14 @@ public class MiniGame : MonoBehaviour
         if (IsCurrentStepIndexInRange) _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
     }
     
-    private void OnStepCompleted()
+    private void OnStepCompleted(bool autoSave)
     {
         _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
         _currentStepIndex++;
+        
+        // Saves current index
+        if (autoSave) DataPersistenceManager.Instance.SaveGame();
+        
         if (IsCurrentStepIndexInRange == false) return;
         _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
         _steps[_currentStepIndex].OnEnter();
@@ -108,5 +112,15 @@ public class MiniGame : MonoBehaviour
     public virtual void StartMiniGame()
     {
         _exitGameObject.SetActive(true);
+    }
+
+    public void LoadData(GameData data)
+    {
+        _currentStepIndex = data.MiniGameStepIndex;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.MiniGameStepIndex = _currentStepIndex;
     }
 }

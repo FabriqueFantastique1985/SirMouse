@@ -10,6 +10,9 @@ public class SceneSetup : MonoBehaviour
 
     [SerializeField]
     private Transform _playerStart;
+
+    [SerializeField]
+    private BoxCollider _cameraBounds;
     
     private void Awake()
     {
@@ -17,17 +20,14 @@ public class SceneSetup : MonoBehaviour
         {
             Instantiate(_gameManagerPrefab);
         }
+
+        // Set the min and max bounds of the follow camera with bounds of the collider
+        GameManager.Instance.FollowCamera.SetBounds(_cameraBounds);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

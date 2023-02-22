@@ -37,7 +37,7 @@ public class Touch_Action : MonoBehaviour
 
     public virtual void Act()
     {
-        AudioController.Instance.PlayAudio(AudioElements[0]);
+        AudioController.Instance.PlayAudio(AudioElements[Random.Range(0, AudioElements.Count)]);
 
         StartCoroutine(EnableInputDetectionAgain());
     }

@@ -155,11 +155,11 @@ public class DragAndDrop : MonoBehaviour
     {
         if (increaseOrder == true)
         {
-            SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 11;
+            SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 31;
         }
         else
         {
-            SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 10;
+            SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 30;
         }
     }
 }

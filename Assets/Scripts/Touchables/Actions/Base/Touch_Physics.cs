@@ -63,10 +63,7 @@ public class Touch_Physics : Touch_Action
         {
             //base.Act();
 
-            if (AudioElements.Count > 0)
-            {
-                AudioController.Instance.PlayAudio(AudioElements[0]);
-            }
+            AudioController.Instance.PlayAudio(AudioElements[0]);
             
             SpawnObject();
 
@@ -86,11 +83,8 @@ public class Touch_Physics : Touch_Action
         if (Input.GetMouseButtonUp(0))
         {
 
-            if (AudioElements.Count > 1)
-            {
-                AudioController.Instance.PlayAudio(AudioElements[1]);
-            }
-            
+            AudioController.Instance.PlayAudio(AudioElements[Random.Range(0, AudioElements.Count)]);
+
             LetGoOfMouse();            
         }
         else if (_activatedFollowMouse == true)
@@ -130,7 +124,7 @@ public class Touch_Physics : Touch_Action
     protected virtual void FollowMouseCalculations()
     {
         _mousePosition = Input.mousePosition;
-        _mouseWorldPosXY = GameManager.Instance.MainCamera.ScreenToWorldPoint(_mousePosition);
+        _mouseWorldPosXY = GameManager.Instance.CurrentCamera.ScreenToWorldPoint(_mousePosition);
 
         // puts the object from screenXY into world
         _spawnedObject.transform.position = _mouseWorldPosXY;
@@ -138,11 +132,11 @@ public class Touch_Physics : Touch_Action
         // if-else is to fix casting under ground bug
         if (_mouseWorldPosXY.y > 0)
         {
-            if (Physics.Raycast(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(_spawnedObject.transform.position, GameManager.Instance.CurrentCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
             {
                 Debug.Log(_hit.collider + " collider hit");
 
-                Debug.DrawRay(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward * _hit.distance, Color.yellow);
+                Debug.DrawRay(_spawnedObject.transform.position, GameManager.Instance.CurrentCamera.transform.forward * _hit.distance, Color.yellow);
 
                 _mouseWorldPositionXYZ = _hit.point;
                 _spawnedObject.transform.position = _mouseWorldPositionXYZ;
@@ -150,10 +144,10 @@ public class Touch_Physics : Touch_Action
         }
         else
         {
-            if (Physics.Raycast(_spawnedObject.transform.position, -GameManager.Instance.MainCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(_spawnedObject.transform.position, -GameManager.Instance.CurrentCamera.transform.forward, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
             {
 
-                Debug.DrawRay(_spawnedObject.transform.position, GameManager.Instance.MainCamera.transform.forward * _hit.distance, Color.yellow);
+                Debug.DrawRay(_spawnedObject.transform.position, GameManager.Instance.CurrentCamera.transform.forward * _hit.distance, Color.yellow);
 
                 _mouseWorldPositionXYZ = _hit.point;
                 _spawnedObject.transform.position = _mouseWorldPositionXYZ;
