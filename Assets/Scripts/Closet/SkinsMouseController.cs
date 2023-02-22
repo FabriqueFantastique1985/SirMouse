@@ -6,6 +6,11 @@ public class SkinsMouseController : MonoBehaviour
 {
     public static SkinsMouseController Instance { get; private set; }
 
+    public CharacterRigReferences CharacterRigRefs;
+    public CharacterRigReferences CharacterRigRefsUI;
+    public CharacterGeoReferences characterGeoReferences;
+    public CharacterGeoReferences characterGeoReferencesUI;
+    
     public Animator ClosetWrapInsideCamera;
 
     //[HideInInspector]
@@ -292,78 +297,78 @@ public class SkinsMouseController : MonoBehaviour
             case Type_Body.None:
                 break;
             case Type_Body.Hat:
-                GameManager.Instance.characterGeoReferences.EarL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.EarR.gameObject.SetActive(state);
+                characterGeoReferences.EarL.gameObject.SetActive(state);
+                characterGeoReferences.EarR.gameObject.SetActive(state);
                 // ui
-                GameManager.Instance.characterGeoReferencesUI.EarL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.EarR.gameObject.SetActive(state);
+                characterGeoReferencesUI.EarL.gameObject.SetActive(state);
+                characterGeoReferencesUI.EarR.gameObject.SetActive(state);
                 break;
             case Type_Body.Head:
-                GameManager.Instance.characterGeoReferences.Head.gameObject.SetActive(state);
+                characterGeoReferences.Head.gameObject.SetActive(state);
                 // ui
-                GameManager.Instance.characterGeoReferencesUI.Head.gameObject.SetActive(state);
+                characterGeoReferencesUI.Head.gameObject.SetActive(state);
                 break;
             case Type_Body.Chest:
-                GameManager.Instance.characterGeoReferences.Chest.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.Skirt.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.Chest.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
+                characterGeoReferences.Chest.gameObject.SetActive(state);
+                characterGeoReferences.Skirt.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.Chest.gameObject.SetActive(state);
+                characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
                 break;
             case Type_Body.ArmLeft:
-                GameManager.Instance.characterGeoReferences.ArmUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.HandL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ElbowL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ShoulderL.gameObject.SetActive(state);
+                characterGeoReferences.ArmUpL.gameObject.SetActive(state);
+                characterGeoReferences.HandL.gameObject.SetActive(state);
+                characterGeoReferences.ElbowL.gameObject.SetActive(state);
+                characterGeoReferences.ShoulderL.gameObject.SetActive(state);
                 // ui
-                GameManager.Instance.characterGeoReferencesUI.ArmUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.HandL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
+                characterGeoReferencesUI.ArmUpL.gameObject.SetActive(state);
+                characterGeoReferencesUI.HandL.gameObject.SetActive(state);
+                characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
+                characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
                 break;
             case Type_Body.ArmRight:
-                GameManager.Instance.characterGeoReferences.ArmUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.HandR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ElbowR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ShoulderR.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.ArmUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.HandR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
+                characterGeoReferences.ArmUpR.gameObject.SetActive(state);
+                characterGeoReferences.HandR.gameObject.SetActive(state);
+                characterGeoReferences.ElbowR.gameObject.SetActive(state);
+                characterGeoReferences.ShoulderR.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.ArmUpR.gameObject.SetActive(state);
+                characterGeoReferencesUI.HandR.gameObject.SetActive(state);
+                characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
+                characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
                 break;
             case Type_Body.LegLeft:
-                GameManager.Instance.characterGeoReferences.LegUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.KneeL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.LegLowL.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.LegUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
+                characterGeoReferences.LegUpL.gameObject.SetActive(state);
+                characterGeoReferences.KneeL.gameObject.SetActive(state);
+                characterGeoReferences.LegLowL.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.LegUpL.gameObject.SetActive(state);
+                characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
+                characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
                 break;
             case Type_Body.LegRight:
-                GameManager.Instance.characterGeoReferences.LegUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.KneeR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.LegLowR.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.LegUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.KneeR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.LegLowR.gameObject.SetActive(state);
+                characterGeoReferences.LegUpR.gameObject.SetActive(state);
+                characterGeoReferences.KneeR.gameObject.SetActive(state);
+                characterGeoReferences.LegLowR.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.LegUpR.gameObject.SetActive(state);
+                characterGeoReferencesUI.KneeR.gameObject.SetActive(state);
+                characterGeoReferencesUI.LegLowR.gameObject.SetActive(state);
                 break;
             case Type_Body.FootLeft:
-                GameManager.Instance.characterGeoReferences.FootL.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.FootL.gameObject.SetActive(state);
+                characterGeoReferences.FootL.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.FootL.gameObject.SetActive(state);
                 break;
             case Type_Body.FootRight:
-                GameManager.Instance.characterGeoReferences.FootR.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.FootR.gameObject.SetActive(state);
+                characterGeoReferences.FootR.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.FootR.gameObject.SetActive(state);
                 break;
             case Type_Body.Tail:
-                GameManager.Instance.characterGeoReferences.Tail.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.Tail.gameObject.SetActive(state);
+                characterGeoReferences.Tail.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.Tail.gameObject.SetActive(state);
                 break;
 
         }

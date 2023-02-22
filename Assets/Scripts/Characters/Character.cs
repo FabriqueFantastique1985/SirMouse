@@ -192,18 +192,19 @@ public class Character : MonoBehaviour
     // animation events
     public void UnEquipGear()
     {
-        GameManager.Instance.characterGeoReferences.Sword.gameObject.SetActive(false);
-        GameManager.Instance.characterGeoReferences.Shield.gameObject.SetActive(false);
+        
+        SkinsMouseController.Instance.characterGeoReferences.Sword.gameObject.SetActive(false);
+        SkinsMouseController.Instance.characterGeoReferences.Shield.gameObject.SetActive(false);
 
-        GameManager.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(true);
-        GameManager.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(true);
     }
     public void EquipGear()
     {
-        GameManager.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(false);
-        GameManager.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(false);
+        SkinsMouseController.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(false);
+        SkinsMouseController.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(false);
 
-        GameManager.Instance.characterGeoReferences.Sword.gameObject.SetActive(true);
-        GameManager.Instance.characterGeoReferences.Shield.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.Sword.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.Shield.gameObject.SetActive(true);
     }
 }

@@ -20,6 +20,8 @@ public class MiniGame : MonoBehaviour, IDataPersistence
     
     #endregion
 
+    #region EditorFields
+
     /// <summary>
     /// Reference to the game object that is used to quit the minigame.
     /// </summary>
@@ -32,6 +34,8 @@ public class MiniGame : MonoBehaviour, IDataPersistence
     [SerializeField] 
     private Step[] _steps;
 
+    #endregion
+   
     #region Fields
     
     protected int _currentStepIndex = 0;

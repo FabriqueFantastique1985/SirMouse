@@ -13,11 +13,6 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public PlayField PlayField;
     public Player Player;
 
-    public CharacterRigReferences CharacterRigRefs;
-    public CharacterRigReferences CharacterRigRefsUI;
-    public CharacterGeoReferences characterGeoReferences;
-    public CharacterGeoReferences characterGeoReferencesUI;
-
     [FormerlySerializedAs("MainCamera")] public Camera CurrentCamera;
     [FormerlySerializedAs("MainCameraScript")] public FollowCam FollowCamera;
 

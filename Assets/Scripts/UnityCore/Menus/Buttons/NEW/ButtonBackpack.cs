@@ -24,7 +24,7 @@ public class ButtonBackpack : ButtonPaging, IClickable
             // turn off the camera wrap for closet
             SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
             //SkinController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
-            GameManager.Instance.characterGeoReferencesUI.DefaultTextureSirMouse();
+            SkinsMouseController.Instance.characterGeoReferencesUI.DefaultTextureSirMouse();
 
             _pageInstance.TurnAllPagesOffExcept(_turnThisPage);
             //_pageInstance.TurnPageOn(_turnThisPage);
