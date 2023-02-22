@@ -46,11 +46,13 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
     protected int _currentInteractionIndex = 0;
 
-    [Header("Shine")]
+    [Header("Shine Properties")]
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
-    private float _shineDelay;
+    private float _shineDelayMin;
+    [SerializeField]
+    private float _shineDelayMax;
     [SerializeField]
     private float _shineScale;
     [SerializeField]
@@ -81,7 +83,6 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
         if (_spriteRenderer)
         {
-
             StartCoroutine(MoveShine());
         }
 
@@ -123,16 +124,27 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
     private IEnumerator MoveShine()
     {
-        float showDuration = _spriteRenderer.material.GetFloat("_ScrollSpeed");
-        _spriteRenderer.material.SetFloat("_Scale", _shineScale);
+        _spriteRenderer.material.SetFloat("_ScrollTime", -2f);
+
+        float shineDelay = UnityEngine.Random.Range(_shineDelayMin, _shineDelayMax);
+        yield return new WaitForSeconds(shineDelay);
+        
+        float scrollSpeed = _spriteRenderer.material.GetFloat("_ScrollSpeed");
+
+        if (_shineScale > 0)
+        {
+            _spriteRenderer.material.SetFloat("_Scale", _shineScale);
+        }
+
+
         while (_isShineActive)
         {
-            float timer = 0f;
-            while (timer < _shineDelay + showDuration)
+            float timer = -2f;
+            while (timer < shineDelay + 2f / scrollSpeed)
             {
                 timer += Time.deltaTime;
 
-                if (timer < 1f / showDuration)
+                if (timer < 2f / scrollSpeed)
                 {
                     _spriteRenderer.material.SetFloat("_ScrollTime", timer);
                 }
