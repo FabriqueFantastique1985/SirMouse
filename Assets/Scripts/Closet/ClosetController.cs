@@ -130,7 +130,6 @@ public class ClosetController : MonoBehaviour
         CurrentlyHeldSkinPiece.MyBodyType = skinPieceElement.MyBodyType;  // null ref
         CurrentlyHeldSkinPiece.MySkinType = skinPieceElement.MySkinType;
         CurrentlyHeldSkinPiece.HidesSirMouseGeometry = skinPieceElement.HidesSirMouseGeometry;
-        CurrentlyHeldSkinPiece.ScoreValue = skinPieceElement.ScoreValue;
 
         //        AudioController.Instance.PlayAudio(AudioElements[0]);
 
@@ -164,7 +163,7 @@ public class ClosetController : MonoBehaviour
         PageController.Instance.OpenClosetImage(false);
         PageController.Instance.OpenBagImage(false);
 
-        // this still needed ?
+        // this still eneded ?
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
     }
 
