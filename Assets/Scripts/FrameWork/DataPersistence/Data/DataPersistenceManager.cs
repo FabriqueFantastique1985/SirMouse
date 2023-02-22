@@ -62,6 +62,14 @@ public class DataPersistenceManager : MonoBehaviour
         _dataHandler.Save(_gameData);
     }
 
+    /// <summary>
+    /// Temporary method to clear all save files
+    /// </summary>
+    public void ClearGame()
+    {
+        _dataHandler.ClearSaveFiles();
+    }
+
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<IDataPersistence> dataPersistenceObjetcs =

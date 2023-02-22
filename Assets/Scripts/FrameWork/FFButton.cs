@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(BoxCollider))]
 public class FFButton : MonoBehaviour, IClickable
 {
-    public UnityEvent _actionOnClick;
+    [FormerlySerializedAs("_actionOnClick")] public UnityEvent ActionOnClick;
 
     public bool OnReleaseOnExecute { get; set; }
 
@@ -24,6 +25,6 @@ public class FFButton : MonoBehaviour, IClickable
 
     public void Click(Player player)
     {
-        _actionOnClick?.Invoke();
+        ActionOnClick?.Invoke();
     }
 }
