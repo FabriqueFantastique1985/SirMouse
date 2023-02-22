@@ -6330,7 +6330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationComponent: {fileID: 8900634722084282110}
-  _animationName: POP_ButtonPuzzle1
+  _animationName: POP_ButtonGeneric
   _soundEffect:
     Clip: {fileID: 8300000, guid: 5f415353cc9122e43a78faaa9c5e7b6a, type: 3}
     Type: 2
@@ -7823,7 +7823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationComponent: {fileID: 5080445910393516674}
-  _animationName: POP_ButtonPuzzle1
+  _animationName: POP_ButtonGeneric
   _soundEffect:
     Clip: {fileID: 8300000, guid: 5f415353cc9122e43a78faaa9c5e7b6a, type: 3}
     Type: 2
@@ -12010,6 +12010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358442663814268863}
+  - component: {fileID: 8912207923686570904}
   m_Layer: 0
   m_Name: Puzzle_Parent
   m_TagString: Untagged
@@ -12069,6 +12070,17 @@ Transform:
   m_Father: {fileID: 4358442664229139319}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 27, y: 0, z: 0}
+--- !u!210 &8912207923686570904
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4358442663814268860}
+  m_Enabled: 1
+  m_SortingLayerID: 589994821
+  m_SortingLayer: 4
+  m_SortingOrder: 0
 --- !u!1 &4358442663819201108
 GameObject:
   m_ObjectHideFlags: 0
@@ -12368,9 +12380,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingLayerID: 589994821
+  m_SortingLayer: 4
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: ec0824e1d82e99148b13d128ad2d8723, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -15926,8 +15938,8 @@ Canvas:
   m_GameObject: {fileID: 4358442664219932471}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 4358442663191663863}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -15935,8 +15947,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 589994821
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &4358442664219932472
 MonoBehaviour:
@@ -22961,9 +22973,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingLayerID: 589994821
+  m_SortingLayer: 4
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: f483a3a1bca2d7e44969004ba371935b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

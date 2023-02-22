@@ -45,6 +45,7 @@ public class DragAndDrop : MonoBehaviour
     public void StartMiniGame()
     {
         // call gameManager to block the input OR change to minigamesystem
+        GameManager.Instance.EnterMiniGameSystem();
         GameManager.Instance.BlockInput = true;
 
         // hide the buttons for the closet and backpack
@@ -53,6 +54,12 @@ public class DragAndDrop : MonoBehaviour
         // enable the update on this script
         this.enabled = true;
         gameObject.SetActive(true);
+
+        // disable the camera component which follows the player
+        GameManager.Instance.CurrentCamera.enabled = false;
+
+        // hide sirMouse rig
+        GameManager.Instance.characterGeoReferences.gameObject.SetActive(false);
 
         if (_correctAmount == (_collumnAmount * _rowAmount))
         {
@@ -80,11 +87,17 @@ public class DragAndDrop : MonoBehaviour
         this.enabled = false;
         gameObject.SetActive(false);
 
+        // show sirMouse rig
+        GameManager.Instance.characterGeoReferences.gameObject.SetActive(true);
+
+        // enable the camera component which follows the player
+        GameManager.Instance.CurrentCamera.enabled = true;
 
         // un-hide the buttons for the closet and backpack
         GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(true);
 
         // call gameManager to un-block the input OR change to maingameSystem
+        GameManager.Instance.EnterMainGameSystem();
         GameManager.Instance.BlockInput = false;
     }
 
@@ -118,10 +131,14 @@ public class DragAndDrop : MonoBehaviour
                 _clickedPiece = false;
 
                 AdjustOrderPiece(false);
-
+                
                 if (_selectedPieceScript.CheckLatchOnSpot())
                 {
                     ++_correctAmount;
+
+                    // lower layer index so other unsolved pieces will always be above it
+                    SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 29;
+
                     if (_prefabParticleSuccess != null)
                     {
                         Instantiate(_prefabParticleSuccess, SelectedPiece.transform.position, Quaternion.identity);
@@ -155,7 +172,7 @@ public class DragAndDrop : MonoBehaviour
     {
         if (increaseOrder == true)
         {
-            SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 31;
+            SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 32;
         }
         else
         {
