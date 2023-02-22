@@ -8,6 +8,10 @@ public class SkinsMouseController : MonoBehaviour
 
     public Animator ClosetWrapInsideCamera;
 
+    //[HideInInspector]
+    public List<SkinPieceElement> EquipedSkinPieces = new List<SkinPieceElement>();
+    public List<SkinPieceElement> EquipedSkinPiecesUI = new List<SkinPieceElement>(); // iterate over this list
+
     #region SkinPiecesFields
 
     [Header("Skins on player Rig")]
@@ -52,11 +56,15 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonTail;
     //
 
-    //[HideInInspector]
-    public List<SkinPieceElement> EquipedSkinPieces = new List<SkinPieceElement>();
-    public List<SkinPieceElement> EquipedSkinPiecesUI = new List<SkinPieceElement>();
-
     #endregion
+
+
+    // possible to put this onto seperate ScoreController
+    #region ScoreFields
+    [HideInInspector]
+    public int ScoreTotal;
+    #endregion
+
 
     private void Awake()
     {
@@ -206,7 +214,11 @@ public class SkinsMouseController : MonoBehaviour
             if (skinPiecesForBodyX.MySkinPieces[i].MySkinType == skinPieceElement.MySkinType)
             {
                 tempListToClear.Add(skinPiecesForBodyX.MySkinPieces[i]);
-                tempListToClearUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);     
+                tempListToClearUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);
+
+                // link the score that was set on the Closet
+                skinPiecesForBodyX.MySkinPieces[i].ScoreValue = skinPieceElement.ScoreValue; 
+                skinPiecesForBodyUIX.MySkinPieces[i].ScoreValue = skinPieceElement.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
             }
         }
 
@@ -238,6 +250,8 @@ public class SkinsMouseController : MonoBehaviour
                 SetSirMouseGeometryState(skinPieceElement.MyBodyType, true);
             }
         }
+
+        DebugConsoleScore();
 
         tempListToClear.Clear();
         tempListToClearUI.Clear();
@@ -353,6 +367,20 @@ public class SkinsMouseController : MonoBehaviour
                 break;
 
         }
+    }
+
+
+    private void DebugConsoleScore()
+    {
+        int totalScore = 0;
+        for (int i = 0; i < EquipedSkinPieces.Count; i++)
+        {
+            totalScore += EquipedSkinPieces[i].ScoreValue;             
+        }
+
+        ScoreTotal = totalScore;
+
+        Debug.Log("Total Score is " + ScoreTotal);
     }
 
     #endregion
