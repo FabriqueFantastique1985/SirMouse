@@ -59,7 +59,7 @@ public class DragAndDrop : MonoBehaviour
         GameManager.Instance.CurrentCamera.enabled = false;
 
         // hide sirMouse rig
-        GameManager.Instance.characterGeoReferences.gameObject.SetActive(false);
+        SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(false);
 
         if (_correctAmount == (_collumnAmount * _rowAmount))
         {
@@ -88,7 +88,7 @@ public class DragAndDrop : MonoBehaviour
         gameObject.SetActive(false);
 
         // show sirMouse rig
-        GameManager.Instance.characterGeoReferences.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(true);
 
         // enable the camera component which follows the player
         GameManager.Instance.CurrentCamera.enabled = true;
