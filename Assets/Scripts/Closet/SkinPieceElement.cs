@@ -11,4 +11,7 @@ public class SkinPieceElement : MonoBehaviour
     public Type_Skin MySkinType;
 
     public bool HidesSirMouseGeometry;
+
+    [Header("To Assign only in Closet Buttons")]
+    public int ScoreValue;
 }
