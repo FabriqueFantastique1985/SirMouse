@@ -72,4 +72,13 @@ public class FileDataHandler
             Debug.LogError("Error occured when saving file: " + fullPath + "\n" + e);
         }
     }
+
+    /// <summary>
+    /// Temporary method to clear save files 
+    /// </summary>
+    public void ClearSaveFiles()
+    {
+        if (Directory.Exists(_dataDirPath)) { Directory.Delete(_dataDirPath, true); }
+        Directory.CreateDirectory(_dataDirPath);
+    }
 }
