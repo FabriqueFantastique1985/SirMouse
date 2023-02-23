@@ -4859,7 +4859,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5202,6 +5202,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &657416121371089105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944013233230153512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5475b67aef46a7444affdb5759f8609f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteObjectInteractionInBalloon: {fileID: 412717365695807535}
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
+  _interactableComponent: {fileID: 2258948852201614797}
+  _interactionPickup: {fileID: 3855116543986277070}
+--- !u!114 &3855116543986277070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944013233230153512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d3ba28667d52e44a1c27662a9aeaa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteObjectInteractionInBalloon: {fileID: 2944013233584682597}
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
+  _pickUpInteractable: {fileID: 2258948852201614797}
+  IsTwoHandPickup: 0
+  SpriteRenderPickup: {fileID: 6007185822706667391}
 --- !u!1 &3480941873534294950
 GameObject:
   m_ObjectHideFlags: 0
@@ -5365,45 +5404,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &657416121371089105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2944013233230153512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5475b67aef46a7444affdb5759f8609f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteObjectInteractionInBalloon: {fileID: 412717365695807535}
-  _instantActions: []
-  _useNewChain: 0
-  _chainActions: []
-  _chainActionsMono: []
-  _interactableComponent: {fileID: 2258948852201614797}
-  _interactionPickup: {fileID: 3855116543986277070}
---- !u!114 &3855116543986277070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2944013233230153512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d3ba28667d52e44a1c27662a9aeaa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteObjectInteractionInBalloon: {fileID: 2944013233584682597}
-  _instantActions: []
-  _useNewChain: 0
-  _chainActions: []
-  _chainActionsMono: []
-  _pickUpInteractable: {fileID: 2258948852201614797}
-  IsTwoHandPickup: 0
-  SpriteRenderPickup: {fileID: 6007185822706667391}
 --- !u!1 &6429485495833534509
 GameObject:
   m_ObjectHideFlags: 0
