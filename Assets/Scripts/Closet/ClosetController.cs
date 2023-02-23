@@ -158,7 +158,7 @@ public class ClosetController : MonoBehaviour
     public void CloseCloset()
     {
         // close closet page
-        PageController.Instance.TurnPageOff(PageType.ClosetNew);
+        PageController.Instance.TurnPageOff(PageType.Closet);
 
         // update ui images
         PageController.Instance.OpenClosetImage(false);

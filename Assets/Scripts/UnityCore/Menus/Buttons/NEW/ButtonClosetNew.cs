@@ -20,7 +20,7 @@ public class ButtonClosetNew : ButtonPaging
             // open up the last page that was opened within the closet
             if (ClosetController.Instance.PageTypeOpenedInClosetLastTime == PageType.None)
             {
-                _pageInstance.TurnPageOn(PageType.ClosetNewHats);
+                _pageInstance.TurnPageOn(PageType.ClosetHats);
             }
             else
             {
