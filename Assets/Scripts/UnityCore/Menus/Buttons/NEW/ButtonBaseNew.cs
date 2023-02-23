@@ -16,12 +16,7 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
 
     protected virtual void Start()
     {
-        _audioInstance = AudioController.Instance;
-
-        //if (_soundEffect.Clip != null)
-        //{
-        //    _audioInstance.AddAudioElement(_soundEffect);
-        //}
+        _audioInstance = AudioController.Instance;   
     }
 
     public virtual void ClickedButton()

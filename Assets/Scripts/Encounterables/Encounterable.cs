@@ -38,14 +38,13 @@ public class Encounterable : MonoBehaviour
 
     private void Start()
     {
-        var audioControl = AudioController.Instance;
-
-        // add the possible sound effect to the AudioTable and the correct track       
-        if (SoundEffect.Clip != null)
-        {
-            // there exists 1 Type more than there are Tracks -> move down by 1
-            audioControl.AddAudioElement(SoundEffect); 
-        }
+        //var audioControl = AudioController.Instance;
+        //// add the possible sound effect to the AudioTable and the correct track (OLD logic)    
+        //if (SoundEffect.Clip != null)
+        //{
+        //    // there exists 1 Type more than there are Tracks -> move down by 1
+        //    audioControl.AddAudioElement(SoundEffect); 
+        //}
 
         if (_giveRandomOffsetAnimationIdle == true)
         {

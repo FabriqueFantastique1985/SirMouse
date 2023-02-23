@@ -59,7 +59,7 @@ public class Balloon : MonoBehaviour, IClickable
 
     private void Awake()
     {
-      if (_objectImageRenderer != null) _imageOriginalRect = _objectImageRenderer.rectTransform.rect;
+        if (_objectImageRenderer != null) _imageOriginalRect = _objectImageRenderer.rectTransform.rect;     
     }
 
     public void Click(Player player)

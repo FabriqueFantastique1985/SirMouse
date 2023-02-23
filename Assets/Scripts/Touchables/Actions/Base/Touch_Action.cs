@@ -21,16 +21,15 @@ public class Touch_Action : MonoBehaviour
     {
         _touchableScript = GetComponent<Touchable>();
 
-        var audioControl = AudioController.Instance;
-        // add the possible sound effects to the AudioTable and the correct track
-        foreach (AudioElement audioEm in AudioElements)
-        {
-            if (audioEm.Clip != null)
-            {
-                // there exists 1 Type more than there are Tracks -> move down by 1
-                audioControl.AddAudioElement(audioEm);
-            }
-        }
+        //var audioControl = AudioController.Instance;
+        //foreach (AudioElement audioEm in AudioElements) // old logic (to remove ?)
+        //{
+        //    if (audioEm.Clip != null)
+        //    {
+        //        // there exists 1 Type more than there are Tracks -> move down by 1
+        //        audioControl.AddAudioElement(audioEm);
+        //    }
+        //}
     }
 
 

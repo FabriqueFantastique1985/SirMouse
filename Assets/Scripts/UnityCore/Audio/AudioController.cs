@@ -31,27 +31,29 @@ namespace UnityCore
             }
             private class AudioJob
             {
-                public AudioClip Clip;
-                public AudioType Type;
+                public AudioElement AudioEM = new AudioElement(); // initializing it fixes a nullcheck
                 public AudioAction Action;               
                 public bool Fade;
                 public float Delay;
                 
-                public AudioJob(AudioClip clip, AudioType type, AudioAction action, bool fade, float delay)
+                public AudioJob(AudioElement audioEM, AudioAction action, bool fade, float delay)
                 {
-                    Clip = clip;                  
-                    Type = type;
+                    AudioEM.Clip = audioEM.Clip;
+                    AudioEM.Type = audioEM.Type;
+                    AudioEM.Volume = audioEM.Volume;
+                    AudioEM.Pitch = audioEM.Pitch;
+
                     Action = action;
                     Fade = fade;
                     Delay = delay;
-                }
+                } // callef for play()
                 public AudioJob(AudioType type, AudioAction action, bool fade, float delay)
                 {
-                    Type = type;
+                    AudioEM.Type = type;
                     Action = action;
                     Fade = fade;
                     Delay = delay;
-                }
+                } // called for stop() 
             }
             public enum AudioAction
             {
@@ -86,7 +88,7 @@ namespace UnityCore
 
             public void PlayAudio(AudioElement audioEm, bool fade = false, float delay = 0f)
             {
-                AddJobClip(new AudioJob(audioEm.Clip, audioEm.Type, AudioAction.START, fade, delay));
+                AddJobClip(new AudioJob(audioEm, AudioAction.START, fade, delay));
             }
             // restart and stop should not require a specific clip, but should realize what the currently playing clip is
             public void StopAudio(AudioType type, bool fade = false, float delay = 0f)
@@ -155,10 +157,10 @@ namespace UnityCore
             {
                 IEnumerator jobRunner = null;
 
-                if (job.Clip == null)
+                if (job.AudioEM.Clip == null)
                 {
-                    job.Clip = _lastViableJob.Clip;
-                    job.Type = _lastViableJob.Type;                   
+                    job.AudioEM.Clip = _lastViableJob.AudioEM.Clip;
+                    job.AudioEM.Clip = _lastViableJob.AudioEM.Clip;                   
                 }
 
                 // remove conflicting jobs
@@ -175,8 +177,23 @@ namespace UnityCore
                 yield return new WaitForSeconds(job.Delay);
 
                 //AudioTrack trackToUse = (AudioTrack)AudioTable[job.Type];
+
+                // figuring out what track to use
                 AudioTrack trackToUse = null;
-                trackToUse = FindTrackThatsCurrentlyNotPlaying(job.Type);
+                trackToUse = FindTrackThatsCurrentlyNotPlaying(job.AudioEM.Type);
+
+                // getting the volume/pitch and leaving them on default value if got values are 0
+                float volumeToUse = 1;
+                float pitchToUse = 1;
+                if (job.AudioEM.Volume != 0)
+                {
+                    volumeToUse = job.AudioEM.Volume;
+                }
+                if (job.AudioEM.Pitch != 0)
+                {
+                    pitchToUse = job.AudioEM.Pitch;
+                }
+
                 //switch (job.Type)
                 //{
                 //    case AudioType.OST:
@@ -196,7 +213,9 @@ namespace UnityCore
                 switch (job.Action)
                 {
                     case AudioAction.START:
-                        trackToUse.Source.clip = job.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned // NULLREF???
+                        trackToUse.Source.clip = job.AudioEM.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned // NULLREF???
+                        trackToUse.Source.volume = volumeToUse;
+                        trackToUse.Source.pitch = pitchToUse;
                         trackToUse.Source.Play();
                         break;
                     case AudioAction.STOP:
@@ -241,7 +260,7 @@ namespace UnityCore
             {
                 foreach (AudioElement trackElement in track.AudioElements)
                 {
-                    if (trackElement.Clip == job.Clip) 
+                    if (trackElement.Clip == job.AudioEM.Clip) 
                     {
                         return trackElement.Clip;
                     }
