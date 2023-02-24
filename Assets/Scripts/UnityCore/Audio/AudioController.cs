@@ -15,9 +15,6 @@ namespace UnityCore
             public AudioTrack[] Tracks;
             public int SourcesAmountOST, SourcesAmountUI, SourcesAmountSirMouse, SourcesAmountWorld; // assign these proper amount in inspector
 
-            [Header("Pitch things")]
-            public float PitchRandomizerLoweringLimit = 0.2f;
-            public float PitchRandomizerIncreasingLimit = 0.2f;
 
             public Hashtable AudioTable; // relationship between audio clips (key) and audio tracks (value)
             private Hashtable m_JobTable;   // relationship between audio clips (key) or types and jobs (value) (Coroutine, IEnumerator)
@@ -48,6 +45,8 @@ namespace UnityCore
                     AudioEM.Volume = audioEM.Volume;
                     AudioEM.Pitch = audioEM.Pitch;
                     AudioEM.RandomizePitchSlightly = audioEM.RandomizePitchSlightly;
+                    AudioEM.PitchLowerLimitAddition = audioEM.PitchLowerLimitAddition;
+                    AudioEM.PitchUpperLimitAddition = audioEM.PitchUpperLimitAddition;
 
                     Action = action;
                     Fade = fade;
@@ -203,14 +202,12 @@ namespace UnityCore
                 // adjust pitch slightly if bool was checked
                 if (job.AudioEM.RandomizePitchSlightly == true)
                 {
-                    float bottomLimit = pitchToUse - PitchRandomizerLoweringLimit;
-                    float upperLimit = pitchToUse + PitchRandomizerIncreasingLimit;
+                    float bottomLimit = pitchToUse - job.AudioEM.PitchLowerLimitAddition;
+                    float upperLimit = pitchToUse + job.AudioEM.PitchUpperLimitAddition;
 
                     float randomPitch = Random.Range(bottomLimit, upperLimit);
 
                     pitchToUse = randomPitch;
-
-                    Debug.Log(pitchToUse + " is the pitch being used" );
                 }
 
 
