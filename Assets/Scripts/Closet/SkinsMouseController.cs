@@ -31,6 +31,8 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyType SkinPiecesFootLeft;
     public SkinPiecesForThisBodyType SkinPiecesFootRight;
     public SkinPiecesForThisBodyType SkinPiecesTail;
+    public SkinPiecesForThisBodyType SkinPiecesSword;
+    public SkinPiecesForThisBodyType SkinPiecesShield;
     //
 
     [Header("Skins on player Rig in UI")]
@@ -45,6 +47,8 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyType SkinPiecesUIFootLeft;
     public SkinPiecesForThisBodyType SkinPiecesUIFootRight;
     public SkinPiecesForThisBodyType SkinPiecesUITail;
+    public SkinPiecesForThisBodyType SkinPiecesUISword;
+    public SkinPiecesForThisBodyType SkinPiecesUIShield;
     //
 
     [Header("Skins on buttons in UI closet")]
@@ -59,6 +63,8 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonFootLeft;
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonFootRight;
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonTail;
+    public SkinPiecesForThisBodyTypeButton SkinPiecesButtonSword;
+    public SkinPiecesForThisBodyTypeButton SkinPiecesButtonShield;
     //
 
     #endregion
@@ -124,6 +130,12 @@ public class SkinsMouseController : MonoBehaviour
             case Type_Body.Tail:
                 skinPieceForBodyX = SkinPiecesButtonTail;
                 break;
+            case Type_Body.Sword:
+                skinPieceForBodyX = SkinPiecesButtonSword;
+                break;
+            case Type_Body.Shield:
+                skinPieceForBodyX = SkinPiecesButtonShield;
+                break;
         }
 
         FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
@@ -179,6 +191,14 @@ public class SkinsMouseController : MonoBehaviour
             case Type_Body.Tail:
                 skinPieceForBodyX = SkinPiecesTail;
                 skinPieceForBodyUIX = SkinPiecesUITail;
+                break;
+            case Type_Body.Sword:
+                skinPieceForBodyX = SkinPiecesSword;
+                skinPieceForBodyUIX = SkinPiecesUISword;
+                break;
+            case Type_Body.Shield:
+                skinPieceForBodyX = SkinPiecesShield;
+                skinPieceForBodyUIX = SkinPiecesUIShield;
                 break;
         }
 
