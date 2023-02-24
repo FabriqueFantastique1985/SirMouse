@@ -390,6 +390,16 @@ public class SkinsMouseController : MonoBehaviour
                 
                 characterGeoReferencesUI.Tail.gameObject.SetActive(state);
                 break;
+            case Type_Body.Sword:
+                characterGeoReferences.Sword.gameObject.SetActive(state);
+
+                characterGeoReferencesUI.Sword.gameObject.SetActive(state);
+                break;
+            case Type_Body.Shield:
+                characterGeoReferences.Shield.gameObject.SetActive(state);
+
+                characterGeoReferencesUI.Shield.gameObject.SetActive(state);
+                break;
 
         }
     }

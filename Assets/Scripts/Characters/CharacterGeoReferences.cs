@@ -42,6 +42,7 @@ public class CharacterGeoReferences : MonoBehaviour
     public SkinnedMeshRenderer FootR;
 
     [Header("Mesh References")]
+    public GameObject SwordAndShieldMeshParent;
     public SkinnedMeshRenderer Sword;
     public SkinnedMeshRenderer Shield;
     public MeshRenderer SwordBack;

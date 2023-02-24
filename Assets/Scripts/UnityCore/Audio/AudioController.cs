@@ -11,8 +11,13 @@ namespace UnityCore
         {
             public static AudioController Instance;
 
+            [Header("Tracks things")]
             public AudioTrack[] Tracks;
             public int SourcesAmountOST, SourcesAmountUI, SourcesAmountSirMouse, SourcesAmountWorld; // assign these proper amount in inspector
+
+            [Header("Pitch things")]
+            public float PitchRandomizerLoweringLimit = 0.2f;
+            public float PitchRandomizerIncreasingLimit = 0.2f;
 
             public Hashtable AudioTable; // relationship between audio clips (key) and audio tracks (value)
             private Hashtable m_JobTable;   // relationship between audio clips (key) or types and jobs (value) (Coroutine, IEnumerator)
@@ -42,6 +47,7 @@ namespace UnityCore
                     AudioEM.Type = audioEM.Type;
                     AudioEM.Volume = audioEM.Volume;
                     AudioEM.Pitch = audioEM.Pitch;
+                    AudioEM.RandomizePitchSlightly = audioEM.RandomizePitchSlightly;
 
                     Action = action;
                     Fade = fade;
@@ -194,64 +200,63 @@ namespace UnityCore
                     pitchToUse = job.AudioEM.Pitch;
                 }
 
-                //switch (job.Type)
-                //{
-                //    case AudioType.OST:
-                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.OST, trackToUse);
-                //        break;
-                //    case AudioType.SFX_UI:
-                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.SFX_UI, trackToUse);
-                //        break;
-                //    case AudioType.SFX_SirMouse:
-                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.SFX_SirMouse, trackToUse);
-                //        break;
-                //    case AudioType.SFX_World: // making 4 tracks for World_Sounds                      
-                //        trackToUse = FindTrackThatsCurrentlyNotPlaying(AudioType.SFX_World, trackToUse);
-                //        break;
-                //}
-
-                switch (job.Action)
+                // adjust pitch slightly if bool was checked
+                if (job.AudioEM.RandomizePitchSlightly == true)
                 {
-                    case AudioAction.START:
-                        trackToUse.Source.clip = job.AudioEM.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned // NULLREF???
-                        trackToUse.Source.volume = volumeToUse;
-                        trackToUse.Source.pitch = pitchToUse;
-                        trackToUse.Source.Play();
-                        break;
-                    case AudioAction.STOP:
-                        if (job.Fade == false)
+                    float bottomLimit = pitchToUse - PitchRandomizerLoweringLimit;
+                    float upperLimit = pitchToUse + PitchRandomizerIncreasingLimit;
+
+                    float randomPitch = Random.Range(bottomLimit, upperLimit);
+
+                    pitchToUse = randomPitch;
+
+                    Debug.Log(pitchToUse + " is the pitch being used" );
+                }
+
+
+                if (trackToUse != null)
+                {
+                    switch (job.Action)
+                    {
+                        case AudioAction.START:
+                            trackToUse.Source.clip = job.AudioEM.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned // NULLREF???
+                            trackToUse.Source.volume = volumeToUse;
+                            trackToUse.Source.pitch = pitchToUse;
+                            trackToUse.Source.Play();
+                            break;
+                        case AudioAction.STOP:
+                            if (job.Fade == false)
+                            {
+                                trackToUse.Source.Stop();
+                            }
+                            break;
+                        case AudioAction.RESTART:
+                            trackToUse.Source.Stop();
+                            trackToUse.Source.Play();
+                            break;
+                    }
+                    if (job.Fade == true)
+                    {
+                        float initial = job.Action == AudioAction.START || job.Action == AudioAction.RESTART ? 0.0f : 1.0f;
+                        float target = initial == 0 ? 1 : 0;
+                        float duration = 1.0f;
+                        float timer = 0.0f;
+
+                        while (timer <= duration)
+                        {
+                            trackToUse.Source.volume = Mathf.Lerp(initial, target, timer / duration);
+                            timer += Time.deltaTime;
+                            yield return null;
+                        }
+
+                        if (job.Action == AudioAction.STOP)
                         {
                             trackToUse.Source.Stop();
                         }
-                        break;
-                    case AudioAction.RESTART:
-                        trackToUse.Source.Stop();
-                        trackToUse.Source.Play();
-                        break;
-                }
-
-                if (job.Fade == true)
-                {
-                    float initial = job.Action == AudioAction.START || job.Action == AudioAction.RESTART ? 0.0f : 1.0f;
-                    float target = initial == 0 ? 1 : 0;
-                    float duration = 1.0f;
-                    float timer = 0.0f;
-
-                    while (timer <= duration)
-                    {
-                        trackToUse.Source.volume = Mathf.Lerp(initial, target, timer / duration);
-                        timer += Time.deltaTime;
-                        yield return null;
-                    }
-
-                    if (job.Action == AudioAction.STOP)
-                    {
-                        trackToUse.Source.Stop();
                     }
                 }
 
                 //m_JobTable.Remove(job.Clip);
-
                 //Debug.Log("Job count + " + m_JobTable.Count);
 
                 yield return null;
@@ -368,6 +373,7 @@ namespace UnityCore
                         return trackToUse;
                     default:
                         Debug.Log("ADAM SANDLER HUHUHUHHUH " + trackToUse);
+                        Debug.Log("you forgot to add an AudioType to an AudioElement");
                         return null;
                 }
             }

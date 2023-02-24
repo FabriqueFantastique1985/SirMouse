@@ -978,28 +978,34 @@ MonoBehaviour:
     Type: 4
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
   - Clip: {fileID: 8300000, guid: 1731f2a8050051646beeeb51b9a3c57c, type: 3}
     Type: 4
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
   AudioOST:
   - Clip: {fileID: 8300000, guid: de581cf35d476294894fd250286c1b08, type: 3}
     Type: 1
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
   - Clip: {fileID: 8300000, guid: 8497fb7206cd16d469b8842c249993b3, type: 3}
     Type: 1
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
   AudioUI:
   - Clip: {fileID: 8300000, guid: 5f415353cc9122e43a78faaa9c5e7b6a, type: 3}
     Type: 2
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
   - Clip: {fileID: 8300000, guid: 7d573405a00bff5418d554e6c25f59fd, type: 3}
     Type: 2
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
 --- !u!114 &1678140582472475876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2125,6 +2131,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AudioController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7679209852694069317, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f,
+        type: 3}
+      propertyPath: PitchRandomizerLoweringLimit
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7679209852694069317, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f,
+        type: 3}
+      propertyPath: PitchRandomizerIncreasingLimit
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f, type: 3}

@@ -15,6 +15,8 @@ namespace UnityCore
             public float Volume = 1f;
             [Range(-3f, 3f)]
             public float Pitch = 1f;
+
+            public bool RandomizePitchSlightly;
         }
     }
 

@@ -353,11 +353,13 @@ MonoBehaviour:
     Type: 2
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
   _soundEffectOff:
     Clip: {fileID: 8300000, guid: d762220c82975924cb1dadd649c3b7bf, type: 3}
     Type: 2
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 0
   _turnThisPage: 3
 --- !u!111 &1509470929174232148
 Animation:
@@ -2591,6 +2593,8 @@ MonoBehaviour:
   - {fileID: 8997936869529054690}
   - {fileID: 3823654504119609825}
   - {fileID: 2522300107466523981}
+  - {fileID: 5768924557318405992}
+  - {fileID: 2590858750781538318}
   ButtonCloset: {fileID: 8263060640784907821}
   CurrentlyHeldSkinPiece: {fileID: 4800553992122253487}
   PageTypeOpenedInClosetLastTime: 0
@@ -2977,11 +2981,13 @@ MonoBehaviour:
     Type: 2
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 1
   _soundEffectOff:
     Clip: {fileID: 8300000, guid: d762220c82975924cb1dadd649c3b7bf, type: 3}
     Type: 2
     Volume: 1
     Pitch: 1
+    RandomizePitchSlightly: 1
   _turnThisPage: 8
 --- !u!111 &3796135833268457374
 Animation:
@@ -4672,7 +4678,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 780, y: 96}
+  m_SizeDelta: {x: 1020, y: 96}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &8239737327900782986
 CanvasRenderer:
@@ -10747,7 +10753,7 @@ PrefabInstance:
     - target: {fileID: 8516128920670399446, guid: 89aef39cb6cc79e43b02b798926e1f09,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8682692402983078172, guid: 89aef39cb6cc79e43b02b798926e1f09,
         type: 3}
