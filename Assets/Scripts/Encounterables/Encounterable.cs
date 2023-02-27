@@ -30,6 +30,8 @@ public class Encounterable : MonoBehaviour
 
     [Header("Audio")]
     public AudioElement SoundEffect;
+    [SerializeField]
+    private AudioClip[] _audioClips;
 
     #endregion
 
@@ -95,6 +97,10 @@ public class Encounterable : MonoBehaviour
         // also play sound effect
         if (SoundEffect != null)
         {
+            if (_audioClips.Length != 0)
+            {
+                SoundEffect.Clip = _audioClips[Random.Range(0, _audioClips.Length)];
+            }
             AudioController.Instance.PlayAudio(SoundEffect);
         }
         
