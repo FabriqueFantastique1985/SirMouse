@@ -104,7 +104,6 @@ public class FadeObject : MonoBehaviour
             {
                 colors[i].a = Mathf.Lerp(_startAlphaValues[i], _goalAlphas[i], normalizedTime);
             }
-            Debug.Log("fading");
         }
         else
         {
@@ -113,7 +112,6 @@ public class FadeObject : MonoBehaviour
                 colors[i].a = _goalAlphas[i];
             }
             _isFading = false;
-            Debug.Log("fintoooo");
         }
 
         for (int i = 0; i < _spriteRenderers.Length; i++)

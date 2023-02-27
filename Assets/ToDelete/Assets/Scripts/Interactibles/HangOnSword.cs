@@ -246,7 +246,7 @@ public class HangOnSword : MonoBehaviour
     {
         if (!GetComponent<AudioSource>().isPlaying)
         {
-            GetComponent<RandomSound>().PlayRandomSound();
+            //GetComponent<RandomSound>().PlayRandomSound();
         }
         counter += 1.5f;
         playerRig.GetComponent<Animator>().SetBool("Pulling", true);
