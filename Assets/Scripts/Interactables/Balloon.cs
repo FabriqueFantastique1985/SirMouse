@@ -35,6 +35,10 @@ public class Balloon : MonoBehaviour, IClickable
     
     [SerializeField]
     private string _animPop = "Balloon_Pop";
+    [SerializeField]
+    private string _animPop2 = "Balloon_Pop2";
+
+    private bool _toggleAnimPop;
 
     [Header("BalloonSprite")]
     [SerializeField]
@@ -64,7 +68,20 @@ public class Balloon : MonoBehaviour, IClickable
 
     public void Click(Player player)
     {
-        if (_balloonAnimator != null) _balloonAnimator.Play(_animPop);
+        if (_balloonAnimator != null)
+        {
+            if (_toggleAnimPop == false)
+            {
+                _balloonAnimator.Play(_animPop);
+            }
+            else
+            {
+                _balloonAnimator.Play(_animPop2);
+            }
+            
+            _toggleAnimPop = !_toggleAnimPop;
+        }
+        
         if (_disableOnClick) StartCoroutine(DisableBalloon());
         AudioController.Instance.PlayAudio(_soundEffectClick);
         OnBalloonClicked?.Invoke(this, player);
