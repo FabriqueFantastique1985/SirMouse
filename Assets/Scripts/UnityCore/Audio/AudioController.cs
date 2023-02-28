@@ -12,12 +12,14 @@ namespace UnityCore
             public static AudioController Instance;
 
             [Header("Tracks things")]
-            public AudioTrack[] Tracks;
-            public int SourcesAmountOST, SourcesAmountUI, SourcesAmountSirMouse, SourcesAmountWorld; // assign these proper amount in inspector
 
+            public List<AudioTrack> TracksOST;
+            public List<AudioTrack> TracksUI;
+            public List<AudioTrack> TracksSirMouse;
+            public List<AudioTrack> TracksWorld;
 
-            public Hashtable AudioTable; // relationship between audio clips (key) and audio tracks (value)
-            private Hashtable m_JobTable;   // relationship between audio clips (key) or types and jobs (value) (Coroutine, IEnumerator)
+            private List<float> _targetVolumesQuiet = new List<float>();
+            private List<float> _targetVolumesNormal = new List<float>();
 
             private AudioJob _lastViableJob;
 
@@ -29,7 +31,6 @@ namespace UnityCore
             {
                 public AudioType Type;
                 public AudioSource Source;
-                public List<AudioElement> AudioElements = new List<AudioElement>();
             }
             private class AudioJob
             {
@@ -77,12 +78,8 @@ namespace UnityCore
             {
                 if (Instance == null)
                 {
-                    Configure();
+                    Instance = this;
                 }
-            }
-            private void OnDisable()
-            {
-                Dispose();
             }
 
             #endregion
@@ -104,19 +101,81 @@ namespace UnityCore
             {
                 AddJobClip(new AudioJob(type, AudioAction.RESTART, fade, delay));
             }
-            // adding of world sounds call from interactable/encounterable scripts
-            public void AddAudioElement(AudioElement audioEM) // default is world sounds track
+
+            public void TurnDownVolumeFor(AudioType typeAudio = AudioType.OST , bool iwantToBeQuieter = true)
             {
-                if (AudioTable.ContainsKey(audioEM.Clip))
+                List<AudioSource> sourcesToInfluence = new List<AudioSource>();
+                switch(typeAudio)
                 {
-                    Debug.Log("I've already been registered in the audio table");
+                    case AudioType.OST:
+                        for (int i = 0; i < TracksOST.Count; i++)
+                        {
+                            sourcesToInfluence.Add(TracksOST[i].Source);
+
+                            // add the currently set volumes to a float list (so we can refer to them later)
+                            _targetVolumesNormal.Add(TracksOST[i].Source.volume);
+                            _targetVolumesQuiet.Add(TracksOST[i].Source.volume);
+                        }
+                        break;
+                    case AudioType.SFX_UI:
+                        for (int i = 0; i < TracksUI.Count; i++)
+                        {
+                            sourcesToInfluence.Add(TracksUI[i].Source);
+                            _targetVolumesNormal.Add(TracksUI[i].Source.volume);
+                            _targetVolumesQuiet.Add(TracksUI[i].Source.volume);
+                        }
+                        break;
+                    case AudioType.SFX_SirMouse:
+                        for (int i = 0; i < TracksSirMouse.Count; i++)
+                        {
+                            sourcesToInfluence.Add(TracksSirMouse[i].Source);
+                            _targetVolumesNormal.Add(TracksSirMouse[i].Source.volume);
+                            _targetVolumesQuiet.Add(TracksSirMouse[i].Source.volume);
+                        }
+                        break;
+                    case AudioType.SFX_World:
+                        for (int i = 0; i < TracksWorld.Count; i++)
+                        {
+                            sourcesToInfluence.Add(TracksWorld[i].Source);
+                            _targetVolumesNormal.Add(TracksWorld[i].Source.volume);
+                            _targetVolumesQuiet.Add(TracksWorld[i].Source.volume);
+                        }
+                        break;
+                    default:
+                        break;
+
                 }
-                else
+
+                StartCoroutine(InfluenceVolumeOnSources(sourcesToInfluence, iwantToBeQuieter));
+            }
+            public void TurnDownVolumeForOSTAndWorld(bool iwantToBeQuieter = true)
+            {
+                List<AudioSource> sourcesToInfluence = new List<AudioSource>();
+
+                for (int i = 0; i < TracksOST.Count; i++)
                 {
-                    int neededTrackIndex = (int)audioEM.Type - 1;
-                    Tracks[neededTrackIndex].AudioElements.Add(audioEM);
-                    AudioTable.Add(audioEM.Clip, Tracks[neededTrackIndex]);
-                }            
+                    sourcesToInfluence.Add(TracksOST[i].Source);
+
+                    // add the currently set volumes to a float list (so we can refer to them later)
+                    _targetVolumesNormal.Add(TracksOST[i].Source.volume);
+                    _targetVolumesQuiet.Add(TracksOST[i].Source.volume);
+                }
+                for (int i = 0; i < TracksWorld.Count; i++)
+                {
+                    sourcesToInfluence.Add(TracksWorld[i].Source);
+                    _targetVolumesNormal.Add(TracksWorld[i].Source.volume);
+                    _targetVolumesQuiet.Add(TracksWorld[i].Source.volume);
+                }
+               
+                StartCoroutine(InfluenceVolumeOnSources(sourcesToInfluence, iwantToBeQuieter));
+            }
+            public void VerifyAudioTracks()
+            {
+                List<AudioTrack> tracksToRemove = new List<AudioTrack>();
+                RemoveNullAudioTrack(TracksOST, tracksToRemove);
+                RemoveNullAudioTrack(TracksUI, tracksToRemove);
+                RemoveNullAudioTrack(TracksSirMouse, tracksToRemove);
+                RemoveNullAudioTrack(TracksWorld, tracksToRemove);
             }
 
             #endregion
@@ -125,39 +184,7 @@ namespace UnityCore
 
             #region Private Functions
 
-            private void Configure()
-            {
-                Instance = this;
-                AudioTable = new Hashtable();
-                m_JobTable = new Hashtable();
-                GenerateAudioTableStart();
-            }
-            private void GenerateAudioTableStart()  
-            {
-                foreach (AudioTrack track in Tracks)
-                {
-                    foreach (AudioElement obj in track.AudioElements)
-                    {
-                        // do not duplicate keys
-                        if (AudioTable.ContainsKey(obj.Clip))
-                        {
-                            Debug.Log("alrdy contains it");
-                        }
-                        else
-                        {
-                            AudioTable.Add(obj.Clip, track);
-                        }
-                    }
-                }
-            }
-            private void Dispose()
-            {
-                foreach (DictionaryEntry entry in m_JobTable) // error here when transitioning scenes
-                {
-                    IEnumerator job = (IEnumerator)entry.Value;
-                    StopCoroutine(job);
-                }
-            }
+
             private void AddJobClip(AudioJob job)
             {
                 IEnumerator jobRunner = null;
@@ -168,11 +195,8 @@ namespace UnityCore
                     job.AudioEM.Clip = _lastViableJob.AudioEM.Clip;                   
                 }
 
-                // remove conflicting jobs
-               // RemoveConflictingJobs(job.Clip); 
                 // start job
                 jobRunner = RunAudioJobClip(job);
-                //m_JobTable.Add(job.Clip, jobRunner); // argument exception ??? "item has alrdy been added (dictionary)
                 _lastViableJob = job;
                 
                 StartCoroutine(jobRunner);
@@ -180,8 +204,6 @@ namespace UnityCore
             private IEnumerator RunAudioJobClip(AudioJob job)
             {
                 yield return new WaitForSeconds(job.Delay);
-
-                //AudioTrack trackToUse = (AudioTrack)AudioTable[job.Type];
 
                 // figuring out what track to use
                 AudioTrack trackToUse = null;
@@ -216,7 +238,7 @@ namespace UnityCore
                     switch (job.Action)
                     {
                         case AudioAction.START:
-                            trackToUse.Source.clip = job.AudioEM.Clip; //GetAudioClipFromAudioTrack(job, track); // this is where clips get assigned // NULLREF???
+                            trackToUse.Source.clip = job.AudioEM.Clip; 
                             trackToUse.Source.volume = volumeToUse;
                             trackToUse.Source.pitch = pitchToUse;
                             trackToUse.Source.Play();
@@ -253,62 +275,8 @@ namespace UnityCore
                     }
                 }
 
-                //m_JobTable.Remove(job.Clip);
-                //Debug.Log("Job count + " + m_JobTable.Count);
-
                 yield return null;
             }
-            private AudioClip GetAudioClipFromAudioTrack(AudioJob job, AudioTrack track)
-            {
-                foreach (AudioElement trackElement in track.AudioElements)
-                {
-                    if (trackElement.Clip == job.AudioEM.Clip) 
-                    {
-                        return trackElement.Clip;
-                    }
-                }
-                return null;
-            }
-            private void RemoveConflictingJobs(AudioClip clip)
-            {
-                if (m_JobTable.ContainsKey(clip)) 
-                {
-                    RemoveJob(clip);
-                }
-
-                AudioClip conflictAudio = null;
-                foreach (DictionaryEntry entry in m_JobTable)
-                {
-                    AudioClip audioClip = (AudioClip)entry.Key;
-                    AudioTrack audioTrackInUse = (AudioTrack)AudioTable[audioClip];  // write this differently
-
-                    Debug.Log((AudioTrack)AudioTable[audioClip] + "using this track");
-
-                    AudioTrack audioTrackNeeded = (AudioTrack)AudioTable[clip];
-
-                    if (audioTrackNeeded.Source == audioTrackInUse.Source)  // bug here when calling play of same type close to each other
-                    {
-                        // conflict
-                        conflictAudio = audioClip;
-                    }
-                }
-                if (conflictAudio != null)
-                {
-                    RemoveJob(conflictAudio);
-                }
-            }
-            private void RemoveJob(AudioClip clip)
-            {
-                if (m_JobTable.ContainsKey(clip) == false)
-                {
-                    Debug.Log("trying to stop a job that is not running");
-                }
-
-                IEnumerator runningJob = (IEnumerator)m_JobTable[clip];
-                StopCoroutine(runningJob);
-                m_JobTable.Remove(clip);
-            }
-
             private AudioTrack FindTrackThatsCurrentlyNotPlaying(AudioType audioType)
             {
                 AudioTrack trackToUse = null;
@@ -316,63 +284,127 @@ namespace UnityCore
                 switch (audioType)
                 {
                     case AudioType.OST:
-                        for (int i = 0; i < SourcesAmountOST; i++)
+                        for (int i = 0; i < TracksOST.Count; i++)
                         {
-                            if (Tracks[i].Source.isPlaying == false)
+                            if (TracksOST[i].Source.isPlaying == false)
                             {
-                                trackToUse = Tracks[i];
-                                Debug.Log("using OST track..." + trackToUse);
+                                trackToUse = TracksOST[i];
+                                Debug.Log("using OST track..." + trackToUse.Source.gameObject);
                                 return trackToUse;
                             }
                         }
-                        trackToUse = Tracks[0];
-                        Debug.Log("using OST 0 track..." + trackToUse);
+                        trackToUse = TracksOST[0];
+                        Debug.Log("using OST 0 track..." + trackToUse.Source.gameObject);
                         return trackToUse;
 
                     case AudioType.SFX_UI:
-                        for (int i = SourcesAmountOST; i < (SourcesAmountOST + SourcesAmountUI); i++)
+                        for (int i = 0; i < TracksUI.Count; i++)
                         {
-                            if (Tracks[i].Source.isPlaying == false)
+                            if (TracksUI[i].Source.isPlaying == false)
                             {
-                                trackToUse = Tracks[i];
-                                Debug.Log("using UI track..." + trackToUse);
+                                trackToUse = TracksUI[i];
+                                Debug.Log("using UI track..." + trackToUse.Source.gameObject);
                                 return trackToUse;
                             }
                         }
-                        trackToUse = Tracks[SourcesAmountOST];
-                        Debug.Log("using UI 0 track..." + trackToUse);
+                        trackToUse = TracksUI[0];
+                        Debug.Log("using UI 0 track..." + trackToUse.Source.gameObject);
                         return trackToUse;
                     case AudioType.SFX_SirMouse:
-                        for (int i = (SourcesAmountOST + SourcesAmountUI); i < (SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse); i++)
+                        for (int i = 0; i < TracksSirMouse.Count; i++)
                         {
-                            if (Tracks[i].Source.isPlaying == false)
+                            if (TracksSirMouse[i].Source.isPlaying == false)
                             {
-                                trackToUse = Tracks[i];
-                                Debug.Log("using Mouse track..." + trackToUse);
+                                trackToUse = TracksSirMouse[i];
+                                Debug.Log("using Mouse track..." + trackToUse.Source.gameObject);
                                 return trackToUse;
                             }
                         }
-                        trackToUse = Tracks[(SourcesAmountOST + SourcesAmountUI)];
-                        Debug.Log("using Mouse 0 track..." + trackToUse);
+                        trackToUse = TracksSirMouse[0];
+                        Debug.Log("using Mouse 0 track..." + trackToUse.Source.gameObject);
                         return trackToUse;
                     case AudioType.SFX_World:
-                        for (int i = (SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse); i < (SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse + SourcesAmountWorld); i++)
+                        for (int i = 0; i < TracksWorld.Count; i++)
                         {
-                            if (Tracks[i].Source.isPlaying == false)
+                            if (TracksWorld[i].Source.isPlaying == false)
                             {
-                                trackToUse = Tracks[i];
-                                Debug.Log("using world track..." + trackToUse);
+                                trackToUse = TracksWorld[i];
+                                Debug.Log("using world track..." + trackToUse.Source.gameObject);
                                 return trackToUse;
                             }
                         }
-                        trackToUse = Tracks[(SourcesAmountOST + SourcesAmountUI + SourcesAmountSirMouse)];
-                        Debug.Log("using world track 0..." + trackToUse);
+                        trackToUse = TracksWorld[0];
+                        Debug.Log("using world track 0..." + trackToUse.Source.gameObject);
                         return trackToUse;
                     default:
-                        Debug.Log("ADAM SANDLER HUHUHUHHUH " + trackToUse);
+                        Debug.Log("ADAM SANDLER HUHUHUHHUH " + trackToUse.Source.gameObject);
                         Debug.Log("you forgot to add an AudioType to an AudioElement");
                         return null;
                 }
+            }
+            private IEnumerator InfluenceVolumeOnSources(List<AudioSource> sources, bool iWantToBeQuieter)
+            {
+                if (iWantToBeQuieter == true)
+                {
+                    // continually decrease volume on all sources until certain point
+                    for (int i = 0; i < sources.Count; i++)
+                    {
+                        // set the goal of our targetVolumeQUIET
+                        _targetVolumesQuiet[i] = (float)(_targetVolumesNormal[i] / 5f);
+
+                        // loop until we reach that goal
+                        while (sources[i].volume > _targetVolumesQuiet[i]) 
+                        {
+                            sources[i].volume -= 0.1f;
+                            yield return new WaitForEndOfFrame();
+                        }
+                        sources[i].volume = _targetVolumesQuiet[i];                     
+                    }
+
+                    // clear the target volumes
+                    _targetVolumesNormal.Clear();
+                    _targetVolumesQuiet.Clear();
+
+                    Debug.Log("turned down volume for some sources");
+                }
+                else
+                {
+                    // continually INCREASE volume on all sources until certain point
+                    for (int i = 0; i < sources.Count; i++)
+                    {
+                        // set the goal of our targetVolumeQUIET
+                        _targetVolumesNormal[i] = (float)(_targetVolumesQuiet[i] * 5f);
+
+                        // loop until we reach that goal
+                        while (sources[i].volume < _targetVolumesNormal[i])
+                        {
+                            sources[i].volume += 0.1f;
+                            yield return new WaitForEndOfFrame();
+                        }
+                        sources[i].volume = _targetVolumesNormal[i];
+                    }
+
+                    // clear the target volumes
+                    _targetVolumesNormal.Clear();
+                    _targetVolumesQuiet.Clear();
+
+                    Debug.Log("turned UP volume for some sources");
+                }              
+            }
+            private void RemoveNullAudioTrack(List<AudioTrack> trackListToCheck, List<AudioTrack> tracksToRemove)
+            {
+                for (int i = 0; i < trackListToCheck.Count; i++)
+                {
+                    if (trackListToCheck[i].Source == null)
+                    {
+                        tracksToRemove.Add(trackListToCheck[i]);
+                    }
+                }
+                for (int i = 0; i < tracksToRemove.Count; i++)
+                {
+                    trackListToCheck.Remove(tracksToRemove[i]);
+                }
+                tracksToRemove.Clear();
             }
 
             #endregion

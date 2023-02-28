@@ -7,8 +7,11 @@ public class InteractionClosetAdd : Interaction
 {
     [Header("Skin Things")]
 
+    //[SerializeField]
+    //private SkinPieceElement _mySkinPieceElement;
+
     [SerializeField]
-    private SkinPieceElement _mySkinPieceElement;
+    private List<SkinPieceElement> _mySkinPieceElements;
 
     public GameObject SkinObjectWithSrite;
     public SpriteRenderer SkinSpriteRenderer;
@@ -17,9 +20,11 @@ public class InteractionClosetAdd : Interaction
     {
         base.SpecificAction(player);
 
-        ClosetController.Instance.StartCoroutine(ClosetController.Instance.ForceObjectInCloset(this, SkinObjectWithSrite.transform.localScale.x));
+        //ClosetController.Instance.StartCoroutine(ClosetController.Instance.ForceObjectInCloset(this, SkinObjectWithSrite.transform.localScale.x));
         ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
 
-        SkinsMouseController.Instance.UnlockSkinPiece(_mySkinPieceElement);
+        //SkinsMouseController.Instance.UnlockSkinPiece(_mySkinPieceElement);
+
+        RewardController.Instance.GiveReward(_mySkinPieceElements);
     }
 }

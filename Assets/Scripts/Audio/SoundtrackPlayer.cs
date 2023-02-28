@@ -25,6 +25,8 @@ public class SoundtrackPlayer : MonoBehaviour
     private void Start()
     {
         PlaySoundtrack();
+
+        //add myself to the list of ytacks in the audio controller
     }
 
     private void Update()
