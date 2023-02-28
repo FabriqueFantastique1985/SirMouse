@@ -54,15 +54,16 @@ public class Touchable : MonoBehaviour, IClickable
     {
         //Disable();
         var audioControl = AudioController.Instance;
-        // add the possible sound effects to the AudioTable and the correct track
-        foreach (AudioElement audioEm in AudioElements)
-        {
-            if (audioEm.Clip != null)
-            {
-                // there exists 1 Type more than there are Tracks -> move down by 1
-                audioControl.AddAudioElement(audioEm);
-            }
-        }
+
+        //// add the possible sound effects to the AudioTable and the correct track // DATED-OLD
+        //foreach (AudioElement audioEm in AudioElements)
+        //{
+        //    if (audioEm.Clip != null)
+        //    {
+        //        // there exists 1 Type more than there are Tracks -> move down by 1
+        //        audioControl.AddAudioElement(audioEm);
+        //    }
+        //}
     }
 
     #endregion

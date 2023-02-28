@@ -23,9 +23,10 @@ namespace UnityCore
             ClosetTails = 15,
             ClosetSwords = 4,
             ClosetShields = 5,
+       
+            RewardScreen = 6,
 
             // re-use the below ones when possible 
-            ClosetOLDLegs = 6,
             ClosetOLDArms = 7,
         }
     }

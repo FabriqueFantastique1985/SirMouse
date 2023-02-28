@@ -1,6 +1,7 @@
 ﻿
 using System.Collections;
 using System.Threading.Tasks;
+using UnityCore.Audio;
 using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -140,6 +141,7 @@ namespace UnityCore
                 // updating the playfield and colliders I can cast on // TWEAK THIS
                 GameManager.Instance.PlayField = FindObjectOfType<PlayField>();
                 GameManager.Instance.AdjustGameSystem(GameManager.Instance.PlayField.GroundColliders);
+                AudioController.Instance.VerifyAudioTracks();
 
 
                 // setting the player at the correct position

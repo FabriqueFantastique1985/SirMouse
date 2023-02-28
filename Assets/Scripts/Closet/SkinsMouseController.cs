@@ -91,7 +91,7 @@ public class SkinsMouseController : MonoBehaviour
 
     #region Public Functions
     // called on the interaction add...
-    public void UnlockSkinPiece(SkinPieceElement skinPieceElement)
+    public GameObject UnlockSkinPiece(SkinPieceElement skinPieceElement)
     {
         SkinPiecesForThisBodyTypeButton skinPieceForBodyX = null;
 
@@ -138,7 +138,7 @@ public class SkinsMouseController : MonoBehaviour
                 break;
         }
 
-        FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
+        return FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
     }
     // called when a piece is dragged onto SirMouse...
     public void EquipSkinPiece(SkinPieceElement skinPieceElement)
@@ -212,7 +212,7 @@ public class SkinsMouseController : MonoBehaviour
 
 
     #region Private Functions
-    private void FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, SkinPieceElement skinPieceElement)
+    private GameObject FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, SkinPieceElement skinPieceElement)
     {
         for (int i = 0; i < skinPiecesForBodyX.MySkinPiecesButtons.Count; i++)
         {
@@ -223,9 +223,10 @@ public class SkinsMouseController : MonoBehaviour
                 // enable the sprite over the sillhouette on the button
                 skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound.SetActive(true);
 
-                break;
+                return skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound;
             }
         }
+        return null;
     }
     private void FindCorrectSkinPieceRig(SkinPiecesForThisBodyType skinPiecesForBodyX, SkinPiecesForThisBodyType skinPiecesForBodyUIX, SkinPieceElement skinPieceElement)
     {

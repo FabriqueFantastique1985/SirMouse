@@ -19,10 +19,10 @@ public class ButtonPaging : ButtonBaseNew
     {
         base.Start();
 
-        if (_soundEffectOff.Clip != null)
-        {
-            _audioInstance.AddAudioElement(_soundEffectOff);
-        }
+        //if (_soundEffectOff.Clip != null)
+        //{
+        //    _audioInstance.AddAudioElement(_soundEffectOff);
+        //}
 
         _pageInstance = PageController.Instance;
     }
