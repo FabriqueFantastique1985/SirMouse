@@ -63,8 +63,12 @@ public class Touch_Physics : Touch_Action
         {
             //base.Act();
 
-            AudioController.Instance.PlayAudio(AudioElements[0]);
-            
+            // sounf effect when it spawns
+            if (AudioElements[0].Clip != null)
+            {
+                AudioController.Instance.PlayAudio(AudioElements[0]);
+            }
+                  
             SpawnObject();
 
             _animationSpawnedObject.Play(_animPop);
@@ -82,9 +86,12 @@ public class Touch_Physics : Touch_Action
     {
         if (Input.GetMouseButtonUp(0))
         {
-
-            AudioController.Instance.PlayAudio(AudioElements[1]);
-
+            // sound effect when it gets let go
+            if (AudioElements[1].Clip != null)
+            {
+                AudioController.Instance.PlayAudio(AudioElements[1]);
+            }
+            
             LetGoOfMouse();            
         }
         else if (_activatedFollowMouse == true)
@@ -199,7 +206,12 @@ public class Touch_Physics : Touch_Action
 
             if (AudioElements.Count > 2)
             {
-                AudioController.Instance.PlayAudio(AudioElements[2]);
+                // sound effect when it goes 'poof'
+                if (AudioElements[2].Clip != null)
+                {
+                    AudioController.Instance.PlayAudio(AudioElements[2]);
+                }
+                
             }
             
 

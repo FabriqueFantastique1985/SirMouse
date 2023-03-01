@@ -38,6 +38,9 @@ public class Character : MonoBehaviour
     [FormerlySerializedAs("AnimatorRM")] [SerializeField]
     private Animator _animatorRM;
 
+    [SerializeField]
+    private Animator _explosionAnimator;
+
     [FormerlySerializedAs("_runCondition")] [SerializeField]
     private string _walkName = "Run";
 
@@ -188,6 +191,11 @@ public class Character : MonoBehaviour
     {
         EnteredIdleEvent?.Invoke(States.Idle);
         //Debug.Log("Entered Idle state");
+    }
+
+    public void PlayExplosion()
+    {
+        _explosionAnimator.SetTrigger("Activate");
     }
 
 
