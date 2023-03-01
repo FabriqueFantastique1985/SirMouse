@@ -14,16 +14,20 @@ public class FollowCam : MonoBehaviour
     public float smoothFactor;
 
     public bool follow = false;
+
+    public GameObject PointForRaycasting;
+
+    private float _initialOrthographicSize;
+
+    // Camera bounds
+    private MeshCollider _cameraBounds;
+    public bool _isBorderActive = true;
+    private bool _isOutsideBorder = false;
+
     private float _cameraMaxX = float.MaxValue;
     private float _cameraMaxZ = float.MaxValue;
     private float _cameraMinX = float.MinValue;
     private float _cameraMinZ = float.MinValue;
-
-    public GameObject PointForRaycasting;
-
-    private MeshCollider _cameraBounds;
-    public bool _isBorderActive = true;
-    private bool _isOutsideBorder = false;
 
     private void Awake()
     {
@@ -32,14 +36,12 @@ public class FollowCam : MonoBehaviour
             target = GameManager.Instance.Player.transform;
         }
 
-        // resOffset = Mathf.RoundToInt((GetComponent<Camera>().aspect - 1.3f) * 10) * 0.4f + 0.2f;
-        // minValue.x += resOffset;
-        // maxValue.x -= resOffset;
-
         if (offset == Vector3.zero)
         {
             offset = gameObject.transform.position - target.position;
         }
+
+        _initialOrthographicSize = Camera.main.orthographicSize;
     }
 
     private void LateUpdate()
@@ -77,30 +79,29 @@ public class FollowCam : MonoBehaviour
 
         if (GetBounds(out hitPoint, Vector3.left))
             _cameraMinX = hitPoint.x + cameraHalfWidth;
-        else
-            _isOutsideBorder = true;
 
         // Raycast allong Z
         if (GetBounds(out hitPoint, Vector3.forward))
             _cameraMaxZ = hitPoint.z - cameraHalfHeight;
-        else
-            _isOutsideBorder = true;
 
         if (GetBounds(out hitPoint, Vector3.back))
             _cameraMinZ = hitPoint.z + cameraHalfHeight;
-        else
-            _isOutsideBorder = true;
 
         // Reset querry settings
         Physics.queriesHitBackfaces = originalQuries;
     }
 
+    /// <summary>
+    /// Checks the bounds of _cameraBounds following direction and returns if it hit any edges and what point it hit.
+    /// </summary>
+    /// <param name="hitPoint"></param>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     private bool GetBounds(out Vector3 hitPoint, Vector3 direction)
     {
-        RaycastHit hitInfo;
         hitPoint = Vector3.zero;
-        Vector3 rayStartPosition = transform.position + direction / 100f;
-        if (_cameraBounds.Raycast(new Ray(rayStartPosition, direction), out hitInfo, Mathf.Infinity))
+        RaycastHit hitInfo;
+        if (_cameraBounds.Raycast(new Ray(transform.position, direction), out hitInfo, Mathf.Infinity))
         {
             hitPoint = hitInfo.point;
             return true;
@@ -127,7 +128,6 @@ public class FollowCam : MonoBehaviour
 
     private void FollowTarget()
     {
-        // Player position
         Vector3 targetPosition = target.position + offset;
 
         Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, smoothFactor * Time.deltaTime);
@@ -150,13 +150,13 @@ public class FollowCam : MonoBehaviour
     }
     public IEnumerator ZoomInNormal()
     {
-        while (GameManager.Instance.CurrentCamera.orthographicSize > 5)
+        while (GameManager.Instance.CurrentCamera.orthographicSize > _initialOrthographicSize)
         {
             GameManager.Instance.CurrentCamera.orthographicSize -= 0.05f;
             yield return new WaitForEndOfFrame();
         }
 
-        GameManager.Instance.CurrentCamera.orthographicSize = 5;
+        GameManager.Instance.CurrentCamera.orthographicSize = _initialOrthographicSize;
     }
 
     IEnumerator Delay()
@@ -179,10 +179,8 @@ public class FollowCam : MonoBehaviour
     {
         _cameraBounds = collider;
 
-        // When setting bounds, reset camera max and min
+        // Reset camera max and min
         _cameraMaxX = _cameraMaxZ = float.MaxValue;
         _cameraMinX = _cameraMinZ = float.MinValue;
-
-        gameObject.transform.position = target.transform.position + offset;
     }
 }
