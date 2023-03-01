@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     [FormerlySerializedAs("MainCamera")] public Camera CurrentCamera;
     [FormerlySerializedAs("MainCameraScript")] public FollowCam FollowCamera;
+    public ZoomCam ZoomCamera;
 
     public GameObject PanelUIButtonsClosetAndBackpack;
 

@@ -17,11 +17,9 @@ public class FollowCam : MonoBehaviour
 
     public GameObject PointForRaycasting;
 
-    private float _initialOrthographicSize;
-
     // Camera bounds
     private MeshCollider _cameraBounds;
-    public bool _isBorderActive = true;
+    public bool IsBorderActive = true;
     private bool _isOutsideBorder = false;
 
     private float _cameraMaxX = float.MaxValue;
@@ -40,8 +38,6 @@ public class FollowCam : MonoBehaviour
         {
             offset = gameObject.transform.position - target.position;
         }
-
-        _initialOrthographicSize = Camera.main.orthographicSize;
     }
 
     private void LateUpdate()
@@ -49,7 +45,7 @@ public class FollowCam : MonoBehaviour
         StartCoroutine(Delay());
         if (follow)
         {
-            if (_cameraBounds && _isBorderActive && !_isOutsideBorder)
+            if (_cameraBounds && IsBorderActive && !_isOutsideBorder)
             {
                 FollowTargetInBounds();
             }
@@ -136,30 +132,7 @@ public class FollowCam : MonoBehaviour
         _isOutsideBorder = false;
     }
 
-    public IEnumerator ZoomOut(float zoomGoal)
-    {
-        float originalSize = GameManager.Instance.CurrentCamera.orthographicSize;
-
-        while (GameManager.Instance.CurrentCamera.orthographicSize < originalSize + zoomGoal)
-        {
-            GameManager.Instance.CurrentCamera.orthographicSize += 0.05f;
-            yield return new WaitForEndOfFrame();
-        }
-
-        GameManager.Instance.CurrentCamera.orthographicSize = originalSize + zoomGoal;
-    }
-    public IEnumerator ZoomInNormal()
-    {
-        while (GameManager.Instance.CurrentCamera.orthographicSize > _initialOrthographicSize)
-        {
-            GameManager.Instance.CurrentCamera.orthographicSize -= 0.05f;
-            yield return new WaitForEndOfFrame();
-        }
-
-        GameManager.Instance.CurrentCamera.orthographicSize = _initialOrthographicSize;
-    }
-
-    IEnumerator Delay()
+    private IEnumerator Delay()
     {
         float seconds = 1f;
 

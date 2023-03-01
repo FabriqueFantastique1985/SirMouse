@@ -54,7 +54,7 @@ public class Pointer_Cooking : Pointer_Base
         PlayerControls.walkingEnabled = false;
         camDestination.transform.position = _initialCamDestination;
         mainCamera.GetComponent<FollowCam>().target = camDestination.transform;
-        mainCamera.GetComponent<FollowCam>()._isBorderActive = false;
+        mainCamera.GetComponent<FollowCam>().IsBorderActive = false;
         mainCamera.GetComponent<Animator>().SetTrigger("ZoomIn");
         StartCoroutine(FirstRecipe());
     }
@@ -214,7 +214,7 @@ public class Pointer_Cooking : Pointer_Base
             _cloneChefHat.GetComponent<SpriteRenderer>().sprite = goldenChefHat;
         }
         mainCamera.GetComponent<FollowCam>().target = _playerTransform;
-        mainCamera.GetComponent<FollowCam>()._isBorderActive = true;
+        mainCamera.GetComponent<FollowCam>().IsBorderActive = true;
         mainCamera.GetComponent<Animator>().SetTrigger("ZoomOut");
         PlayerControls.walkingEnabled = true;
         vegetableSpawner.cookingGameActive = false;

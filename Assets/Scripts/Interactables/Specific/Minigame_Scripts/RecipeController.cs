@@ -113,7 +113,7 @@ public class RecipeController : MiniGame
         base.StartMiniGame();
         
         GameManager.Instance.FollowCamera.target = NewCameraTarget.transform;
-        StartCoroutine(GameManager.Instance.FollowCamera.ZoomOut(0.58f));
+        GameManager.Instance.ZoomCamera.Zoom(0.58f);
         GameManager.Instance.EnterMiniGameSystem();
 
         MinigameActive = true;
@@ -194,7 +194,7 @@ public class RecipeController : MiniGame
         }
 
         GameManager.Instance.FollowCamera.target = GameManager.Instance.Player.transform;
-        StartCoroutine(GameManager.Instance.FollowCamera.ZoomInNormal());
+        GameManager.Instance.ZoomCamera.ResetZoom();
 
         // Go back to the main Game System to control mouse
         GameManager.Instance.EnterMainGameSystem();
