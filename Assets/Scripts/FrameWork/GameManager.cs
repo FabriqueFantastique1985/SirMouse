@@ -92,6 +92,9 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public void AdjustGameSystem(Collider[] newGroundColliders)
     {
         _currentGameSystem = new MainGameSystem(Player, LayersMainGameSystemWillIgnore, newGroundColliders);
+
+        // make sleeping legal
+        Player.Character.SetBoolSleeping(false);
     }
 
     public void ExitMiniGameSystem(bool hasWon)
@@ -106,11 +109,17 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         _currentGameSystem = new MainGameSystem(Player, LayersMainGameSystemWillIgnore,
             GameManager.Instance.PlayField.GroundColliders);
+
+        // make sleeping legal
+        Player.Character.SetBoolSleeping(false);
     }
 
     public void EnterMiniGameSystem()
     {
         _currentGameSystem = new MiniGameSystem(Player, LayersMiniGameSystemWillIgnore);
+
+        // make sleeping illegal
+        Player.Character.SetBoolSleeping(true);
     }
 
     private void Update()

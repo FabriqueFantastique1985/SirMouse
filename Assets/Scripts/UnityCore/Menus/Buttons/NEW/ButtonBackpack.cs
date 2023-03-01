@@ -13,26 +13,29 @@ public class ButtonBackpack : ButtonPaging, IClickable
 
             _pageInstance.OpenBagImage(false);
             _pageInstance.OpenClosetImage(false);
-            
-            if (DoIHaveActivePages() == false)
-            {
-                GameManager.Instance.BlockInput = false;
-            }
+
+            // sleeping allowed
+            GameManager.Instance.Player.Character.SetBoolSleeping(false);
+
+            //if (DoIHaveActivePages() == false) // not needed ?
+            //{
+            //    GameManager.Instance.BlockInput = false;
+            //}
         }
         else
         {
             // turn off the camera wrap for closet
             SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
-            //SkinController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
-            SkinsMouseController.Instance.characterGeoReferencesUI.DefaultTextureSirMouse();
 
             _pageInstance.TurnAllPagesOffExcept(_turnThisPage);
-            //_pageInstance.TurnPageOn(_turnThisPage);
 
             _pageInstance.OpenBagImage(true);
             _pageInstance.OpenClosetImage(false);
 
-        //    GameManager.Instance.BlockInput = true;
+            // sleeping ILLEGAL
+            GameManager.Instance.Player.Character.SetBoolSleeping(true);
+
+            //    GameManager.Instance.BlockInput = true;
         }
     }
 

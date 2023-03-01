@@ -128,7 +128,6 @@ public class Character : MonoBehaviour
         
         _animatorRM.SetTrigger(animationString);
     }
-
     public void SetAnimatorBool(States state, bool setValue)
     {
         switch (state)
@@ -140,7 +139,6 @@ public class Character : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
     }
-
     public void SetCharacterMirrored(bool mirror)
     {
         if (mirror)
@@ -151,6 +149,10 @@ public class Character : MonoBehaviour
             transform.localScale = new Vector3(_originalScale.x, _originalScale.y,
                 _originalScale.z);
         }
+    }
+    public void SetBoolSleeping(bool forbidSleep)
+    {
+        _animatorRM.SetBool("ForbidSleep", forbidSleep);
     }
     
     private void ResetAllTriggers()

@@ -155,6 +155,31 @@ public class ClosetController : MonoBehaviour
 
         PageTypeOpenedInClosetLastTime = turnToThisPage;
     }
+    public void OpenCloset(PageType typeToOpen)
+    {
+        // turn off all other pages, except for the closet
+        PageController.Instance.TurnAllPagesOffExcept(typeToOpen);
+
+        // open up the last page that was opened within the closet
+        if (PageTypeOpenedInClosetLastTime == PageType.None)
+        {
+            PageController.Instance.TurnPageOn(PageType.ClosetHats);
+        }
+        else
+        {
+            PageController.Instance.TurnPageOn(PageTypeOpenedInClosetLastTime);
+        }
+
+        // update images
+        PageController.Instance.OpenClosetImage(true);
+        PageController.Instance.OpenBagImage(false);
+
+        // turn on the UI player things
+        SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
+
+        // sleeping ILLEGAL
+        GameManager.Instance.Player.Character.SetBoolSleeping(true);
+    }
     public void CloseCloset()
     {
         // close closet page
@@ -166,6 +191,9 @@ public class ClosetController : MonoBehaviour
 
         // this still needed ?
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
+
+        // sleeping allowed
+        GameManager.Instance.Player.Character.SetBoolSleeping(false);
     }
 
 

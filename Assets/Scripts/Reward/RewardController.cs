@@ -15,6 +15,13 @@ public class RewardController : MonoBehaviour
     [SerializeField]
     private GameObject _visualOfAnimatorSkinPiece;
 
+    [SerializeField]
+    private Animator _confettiController, _confettiControllerMirrored;
+    [SerializeField]
+    private Animator _confettiController2, _confettiControllerMirrored2;
+    [SerializeField]
+    ParticleSystem _confetti, _confettiMirrored;
+
     [Header("Sounds")]
 
     [SerializeField]
@@ -30,6 +37,7 @@ public class RewardController : MonoBehaviour
 
     private const string _animPopIn = "UI_Reward_Pop_In";
     private const string _triggerPopOut = "PopOut";
+    private const string _animConfetti = "Anim_Confetti";
 
 
     private void Awake()
@@ -77,11 +85,19 @@ public class RewardController : MonoBehaviour
 
     private IEnumerator PlayAnimations(List<GameObject> instantiatedObjects)
     {
+        // CONFETTI
+        //_confettiController.Play(_animConfetti);
+        //_confettiControllerMirrored.Play(_animConfetti);
+        //_confettiController2.Play(_animConfetti);
+        //_confettiControllerMirrored2.Play(_animConfetti);
+        _confetti.Play();
+        _confettiMirrored.Play();
+
         // pop in explosion
         _animatorExplosion.Play(_animPopIn);
         // SOUND
         AudioController.Instance.PlayAudio(_soundEffectExplosion);
-     
+
         yield return new WaitForSeconds(0.5f);
 
         // SOUND
