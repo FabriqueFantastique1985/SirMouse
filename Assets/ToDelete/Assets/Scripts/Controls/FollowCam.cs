@@ -1,21 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FollowCam : MonoBehaviour
 {
-    public bool borders = true;
     public Transform target;
     public Vector3 offset;
     [Range(0, 10)]
     public float smoothFactor;
-    public Vector3 minValue, maxValue;
 
     public bool follow = false;
 
- //   private float resOffset;
-
     public GameObject PointForRaycasting;
+
+    private float _initialOrthographicSize;
+
+    // Camera bounds
+    private MeshCollider _cameraBounds;
+    public bool _isBorderActive = true;
+    private bool _isOutsideBorder = false;
+
+    private float _cameraMaxX = float.MaxValue;
+    private float _cameraMaxZ = float.MaxValue;
+    private float _cameraMinX = float.MinValue;
+    private float _cameraMinZ = float.MinValue;
 
     private void Awake()
     {
@@ -23,51 +35,105 @@ public class FollowCam : MonoBehaviour
         {
             target = GameManager.Instance.Player.transform;
         }
-        
-      // resOffset = Mathf.RoundToInt((GetComponent<Camera>().aspect - 1.3f) * 10) * 0.4f + 0.2f;
-      // minValue.x += resOffset;
-      // maxValue.x -= resOffset;
 
         if (offset == Vector3.zero)
         {
-            offset = transform.position - target.position;
+            offset = gameObject.transform.position - target.position;
         }
+
+        _initialOrthographicSize = Camera.main.orthographicSize;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         StartCoroutine(Delay());
         if (follow)
         {
-            Follow();
+            if (_cameraBounds && _isBorderActive && !_isOutsideBorder)
+            {
+                FollowTargetInBounds();
+            }
+            else
+            {
+                FollowTarget();
+            }
         }
     }
 
-    void Follow()
+    private void SetCameraBounds()
+    {
+        // Change querry settings
+        bool originalQuries = Physics.queriesHitBackfaces;
+        Physics.queriesHitBackfaces = true;
+
+        // Get camera measurements
+        float cameraHalfHeight = 2f * Camera.main.orthographicSize;
+        float cameraHalfWidth = cameraHalfHeight * Camera.main.aspect / 2f;
+
+        // Raycast allong X
+        Vector3 hitPoint;
+        if (GetBounds(out hitPoint, Vector3.right))
+            _cameraMaxX = hitPoint.x - cameraHalfWidth;
+        else
+            _isOutsideBorder = true;
+
+        if (GetBounds(out hitPoint, Vector3.left))
+            _cameraMinX = hitPoint.x + cameraHalfWidth;
+
+        // Raycast allong Z
+        if (GetBounds(out hitPoint, Vector3.forward))
+            _cameraMaxZ = hitPoint.z - cameraHalfHeight;
+
+        if (GetBounds(out hitPoint, Vector3.back))
+            _cameraMinZ = hitPoint.z + cameraHalfHeight;
+
+        // Reset querry settings
+        Physics.queriesHitBackfaces = originalQuries;
+    }
+
+    /// <summary>
+    /// Checks the bounds of _cameraBounds following direction and returns if it hit any edges and what point it hit.
+    /// </summary>
+    /// <param name="hitPoint"></param>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    private bool GetBounds(out Vector3 hitPoint, Vector3 direction)
+    {
+        hitPoint = Vector3.zero;
+        RaycastHit hitInfo;
+        if (_cameraBounds.Raycast(new Ray(transform.position, direction), out hitInfo, Mathf.Infinity))
+        {
+            hitPoint = hitInfo.point;
+            return true;
+        }
+        return false;
+    }
+
+    private void FollowTargetInBounds()
     {
         // Player position
         Vector3 targetPosition = target.position + offset;
-        Vector3 boundPosition;
-        // Level Boundries
-        if (borders)
-        {
-            boundPosition = new Vector3(
-                Mathf.Clamp(targetPosition.x, minValue.x, maxValue.x),
-                Mathf.Clamp(targetPosition.y, minValue.y, maxValue.y),
-                Mathf.Clamp(targetPosition.z, minValue.z, maxValue.z)
-                );
-        }
-        else
-        {
-            boundPosition = new Vector3(
-                Mathf.Clamp(targetPosition.x, -1000, 1000),
-                Mathf.Clamp(targetPosition.y, -1000, 1000),
-                Mathf.Clamp(targetPosition.z, -1000, 1000)
-                );
-        }
 
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, boundPosition, smoothFactor * Time.fixedDeltaTime);
+        SetCameraBounds();
+
+        Vector3 boundPosition = new Vector3(
+                Mathf.Clamp(targetPosition.x, _cameraMinX, _cameraMaxX),
+                targetPosition.y,
+                Mathf.Clamp(targetPosition.z, _cameraMinZ, _cameraMaxZ)
+                );
+
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, boundPosition, smoothFactor * Time.deltaTime);
         transform.position = smoothPosition;
+    }
+
+    private void FollowTarget()
+    {
+        Vector3 targetPosition = target.position + offset;
+
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, smoothFactor * Time.deltaTime);
+        transform.position = smoothPosition;
+
+        _isOutsideBorder = false;
     }
 
     public IEnumerator ZoomOut(float zoomGoal)
@@ -84,13 +150,13 @@ public class FollowCam : MonoBehaviour
     }
     public IEnumerator ZoomInNormal()
     {
-        while (GameManager.Instance.CurrentCamera.orthographicSize > 5)
+        while (GameManager.Instance.CurrentCamera.orthographicSize > _initialOrthographicSize)
         {
             GameManager.Instance.CurrentCamera.orthographicSize -= 0.05f;
             yield return new WaitForEndOfFrame();
         }
 
-        GameManager.Instance.CurrentCamera.orthographicSize = 5;
+        GameManager.Instance.CurrentCamera.orthographicSize = _initialOrthographicSize;
     }
 
     IEnumerator Delay()
@@ -109,12 +175,12 @@ public class FollowCam : MonoBehaviour
     /// Sets the bounds of the follow camera with values of a collider
     /// </summary>
     /// <param name="collider"></param>
-    public void SetBounds(BoxCollider collider)
+    public void SetBounds(MeshCollider collider)
     {
-        var maxBounds = new Vector3(collider.size.x / 2.0f, collider.size.y / 2.0f, collider.size.z / 2.0f);
-        var minBounds = -maxBounds;
+        _cameraBounds = collider;
 
-        minValue = minBounds;
-        maxValue = maxBounds;
+        // Reset camera max and min
+        _cameraMaxX = _cameraMaxZ = float.MaxValue;
+        _cameraMinX = _cameraMinZ = float.MinValue;
     }
 }
