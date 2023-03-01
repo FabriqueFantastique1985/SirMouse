@@ -36,6 +36,12 @@ public class Player : MonoBehaviour, IClickable
     private Stack<SirMouseState> _stateStack = new Stack<SirMouseState>();
     private Interactable _equippedItem;
     private Type_Pickup _equippedPickupType;
+    [SerializeField]
+    private float _explosionCooldown;
+    private bool _canExplode;
+    private float _explosionTickCount, _explosionTimer, _degradeTickTimer;
+    private float _explosionTickGoal = 5;
+    private float _degradeTickGoal = 2;
 
     #endregion
 
@@ -54,9 +60,9 @@ public class Player : MonoBehaviour, IClickable
     {
         _stateStack.Push(new IdleState(this));
         
-        // reset material texture
-        _characterGeoReferences.SirMouseBody.mainTexture = _characterGeoReferences.DefaultTex;
-        _characterGeoReferences.SirMouseHands.mainTexture = _characterGeoReferences.HandsLight;
+        //// reset material texture
+        //_characterGeoReferences.SirMouseBody.mainTexture = _characterGeoReferences.DefaultTex; // dated closet logic
+        //_characterGeoReferences.SirMouseHands.mainTexture = _characterGeoReferences.HandsLight;
     }
     
     public void SetTarget(Vector3 target)
@@ -69,6 +75,30 @@ public class Player : MonoBehaviour, IClickable
         var currentState = _stateStack?.Peek();
 
         if (currentState != null) currentState.Update(this);
+
+
+
+        if (_canExplode == false)
+        {
+            _explosionTimer += Time.deltaTime;
+
+            if (_explosionTimer >= _explosionCooldown)
+            {
+                _explosionTimer = 0;               
+                _canExplode = true;
+            }
+        }
+        if (_explosionTickCount > 0)
+        {
+            _degradeTickTimer += Time.deltaTime;
+
+            if (_degradeTickTimer >= _degradeTickGoal)
+            {
+                // degrade the redhead and tickCount
+                DegradeRedHeadAndTickCount();
+                _degradeTickTimer = 0;
+            }            
+        }
     }
 
     public void SetState(SirMouseState newState)
@@ -133,7 +163,95 @@ public class Player : MonoBehaviour, IClickable
 
     public void Click(Player player)
     {
-        if (_equippedItem == null || State.GetType() != typeof(IdleState)) return;
+        if (_equippedItem == null)
+        {
+            if (State.GetType() != typeof(IdleState))
+            {
+                return;
+            }
+            else
+            {
+                if (_canExplode == true)
+                {
+                    IncreaseExplosionTickCount();
+                }          
+                return;
+            }           
+        }
+
         SetState(new DropState(this));
+    }
+
+
+    private void IncreaseExplosionTickCount()
+    {
+        // increase tick count
+        _explosionTickCount += 1;
+        // reset timer on degrader
+        _degradeTickTimer = 0;
+        // update redHead color 
+        IncreaseRedHead();
+
+        // if goal is reached...
+        if (_explosionTickCount >= _explosionTickGoal)
+        {
+            ExplodeSirMouse();
+            return;
+        }
+
+        // if certain threshholds are reach => play sound grunt
+    }
+
+    private void DegradeRedHeadAndTickCount()
+    {
+        switch (_explosionTickCount)
+        {
+            case 4:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0.7f);
+                _explosionTickCount -= 1;
+                break;
+            case 3:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0.4f);
+                _explosionTickCount -= 1;
+                break;
+            case 2:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0.2f);
+                _explosionTickCount -= 1;
+                break;
+            case 1:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0);
+                _explosionTickCount -= 1;
+                break;
+        }
+    }
+    private void IncreaseRedHead()
+    {
+        switch (_explosionTickCount)
+        {
+            case 4:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0.9f);
+                break;
+            case 3:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0.6f);
+                break;
+            case 2:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0.4f);
+                break;
+            case 1:
+                _characterGeoReferences.RedHeadOverlay.color = new Color(255, 255, 255, 0.2f);
+                break;
+        }
+    }
+
+    public void ExplodeSirMouse()
+    {
+        // => play explosion, set new material, set cooldown, reset redhead alpha, return;
+        Character.PlayExplosion();
+        _characterGeoReferences.SwapToExplodedMaterial();
+        _characterGeoReferences.RedHeadOverlay.color = new Color(255,255,255,0);       
+        _canExplode = false;
+
+        // do the below after a short delay perhaps ?
+        _explosionTickCount = 0;
     }
 }
