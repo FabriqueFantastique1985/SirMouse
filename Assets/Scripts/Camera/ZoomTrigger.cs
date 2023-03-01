@@ -13,20 +13,20 @@ public class ZoomTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (!other.gameObject.CompareTag("Player"))
-        //{
-        //    return;
-        //}
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            return;
+        }
 
         GameManager.Instance.ZoomCamera.IncreaseDefaultZoom(_newOrthographicSize, _zoomSpeed);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        //if (!other.gameObject.CompareTag("Player"))
-        //{
-        //    return;
-        //}
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            return;
+        }
 
         GameManager.Instance.ZoomCamera.ResetDefaultZoom(_zoomSpeed);
     }

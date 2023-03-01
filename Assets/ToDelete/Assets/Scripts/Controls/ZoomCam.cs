@@ -29,11 +29,12 @@ public class ZoomCam : MonoBehaviour
 
     private Coroutine _zoomInRoutine;
     private Coroutine _zoomOutRoutine;
-    
-    public float ZoomAmountOnMove
+
+    private bool _shouldZoomOnMove = false;
+    public bool ShouldZoomOnMove
     {
-        get { return _zoomAmoutOnMove; }
-        set { _zoomAmoutOnMove = value;}
+        get { return _shouldZoomOnMove; }
+        set { _shouldZoomOnMove = value;}
     }
 
     private void Awake()
@@ -44,7 +45,7 @@ public class ZoomCam : MonoBehaviour
     // Inside player instead of camera?
     private void Update()
     {
-        if (!_playerAgent)
+        if (!_playerAgent || !_shouldZoomOnMove)
             return;
 
         if (_playerAgent.velocity.sqrMagnitude > 0.1f && !_isMoving)

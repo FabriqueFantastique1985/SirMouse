@@ -13,7 +13,10 @@ public class SceneSetup : MonoBehaviour
 
     [SerializeField]
     private MeshCollider _cameraBounds;
-    
+
+    [SerializeField]
+    private bool _shouldZoomOnMove;
+
     private void Awake()
     {
         if (FindObjectOfType<GameManager>() == null)
@@ -23,6 +26,9 @@ public class SceneSetup : MonoBehaviour
 
         // Set the min and max bounds of the follow camera with bounds of the collider
         GameManager.Instance.FollowCamera.SetBounds(_cameraBounds);
+
+        // Set if the camera should zoom out while the player is walking in this scene
+        GameManager.Instance.ZoomCamera.ShouldZoomOnMove = _shouldZoomOnMove;
     }
 
     // Start is called before the first frame update
