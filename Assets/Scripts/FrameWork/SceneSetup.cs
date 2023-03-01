@@ -12,7 +12,7 @@ public class SceneSetup : MonoBehaviour
     private Transform _playerStart;
 
     [SerializeField]
-    private BoxCollider _cameraBounds;
+    private MeshCollider _cameraBounds;
     
     private void Awake()
     {
