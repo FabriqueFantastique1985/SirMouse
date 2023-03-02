@@ -5,6 +5,14 @@ using UnityCore.Menus;
 
 public class ButtonClosetOpenSpecificPieces : ButtonPaging
 {
+    public Type_Body BodyType;
+
+    public bool IHaveDuplicateSkinPieces;
+    public bool IHaveButtonsWithNotificationOn;
+    public List<ButtonSkinPiece> ButtonsWithNotifsOnOnMyPage = new List<ButtonSkinPiece>();
+
+    public GameObject NotificationObject;
+
 
     protected override void TurnOnPage()
     {

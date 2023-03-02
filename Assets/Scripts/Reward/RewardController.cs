@@ -66,14 +66,31 @@ public class RewardController : MonoBehaviour
         for (int i = 0; i < skinPiecesToGive.Count; i++)
         {
             // unlock the skinPiece
-            GameObject objectToInstantiate = SkinsMouseController.Instance.UnlockSkinPiece(skinPiecesToGive[i]);    
-            // instantiate it
-            GameObject objectToAdd = Instantiate(objectToInstantiate, _visualOfAnimatorSkinPiece.transform);
-            // set it to false
-            objectToAdd.SetActive(false);
-            // add to list
-            instantiatedObjects.Add(objectToAdd);
+            ButtonSkinPiece buttonOfinterest = SkinsMouseController.Instance.UnlockSkinPiece(skinPiecesToGive[i]);
+            GameObject objectToInstantiate = buttonOfinterest.MySpriteToActivateWhenFound;
+
+            // add to notification list           
+            ClosetController.Instance.AddNotificationToList(buttonOfinterest);
+
+            // instantiate it (only 1 of feet,arms,legs)
+            if (skinPiecesToGive[i].MyBodyType == Type_Body.ArmRight ||
+                skinPiecesToGive[i].MyBodyType == Type_Body.LegRight ||
+                skinPiecesToGive[i].MyBodyType == Type_Body.FootRight)
+            {
+                // do nothing
+            }
+            else
+            {               
+                GameObject objectToAdd = Instantiate(objectToInstantiate, _visualOfAnimatorSkinPiece.transform);
+                // set it to false
+                objectToAdd.SetActive(false);
+                // add to list
+                instantiatedObjects.Add(objectToAdd);
+            }
         }
+
+        // activate notifs
+        ClosetController.Instance.NotificationActivater(); 
 
         // tone down audio of OST & World
         AudioController.Instance.TurnDownVolumeForOSTAndWorld();
