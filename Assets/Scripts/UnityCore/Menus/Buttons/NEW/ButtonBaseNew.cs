@@ -31,7 +31,6 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
         {
             _audioInstance.PlayAudio(_soundEffect);
         }
-        
     }
 
 

@@ -13,8 +13,6 @@ public class FollowCam : MonoBehaviour
     [Range(0, 10)]
     public float smoothFactor;
 
-    public bool follow = false;
-
     public GameObject PointForRaycasting;
 
     // Camera bounds
@@ -42,17 +40,13 @@ public class FollowCam : MonoBehaviour
 
     private void LateUpdate()
     {
-        StartCoroutine(Delay());
-        if (follow)
+        if (_cameraBounds && IsBorderActive && !_isOutsideBorder)
         {
-            if (_cameraBounds && IsBorderActive && !_isOutsideBorder)
-            {
-                FollowTargetInBounds();
-            }
-            else
-            {
-                FollowTarget();
-            }
+            FollowTargetInBounds();
+        }
+        else
+        {
+            FollowTarget();
         }
     }
 
@@ -75,13 +69,19 @@ public class FollowCam : MonoBehaviour
 
         if (GetBounds(out hitPoint, Vector3.left))
             _cameraMinX = hitPoint.x + cameraHalfWidth;
+        else
+            _isOutsideBorder = true;
 
         // Raycast allong Z
         if (GetBounds(out hitPoint, Vector3.forward))
             _cameraMaxZ = hitPoint.z - cameraHalfHeight;
+        else
+            _isOutsideBorder = true;
 
         if (GetBounds(out hitPoint, Vector3.back))
             _cameraMinZ = hitPoint.z + cameraHalfHeight;
+        else
+            _isOutsideBorder = true;
 
         // Reset querry settings
         Physics.queriesHitBackfaces = originalQuries;
@@ -130,18 +130,6 @@ public class FollowCam : MonoBehaviour
         transform.position = smoothPosition;
 
         _isOutsideBorder = false;
-    }
-
-    private IEnumerator Delay()
-    {
-        float seconds = 1f;
-
-        for (float t = 0f; t < seconds; t += Time.deltaTime)
-        {
-            float normalizedTime = t / seconds;
-            yield return null;
-        }
-        follow = true;
     }
 
     /// <summary>
