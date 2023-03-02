@@ -91,7 +91,7 @@ public class SkinsMouseController : MonoBehaviour
 
     #region Public Functions
     // called on the interaction add...
-    public GameObject UnlockSkinPiece(SkinPieceElement skinPieceElement)
+    public ButtonSkinPiece UnlockSkinPiece(SkinPieceElement skinPieceElement)
     {
         SkinPiecesForThisBodyTypeButton skinPieceForBodyX = null;
 
@@ -212,7 +212,7 @@ public class SkinsMouseController : MonoBehaviour
 
 
     #region Private Functions
-    private GameObject FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, SkinPieceElement skinPieceElement)
+    private ButtonSkinPiece FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, SkinPieceElement skinPieceElement)
     {
         for (int i = 0; i < skinPiecesForBodyX.MySkinPiecesButtons.Count; i++)
         {
@@ -223,7 +223,8 @@ public class SkinsMouseController : MonoBehaviour
                 // enable the sprite over the sillhouette on the button
                 skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound.SetActive(true);
 
-                return skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound;
+                //return skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound;
+                return skinPiecesForBodyX.MySkinPiecesButtons[i];
             }
         }
         return null;

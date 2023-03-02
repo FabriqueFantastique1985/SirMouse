@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class ButtonClosetNew : ButtonPaging
 {
+    public bool IhaveNotificationsReadyInTheCloset;
+    public GameObject NotificationObject;
+
+
     protected override void TurnOnPage()
     {
         // if I'm closing the closet...
