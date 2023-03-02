@@ -9,6 +9,6 @@ public class SetPlayerObjectAction : ChainActionMonoBehaviour
     public override void Execute()
     {
         base.Execute();
-        GameManager.Instance.Player.gameObject.SetActive(_activate);
+        GameManager.Instance.Player.gameObject.transform.GetChild(0).gameObject.SetActive(_activate);
     }
 }

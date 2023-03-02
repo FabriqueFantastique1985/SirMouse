@@ -11,11 +11,15 @@ public class SceneSetup : MonoBehaviour
     [SerializeField]
     private Transform _playerStart;
 
+    [Header ("Camea parameters")]
     [SerializeField]
     private MeshCollider _cameraBounds;
 
     [SerializeField]
-    private bool _shouldZoomOnMove;
+    private bool _shouldZoomOnMove = false;
+
+    [SerializeField]
+    private float _orthographicSize = 5f;
 
     private void Awake()
     {
@@ -29,6 +33,7 @@ public class SceneSetup : MonoBehaviour
 
         // Set if the camera should zoom out while the player is walking in this scene
         GameManager.Instance.ZoomCamera.ShouldZoomOnMove = _shouldZoomOnMove;
+        GameManager.Instance.ZoomCamera.OrthographicSize = _orthographicSize;
     }
 
     // Start is called before the first frame update

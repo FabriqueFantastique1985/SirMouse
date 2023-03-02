@@ -5,25 +5,29 @@ using UnityEngine;
 public class ZoomTrigger : MonoBehaviour
 {
     [SerializeField]
-    private float _newOrthographicSize;
+    private float _zoomAmount;
 
     [SerializeField]
     [Tooltip ("0 == default speed")]
     private float _zoomSpeed;
 
+    private int _amountOverlaps = 0;
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        ++_amountOverlaps;
+        if (!other.gameObject.CompareTag("Player") && _amountOverlaps > 1)
         {
             return;
         }
 
-        GameManager.Instance.ZoomCamera.IncreaseDefaultZoom(_newOrthographicSize, _zoomSpeed);
+        GameManager.Instance.ZoomCamera.IncreaseDefaultZoom(_zoomAmount, _zoomSpeed);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        --_amountOverlaps;
+        if (!other.gameObject.CompareTag("Player") && _amountOverlaps > 0)
         {
             return;
         }
