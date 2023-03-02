@@ -251,6 +251,7 @@ namespace UnityCore
                     case SceneType.MisterWitch_Int: return "MisterWitch_Int";
                     case SceneType.PrinceTower_C: return "PrinceTower_C";
                     case SceneType.ForestDuplicate: return "ForestLevelDuplicate";
+                    case SceneType.Castle_Courtyard: return "Castle_Courtyard";
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a string for a valid scene. ");
                         return string.Empty;
@@ -281,6 +282,7 @@ namespace UnityCore
                     case "MisterWitch_Int": return SceneType.MisterWitch_Int;
                     case "PrinceTower_C": return SceneType.PrinceTower_C;
                     case "ForestLevelDuplicate": return SceneType.ForestDuplicate;
+                    case "Castle_Courtyard": return SceneType.Castle_Courtyard;
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a type for a valid scene. ");
                         return SceneType.None;

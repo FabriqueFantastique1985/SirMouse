@@ -30,7 +30,8 @@ namespace UnityCore
             Swamp = 18,
             MisterWitch_Int = 19,
             PrinceTower_C = 20,
-            ForestDuplicate = 21
+            ForestDuplicate = 21,
+            Castle_Courtyard =22
         }
     }
 }
