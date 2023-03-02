@@ -169,6 +169,21 @@ namespace UnityCore
                
                 StartCoroutine(InfluenceVolumeOnSources(sourcesToInfluence, iwantToBeQuieter));
             }
+            public void MuteOst(bool muteMe = true)
+            {
+                List<AudioSource> sourcesToInfluence = new List<AudioSource>();
+
+                for (int i = 0; i < TracksOST.Count; i++)
+                {
+                    sourcesToInfluence.Add(TracksOST[i].Source);
+
+                    // add the currently set volumes to a float list (so we can refer to them later)
+                    _targetVolumesNormal.Add(TracksOST[i].Source.volume);
+                    _targetVolumesQuiet.Add(TracksOST[i].Source.volume);
+                }
+
+                StartCoroutine(MuteVolumeOnSources(sourcesToInfluence, muteMe)); ;
+            }
             public void VerifyAudioTracks()
             {
                 List<AudioTrack> tracksToRemove = new List<AudioTrack>();
@@ -391,6 +406,50 @@ namespace UnityCore
                     Debug.Log("turned UP volume for some sources");
                 }              
             }
+            private IEnumerator MuteVolumeOnSources(List<AudioSource> sources, bool muteMe)
+            {
+                if (muteMe == true)
+                {
+                    // continually decrease volume on all sources until certain point
+                    for (int i = 0; i < sources.Count; i++)
+                    {
+                        // set our target values
+                        _targetVolumesNormal[i] = (sources[i].volume);
+                        _targetVolumesQuiet[i] = 0;
+
+                        // loop until we reach that goal
+                        while (sources[i].volume > 0)
+                        {
+                            sources[i].volume -= 0.1f;
+                            yield return new WaitForEndOfFrame();
+                        }
+                        sources[i].volume = 0;
+                    }
+
+                    Debug.Log("muted tracks");
+                }
+                else
+                {
+                    // continually INCREASE volume on all sources until certain point
+                    for (int i = 0; i < sources.Count; i++)
+                    {
+                        // loop until we reach that goal
+                        while (sources[i].volume < _targetVolumesNormal[i])
+                        {
+                            sources[i].volume += 0.1f;
+                            yield return new WaitForEndOfFrame();
+                        }
+                        sources[i].volume = _targetVolumesNormal[i];
+                    }
+
+                    // clear the target volumes
+                    _targetVolumesNormal.Clear();
+                    _targetVolumesQuiet.Clear();
+
+                    Debug.Log("un-muted tracks");
+                }
+            }
+
             private void RemoveNullAudioTrack(List<AudioTrack> trackListToCheck, List<AudioTrack> tracksToRemove)
             {
                 for (int i = 0; i < trackListToCheck.Count; i++)
