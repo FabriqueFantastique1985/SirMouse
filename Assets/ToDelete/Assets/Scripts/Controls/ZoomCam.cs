@@ -17,9 +17,9 @@ public class ZoomCam : MonoBehaviour
 
     [Header("Amounts")]
     [SerializeField]
-    private float _zoomMaxAmout;
+    private float _zoomMaxSize;
     [SerializeField]
-    private float _zoomMinAmout;
+    private float _zoomMinSize;
     [SerializeField]
     private float _zoomAmoutOnMove;
 
@@ -35,6 +35,27 @@ public class ZoomCam : MonoBehaviour
     {
         get { return _shouldZoomOnMove; }
         set { _shouldZoomOnMove = value;}
+    }
+
+    public float OrthographicSize
+    {
+        get { return _initialOrthographicSize; }
+        set 
+        {
+            if (value < 1f)
+                return;
+
+            if (_zoomInRoutine != null)
+                StopCoroutine(_zoomInRoutine);
+            if (_zoomOutRoutine != null)
+                StopCoroutine(_zoomOutRoutine);
+
+            _zoomMaxSize += (value - _initialOrthographicSize);
+            _zoomMinSize += (value - _initialOrthographicSize);
+
+            GameManager.Instance.CurrentCamera.orthographicSize = value;
+            _initialOrthographicSize = value;
+        }
     }
 
     private void Awake()
@@ -85,7 +106,6 @@ public class ZoomCam : MonoBehaviour
             if (zoomSpeed == 0)
                 zoomSpeed = _zoomInSteps;
 
-            StopCoroutine("ZoomOut");
             _zoomInRoutine = StartCoroutine(ZoomIn(zoomAmount, zoomSpeed));
         }
     }
@@ -98,9 +118,9 @@ public class ZoomCam : MonoBehaviour
         Zoom(_initialOrthographicSize + _orthographicSizeOffset - GameManager.Instance.CurrentCamera.orthographicSize, zoomSpeed);
     }
 
-    public void IncreaseDefaultZoom(float newOrthographicSize, float zoomSpeed = 0f)
+    public void IncreaseDefaultZoom(float zoomAmount, float zoomSpeed = 0f)
     {
-        _orthographicSizeOffset = newOrthographicSize - _initialOrthographicSize;
+        _orthographicSizeOffset = zoomAmount;
         Zoom(_orthographicSizeOffset, zoomSpeed);
     }
 
@@ -112,7 +132,7 @@ public class ZoomCam : MonoBehaviour
     private IEnumerator ZoomOut(float zoomAmount, float zoomSpeed)
     {
         float originalSize = GameManager.Instance.CurrentCamera.orthographicSize;
-        float zoomGoal = Mathf.Clamp(originalSize + zoomAmount, _zoomMinAmout + _orthographicSizeOffset, _zoomMaxAmout + _orthographicSizeOffset);
+        float zoomGoal = Mathf.Clamp(originalSize + zoomAmount, _zoomMinSize + _orthographicSizeOffset, _zoomMaxSize + _orthographicSizeOffset);
         while (GameManager.Instance.CurrentCamera.orthographicSize < zoomGoal)
         {
             GameManager.Instance.CurrentCamera.orthographicSize += zoomSpeed;
@@ -126,7 +146,7 @@ public class ZoomCam : MonoBehaviour
     private IEnumerator ZoomIn(float zoomAmount, float zoomSpeed)
     {
         float originalSize = GameManager.Instance.CurrentCamera.orthographicSize;
-        float zoomGoal = Mathf.Clamp(originalSize + zoomAmount, _zoomMinAmout + _orthographicSizeOffset, _zoomMaxAmout + _orthographicSizeOffset);
+        float zoomGoal = Mathf.Clamp(originalSize + zoomAmount, _zoomMinSize + _orthographicSizeOffset, _zoomMaxSize + _orthographicSizeOffset);
         while (GameManager.Instance.CurrentCamera.orthographicSize > zoomGoal)
         {
             GameManager.Instance.CurrentCamera.orthographicSize -= zoomSpeed;
