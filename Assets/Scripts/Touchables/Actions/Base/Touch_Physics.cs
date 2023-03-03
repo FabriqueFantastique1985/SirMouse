@@ -63,11 +63,7 @@ public class Touch_Physics : Touch_Action
         {
             //base.Act();
 
-            // sounf effect when it spawns
-            if (AudioElements[0].Clip != null)
-            {
-                AudioController.Instance.PlayAudio(AudioElements[0]);
-            }
+            PlayAudio(Pickup);
                   
             SpawnObject();
 
@@ -85,13 +81,7 @@ public class Touch_Physics : Touch_Action
     protected virtual void FollowMouseLogic()
     {
         if (Input.GetMouseButtonUp(0))
-        {
-            // sound effect when it gets let go
-            if (AudioElements[1].Clip != null)
-            {
-                AudioController.Instance.PlayAudio(AudioElements[1]);
-            }
-            
+        {        
             LetGoOfMouse();            
         }
         else if (_activatedFollowMouse == true)
@@ -101,6 +91,8 @@ public class Touch_Physics : Touch_Action
     }
     protected virtual void LetGoOfMouse()
     {
+        PlayAudio(Drop);
+
         _animationSpawnedObject.Play(_animPop);
 
         _activatedFollowMouse = false;
@@ -203,17 +195,7 @@ public class Touch_Physics : Touch_Action
         // remove the object (limited for performance/memory)
         if (SpawnedObjects.Count > _spawnLimit)
         {
-
-            if (AudioElements.Count > 2)
-            {
-                // sound effect when it goes 'poof'
-                if (AudioElements[2].Clip != null)
-                {
-                    AudioController.Instance.PlayAudio(AudioElements[2]);
-                }
-                
-            }
-            
+            PlayAudio(Disappear);
 
             Instantiate(_prefabParticlePoof, SpawnedObjects[0].transform.position, Quaternion.identity);
 

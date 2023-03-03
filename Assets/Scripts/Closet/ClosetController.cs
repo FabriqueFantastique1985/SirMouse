@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.UI;
@@ -165,6 +166,8 @@ public class ClosetController : MonoBehaviour
     }
     public void OpenCloset(PageType typeToOpen)
     {
+        //AudioController.Instance.TurnDownVolumeForOSTAndWorld();
+
         // turn off all other pages, except for the closet
         PageController.Instance.TurnAllPagesOffExcept(typeToOpen);
 
@@ -190,6 +193,8 @@ public class ClosetController : MonoBehaviour
     }
     public void CloseCloset()
     {
+        //AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
+
         // close closet page
         PageController.Instance.TurnPageOff(PageType.Closet);
 

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class InteractionStartPodium : Interaction
 {
+    public delegate void StartPodium();
+    public event StartPodium OnMinigameStarted;
+
+
     [SerializeField]
     private PodiumController _podiumController;
 
@@ -12,5 +16,6 @@ public class InteractionStartPodium : Interaction
         base.SpecificAction(player);
 
         _podiumController.StartMiniGame();
+        OnMinigameStarted?.Invoke();
     }
 }

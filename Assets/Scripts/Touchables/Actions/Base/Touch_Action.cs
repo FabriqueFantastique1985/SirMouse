@@ -14,8 +14,14 @@ public class Touch_Action : MonoBehaviour
     protected const string _animIdle = "Spawnable_Scaler";
 
     // audio // specifically for events of : tap / let go
+    //[Header("Audio")]
+    //public List<AudioElement> AudioElements = new List<AudioElement>();
+
     [Header("Audio")]
-    public List<AudioElement> AudioElements = new List<AudioElement>();
+    public AudioElement Pickup;
+    public AudioElement Drop;
+    public AudioElement Disappear;
+
 
     protected virtual void Start()
     {
@@ -36,9 +42,17 @@ public class Touch_Action : MonoBehaviour
 
     public virtual void Act()
     {
-        AudioController.Instance.PlayAudio(AudioElements[Random.Range(0, AudioElements.Count)]);
-
+        //AudioController.Instance.PlayAudio(AudioElements[Random.Range(0, AudioElements.Count)]);
+        PlayAudio(Pickup);
         StartCoroutine(EnableInputDetectionAgain());
+    }
+
+    public virtual void PlayAudio(AudioElement audioEMToPlay)
+    {
+        if (audioEMToPlay.Clip != null)
+        {
+            AudioController.Instance.PlayAudio(audioEMToPlay);
+        }
     }
 
     private IEnumerator EnableInputDetectionAgain()

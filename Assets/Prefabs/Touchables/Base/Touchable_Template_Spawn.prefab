@@ -13,13 +13,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationComponent: {fileID: 3624373974000681744}
-  AudioElements:
-  - Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
+  Pickup:
+    Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
     Type: 4
-  - Clip: {fileID: 8300000, guid: 8e6a0d94ac69326429ebe0863979051d, type: 3}
+    Volume: 0.1
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  Drop:
+    Clip: {fileID: 8300000, guid: 8e6a0d94ac69326429ebe0863979051d, type: 3}
     Type: 4
-  - Clip: {fileID: 8300000, guid: 45cf6b71b5dba614998f4fbf5735363d, type: 3}
-    Type: 2
+    Volume: 0.2
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  Disappear:
+    Clip: {fileID: 8300000, guid: 358c6394577d3644c93f4267935371e4, type: 3}
+    Type: 4
+    Volume: 0.2
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
   _objectToSpawn: {fileID: 2692775670220734298}
   _spriteUnderParentToSpawn: {fileID: 8516028687335570042}
   _possibleSpawnedSprites: []
