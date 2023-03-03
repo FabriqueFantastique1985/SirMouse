@@ -33,6 +33,13 @@ public class Character : MonoBehaviour
 
     #endregion
     
+    #region Properties
+    public Animator AnimatorRM
+    {
+        get { return _animatorRM; }
+    }
+    #endregion
+
     #region EditorFields
 
     [FormerlySerializedAs("AnimatorRM")] [SerializeField]

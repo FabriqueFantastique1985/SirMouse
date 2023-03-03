@@ -14,4 +14,12 @@ public class SkinPieceElement : MonoBehaviour
 
     [Header("To Assign only in Closet Buttons")]
     public int ScoreValue;
+
+    private void Awake()
+    {
+        if (ScoreValue < 0)
+            ScoreValue = 0;
+        if (ScoreValue > 10)
+            ScoreValue = 10;
+    }
 }
