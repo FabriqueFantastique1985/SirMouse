@@ -5466,6 +5466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 916205647}
   - component: {fileID: 916205648}
+  - component: {fileID: 916205649}
   m_Layer: 0
   m_Name: BackgroundNoise
   m_TagString: Untagged
@@ -5499,7 +5500,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d5c2c977ef0651c41ac6bc194ade17f4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 0.6
   Loop: 1
   Mute: 0
@@ -5583,6 +5584,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &916205649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916205646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7dc7f045fb66174f835d0d62e6e4cff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _myAudioTrack:
+    Type: 4
+    Source: {fileID: 916205648}
 --- !u!1 &956408296
 GameObject:
   m_ObjectHideFlags: 0
@@ -6069,6 +6085,11 @@ PrefabInstance:
       propertyPath: _steps.Array.data[4]
       value: 
       objectReference: {fileID: 2086505126}
+    - target: {fileID: 3190461176604182698, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
+        type: 3}
+      propertyPath: ExplosionSound.Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3190461176604182698, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
         type: 3}
       propertyPath: _startGameInteractable
