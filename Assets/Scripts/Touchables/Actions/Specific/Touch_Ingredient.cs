@@ -76,6 +76,8 @@ public class Touch_Ingredient : Touch_Physics
 
     protected override void LetGoOfMouse()
     {
+        PlayAudio(Drop);
+
         _animationSpawnedObject.Play(_animPop);
 
         _activatedFollowMouse = false;
