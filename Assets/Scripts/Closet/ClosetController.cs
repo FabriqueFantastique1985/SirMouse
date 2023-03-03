@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.UI;
@@ -165,6 +166,8 @@ public class ClosetController : MonoBehaviour
     }
     public void OpenCloset(PageType typeToOpen)
     {
+        //AudioController.Instance.TurnDownVolumeForOSTAndWorld();
+
         // turn off all other pages, except for the closet
         PageController.Instance.TurnAllPagesOffExcept(typeToOpen);
 
@@ -190,6 +193,8 @@ public class ClosetController : MonoBehaviour
     }
     public void CloseCloset()
     {
+        //AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
+
         // close closet page
         PageController.Instance.TurnPageOff(PageType.Closet);
 
@@ -207,9 +212,13 @@ public class ClosetController : MonoBehaviour
     // called on GiveReward() in RewardController
     public void AddNotificationToList(ButtonSkinPiece buttonSkinPiece)
     {       
+        // found will always be true, so cannot use it here...
         if (ButtonsWithNotifications.Contains(buttonSkinPiece) == false)
         {
-            ButtonsWithNotifications.Add(buttonSkinPiece);
+            if (buttonSkinPiece.HasBeenNotified == false)
+            {
+                ButtonsWithNotifications.Add(buttonSkinPiece);
+            }          
         }      
     }
     public void NotificationActivater()
@@ -221,6 +230,7 @@ public class ClosetController : MonoBehaviour
             {
                 // activate notif on button skinpiece
                 ButtonsWithNotifications[i].NotificationObject.SetActive(true);
+                ButtonsWithNotifications[i].HasBeenNotified = true;
 
                 // figure out what pager has a similar BodyType to the ButtonWithNotif...
                 for (int j = 0; j < ButtonsClosetPagers.Count; j++)
@@ -258,9 +268,13 @@ public class ClosetController : MonoBehaviour
                 }
             }
         }
+
         // activate notif on closet button
-        ButtonCloset.NotificationObject.SetActive(true);
-        ButtonCloset.IhaveNotificationsReadyInTheCloset = true;
+        if (ButtonsWithNotifications.Count > 0)
+        {          
+            ButtonCloset.NotificationObject.SetActive(true);
+            ButtonCloset.IhaveNotificationsReadyInTheCloset = true;
+        }
     }
 
     // called when clicking on a piece

@@ -10,8 +10,9 @@ public class ButtonSkinPiece : ButtonBaseNew
     public GameObject MySpriteToDuplicateAndMove;
 
     [Header("Status-es")]
-    public bool Found;
-    public bool TriedThisOut;
+    public bool Found; // set -> GiveReward()
+    public bool TriedThisOut; // set -> when clicking the button
+    public bool HasBeenNotified; // set -> GiveReward() (but later on)
 
     public GameObject NotificationObject;
 

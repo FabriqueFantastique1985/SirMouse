@@ -13,10 +13,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationComponent: {fileID: 4223317646217638095}
-  AudioElements:
-  - Clip: {fileID: 8300000, guid: 24a6f39cac0b1204f91f728ee3c2fe39, type: 3}
+  Pickup:
+    Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
     Type: 4
-  _destroyCooldown: 2
+    Volume: 0.1
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  Drop:
+    Clip: {fileID: 8300000, guid: 8e6a0d94ac69326429ebe0863979051d, type: 3}
+    Type: 4
+    Volume: 0.2
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  Disappear:
+    Clip: {fileID: 8300000, guid: 358c6394577d3644c93f4267935371e4, type: 3}
+    Type: 4
+    Volume: 0.2
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  _flyCooldown: 0
+  _endPosition: {x: 0, y: 0, z: 0}
+  _flySpeed: 0
 --- !u!1001 &8998806481415314543
 PrefabInstance:
   m_ObjectHideFlags: 0
