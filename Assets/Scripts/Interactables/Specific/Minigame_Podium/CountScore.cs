@@ -11,8 +11,6 @@ public class CountScore : MonoBehaviour
     [SerializeField]
     private Slider _slider;
     [SerializeField]
-    private InteractionStartPodium _startPodium;
-    [SerializeField]
     private PodiumController _podiumController;
     [SerializeField]
     private float _sliderSpeed = 1f;
@@ -36,6 +34,10 @@ public class CountScore : MonoBehaviour
     {
         _interactable.OnInteracted += OnPodiumStarted;
         _podiumController.OnPoseTaken += OnPoseTaken;
+        _podiumController.OnMiniGameEnded += OnMiniGameEnded;
+
+        _slider.gameObject.SetActive(false);
+        _slider.value = 0f;
     }
 
     private void OnPodiumStarted()
@@ -48,7 +50,16 @@ public class CountScore : MonoBehaviour
     private void OnPoseTaken()
     {
         _poseScore = (int)((float)_podiumController.AmountOfPosesTaken / (float)_podiumController.AmountOfPosesRequired * (100f - (float)_outfitPercentage));
-        StartCoroutine(DisplayScore(_poseScore));
+        StartCoroutine(DisplayScore(_outfitScore + _poseScore));
+    }
+
+    private void OnMiniGameEnded()
+    {
+        _slider.gameObject.SetActive(false);
+        _slider.value = 0f;
+        _juryScore = (int)((float)(_outfitScore + _poseScore) / 100f * 3f);
+        _juryScore = Mathf.Max(1, _juryScore);
+        Debug.Log("Juryscore: " + _juryScore);
     }
 
     private void CountOutfitScore()
@@ -60,10 +71,6 @@ public class CountScore : MonoBehaviour
         {
             _outfitScore = (int)((float)_outfitScore / (outfitAmount * maxScoreValue) * (float)_outfitPercentage);
         }
-
-        //_juryScore = (int)(_outfitScore / 100f * 3f);
-        //_juryScore = Mathf.Max(1, _juryScore);
-        //Debug.Log("Juryscore: " + _juryScore);
     }
 
     private IEnumerator DisplayScore(int scoreAmount)

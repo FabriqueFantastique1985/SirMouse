@@ -6,6 +6,7 @@ public class PodiumController : MiniGame
 {
     public delegate void PodiumControllerDelegate();
     public event PodiumControllerDelegate OnPoseTaken;
+    public event PodiumControllerDelegate OnMiniGameEnded;
 
     [SerializeField]
     List<ButtonPodium> _buttonsPodium = new List<ButtonPodium>();
@@ -155,5 +156,6 @@ public class PodiumController : MiniGame
         }
 
         GameManager.Instance.EnterMainGameSystem();
+        OnMiniGameEnded?.Invoke();
     }
 }

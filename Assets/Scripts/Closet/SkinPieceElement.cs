@@ -17,9 +17,6 @@ public class SkinPieceElement : MonoBehaviour
 
     private void Awake()
     {
-        if (ScoreValue < 0)
-            ScoreValue = 0;
-        if (ScoreValue > 10)
-            ScoreValue = 10;
+        ScoreValue = Mathf.Clamp(ScoreValue, 0, 10);
     }
 }
