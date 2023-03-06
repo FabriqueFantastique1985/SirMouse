@@ -43,9 +43,16 @@ public class JuryScore : MonoBehaviour
         {
             yield return new WaitForSeconds(_scoreDisplayDelay);
 
-            int offset = Random.Range(0, _randomScoreOffset);
-            offset -= _randomScoreOffset / 2;
+            int offset = 0;
 
+            // Only apply offset if score isn't perfect
+            if (_score != 100)
+            {
+                offset = Random.Range(0, _randomScoreOffset);
+                offset -= _randomScoreOffset / 2;
+            }
+
+            // Calculate how many stars the jury will display
             int score = Mathf.Max((int)((float)(_score + offset) / 100f * _starMaximum));
             score = Mathf.Max(_starMinimum, score);
 
