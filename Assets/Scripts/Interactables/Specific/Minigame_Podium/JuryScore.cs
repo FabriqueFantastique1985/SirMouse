@@ -20,6 +20,9 @@ public class JuryScore : MonoBehaviour
     [SerializeField]
     private int _starMaximum;
 
+    [SerializeField, Tooltip("By how many points do do you want the score on 100 to vary?")]
+    private int _randomScoreOffset;
+
     private int _score;
 
     private void Start()
@@ -30,12 +33,6 @@ public class JuryScore : MonoBehaviour
     private void OnMiniGameEnded()
     {
         _score = _scoreController.TotalScore;
-
-
-        _score = Mathf.Max((int)((float)(_score) / 100f * _starMaximum));
-        _score = Mathf.Max(_starMinimum, _score);
-        Debug.Log("Juryscore: " + _score);
-
         StartCoroutine(DisplayScore());
     }
 
@@ -45,9 +42,16 @@ public class JuryScore : MonoBehaviour
         for (int i = 0; i < _juryBoardScores.Count; ++i)
         {
             yield return new WaitForSeconds(_scoreDisplayDelay);
-            if (_score - 1  < _juryBoardScores[i].transform.childCount)
+
+            int offset = Random.Range(0, _randomScoreOffset);
+            offset -= _randomScoreOffset / 2;
+
+            int score = Mathf.Max((int)((float)(_score + offset) / 100f * _starMaximum));
+            score = Mathf.Max(_starMinimum, score);
+
+            if (score - 1  < _juryBoardScores[i].transform.childCount)
             {
-                _juryBoardScores[i].transform.GetChild(_score - 1).gameObject.SetActive(true);
+                _juryBoardScores[i].transform.GetChild(score - 1).gameObject.SetActive(true);
             }
         }
     }
