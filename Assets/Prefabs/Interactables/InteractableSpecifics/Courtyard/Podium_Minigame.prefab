@@ -1152,6 +1152,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2049936883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2049936884}
+  - component: {fileID: 2049936885}
+  m_Layer: 0
+  m_Name: Timeline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2049936884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049936883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4988200414133431229}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!320 &2049936885
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049936883}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 5509a565d2349b04ca583123635fc407, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -9082689663282829504, guid: 5509a565d2349b04ca583123635fc407, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &2052155002
 GameObject:
   m_ObjectHideFlags: 0
@@ -3012,7 +3062,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4988200414133431229
 Transform:
   m_ObjectHideFlags: 0
@@ -3025,6 +3075,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4988200414974787220}
+  - {fileID: 2049936884}
   m_Father: {fileID: 4988200415570727774}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3053,6 +3104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4988200414135507431}
   - component: {fileID: 4988200414135507432}
+  - component: {fileID: 1160993314}
   m_Layer: 0
   m_Name: PodiumController
   m_TagString: Untagged
@@ -3090,16 +3142,36 @@ MonoBehaviour:
   _hasBeenCompleted: 0
   _steps:
   - {fileID: 4988200414401780492}
+  - {fileID: 4988200414133431230}
   - {fileID: 1523738046890209188}
   _buttonsPodium:
   - {fileID: 8696793604022641330}
   - {fileID: 5756397024244435554}
   - {fileID: 17474116}
   - {fileID: 1152284958}
-  _noInputTimer: 30
+  _poseTimer: 10
+  _amountOfPosesRequired: 4
   _canvas: {fileID: 2995687503466213922}
   _playerLocation: {fileID: 2102266434}
   _poseController: {fileID: 9100000, guid: 009375b28d623e44dbbf233d94b402b2, type: 2}
+--- !u!114 &1160993314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4988200414135507430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6f4ab960ef8854197c2ff41210dbf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outfitPercentage: 70
+  _slider: {fileID: 1609835760881760152}
+  _startPodium: {fileID: 1283598490383477841}
+  _podiumController: {fileID: 4988200414135507432}
+  _sliderSpeed: 1
+  _interactable: {fileID: 1638730540897473886}
 --- !u!1 &4988200414401780490
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,8 +3311,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameChainAction: CutsceneAction
   ActionType: 0
-  _cutscenePlayableDirector: {fileID: 0}
-  _disableInputWhilePlaying: 0
+  _cutscenePlayableDirector: {fileID: 2049936885}
+  _disableInputWhilePlaying: 1
 --- !u!1 &4988200415008774421
 GameObject:
   m_ObjectHideFlags: 0
