@@ -25,6 +25,11 @@ public class CountScore : MonoBehaviour
         get { return _outfitScore; }
     }
 
+    public int TotalScore
+    {
+        get { return _outfitScore + _poseScore; }
+    }
+
     private void Awake()
     {
         Assert.IsFalse(_sliderSpeed == 0f, "Sliderspeed was 0!");
@@ -57,9 +62,6 @@ public class CountScore : MonoBehaviour
     {
         _slider.gameObject.SetActive(false);
         _slider.value = 0f;
-        _juryScore = (int)((float)(_outfitScore + _poseScore) / 100f * 3f);
-        _juryScore = Mathf.Max(1, _juryScore);
-        Debug.Log("Juryscore: " + _juryScore);
     }
 
     private void CountOutfitScore()
