@@ -6,12 +6,13 @@ public class FabriqueTools : EditorWindow
 {
     private static bool _leftCtrlHeldDown = false;
     private static FabriqueTools _window = null;
-    
+    [System.Obsolete]
     private  SceneView.OnSceneFunc onSceneGUIFunc = null;
    
     public Rect WindowSize = new Rect(15, 15, 250, 250);
 
     [MenuItem("FabriqueTools/ShortCuts")]
+    [System.Obsolete]
     public static void ShowWindow()
     {
         if (_window == null)
@@ -31,7 +32,8 @@ public class FabriqueTools : EditorWindow
         EditorUtility.FocusProjectWindow();
         Selection.activeObject = asset;
     }
-    
+
+    [System.Obsolete]
     void OnDestroy()
     {
         SceneView.onSceneGUIDelegate -= onSceneGUIFunc;

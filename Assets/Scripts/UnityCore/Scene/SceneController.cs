@@ -51,7 +51,11 @@ namespace UnityCore
                 if (SceneControllerInstance == null)
                 {
                     Configure();
-                    DontDestroyOnLoad(gameObject);
+                    
+                    if (gameObject.transform.parent)
+                        DontDestroyOnLoad(gameObject.transform.parent);
+                    else
+                        DontDestroyOnLoad(gameObject);
                 }
                 else
                 {

@@ -28,7 +28,7 @@ public class BackpackController : MonoBehaviour
     float _speed;
     float _arcHeight;
     float _stepScale;
-    float _progress;
+    //float _progress;
     GameObject _objectToMove;
     Vector2 _startPos, _endPos;
     //
@@ -57,7 +57,11 @@ public class BackpackController : MonoBehaviour
             return;
         }
         BackpackInstance = this;
-        DontDestroyOnLoad(BackpackInstance);
+
+        if (gameObject.transform.parent)
+            DontDestroyOnLoad(BackpackInstance.transform.parent);
+        else
+            DontDestroyOnLoad(BackpackInstance);
     }
 
     #endregion
@@ -171,7 +175,7 @@ public class BackpackController : MonoBehaviour
         _speed = 400f;
         _arcHeight = 0.5f;
         _stepScale = 0f;
-        _progress = 0f;
+        //_progress = 0f;
         _stepScale = _speed / target_Distance;
         _arcHeight = _arcHeight * target_Distance;
 
