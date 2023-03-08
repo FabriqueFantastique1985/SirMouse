@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class PodiumController : MiniGame
 {
     public delegate void PodiumControllerDelegate();
     public event PodiumControllerDelegate OnPoseTaken;
-    public event PodiumControllerDelegate OnMiniGameEnded;
+    public event PodiumControllerDelegate OnMiniGameEnd;
 
     [SerializeField]
     List<ButtonPodium> _buttonsPodium = new List<ButtonPodium>();
@@ -21,6 +23,12 @@ public class PodiumController : MiniGame
     private Canvas _canvas;
     [SerializeField]
     private GameObject _buttons;
+
+    [Header ("Cutscene 01 information and references")]
+    [SerializeField]
+    private PlayableDirector _cutscene01;
+    [SerializeField]
+    private string _playerTrackName;
 
     [Header("Player")]
     [SerializeField]
@@ -109,13 +117,6 @@ public class PodiumController : MiniGame
         _playerController = _animator.runtimeAnimatorController;
         _animator.runtimeAnimatorController = _poseController;
 
-        // Move player into position
-        for (int i = 0; i < _playerObject.transform.childCount; i++)
-        {
-            _childTransforms.Add(_playerObject.transform.GetChild(i).position);
-            _playerObject.transform.GetChild(i).position = _playerLocation.position;
-        }
-
         GameManager.Instance.EnterMiniGameSystem();
         StartCoroutine(ClickTimer());
     }
@@ -156,6 +157,31 @@ public class PodiumController : MiniGame
         }
 
         GameManager.Instance.EnterMainGameSystem();
-        OnMiniGameEnded?.Invoke();
+        OnMiniGameEnd?.Invoke();
+    }
+
+    public void SetPlayerReference()
+    {
+        // Turn off current camera
+        GameManager.Instance.CurrentCamera.gameObject.SetActive(false);
+
+        // Move player into position
+        for (int i = 0; i < _playerObject.transform.childCount; i++)
+        {
+            _childTransforms.Add(_playerObject.transform.GetChild(i).position);
+            _playerObject.transform.GetChild(i).position = _playerLocation.position;
+        }
+
+        // Set player rig
+        TimelineAsset timeline = _cutscene01.playableAsset as TimelineAsset;
+        var trackList = timeline.GetOutputTracks();
+
+        foreach (var track in trackList)
+        {
+            if (track.name == _playerTrackName)
+            {
+                _cutscene01.SetGenericBinding(track, GameManager.Instance.Player.Character.AnimatorRM);
+            }
+        }
     }
 }

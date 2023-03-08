@@ -27,7 +27,7 @@ public class JuryScore : MonoBehaviour
 
     private void Start()
     {
-        _podiumController.OnMiniGameEnded += OnMiniGameEnded;
+        _podiumController.OnMiniGameEnd += OnMiniGameEnded;
     }
 
     private void OnMiniGameEnded()
