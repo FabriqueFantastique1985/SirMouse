@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EncounterableMoths : Encounterable
+public class EncounterableMoths : EncounterablePrerequisite
 {
     [Header("Moth things")]
     [SerializeField]

@@ -42,7 +42,6 @@ public class Touchable : MonoBehaviour, IClickable
         ParticleGlowy.Stop();
         Animator.SetBool("Activated", false);
     }
-
     public void Enable()
     {
         Collider.enabled = true;
@@ -94,6 +93,8 @@ public class Touchable : MonoBehaviour, IClickable
                     StartCoroutine(ActivateCooldown());
                 }
 
+                NeedyMethod();
+
                 _usedSuccesfully = true;
             }
         }
@@ -103,6 +104,12 @@ public class Touchable : MonoBehaviour, IClickable
     public void PlayAnimationEventSound(int index)
     {
         AudioController.Instance.PlayAudio(AudioElements[index]);
+    }
+
+    // method for the needy variant
+    protected virtual void NeedyMethod()
+    {
+
     }
 
     #endregion

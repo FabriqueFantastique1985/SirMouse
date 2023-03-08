@@ -9,19 +9,16 @@ public class Encounterable : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
-    [SerializeField]
-    private Type_Pickup _pickupTypeNeededToProc = Type_Pickup.None;
-
     [Header("Cooldown Related")]
     [SerializeField]
-    private bool _oneTimeUse;
+    protected bool _oneTimeUse;
     [SerializeField]
-    private bool _hasACooldown;
+    protected bool _hasACooldown;
     [SerializeField]
     private float _cooldownLength;
 
-    private bool _onCooldown;
-    private bool _usedSuccesfully;
+    protected bool _onCooldown;
+    protected bool _usedSuccesfully;
 
     [SerializeField]
     private bool _giveRandomOffsetAnimationIdle;
@@ -38,7 +35,7 @@ public class Encounterable : MonoBehaviour
 
     #region Unity Functions
 
-    private void Start()
+    protected virtual void Start()
     {
         //var audioControl = AudioController.Instance;
         //// add the possible sound effect to the AudioTable and the correct track (OLD logic)    
@@ -59,22 +56,18 @@ public class Encounterable : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (_pickupTypeNeededToProc != Type_Pickup.None && GameManager.Instance.Player.EquippedPickupType == _pickupTypeNeededToProc
-            || _pickupTypeNeededToProc == Type_Pickup.None)
+        // use layers so it only detects player entering
+        if (_oneTimeUse == false || _oneTimeUse == true && _usedSuccesfully == false)
         {
-            // use layers so it only detects player entering
-            if (_oneTimeUse == false || _oneTimeUse == true && _usedSuccesfully == false)
+            // check for cooldown
+            if (_onCooldown == false)
             {
-                // check for cooldown
-                if (_onCooldown == false)
-                {
-                    GenericBehaviour();
+                GenericBehaviour();
 
-                    // if cooldown is present
-                    if (_hasACooldown == true)
-                    {
-                        StartCoroutine(ActivateCooldown());
-                    }
+                // if cooldown is present
+                if (_hasACooldown == true)
+                {
+                    StartCoroutine(ActivateCooldown());
                 }
             }
         }
@@ -95,7 +88,7 @@ public class Encounterable : MonoBehaviour
         }
 
         // also play sound effect
-        if (SoundEffect != null)
+        if (SoundEffect.Clip != null)
         {
             if (_audioClips.Length != 0)
             {
@@ -113,7 +106,7 @@ public class Encounterable : MonoBehaviour
 
     #region Private Functions
 
-    private IEnumerator ActivateCooldown()
+    protected IEnumerator ActivateCooldown()
     {
         _onCooldown = true;
 
@@ -122,7 +115,7 @@ public class Encounterable : MonoBehaviour
         _onCooldown = false;
     }
 
-    private IEnumerator ActivateAnimatorOffsetted(float randomTime)
+    protected IEnumerator ActivateAnimatorOffsetted(float randomTime)
     {
         yield return new WaitForSeconds(randomTime);
 
