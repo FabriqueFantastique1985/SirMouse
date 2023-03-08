@@ -33,16 +33,14 @@ public class JuryScore : MonoBehaviour
     private void OnMiniGameEnded()
     {
         _score = _scoreController.TotalScore;
-        StartCoroutine(DisplayScore());
+        DisplayScore();
     }
 
     // Use animation events for this instead?
-    private IEnumerator DisplayScore()
+    private void DisplayScore()
     {
         for (int i = 0; i < _juryBoardScores.Count; ++i)
         {
-            yield return new WaitForSeconds(_scoreDisplayDelay);
-
             int offset = 0;
 
             // Only apply offset if score isn't perfect

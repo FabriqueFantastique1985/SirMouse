@@ -1497,6 +1497,18 @@ Transform:
   m_Father: {fileID: 1834993267}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &211276887 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4988200414135507432, guid: 4d5f34b7a21286744ae0c613c291a697,
+    type: 3}
+  m_PrefabInstance: {fileID: 304814828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e159caf70d0943a936f5d37bd6217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &211649179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2503,6 +2515,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 220128185, guid: 4d5f34b7a21286744ae0c613c291a697, type: 3}
+      propertyPath: m_PlayableAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 540787fb72d17e54b8de5b9dac1c6868,
+        type: 2}
+    - target: {fileID: 220128185, guid: 4d5f34b7a21286744ae0c613c291a697, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 220128185, guid: 4d5f34b7a21286744ae0c613c291a697, type: 3}
+      propertyPath: m_SceneBindings.Array.data[12].key
+      value: 
+      objectReference: {fileID: -5010026186562757976, guid: 540787fb72d17e54b8de5b9dac1c6868,
+        type: 2}
     - target: {fileID: 534769881, guid: 4d5f34b7a21286744ae0c613c291a697, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -11297,6 +11323,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1702007958 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 220128183, guid: 4d5f34b7a21286744ae0c613c291a697,
+    type: 3}
+  m_PrefabInstance: {fileID: 304814828}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1702007959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702007958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 4bb1ebb4abb87414fb906cec05c951c0, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 211276887}
+          m_MethodName: PodiumEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1720115084
 PrefabInstance:
   m_ObjectHideFlags: 0

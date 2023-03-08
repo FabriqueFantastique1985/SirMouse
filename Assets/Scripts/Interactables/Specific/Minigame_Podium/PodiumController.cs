@@ -153,11 +153,8 @@ public class PodiumController : MiniGame
         // Reset variables for next run
         _buttonClickedAmount = 0;
 
-        // Move player back to original position
-        for (int i = 0; i < _playerObject.transform.childCount; i++)
-        {
-            _playerObject.transform.GetChild(i).position = _childTransforms[i];
-        }
+        // TEMP
+        PodiumEnd();
 
         GameManager.Instance.EnterMainGameSystem();
         OnMiniGameEnd?.Invoke();
@@ -167,8 +164,6 @@ public class PodiumController : MiniGame
     {
         // Turn off current camera
         GameManager.Instance.CurrentCamera.gameObject.SetActive(false);
-
-
 
         // Move player into position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
@@ -189,6 +184,15 @@ public class PodiumController : MiniGame
             {
                 _cutscene01.SetGenericBinding(track, GameManager.Instance.Player.Character.AnimatorRM);
             }
+        }
+    }
+
+    public void PodiumEnd()
+    {
+        // Move player back to original position
+        for (int i = 0; i < _playerObject.transform.childCount; i++)
+        {
+            _playerObject.transform.GetChild(i).position = _childTransforms[i];
         }
     }
 }
