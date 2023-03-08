@@ -263,6 +263,8 @@ public class SkinsMouseController : MonoBehaviour
             // this logic is what applies the skins on the Closet mouse
             tempListToClearUI[i].gameObject.SetActive(true);
 
+            Debug.Log("Equiping piece " + tempListToClear[i]);
+
             // add to list of equiped skinpieces
             EquipedSkinPieces.Add(tempListToClear[i]);
             EquipedSkinPiecesUI.Add(tempListToClearUI[i]);
@@ -417,7 +419,7 @@ public class SkinsMouseController : MonoBehaviour
 
         ScoreTotal = totalScore;
 
-        Debug.Log("Total Score is " + ScoreTotal);
+        //Debug.Log("Total Score is " + ScoreTotal);
     }
 
     #endregion

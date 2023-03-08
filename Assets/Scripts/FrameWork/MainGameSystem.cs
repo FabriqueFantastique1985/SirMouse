@@ -70,7 +70,7 @@ public class MainGameSystem : GameSystem
                     }
                 }
 
-                Debug.Log("Hit " + hit.transform.name);
+                //Debug.Log("Hit " + hit.transform.name);
 
                 if (hit.transform.TryGetComponent<IClickable>(out IClickable clickable))
                 {
