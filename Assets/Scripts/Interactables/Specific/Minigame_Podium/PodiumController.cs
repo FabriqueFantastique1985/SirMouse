@@ -21,8 +21,6 @@ public class PodiumController : MiniGame
 
     [SerializeField]
     private Canvas _canvas;
-    [SerializeField]
-    private GameObject _buttons;
 
     [Header ("Cutscene 01 information and references")]
     [SerializeField]
@@ -61,10 +59,8 @@ public class PodiumController : MiniGame
         foreach(var button in _buttonsPodium)
         {
             button.OnButtonClicked += ButtonClicked;
+            button.gameObject.SetActive(false);
         }
-
-        _canvas.worldCamera = Camera.main;
-        _buttons.SetActive(false);
 
         _animator = GameManager.Instance.Player.Character.AnimatorRM;
         _playerObject = GameManager.Instance.Player.gameObject;
@@ -113,7 +109,11 @@ public class PodiumController : MiniGame
         base.StartMiniGame();
 
         // Set canvas and player animator controller
-        _buttons.SetActive(true);
+        foreach (var button in _buttonsPodium)
+        {
+            button.gameObject.SetActive(true);
+        }
+
         _playerController = _animator.runtimeAnimatorController;
         _animator.runtimeAnimatorController = _poseController;
 
@@ -144,7 +144,10 @@ public class PodiumController : MiniGame
         base.EndMiniGame(true);
 
         // Hide canvas and reset player animator
-        _buttons.SetActive(false);
+        foreach (var button in _buttonsPodium)
+        {
+            button.gameObject.SetActive(false);
+        }
         _animator.runtimeAnimatorController = _playerController;
 
         // Reset variables for next run
@@ -165,6 +168,8 @@ public class PodiumController : MiniGame
         // Turn off current camera
         GameManager.Instance.CurrentCamera.gameObject.SetActive(false);
 
+
+
         // Move player into position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
@@ -173,6 +178,8 @@ public class PodiumController : MiniGame
         }
 
         // Set player rig
+        // Reference:
+        // https://forum.unity.com/threads/need-to-set-bindings-at-runtime.851503/
         TimelineAsset timeline = _cutscene01.playableAsset as TimelineAsset;
         var trackList = timeline.GetOutputTracks();
 

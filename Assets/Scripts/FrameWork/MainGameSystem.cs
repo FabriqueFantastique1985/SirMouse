@@ -52,12 +52,12 @@ public class MainGameSystem : GameSystem
         if (Input.GetMouseButton(0) && _onCooldown == false)
         {
             Vector3 currentTarget = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(currentTarget);
+            Ray ray = Camera.allCameras[0].ScreenPointToRay(currentTarget);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask))
             {
-                Debug.DrawLine(Camera.main.transform.position, hit.point);
+                Debug.DrawLine(Camera.allCameras[0].transform.position /*Camera.main.transform.position*/, hit.point);
 
                 // Test if the raycats hit one of the ground colliders
                 for (int i = 0; i < _groundColliders.Length; i++)

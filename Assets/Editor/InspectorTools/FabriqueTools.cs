@@ -89,7 +89,7 @@ public class FabriqueTools : EditorWindow
     
     private static void AlignCamera()
     {
-        var mainCamera = Camera.main;
+        var mainCamera = Camera.allCameras[0];
         
         var camera = SceneView.lastActiveSceneView;
         camera.pivot = mainCamera.transform.position;
