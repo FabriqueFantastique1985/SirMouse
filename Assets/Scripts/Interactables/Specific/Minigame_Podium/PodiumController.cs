@@ -22,6 +22,9 @@ public class PodiumController : MiniGame
     [SerializeField]
     private Canvas _canvas;
 
+    [SerializeField]
+    private Interactable _interactable;
+
     [Header ("Cutscene 01 information and references")]
     [SerializeField]
     private PlayableDirector _cutscene01;
@@ -162,6 +165,9 @@ public class PodiumController : MiniGame
 
     public void SetPlayerReference()
     {
+        // Turn off shine
+        _interactable.IsShineActive = false;
+
         // Turn off current camera
         GameManager.Instance.CurrentCamera.gameObject.SetActive(false);
 
@@ -189,6 +195,9 @@ public class PodiumController : MiniGame
 
     public void PodiumEnd()
     {
+        // Turn on shine
+        _interactable.IsShineActive = true;
+
         // Move player back to original position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {

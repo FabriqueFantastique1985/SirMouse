@@ -69,8 +69,15 @@ public class Interactable : MonoBehaviour, IDataPersistence
         get => _interactions;
     }
 
+    public bool IsShineActive { get; set; }
+
     #endregion
-    
+
+    private void Awake()
+    {
+        IsShineActive = _isShineActive;
+    }
+
     private void Start()
     {
         InteractionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
@@ -141,7 +148,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
         while (_isShineActive)
         {
             float timer = -1f;
-            while (timer < shineDelay + showTime)
+            while (timer < shineDelay + showTime && IsShineActive)
             {
                 timer += Time.deltaTime;
 
@@ -152,6 +159,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
                 yield return null;
             }
+            yield return null;
         }
     }
 
