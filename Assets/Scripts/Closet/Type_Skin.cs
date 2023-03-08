@@ -11,5 +11,6 @@ public enum Type_Skin
 
     Chicken = 1,
     Ostrich = 2,
-    Pyjama = 3
+    Pyjama = 3,
+    blacksmith = 4
 }
