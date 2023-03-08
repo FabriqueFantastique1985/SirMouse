@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class PodiumController : MiniGame
 {
+    public delegate void PodiumControllerDelegate();
+    public event PodiumControllerDelegate OnPoseTaken;
+    public event PodiumControllerDelegate OnMiniGameEnded;
+
     [SerializeField]
     List<ButtonPodium> _buttonsPodium = new List<ButtonPodium>();
 
     [SerializeField]
-    private float _noInputTimer;
+    private float _poseTimer;
+
+    [SerializeField]
+    private int _amountOfPosesRequired = 4;
 
     [SerializeField]
     private Canvas _canvas;
+    [SerializeField]
+    private GameObject _buttons;
 
     [Header("Player")]
     [SerializeField]
@@ -30,6 +39,15 @@ public class PodiumController : MiniGame
     private bool _isMinigameActive = false;
     private bool _isPlayingAnimation = false;
 
+    public int AmountOfPosesRequired
+    {
+        get { return _amountOfPosesRequired; }
+    }
+    public int AmountOfPosesTaken
+    {
+        get { return _buttonClickedAmount; }
+    }
+
     private void Start()
     {
         foreach(var button in _buttonsPodium)
@@ -38,7 +56,7 @@ public class PodiumController : MiniGame
         }
 
         _canvas.worldCamera = Camera.main;
-        _canvas.gameObject.SetActive(false);
+        _buttons.SetActive(false);
 
         _animator = GameManager.Instance.Player.Character.AnimatorRM;
         _playerObject = GameManager.Instance.Player.gameObject;
@@ -69,15 +87,10 @@ public class PodiumController : MiniGame
         _isPlayingAnimation = true;
 
         button.PlayAnimation();
-
         ++_buttonClickedAmount;
-        
-        if (_buttonClickedAmount < 4)
-        {
-            StartCoroutine(ClickTimer());
-            return;
-        }
-        StartCoroutine(OnButtonsClicked());
+        _buttonClickedAmount = Mathf.Clamp(_buttonClickedAmount, 0, _amountOfPosesRequired);
+
+        OnPoseTaken?.Invoke();
     }
 
     public override void StartMiniGame()
@@ -92,7 +105,7 @@ public class PodiumController : MiniGame
         base.StartMiniGame();
 
         // Set canvas and player animator controller
-        _canvas.gameObject.SetActive(true);
+        _buttons.SetActive(true);
         _playerController = _animator.runtimeAnimatorController;
         _animator.runtimeAnimatorController = _poseController;
 
@@ -109,16 +122,16 @@ public class PodiumController : MiniGame
 
     private IEnumerator ClickTimer()
     {
-        int amount = _buttonClickedAmount;
-        yield return new WaitForSeconds(_noInputTimer);
+        yield return new WaitForSeconds(_poseTimer);
 
-        if (amount == _buttonClickedAmount)
+        while (_isPlayingAnimation)
         {
-            EndMiniGame(false);
+            yield return null;
         }
+        EndMiniGame();
     }
 
-    private void EndMinigame(bool hasSucceeded)
+    private void EndMiniGame()
     {
         // Check if minigame is actually running
         if (!_isMinigameActive)
@@ -127,10 +140,10 @@ public class PodiumController : MiniGame
         }
         _isMinigameActive = false;
 
-        base.EndMiniGame(hasSucceeded);
+        base.EndMiniGame(true);
 
         // Hide canvas and reset player animator
-        _canvas.gameObject.SetActive(false);
+        _buttons.SetActive(false);
         _animator.runtimeAnimatorController = _playerController;
 
         // Reset variables for next run
@@ -143,14 +156,6 @@ public class PodiumController : MiniGame
         }
 
         GameManager.Instance.EnterMainGameSystem();
-    }
-
-    private IEnumerator OnButtonsClicked()
-    {
-        while (_isPlayingAnimation)
-        {
-            yield return null;
-        }
-        EndMinigame(true);
+        OnMiniGameEnded?.Invoke();
     }
 }

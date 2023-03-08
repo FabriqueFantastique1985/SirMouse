@@ -17,6 +17,8 @@ public class SkinsMouseController : MonoBehaviour
     public List<SkinPieceElement> EquipedSkinPieces = new List<SkinPieceElement>();
     public List<SkinPieceElement> EquipedSkinPiecesUI = new List<SkinPieceElement>(); // iterate over this list
 
+    Dictionary<Type_Body, int> _bodyPiecesScore = new Dictionary<Type_Body, int>();
+
     #region SkinPiecesFields
 
     [Header("Skins on player Rig")]
@@ -88,6 +90,14 @@ public class SkinsMouseController : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        _bodyPiecesScore.Clear();
+        for (int i = 1; i < System.Enum.GetValues(typeof(Type_Body)).Length; ++i)
+        {
+            _bodyPiecesScore.Add((Type_Body)i, 0);
+        }
+    }
 
     #region Public Functions
     // called on the interaction add...
@@ -412,9 +422,17 @@ public class SkinsMouseController : MonoBehaviour
     private void DebugConsoleScore()
     {
         int totalScore = 0;
+
+        // Set correct score for each body part in dictionary
         for (int i = 0; i < EquipedSkinPieces.Count; i++)
         {
-            totalScore += EquipedSkinPieces[i].ScoreValue;             
+            _bodyPiecesScore[EquipedSkinPieces[i].MyBodyType] = EquipedSkinPieces[i].ScoreValue;
+        }
+
+        // Loop over dictionary and add to total score
+        foreach (var item in _bodyPiecesScore)
+        {
+            totalScore += item.Value;
         }
 
         ScoreTotal = totalScore;
