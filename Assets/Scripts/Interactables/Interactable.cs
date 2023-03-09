@@ -148,17 +148,18 @@ public class Interactable : MonoBehaviour, IDataPersistence
         while (_isShineActive)
         {
             float timer = -1f;
-            while (timer < shineDelay + showTime && IsShineActive)
+            _spriteRenderer.material.SetFloat("_ScrollTime", timer);
+            
+            while (timer < (shineDelay + showTime) && IsShineActive)
             {
                 timer += Time.deltaTime;
-
                 if (timer < showTime)
                 {
                     _spriteRenderer.material.SetFloat("_ScrollTime", timer);
                 }
-
                 yield return null;
             }
+            
             yield return null;
         }
     }
