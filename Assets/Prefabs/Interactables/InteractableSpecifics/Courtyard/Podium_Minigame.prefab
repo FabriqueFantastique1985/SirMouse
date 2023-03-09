@@ -817,6 +817,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1062440745}
+          m_MethodName: ResetScore
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1009252617
 GameObject:
   m_ObjectHideFlags: 0
@@ -2885,7 +2896,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1283598490383477841
+--- !u!114 &1025691054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2894,15 +2905,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2395821327001616315}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4922b6584280c144d86e96cc6e945702, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ac20f8fd52d83c499cfef35e90e7f77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteObjectInteractionInBalloon: {fileID: 2395821327322369782}
+  _spriteObjectInteractionInBalloon: {fileID: 2395821327001616315}
   _instantActions: []
   _useNewChain: 0
   _chainActions: []
   _chainActionsMono: []
-  _podiumController: {fileID: 4988200414135507432}
 --- !u!1 &2725225135230356831
 GameObject:
   m_ObjectHideFlags: 0
@@ -4146,6 +4156,7 @@ MonoBehaviour:
   - {fileID: 1523738046890209188}
   - {fileID: 4988200413773605028}
   - {fileID: 4988200414099391229}
+  _isLooping: 1
   _buttonsPodium:
   - {fileID: 3188953777630351386}
   - {fileID: 4463222242515437345}
@@ -4156,10 +4167,10 @@ MonoBehaviour:
   _canvas: {fileID: 2995687503466213922}
   _interactable: {fileID: 1638730540897473886}
   _cutscene01: {fileID: 2049936885}
-  _playerTrackName: PlayerAnimation
   _cutscene03: {fileID: 946572537}
+  _playerTrackName: PlayerAnimation
   _playerLocation: {fileID: 2102266434}
-  _poseController: {fileID: 9100000, guid: 009375b28d623e44dbbf233d94b402b2, type: 2}
+  _podiumAnimator: {fileID: 9100000, guid: 009375b28d623e44dbbf233d94b402b2, type: 2}
 --- !u!114 &1160993314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5791,7 +5802,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _interactions.Array.data[0]
       value: 
-      objectReference: {fileID: 1283598490383477841}
+      objectReference: {fileID: 1025691054}
     - target: {fileID: 6626361886463770140, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_IsActive
@@ -5817,6 +5828,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034303488882032951, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+        type: 3}
+      propertyPath: _animPop2
+      value: Balloon_Pop
       objectReference: {fileID: 0}
     - target: {fileID: 8034303488882032951, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
@@ -5927,12 +5943,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6e1713067015745bd1b468db578f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2395821327322369782 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8034303490054902614, guid: c96cc19a541c95c4fa33a5e4a5d357df,
-    type: 3}
-  m_PrefabInstance: {fileID: 5638575699338829216}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1638730540897473886 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6412507977176746238, guid: c96cc19a541c95c4fa33a5e4a5d357df,
@@ -5945,15 +5955,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 811a002b75b6bc746a7308289b451d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2395821327001616315 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8034303490400576027, guid: c96cc19a541c95c4fa33a5e4a5d357df,
-    type: 3}
-  m_PrefabInstance: {fileID: 5638575699338829216}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2395821327001616316 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8034303490400576028, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+    type: 3}
+  m_PrefabInstance: {fileID: 5638575699338829216}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2395821327001616315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8034303490400576027, guid: c96cc19a541c95c4fa33a5e4a5d357df,
     type: 3}
   m_PrefabInstance: {fileID: 5638575699338829216}
   m_PrefabAsset: {fileID: 0}

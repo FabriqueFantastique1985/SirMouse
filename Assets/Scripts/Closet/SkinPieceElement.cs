@@ -30,8 +30,10 @@ public class SkinPieceElement : MonoBehaviour
 
     private void Start()
     {
-        //Assert.IsFalse(_maxScore == 0f, "MaxScore was 0!");
-        ScoreValue = Mathf.Clamp(ScoreValue, 0, _maxScore);
+        if (_maxScore > 0)
+        {
+            ScoreValue = Mathf.Clamp(ScoreValue, 0, _maxScore);
+        }
     }
     #endregion
 }
