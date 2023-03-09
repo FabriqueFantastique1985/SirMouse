@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Assertions;
 
 [Serializable]
 public class SkinPieceElement : MonoBehaviour
@@ -15,8 +15,23 @@ public class SkinPieceElement : MonoBehaviour
     [Header("To Assign only in Closet Buttons")]
     public int ScoreValue;
 
-    private void Awake()
+    #region SetScoreValue
+    private static int _maxScore = 0;
+    public static int MaxScore
     {
-        ScoreValue = Mathf.Clamp(ScoreValue, 0, 10);
+        get { return _maxScore; }
+        set 
+        {
+            if (value <= 0 || _maxScore != 0)
+                return;
+            _maxScore = value;
+        }
     }
+
+    private void Start()
+    {
+        //Assert.IsFalse(_maxScore == 0f, "MaxScore was 0!");
+        ScoreValue = Mathf.Clamp(ScoreValue, 0, _maxScore);
+    }
+    #endregion
 }

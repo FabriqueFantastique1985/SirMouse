@@ -19,6 +19,9 @@ public class CountScore : MonoBehaviour
     private Interactable _interactable;
 
     [SerializeField]
+    private int _maxScoreValue = 10;
+
+    [SerializeField]
     AnimationCurve _curve;
     [SerializeField]
     PlayableDirector _cutscene;
@@ -38,6 +41,7 @@ public class CountScore : MonoBehaviour
     private void Awake()
     {
         Assert.IsFalse(_sliderSpeed == 0f, "Sliderspeed was 0!");
+        SkinPieceElement.MaxScore = _maxScoreValue;
     }
 
     private void Start()
@@ -58,13 +62,14 @@ public class CountScore : MonoBehaviour
     private void OnMiniGameEnded()
     {
         _slider.gameObject.SetActive(false);
+        StopAllCoroutines();
         _slider.value = 0f;
     }
 
     public void OnShowSlider()
     {
         CountOutfitScore();
-        StartCoroutine(DisplayScore(_outfitScore));
+        StartCoroutine(DisplayScore(_outfitScore, 0.6f));
         _slider.gameObject.SetActive(true);
     }
 
@@ -72,40 +77,23 @@ public class CountScore : MonoBehaviour
     {
         _outfitScore = SkinsMouseController.Instance.ScoreTotal;
         float outfitAmount = (float)System.Enum.GetValues(typeof(Type_Body)).Length - 1f;
-        float maxScoreValue = 10f;
         if (outfitAmount != 0)
         {
-            _outfitScore = (int)((float)_outfitScore / (outfitAmount * maxScoreValue) * (float)_outfitPercentage);
+            _outfitScore = (int)((float)_outfitScore / (outfitAmount * _maxScoreValue) * (float)_outfitPercentage);
         }
     }
 
-    private IEnumerator DisplayScore(int scoreAmount)
+    private IEnumerator DisplayScore(int scoreAmount, float waitTime = 0f)
     {
-        //while (_slider.value < scoreAmount / 100f)
-        //{
-        //    yield return new WaitForSeconds(0.01f / _sliderSpeed);
-        //    _slider.value += 0.001f * _sliderSpeed;
-        //}
-
-        // https://answers.unity.com/questions/1817160/how-to-lerp-health-slider.html
-        //float displayTime = 5f;
-        //float timeScale = 0f;
-        //while (timeScale < 1f)
-        //{
-        //    timeScale += Time.deltaTime / displayTime;
-        //    _slider.value = Mathf.Lerp(_slider.value, scoreAmount / 100f, timeScale);
-        //    yield return null;
-        //}
+        yield return new WaitForSeconds(waitTime);
 
         // Reference:
         // https://answers.unity.com/questions/966356/move-object-and-slow-down-near-end.html
         float target = scoreAmount / 100f;
-        //PlayableDirector obj;
-        //obj.duration;
         while (_slider.value < target)
         {
             float speed = _curve.Evaluate(_slider.value / target);
-            _slider.value += speed * target * Time.deltaTime;
+            _slider.value += speed * target * Time.deltaTime * _sliderSpeed / 2f;
             yield return null;
         }
     }

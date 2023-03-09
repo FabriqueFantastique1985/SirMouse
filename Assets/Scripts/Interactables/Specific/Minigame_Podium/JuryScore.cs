@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class JuryScore : MonoBehaviour
 {
@@ -11,9 +12,6 @@ public class JuryScore : MonoBehaviour
     private PodiumController _podiumController;
     [SerializeField]
     private CountScore _scoreController;
-
-    [SerializeField]
-    private float _scoreDisplayDelay = 1f;
 
     [SerializeField]
     private int _starMinimum;
@@ -57,6 +55,17 @@ public class JuryScore : MonoBehaviour
             if (score - 1  < _juryBoardScores[i].transform.childCount)
             {
                 _juryBoardScores[i].transform.GetChild(score - 1).gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void ResetScore()
+    {
+        foreach (var juryBoard in _juryBoardScores)
+        {
+            for (int i = 0; i < juryBoard.transform.childCount; i++)
+            {
+                juryBoard.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }

@@ -6,48 +6,43 @@ using UnityEngine.Timeline;
 
 public class PodiumController : MiniGame
 {
+    #region Events
     public delegate void PodiumControllerDelegate();
     public event PodiumControllerDelegate OnPoseTaken;
     public event PodiumControllerDelegate OnMiniGameEnd;
+    #endregion
 
-    [SerializeField]
-    List<ButtonPodium> _buttonsPodium = new List<ButtonPodium>();
+    #region Fields
+    [SerializeField] List<ButtonPodium> _buttonsPodium = new List<ButtonPodium>();
 
-    [SerializeField]
-    private float _poseTimer;
+    [SerializeField] private float _poseTimer;
+    [SerializeField] private int _amountOfPosesRequired = 4;
 
-    [SerializeField]
-    private int _amountOfPosesRequired = 4;
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private Interactable _interactable;
 
-    [SerializeField]
-    private Canvas _canvas;
-
-    [SerializeField]
-    private Interactable _interactable;
-
-    [Header ("Cutscene 01 information and references")]
-    [SerializeField]
-    private PlayableDirector _cutscene01;
-    [SerializeField]
-    private string _playerTrackName;
-
+    [Header ("Cutscene information")]
+    [SerializeField] private PlayableDirector _cutscene01;
+    [SerializeField] private PlayableDirector _cutscene03;
+    [SerializeField] private string _playerTrackName;
+    
     [Header("Player")]
-    [SerializeField]
-    private Transform _playerLocation;
+    [SerializeField] private Transform _playerLocation;
 
-    [SerializeField]
-    private RuntimeAnimatorController _poseController;
+    [SerializeField] private RuntimeAnimatorController _podiumAnimator;
     private RuntimeAnimatorController _playerController;
 
-    private int _buttonClickedAmount;
+    private List<Vector3> _playerChildTransforms = new List<Vector3>();
     private Animator _animator;
     private GameObject _playerObject;
 
-    private List<Vector3> _childTransforms = new List<Vector3>();
+    private int _buttonClickedAmount;
 
     private bool _isMinigameActive = false;
     private bool _isPlayingAnimation = false;
+    #endregion
 
+    #region Properites
     public int AmountOfPosesRequired
     {
         get { return _amountOfPosesRequired; }
@@ -56,6 +51,7 @@ public class PodiumController : MiniGame
     {
         get { return _buttonClickedAmount; }
     }
+    #endregion
 
     private void Start()
     {
@@ -100,30 +96,6 @@ public class PodiumController : MiniGame
         OnPoseTaken?.Invoke();
     }
 
-    public override void StartMiniGame()
-    {
-        // Check if minigame is already running
-        if (_isMinigameActive)
-        {
-            return;
-        }
-        _isMinigameActive = true;
-
-        base.StartMiniGame();
-
-        // Set canvas and player animator controller
-        foreach (var button in _buttonsPodium)
-        {
-            button.gameObject.SetActive(true);
-        }
-
-        _playerController = _animator.runtimeAnimatorController;
-        _animator.runtimeAnimatorController = _poseController;
-
-        GameManager.Instance.EnterMiniGameSystem();
-        StartCoroutine(ClickTimer());
-    }
-
     private IEnumerator ClickTimer()
     {
         yield return new WaitForSeconds(_poseTimer);
@@ -156,10 +128,6 @@ public class PodiumController : MiniGame
         // Reset variables for next run
         _buttonClickedAmount = 0;
 
-        // TEMP
-        PodiumEnd();
-
-        GameManager.Instance.EnterMainGameSystem();
         OnMiniGameEnd?.Invoke();
     }
 
@@ -174,21 +142,29 @@ public class PodiumController : MiniGame
         // Move player into position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
-            _childTransforms.Add(_playerObject.transform.GetChild(i).position);
+            _playerChildTransforms.Add(_playerObject.transform.GetChild(i).position);
             _playerObject.transform.GetChild(i).position = _playerLocation.position;
         }
 
         // Set player rig
+        SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
+        SetPlayerReference(_cutscene03, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
+
+        GameManager.Instance.EnterMiniGameSystem();
+    }
+
+    public void SetPlayerReference(PlayableDirector director, Animator animator, string trackName)
+    {
         // Reference:
         // https://forum.unity.com/threads/need-to-set-bindings-at-runtime.851503/
-        TimelineAsset timeline = _cutscene01.playableAsset as TimelineAsset;
+        TimelineAsset timeline = director.playableAsset as TimelineAsset;
         var trackList = timeline.GetOutputTracks();
 
         foreach (var track in trackList)
         {
-            if (track.name == _playerTrackName)
+            if (track.name == trackName)
             {
-                _cutscene01.SetGenericBinding(track, GameManager.Instance.Player.Character.AnimatorRM);
+                director.SetGenericBinding(track, animator);
             }
         }
     }
@@ -201,7 +177,35 @@ public class PodiumController : MiniGame
         // Move player back to original position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
-            _playerObject.transform.GetChild(i).position = _childTransforms[i];
+            _playerObject.transform.GetChild(i).position = _playerChildTransforms[i];
         }
+
+        // Turn on player camera
+        GameManager.Instance.CurrentCamera.gameObject.SetActive(true);
+
+        GameManager.Instance.EnterMainGameSystem();
+    }
+
+    public override void StartMiniGame()
+    {
+        // Check if minigame is already running
+        if (_isMinigameActive)
+        {
+            return;
+        }
+        _isMinigameActive = true;
+
+        base.StartMiniGame();
+
+        // Set canvas and player animator controller
+        foreach (var button in _buttonsPodium)
+        {
+            button.gameObject.SetActive(true);
+        }
+
+        _playerController = _animator.runtimeAnimatorController;
+        _animator.runtimeAnimatorController = _podiumAnimator;
+
+        StartCoroutine(ClickTimer());
     }
 }
