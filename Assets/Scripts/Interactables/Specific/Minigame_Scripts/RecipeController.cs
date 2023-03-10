@@ -219,7 +219,8 @@ public class RecipeController : MiniGame
     {
         base.EndMiniGame(completeSuccesfully);
 
-        RewardController.Instance.GiveReward(_skinsToReward);
+        if (completeSuccesfully)
+            RewardController.Instance.GiveReward(_skinsToReward);
 
         StartCoroutine(EndMiniGameCoroutine());
     }

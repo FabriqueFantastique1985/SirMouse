@@ -21,6 +21,7 @@ public class Touch_Transform : Touch_Action
     protected override void Start()
     {
         base.Start();
+
         _touchableScript.Collider = _baseCollider;
         _secondCollider.enabled = false;
     }
@@ -29,11 +30,13 @@ public class Touch_Transform : Touch_Action
     {
         base.Act();
 
+        // Toggle between base and second sprite and collider
         if (_isBase)
         {
             _spriteRenderer.sprite = _second;
             _touchableScript.Collider = _secondCollider;
             _baseCollider.enabled = false;
+
             _isBase = false;
         }
         else
@@ -41,8 +44,8 @@ public class Touch_Transform : Touch_Action
             _spriteRenderer.sprite = _base;
             _touchableScript.Collider = _baseCollider;
             _secondCollider.enabled = false;
+
             _isBase = true;
         }
     }
-
 }
