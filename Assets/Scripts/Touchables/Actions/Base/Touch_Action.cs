@@ -26,16 +26,6 @@ public class Touch_Action : MonoBehaviour
     protected virtual void Start()
     {
         _touchableScript = GetComponent<Touchable>();
-
-        //var audioControl = AudioController.Instance;
-        //foreach (AudioElement audioEm in AudioElements) // old logic (to remove ?)
-        //{
-        //    if (audioEm.Clip != null)
-        //    {
-        //        // there exists 1 Type more than there are Tracks -> move down by 1
-        //        audioControl.AddAudioElement(audioEm);
-        //    }
-        //}
     }
 
 

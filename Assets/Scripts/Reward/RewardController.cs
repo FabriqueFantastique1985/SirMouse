@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityCore.Audio;
 using UnityCore.Menus;
 using UnityEngine;
@@ -15,15 +17,11 @@ public class RewardController : MonoBehaviour
     [SerializeField]
     private GameObject _visualOfAnimatorSkinPiece;
 
+    [Header("Confettis")]
     [SerializeField]
-    private Animator _confettiController, _confettiControllerMirrored;
-    [SerializeField]
-    private Animator _confettiController2, _confettiControllerMirrored2;
-    [SerializeField]
-    ParticleSystem _confetti, _confettiMirrored;
+    private List<ParticleSystem> _confettis = new List<ParticleSystem>();
 
     [Header("Sounds")]
-
     [SerializeField]
     private AudioElement _soundEffectExplosion;
     [SerializeField]
@@ -37,7 +35,6 @@ public class RewardController : MonoBehaviour
 
     private const string _animPopIn = "UI_Reward_Pop_In";
     private const string _triggerPopOut = "PopOut";
-    private const string _animConfetti = "Anim_Confetti";
 
 
     private void Awake()
@@ -103,12 +100,7 @@ public class RewardController : MonoBehaviour
     private IEnumerator PlayAnimations(List<GameObject> instantiatedObjects)
     {
         // CONFETTI
-        //_confettiController.Play(_animConfetti);
-        //_confettiControllerMirrored.Play(_animConfetti);
-        //_confettiController2.Play(_animConfetti);
-        //_confettiControllerMirrored2.Play(_animConfetti);
-        _confetti.Play();
-        _confettiMirrored.Play();
+        PlayConfetti();
 
         // pop in explosion
         _animatorExplosion.Play(_animPopIn);
@@ -166,4 +158,28 @@ public class RewardController : MonoBehaviour
         // tone down audio of OST
         AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
     }
+
+    public void PlayConfetti(Type_Confetti confettiType = Type_Confetti.Normal)
+    {
+        var highestValue = Enum.GetValues(typeof(Type_Confetti)).Cast<Type_Confetti>().Max();
+
+        for (int i = 0; i < (int)highestValue; i++)
+        {
+            if (i == (int)confettiType)
+            {
+                _confettis[i].Play();
+                break;
+            }
+        }
+    }
+}
+
+
+
+public enum Type_Confetti
+{
+    Normal = 0,
+    Leaves = 1,
+    Flowers = 2,
+    Popcorn = 3
 }

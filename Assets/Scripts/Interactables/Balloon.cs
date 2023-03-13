@@ -102,6 +102,8 @@ public class Balloon : MonoBehaviour, IClickable
     {
         gameObject.SetActive(true);
         if (_balloonAnimator != null) _balloonAnimator.Play(_animFloat);
+
+        BalloonTrigger.enabled = true;
     }
     
     public void Hide()

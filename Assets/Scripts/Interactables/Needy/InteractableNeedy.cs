@@ -5,6 +5,11 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
+
+/// <summary>
+///  Interactable needy VS Interactable
+///                    ----
+/// </summary>
 public class InteractableNeedy : MonoBehaviour, IDataPersistence
 {
     #region Events
@@ -24,24 +29,16 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
         id = System.Guid.NewGuid().ToString();
     }
 
-    /// <summary>
-    /// Balloon used to execute an interaction.
-    /// </summary>
+    // Balloon used to execute an interaction.
     [Header("Balloon components")]
     public Balloon InteractionBalloon;
 
-    /// <summary>
-    /// Balloon used to scroll between the interactions
-    /// </summary>
-    [SerializeField]
-    private Balloon _swapBalloon;
+    // Balloon used to show what items I want.
+    public BalloonNeedy NeedyBalloon;
 
-    [Header("Assign proper type if I have a pickup interaction")]
-    public Type_Pickup MyPickupType;
+    private bool _gotAllPrerequisites;
 
-    /// <summary>
-    /// List of possible interactions with this interactable
-    /// </summary>
+    // List of possible interactions with this interactable  ==> this case 1 interaction for donating the said items
     [SerializeField]
     private List<Interaction> _interactions = new List<Interaction>();
 
@@ -73,13 +70,10 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-        InteractionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
-        InteractionBalloon.gameObject.SetActive(false);
-
-        if (_swapBalloon != null)
+        if (InteractionBalloon != null)
         {
-            _swapBalloon.OnBalloonClicked += OnInteractSwapBalloonClicked;
-            _swapBalloon.gameObject.SetActive(false);
+            InteractionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
+            InteractionBalloon.gameObject.SetActive(false);
         }
 
         if (_spriteRenderer)
@@ -94,8 +88,15 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
 
     protected virtual void Initialize()
     {
-        // extra method that inheriting classes can use to still use the Start function
-        InteractionBalloon.SetSprite(_interactions[0].SpriteObjectInteractionBalloon);
+        if (InteractionBalloon != null)
+        {
+            InteractionBalloon.SetSprite(_interactions[0].SpriteObjectInteractionBalloon);
+        }
+
+        if (NeedyBalloon != null)
+        {
+            NeedyBalloon.gameObject.SetActive(false);
+        }
     }
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
@@ -111,13 +112,32 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
     }
 
-    protected virtual void OnInteractSwapBalloonClicked(Balloon sender, Player player)
-    {
-        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
 
-        // update sprites & int
-        AdjustInteraction();
+    // these get overriden in inheriting classes
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        var player = other.transform.GetComponent<Player>();
+        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
+        {
+            // if I have all the required objects (bool GotAllPrerequisites)
+            if (_gotAllPrerequisites == true)
+            {
+
+            }
+
+            // show interactBalloon 
+            ShowInteractionBalloon();
+        }
     }
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        var player = other.transform.GetComponent<Player>();
+        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
+        {
+            HideInteractionBalloon();
+        }
+    }
+
 
     #endregion
 
@@ -156,52 +176,28 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
     }
 
 
-    // current way of adjusting interaction will not always work
-    // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
-    private void AdjustInteraction()
-    {
-        _currentInteractionIndex = (_currentInteractionIndex + 1) % _interactions.Count;
-        InteractionBalloon.SetSprite(_interactions[_currentInteractionIndex].SpriteObjectInteractionBalloon);
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        var player = other.transform.GetComponent<Player>();
-        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
-        {
-            ShowInteractionBalloon();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        var player = other.transform.GetComponent<Player>();
-        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
-        {
-            HideInteractionBalloon();
-        }
-    }
-
-    private void ShowInteractionBalloon()
+    protected void ShowInteractionBalloon()
     {
         // No balloon required when there are no interactions
         if (_interactions.Count <= 0) return;
 
         InteractionBalloon.Show();
-
-        // Swap balloon is required if there's more than one interaction
-        if (_interactions.Count > 1) _swapBalloon.Show();
     }
-
-    private void HideInteractionBalloon()
+    protected void ShowNeedyBalloon()
+    {
+        NeedyBalloon.Show();
+    }
+    protected void HideInteractionBalloon()
     {
         // Nothing to hide if there are no interactions to begin with
         if (_interactions.Count <= 0) return;
 
         InteractionBalloon.Hide();
-
-        // Also hide the swapballoon if there's more than one interaction
-        if (_interactions.Count > 1) _swapBalloon.Hide();
+    }
+    protected void HideNeedyBalloon()
+    {
+        NeedyBalloon.Hide();
     }
 
     #endregion
@@ -214,6 +210,8 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
     }
 
     #endregion
+
+
 
     public void LoadData(GameData data)
     {
