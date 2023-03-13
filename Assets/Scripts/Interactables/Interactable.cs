@@ -47,17 +47,6 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
     protected int _currentInteractionIndex = 0;
 
-    [Header("Shine Properties")]
-    [SerializeField]
-    private SpriteRenderer _spriteRenderer;
-    [SerializeField]
-    private float _shineDelayMin;
-    [SerializeField]
-    private float _shineDelayMax;
-    [SerializeField]
-    private float _shineScale = 1;
-    [SerializeField]
-    private bool _isShineActive;
 
     #region Properties
 
@@ -69,14 +58,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
         get => _interactions;
     }
 
-    public bool IsShineActive { get; set; }
-
     #endregion
-
-    private void Awake()
-    {
-        IsShineActive = _isShineActive;
-    }
 
     private void Start()
     {
@@ -124,54 +106,6 @@ public class Interactable : MonoBehaviour, IDataPersistence
     #endregion
 
     #region Private Functions
-
-    private void OnEnable()
-    {
-        if (_spriteRenderer)
-        {
-            StartCoroutine(MoveShine());
-        }
-    }
-
-    private void OnDisable()
-    {
-        StopAllCoroutines();
-    }
-
-    private IEnumerator MoveShine()
-    {
-        // Set scroll time so shine starts out of view
-        _spriteRenderer.material.SetFloat("_ScrollTime", -1f);
-
-        float scrollSpeed = _spriteRenderer.material.GetFloat("_ScrollSpeed");
-        float showTime = 1f / scrollSpeed;
-
-        Assert.AreNotEqual(_shineScale, 0f);
-        _spriteRenderer.material.SetFloat("_Scale", _shineScale);
-
-        // Delay shine at game start
-        float shineDelay = UnityEngine.Random.Range(_shineDelayMin, _shineDelayMax);
-        yield return new WaitForSeconds(shineDelay);
-        
-        while (_isShineActive)
-        {
-            float timer = -1f;
-            _spriteRenderer.material.SetFloat("_ScrollTime", timer);
-            
-            while (timer < (shineDelay + showTime) && IsShineActive)
-            {
-                timer += Time.deltaTime;
-                if (timer < showTime)
-                {
-                    _spriteRenderer.material.SetFloat("_ScrollTime", timer);
-                }
-                yield return null;
-            }
-            
-            yield return null;
-        }
-    }
-
 
     // current way of adjusting interaction will not always work
     // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
