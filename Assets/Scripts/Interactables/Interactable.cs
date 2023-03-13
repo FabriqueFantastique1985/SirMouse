@@ -89,11 +89,6 @@ public class Interactable : MonoBehaviour, IDataPersistence
             _swapBalloon.gameObject.SetActive(false);
         }
 
-        if (_spriteRenderer)
-        {
-            StartCoroutine(MoveShine());
-        }
-
         Initialize();
     }
 
@@ -129,6 +124,19 @@ public class Interactable : MonoBehaviour, IDataPersistence
     #endregion
 
     #region Private Functions
+
+    private void OnEnable()
+    {
+        if (_spriteRenderer)
+        {
+            StartCoroutine(MoveShine());
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
 
     private IEnumerator MoveShine()
     {

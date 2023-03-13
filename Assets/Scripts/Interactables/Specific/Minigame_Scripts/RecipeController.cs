@@ -106,8 +106,8 @@ public class RecipeController : MiniGame
     {
         _currentRecipe = MyRecipes[0];
         
-        _startGameInteractable.gameObject.SetActive(IsCurrentStepIndexInRange == false);
         _startGameMissionInteractableDummy.gameObject.SetActive(IsCurrentStepIndexInRange);
+        _startGameInteractable.gameObject.SetActive(IsCurrentStepIndexInRange == false);
         _startGameInteractable.OnInteracted += OnInteractedStartGame;
     }
 
