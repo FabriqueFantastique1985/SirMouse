@@ -11,4 +11,5 @@ public enum Type_Pickup
     Swamp_Mushroom_0 = 4,
     Swamp_MothBalls = 5,
     Candle = 6,
+    Net = 7,
 }
