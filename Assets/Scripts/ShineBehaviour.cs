@@ -1,4 +1,4 @@
-﻿#define USE_CONVERT_TEXTURE
+﻿//#define USE_CONVERT_TEXTURE
 
 using System.Collections;
 using System.Collections.Generic;
@@ -104,7 +104,6 @@ public class ShineBehaviour : MonoBehaviour
         slicedTex.filterMode = sprite.texture.filterMode;
 
 #if USE_CONVERT_TEXTURE
-        Profiler.BeginSample("WithConverting");
         // Converts the imgage only if it has been crunch compressed
         Texture2D originalTex;
         switch (sprite.texture.format)
@@ -120,18 +119,37 @@ public class ShineBehaviour : MonoBehaviour
                 break;
         }
         slicedTex.SetPixels(0, 0, (int)rect.width, (int)rect.height, originalTex.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height));
-        Profiler.EndSample();
-
 #else
-        Profiler.BeginSample("WithoutConverting");
-        slicedTex.SetPixels(0, 0, (int)rect.width, (int)rect.height, GetPixelsInRect(sprite.texture, (int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height));
-        Profiler.EndSample();
+        Color[] colors;
+        switch (sprite.texture.format)
+        {
+            case TextureFormat.DXT1Crunched:
+            case TextureFormat.DXT5Crunched:
+            case TextureFormat.ETC_RGB4Crunched:
+            case TextureFormat.ETC2_RGBA8Crunched:
+                colors = GetPixelsInRect(sprite.texture, (int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+                break;
+            default:
+                colors = sprite.texture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+                break;
+        }
+
+        slicedTex.SetPixels(0, 0, (int)rect.width, (int)rect.height, colors);
 #endif
         slicedTex.Apply();
 
         return slicedTex;
     }
 
+    /// <summary>
+    /// Gets pixels inside given rectangle. Use GetPixels insted if image is not crunched.
+    /// </summary>
+    /// <param name="texture"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <returns></returns>
     private Color[] GetPixelsInRect(Texture2D texture, int x, int y, int width, int height)
     {
         var colors32 = texture.GetPixels32();
