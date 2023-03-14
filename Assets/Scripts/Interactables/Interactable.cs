@@ -115,7 +115,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
         InteractionBalloon.SetSprite(_interactions[_currentInteractionIndex].SpriteObjectInteractionBalloon);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         var player = other.transform.GetComponent<Player>();
         if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
@@ -124,7 +124,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         var player = other.transform.GetComponent<Player>();
         if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !

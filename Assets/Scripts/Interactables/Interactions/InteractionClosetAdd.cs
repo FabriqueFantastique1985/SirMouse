@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(SkinPieceElement))]
 public class InteractionClosetAdd : Interaction
@@ -14,7 +15,7 @@ public class InteractionClosetAdd : Interaction
     private List<SkinPieceElement> _mySkinPieceElements;
 
     public GameObject SpriteParent;
-    public GameObject SkinObjectWithSrite;
+    [FormerlySerializedAs("SkinObjectWithSrite")] public GameObject SkinObjectWithSprite;
 
     public SpriteRenderer SkinSpriteRenderer; // this not needed anymore ?
 
@@ -28,7 +29,7 @@ public class InteractionClosetAdd : Interaction
         }
         else
         {
-            ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
+            ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSprite.transform.parent.gameObject));
         }
         
         //SkinsMouseController.Instance.UnlockSkinPiece(_mySkinPieceElement);
