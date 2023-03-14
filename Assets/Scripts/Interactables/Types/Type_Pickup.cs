@@ -9,5 +9,6 @@ public enum Type_Pickup
     Example_2 = 2,
     Swamp_Bottle_0 = 3,
     Swamp_Mushroom_0 = 4,
-    Swamp_MothBalls = 5       
+    Swamp_MothBalls = 5,
+    Candle = 6,
 }
