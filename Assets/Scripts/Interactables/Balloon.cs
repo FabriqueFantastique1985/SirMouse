@@ -40,11 +40,11 @@ public class Balloon : MonoBehaviour, IClickable
 
     private bool _toggleAnimPop;
 
-    [Header("BalloonSprite")]
+    [Header("Audio")]
     [SerializeField]
     private AudioElement _soundEffectClick;
 
-    [Header("BalloonSprite")]
+    [Header("Sprite in Balloon (not being used)")]
     [SerializeField]
     private Image _objectImageRenderer;
 

@@ -113,11 +113,13 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
     }
 
 
+
+
     // these get overriden in inheriting classes
     protected virtual void OnTriggerEnter(Collider other)
     {
         var player = other.transform.GetComponent<Player>();
-        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
+        if (player != null)  
         {
             // if I have all the required objects (bool GotAllPrerequisites)
             if (_gotAllPrerequisites == true)
@@ -132,7 +134,7 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
     protected virtual void OnTriggerExit(Collider other)
     {
         var player = other.transform.GetComponent<Player>();
-        if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
+        if (player != null)  
         {
             HideInteractionBalloon();
         }

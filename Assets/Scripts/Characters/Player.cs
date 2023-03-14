@@ -147,15 +147,18 @@ public class Player : MonoBehaviour, IClickable
 
     public void Drop()
     {
-        _equippedItem.transform.parent = null;
-        var playerPos = transform.position;
+        if (_equippedItem != null)
+        {
+            _equippedItem.transform.parent = null;
+            var playerPos = transform.position;
 
-        _equippedItem.transform.position = new Vector3(playerPos.x, 0.0f, playerPos.z);
-        _equippedItem.transform.localScale = new Vector3(1, 1, 1 ); // always the same orientation
+            _equippedItem.transform.position = new Vector3(playerPos.x, 0.0f, playerPos.z);
+            _equippedItem.transform.localScale = new Vector3(1, 1, 1); // always the same orientation
 
-        // activate collider again
-        _equippedItem.GetComponent<Collider>().enabled = true;
-        _equippedItem.InteractionBalloon.BalloonTrigger.enabled = true;
+            // activate collider again
+            _equippedItem.GetComponent<Collider>().enabled = true;
+            _equippedItem.InteractionBalloon.BalloonTrigger.enabled = true;
+        }
 
         _equippedItem = null;
         _equippedPickupType = Type_Pickup.None;

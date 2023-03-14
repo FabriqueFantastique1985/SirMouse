@@ -13,16 +13,24 @@ public class InteractionClosetAdd : Interaction
     [SerializeField]
     private List<SkinPieceElement> _mySkinPieceElements;
 
+    public GameObject SpriteParent;
     public GameObject SkinObjectWithSrite;
-    public SpriteRenderer SkinSpriteRenderer;
+
+    public SpriteRenderer SkinSpriteRenderer; // this not needed anymore ?
 
     protected override void SpecificAction(Player player)
     {
         base.SpecificAction(player);
 
-        //ClosetController.Instance.StartCoroutine(ClosetController.Instance.ForceObjectInCloset(this, SkinObjectWithSrite.transform.localScale.x));
-        ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
-
+        if (SpriteParent != null)
+        {
+            ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SpriteParent));
+        }
+        else
+        {
+            ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSrite.transform.parent.gameObject));
+        }
+        
         //SkinsMouseController.Instance.UnlockSkinPiece(_mySkinPieceElement);
 
         RewardController.Instance.GiveReward(_mySkinPieceElements);

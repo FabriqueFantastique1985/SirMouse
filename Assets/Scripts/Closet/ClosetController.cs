@@ -333,6 +333,7 @@ public class ClosetController : MonoBehaviour
 
 
     // duplicate logic from BackpackController
+    /*
     public IEnumerator ForceObjectInCloset(InteractionClosetAdd interactCloset, float scaleForImage = 1)
     {
         // get the world to screen pos of the interactible
@@ -370,6 +371,7 @@ public class ClosetController : MonoBehaviour
 
         yield return null;
     }
+    */
     public IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
     {
         yield return new WaitForSeconds(0.25f);

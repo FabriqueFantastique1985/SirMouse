@@ -352,7 +352,6 @@ namespace UnityCore
                         //Debug.Log("using world track 0..." + trackToUse.Source.gameObject);
                         return trackToUse;
                     default:
-                        Debug.Log("ADAM SANDLER HUHUHUHHUH " + trackToUse.Source.gameObject);
                         Debug.Log("you forgot to add an AudioType to an AudioElement");
                         return null;
                 }

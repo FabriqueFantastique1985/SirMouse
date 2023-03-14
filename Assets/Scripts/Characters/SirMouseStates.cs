@@ -191,13 +191,12 @@ public class BackpackExtractionState : SirMouseState
     private bool _isTwoHandPickup = false;
     private GameObject _pressedButton;
 
-    public BackpackExtractionState(Player player, Interactable pickUpToExtract, Type_Pickup typePickupToExtract, bool isTwoHandPickup = false, GameObject pressedButton = null)
+    public BackpackExtractionState(Player player, Interactable pickUpToExtract, Type_Pickup typePickupToExtract, bool isTwoHandPickup = false)
         : base(player, true)
     {
         _interactableToExtract = pickUpToExtract;
         _typePickupToExtract = typePickupToExtract;
         _isTwoHandPickup = isTwoHandPickup;
-        _pressedButton = pressedButton;
     }
 
     public override void OnEnter(Player player)
@@ -258,6 +257,7 @@ public class BackpackExtractionState : SirMouseState
         if (player.EquippedItem != null)
         {
             var pickupInteraction = player.EquippedItem.GetComponent<PickupInteraction>();
+
             backPack.AddItemToBackpackFromHands(player.EquippedItem, player.EquippedItem.gameObject, player.EquippedPickupType, pickupInteraction.SpriteRenderPickup);
         }
 
