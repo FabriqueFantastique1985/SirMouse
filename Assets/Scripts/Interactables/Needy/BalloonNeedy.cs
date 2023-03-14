@@ -16,7 +16,7 @@ public class BalloonNeedy : MonoBehaviour
     [SerializeField]
     private string _animFloat = "Balloon_Floaty";
 
-    [Header("Balloon sprites")]
+    [Header("Needy Balloon sprites")]
     public List<GameObject> NeedySpriteObjects = new List<GameObject>();
 
     [SerializeField]
