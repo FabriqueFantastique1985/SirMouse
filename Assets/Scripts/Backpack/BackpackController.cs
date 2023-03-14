@@ -119,7 +119,7 @@ public class BackpackController : MonoBehaviour
         // particle poof
 
         // destroy the item
-        Destroy(player.EquippedItem);
+        Destroy(player.EquippedItem.gameObject);
 
         // enter drop state (quickfix for now as this state does what I want )
         player.PushState(new DropState(player));
