@@ -97,6 +97,18 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
         {
             NeedyBalloon.gameObject.SetActive(false);
         }
+
+        var needyBalloons = NeedyBalloon.Needy_Sprites_Wrap.NeedyBalloons;
+        // also disable the full sprite(s) in the balloons needy !!!
+        for (int i = 0; i < needyBalloons.Count; i++)
+        {
+            // for each balloon, iterate over all the needy objects...
+            for (int j = 0; j < needyBalloons[i].NeedyObjects.Count; j++)
+            {
+                // disable the full one (SHOULD THIS DEPEND ON SAVE DATA ???)
+                needyBalloons[i].NeedyObjects[j].SpriteFull.SetActive(false);
+            }
+        }
     }
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
@@ -115,7 +127,7 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
 
 
 
-    // these get overriden in inheriting classes
+    // these get overriden in inheriting classes  !!! (current logic doesn't matter here)
     protected virtual void OnTriggerEnter(Collider other)
     {
         var player = other.transform.GetComponent<Player>();
