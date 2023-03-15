@@ -43,6 +43,9 @@ public class BackpackController : MonoBehaviour
     private ButtonBaseNew _buttonBackpack;
     [SerializeField]
     private ButtonBaseNew _buttonCloset;
+    [Header("Reference UI Overlay")]
+    [SerializeField]
+    private GameObject _buttonBackpackReference;
 
 
     #region Unity Functions
@@ -185,20 +188,24 @@ public class BackpackController : MonoBehaviour
     IEnumerator SetupThrowIntoBag(GameObject interactable, float scaleForImage)
     {
         // get the world to screen pos of the interactible
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactable.transform.position); //
+        Vector2 screenPosition = GameManager.Instance.CurrentCamera.WorldToScreenPoint(interactable.transform.position); //
+        Debug.Log(screenPosition + " screen pos");
         Sprite interactableSprite = interactable.GetComponent<PickupInteraction>().SpriteRenderPickup.sprite; //
 
         var uiImageForBag = Instantiate(_emptyGameobject, _panelInstantiatedUI.transform);
 
+        _objectToMove = uiImageForBag;
+
         var uiImageComponent = uiImageForBag.AddComponent<Image>();
         uiImageComponent.sprite = interactableSprite; //
 
-        //uiImageComponent.SetNativeSize();
+        uiImageComponent.SetNativeSize();
 
         uiImageForBag.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
+        uiImageForBag.transform.position = screenPosition;
 
         // the position of the bag
-        var targetPosition = _buttonBackpack.transform.position;
+        var targetPosition = _buttonBackpackReference.transform.position;
         // Calculate distance to target
         float target_Distance = Vector2.Distance(targetPosition, screenPosition);
 
@@ -211,7 +218,7 @@ public class BackpackController : MonoBehaviour
 
         _startPos = screenPosition;
         _endPos = targetPosition;
-        _objectToMove = uiImageForBag;
+        
 
 
         StartCoroutine(MoveThrownObject(_objectToMove));
@@ -222,6 +229,8 @@ public class BackpackController : MonoBehaviour
     {
         float progress = 0;
         float arcHeight = _arcHeight;
+        bool check1 = false;
+        bool check2 = false;
 
         while (progress < 1.0f)
         {
@@ -233,8 +242,22 @@ public class BackpackController : MonoBehaviour
             Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, progress);
             // Then add a vertical arc in excess of this.
             nextPos.y += parabola * arcHeight;
+
+            if (check1 == false)
+            {
+                Debug.Log(nextPos + " first step");           
+            }
+            if (check1 == true && check2 == false)
+            {
+                Debug.Log(nextPos + " SECOND step");
+                check2 = true;
+            }
+
+            check1 = true;
+
             // Continue as before.                            
             objectChugged.transform.position = nextPos;
+            //objectChugged.transform.localPosition = nextPos;
 
             yield return new WaitForEndOfFrame();
         }
