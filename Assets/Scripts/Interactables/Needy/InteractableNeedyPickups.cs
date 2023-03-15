@@ -37,7 +37,7 @@ public class InteractableNeedyPickups : InteractableNeedy
 
                 // BElOW CAN BE CHECKED FOR IN "InteractionNeedyPickupDelivered"
                 // the previously clicked interaction should remove the sprites in the needy balloon that have been delivered
-                //- to do...
+                //- DONE ?
                 // the previously clicked interaction will then check if heldpickups has been filled 
                 //- DONE ?
                 // if completely filled -> activate another interactable , this interactables' interaction gives a reward

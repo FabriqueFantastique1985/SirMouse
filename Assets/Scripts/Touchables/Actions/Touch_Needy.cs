@@ -13,17 +13,12 @@ public class Touch_Needy : Touch_Action
     {
         base.Act();
 
-        // pop/float up (animation of the spriteParent)
+        // fancy animation (animation of the spriteParent)
 
 
-        // code movement towards _interactableOfInterest (transform of the TouchableNeedy)
-
-
-        // after it arrives, disable the object, add to list
+        // add to list
         _interactableOfInterest.UpdateMyList(_touchableScript);
 
-        Debug.Log("clicked needy");
-
-        //this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false); // this breaks something .....???
     }
 }

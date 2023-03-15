@@ -28,7 +28,11 @@ public class InteractionNeedyPickupDelivered : Interaction
                         buttonPickupsToRemove.Add(buttonOfInterest);
                         _myInteractable.HeldPickups.Add(buttonOfInterest.MyPickupType);
 
-                        Debug.Log(buttonOfInterest.name + " I have been added to the list of things to remove" );
+                        // update needy balloon
+                        _myInteractable.NeedyBalloon.UpdateOneRequiredNeedyPickup(BackpackController.ItemButtonsInBackpack[j].MyPickupType);
+
+
+                        //Debug.Log(buttonOfInterest.name + " I have been added to the list of things to remove" );
 
                         BackpackController.BackpackInstance.RemoveSingularItemFromBackpack(buttonOfInterest);
                         break;
@@ -51,6 +55,9 @@ public class InteractionNeedyPickupDelivered : Interaction
                 _myInteractable.HeldPickups.Add(GameManager.Instance.Player.EquippedPickupType); // check if this becomes None !!!
 
                 Debug.Log("The item in the Players hands been added to the list of things to remove");
+
+                // update needy balloon
+                _myInteractable.NeedyBalloon.UpdateOneRequiredNeedyPickup(GameManager.Instance.Player.EquippedPickupType);
 
                 // delete it from your hands
                 BackpackController.BackpackInstance.RemoveSingularItemFromHands();

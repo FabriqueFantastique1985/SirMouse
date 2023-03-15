@@ -73,6 +73,8 @@ public class InteractableNeedyTouchables : InteractableNeedy
     {
         HeldTouchables.Add(touchableNeedy);
 
+        NeedyBalloon.UpdateOneRequiredTouchable();
+
         // if I have all of them... (== wantedTouchables)
         if (HeldTouchables.Count >= WantedTouchables.Count)
         {
@@ -80,6 +82,9 @@ public class InteractableNeedyTouchables : InteractableNeedy
             ActivateInteractable();
         }
     }
+
+
+
     public void ResetMyInteractable()
     {
         // clear HeldTouchables
@@ -106,6 +111,8 @@ public class InteractableNeedyTouchables : InteractableNeedy
     {
         _interactableToActivate.gameObject.SetActive(false);
         this.gameObject.SetActive(true);
+
+        NeedyBalloon.ResetMyNeedyObjects();
     }
 
 

@@ -229,8 +229,6 @@ public class BackpackController : MonoBehaviour
     {
         float progress = 0;
         float arcHeight = _arcHeight;
-        bool check1 = false;
-        bool check2 = false;
 
         while (progress < 1.0f)
         {
@@ -242,18 +240,6 @@ public class BackpackController : MonoBehaviour
             Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, progress);
             // Then add a vertical arc in excess of this.
             nextPos.y += parabola * arcHeight;
-
-            if (check1 == false)
-            {
-                Debug.Log(nextPos + " first step");           
-            }
-            if (check1 == true && check2 == false)
-            {
-                Debug.Log(nextPos + " SECOND step");
-                check2 = true;
-            }
-
-            check1 = true;
 
             // Continue as before.                            
             objectChugged.transform.position = nextPos;
