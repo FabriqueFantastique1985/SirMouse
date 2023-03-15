@@ -31,9 +31,17 @@ public class InteractionClosetAdd : Interaction
         {
             ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SkinObjectWithSprite.transform.parent.gameObject));
         }
-        
+
         //SkinsMouseController.Instance.UnlockSkinPiece(_mySkinPieceElement);
 
-        RewardController.Instance.GiveReward(_mySkinPieceElements);
+        if (_mySkinPieceElements.Count == 0)
+        {
+            Debug.Log("'SkinPieceElement' reference missing");
+        }
+        else
+        {
+            RewardController.Instance.GiveReward(_mySkinPieceElements); 
+        }
+        
     }
 }

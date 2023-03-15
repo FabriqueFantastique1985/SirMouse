@@ -124,7 +124,10 @@ MonoBehaviour:
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
   _turnThisPage: 14
+  BodyType: 0
+  IHaveDuplicateSkinPieces: 0
   IHaveButtonsWithNotificationOn: 0
+  ButtonsWithNotifsOnOnMyPage: []
   NotificationObject: {fileID: 968262961444344799}
 --- !u!65 &1319339226683954899
 BoxCollider:
@@ -138,7 +141,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 100, y: 80, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: -1}
 --- !u!111 &7535181137230890238
 Animation:
   m_ObjectHideFlags: 0
@@ -289,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

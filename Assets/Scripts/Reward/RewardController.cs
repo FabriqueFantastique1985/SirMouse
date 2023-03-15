@@ -64,25 +64,32 @@ public class RewardController : MonoBehaviour
         {
             // unlock the skinPiece
             ButtonSkinPiece buttonOfinterest = SkinsMouseController.Instance.UnlockSkinPiece(skinPiecesToGive[i]);
-            GameObject objectToInstantiate = buttonOfinterest.MySpriteToActivateWhenFound;
-
-            // add to notification list           
-            ClosetController.Instance.AddNotificationToList(buttonOfinterest);
-
-            // instantiate it (only 1 of feet,arms,legs)
-            if (skinPiecesToGive[i].MyBodyType == Type_Body.ArmRight ||
-                skinPiecesToGive[i].MyBodyType == Type_Body.LegRight ||
-                skinPiecesToGive[i].MyBodyType == Type_Body.FootRight)
+            if (buttonOfinterest != null)
             {
-                // do nothing
+                GameObject objectToInstantiate = buttonOfinterest.MySpriteToActivateWhenFound;
+
+                // add to notification list           
+                ClosetController.Instance.AddNotificationToList(buttonOfinterest);
+
+                // instantiate it (only 1 of feet,arms,legs)
+                if (skinPiecesToGive[i].MyBodyType == Type_Body.ArmRight ||
+                    skinPiecesToGive[i].MyBodyType == Type_Body.LegRight ||
+                    skinPiecesToGive[i].MyBodyType == Type_Body.FootRight)
+                {
+                    // do nothing
+                }
+                else
+                {
+                    GameObject objectToAdd = Instantiate(objectToInstantiate, _visualOfAnimatorSkinPiece.transform);
+                    // set it to false
+                    objectToAdd.SetActive(false);
+                    // add to list
+                    instantiatedObjects.Add(objectToAdd);
+                }
             }
             else
-            {               
-                GameObject objectToAdd = Instantiate(objectToInstantiate, _visualOfAnimatorSkinPiece.transform);
-                // set it to false
-                objectToAdd.SetActive(false);
-                // add to list
-                instantiatedObjects.Add(objectToAdd);
+            {
+                Debug.Log("You received a nullref somewhere when unlocking a SkinPiece. YOU GET NOTHING MUAHAHAHA");
             }
         }
 

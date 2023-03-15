@@ -9,6 +9,8 @@ public class EncounterableMoths : EncounterablePrerequisite
     private List<Animation> _animationsMoths;
     [SerializeField]
     private List<Rigidbody> _rigidbodiesMoths;
+    [SerializeField]
+    private Transform _skinPiece;
 
     protected override void GenericBehaviour()
     {
@@ -25,5 +27,7 @@ public class EncounterableMoths : EncounterablePrerequisite
         {
             _rigidbodiesMoths[i].useGravity = true;
         }
+
+        _skinPiece.gameObject.SetActive(true);
     }
 }
