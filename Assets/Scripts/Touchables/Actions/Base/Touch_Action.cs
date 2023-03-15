@@ -7,9 +7,6 @@ public class Touch_Action : MonoBehaviour
 {
     protected Touchable _touchableScript;
 
-    [SerializeField]
-    protected Animation _animationComponent;
-
     protected const string _animPop = "Spawnable_Pop";
     protected const string _animIdle = "Spawnable_Scaler";
 

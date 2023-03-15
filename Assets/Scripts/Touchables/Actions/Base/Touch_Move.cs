@@ -5,6 +5,9 @@ using UnityCore.Audio;
 
 public class Touch_Move : Touch_Action
 {
+    [SerializeField]
+    protected Animation _animationComponent;
+
     private bool _acted;
 
     // values for following mouse  
