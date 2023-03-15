@@ -34,6 +34,17 @@ public class FishingResultBehaviour : MonoBehaviour
 
     public void RemoveFromList(BackAndForth_Event backAndForthEvent)
     {
-        _fishingResults.Remove(backAndForthEvent);
+        for (int i = 0; i < _fishingResults.Count; i++)
+        {
+            if (_fishingResults[i] == backAndForthEvent)
+            {
+                _fishingResults.Remove(backAndForthEvent);
+                _index %= _fishingResults.Count;
+
+                _fishingResults[_index].gameObject.SetActive(true);
+                _fishingResults[_index].Reset();
+                return;
+            }
+        }
     }
 }
