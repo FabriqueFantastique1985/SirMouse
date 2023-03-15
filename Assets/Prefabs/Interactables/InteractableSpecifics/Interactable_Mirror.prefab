@@ -81,6 +81,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
+--- !u!1 &937864096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 937864098}
+  - component: {fileID: 937864097}
+  m_Layer: 9
+  m_Name: Rewards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &937864098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937864096}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5276943899709246353}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &937864097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937864096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyBodyType: 2
+  MySkinType: 1
+  HidesSirMouseGeometry: 0
+  ScoreValue: 0
 --- !u!1 &953550618
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,22 +370,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!114 &1974200021176203562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5276943899709246358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyBodyType: 2
-  MySkinType: 1
-  HidesSirMouseGeometry: 0
-  ScoreValue: 0
 --- !u!114 &1962071598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,7 +387,8 @@ MonoBehaviour:
   _useNewChain: 0
   _chainActions: []
   _chainActionsMono: []
-  _mySkinPieceElements: []
+  _mySkinPieceElements:
+  - {fileID: 937864097}
 --- !u!114 &1962071601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,8 +454,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _interactions.Array.data[0]
       value: 
-      objectReference: {fileID: 5077185737308683728, guid: bee24d04ee979e24293146d5998ec865,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8034303488882032951, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: _animPop2

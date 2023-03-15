@@ -11,6 +11,8 @@ public class MoveProps : MonoBehaviour
     [SerializeField] private float _minWaitTime;
     [SerializeField] private float _maxWaitTime;
 
+    [SerializeField] private bool _doOnce = false;
+
     private bool _isMoving = true;
     public bool IsMoving
     {
@@ -42,6 +44,11 @@ public class MoveProps : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, _endPoint.position, step);
 
                 yield return null;
+            }
+
+            if (_doOnce)
+            {
+                break;
             }
         }
     }
