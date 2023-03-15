@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BackAndForth_Continous : Move
 {
-    public delegate void MoveAndReturnDelegate(Vector3 targetPos);
+    public delegate void MoveAndReturnDelegate();
     public event MoveAndReturnDelegate OnMoveToEnd;
+    public event MoveAndReturnDelegate OnReachedEnd;
     public event MoveAndReturnDelegate OnMoveToStart;
+    public event MoveAndReturnDelegate OnReachedStart;
 
     [SerializeField] private float _waitTime;
     protected Touch_Event TouchEvent => _touchEvent;
@@ -15,6 +17,11 @@ public class BackAndForth_Continous : Move
     protected virtual void Start()
     {
         _touchEvent.OnPropTouched += StartMove;
+    }
+
+    private void OnDestroy()
+    {
+        _touchEvent.OnPropTouched -= StartMove;
     }
 
     protected virtual void StartMove()
@@ -29,13 +36,15 @@ public class BackAndForth_Continous : Move
     {
         IsMoving = true;
 
-        OnMoveToEnd?.Invoke(EndPoint.position);
+        OnMoveToEnd?.Invoke();
         yield return StartCoroutine(MoveToEnd());
+        OnReachedEnd?.Invoke(); 
 
         yield return new WaitForSeconds(_waitTime);
 
-        OnMoveToStart?.Invoke(StartPoint.position);
+        OnMoveToStart?.Invoke();
         yield return StartCoroutine(MoveToStart());
+        OnReachedStart?.Invoke();
 
         if (!DoOnce)
         {

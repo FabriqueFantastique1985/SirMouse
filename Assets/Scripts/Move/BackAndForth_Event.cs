@@ -20,6 +20,12 @@ public class BackAndForth_Event : Move
         _moveEvent.OnMoveToEnd += MoveToStart;
     }
 
+    private void OnDestroy()
+    {
+        _moveEvent.OnMoveToStart -= MoveToEnd;
+        _moveEvent.OnMoveToEnd -= MoveToStart;
+    }
+
     private void Update()
     {
         if (DoOnce && _hasMovedToEnd && _hasMovedToStart && !_hasEventBeenSend)
@@ -36,25 +42,25 @@ public class BackAndForth_Event : Move
        _hasEventBeenSend = false;
     }
 
-    private void MoveToEnd(Vector3 pos)
+    private new void MoveToEnd()
     {
         if (DoOnce && _hasMovedToEnd)
             return;
 
         if (Equals(transform.position, StartPoint.position))
         {
-            StartCoroutine(MoveComplete(MoveToEnd(), result => _hasMovedToEnd = result));
+            StartCoroutine(MoveComplete(base.MoveToEnd(), result => _hasMovedToEnd = result));
         }
     }
 
-    private void MoveToStart(Vector3 pos)
+    private new void MoveToStart()
     {
         if (DoOnce && _hasMovedToStart)
             return;
         
         if (Equals(transform.position, EndPoint.position))
         {
-            StartCoroutine(MoveComplete(MoveToStart(), result => _hasMovedToStart = result));
+            StartCoroutine(MoveComplete(base.MoveToStart(), result => _hasMovedToStart = result));
         }
     }
 
