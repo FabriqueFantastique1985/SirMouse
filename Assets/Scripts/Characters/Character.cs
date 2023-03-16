@@ -54,9 +54,6 @@ public class Character : MonoBehaviour
     [FormerlySerializedAs("_idleCondition")] [SerializeField]
     private string _idleName = "Idle";
 
-    [FormerlySerializedAs("_jumpCondition")] [SerializeField]
-    private string _jumpName = "Jump";
-
     [FormerlySerializedAs("_pickupCondition")] [SerializeField]
     private string _pickupName = "Pickup";
 

@@ -16,7 +16,7 @@ public class PlayerTouchControls : MonoBehaviour
     NavMeshAgent agent;
     private Animator animator;
 
-    private Rigidbody rigidbody;
+    private Rigidbody _rigidbody;
 
     public GameObject target;
 
@@ -71,7 +71,7 @@ public class PlayerTouchControls : MonoBehaviour
     {
         _ignoreMe = LayerMask.GetMask("UI", "Ignore Raycast");
         agent = GetComponent<NavMeshAgent>();
-        rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         animator = player.GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         //_audioSource = GetComponent<AudioSource>();
@@ -440,8 +440,8 @@ public class PlayerTouchControls : MonoBehaviour
         yield return new WaitForSeconds(1.1f);
         agent.enabled = true;
         controller.enabled = true;
-        rigidbody.isKinematic = true;
-        rigidbody.detectCollisions = true;
+        _rigidbody.isKinematic = true;
+        _rigidbody.detectCollisions = true;
         player.GetComponent<Animator>().SetBool("InAir", false);
     }
     IEnumerator GetPlayerReferences()
@@ -476,9 +476,9 @@ public class PlayerTouchControls : MonoBehaviour
     {
         agent.enabled = false;
         controller.enabled = false;
-        rigidbody.isKinematic = false;
-        rigidbody.detectCollisions = false;
-        rigidbody.AddRelativeForce(new Vector3(0, 20, 0), ForceMode.Impulse);
+        _rigidbody.isKinematic = false;
+        _rigidbody.detectCollisions = false;
+        _rigidbody.AddRelativeForce(new Vector3(0, 20, 0), ForceMode.Impulse);
         player.GetComponent<Animator>().SetBool("InAir", true);
 
         StartCoroutine(JumpChar());
@@ -542,7 +542,7 @@ public class PlayerTouchControls : MonoBehaviour
                 }
                 else if (attachedObject.name == "Bucket")
                 {
-                    if (attachedObject.GetComponent<Bucket>().water.active)
+                    if (attachedObject.GetComponent<Bucket>().water.activeSelf)
                     {
                         player.GetComponent<PlayerReferences>().attachedObject.GetComponent<Bucket>().PourWater();
                         if (setBool == "roses")

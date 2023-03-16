@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainGameSystem : GameSystem
 {
-    private int _layerMask;
+    private new int _layerMask;
     
     /// <summary>
     /// List of ground colliders used in the current scene.

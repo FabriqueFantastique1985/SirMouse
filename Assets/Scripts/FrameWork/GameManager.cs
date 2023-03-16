@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     #endregion
 
-    private void Awake()
+    private new void Awake()
     {
         base.Awake();
 

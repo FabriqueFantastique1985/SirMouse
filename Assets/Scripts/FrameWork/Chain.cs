@@ -11,7 +11,7 @@ public class Chain : IDisposable
     public event ChainEvent ChainEnded;
 
     private ChainAction _currentChainAction;
-    private int _currentChainActionIndex = -1;
+    //private int _currentChainActionIndex = -1;
     private Queue<ChainAction> _chainActions = new Queue<ChainAction>();
     
     private float _elapsedTime = 0.0f;

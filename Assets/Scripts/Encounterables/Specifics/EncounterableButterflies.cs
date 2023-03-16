@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class EncounterableButterflies : EncounterablePrerequisite
 {
     [SerializeField] private GameObject _butterflyJar;
-    [SerializeField] private AnimationClip _playerAnimationClip;
 
     private Character _character;
 

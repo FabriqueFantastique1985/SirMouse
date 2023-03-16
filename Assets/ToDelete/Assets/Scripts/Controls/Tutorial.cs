@@ -46,7 +46,7 @@ public class Tutorial : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position); // Ray that represents finger press
         }
 
-        RaycastHit hit; // Object hit by ray
+        //RaycastHit hit; // Object hit by ray
     }
 
     void Update()
