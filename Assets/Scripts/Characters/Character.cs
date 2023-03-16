@@ -17,7 +17,7 @@ public class Character : MonoBehaviour
         UnEquip = 4,
         Drop = 5,
         TwoHanded = 6,
-        BackpackExtraction = 7
+        BackpackExtraction = 7,
     };
 
     #endregion
