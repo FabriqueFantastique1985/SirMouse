@@ -8,6 +8,7 @@ public class ListNeedyObjectsInMe : MonoBehaviour
     [Header("Assign me a type if I want pickups")]
     public Type_Pickup PickupsNeeded; // if this is none, then this should work for touchables
 
+    [HideInInspector]
     public List<NeedyObject> NeedyObjects = new List<NeedyObject>();
 
     [HideInInspector]

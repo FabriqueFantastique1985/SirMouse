@@ -142,11 +142,17 @@ public class BalloonNeedy : MonoBehaviour
         {
             SetSprite(Needy_Sprites_Wrap.NeedyBalloons[_indexSpriteBalloonNeedy].gameObject);
         }
+        
 
         // If this lists.count == 0, goal achieved (does nothing special, Debug.Log("Completed a Needy Interactabled")
         if (needyBalloons.Count == 0)
         {
-            Debug.Log("You have succesfully finished a Needy interactable");
+            //Debug.Log("You have succesfully finished a Needy interactable");
+        }
+        else
+        {
+            // show the needyBalloon again...
+            this.Show();
         }
     }  
     public bool CheckIfOneBalloonHasAllItems(ListNeedyObjectsInMe balloonOfInterest)
@@ -184,11 +190,16 @@ public class BalloonNeedy : MonoBehaviour
                         needyBalloons[i].NeedyObjects[j].SpriteFull.SetActive(true);
                         needyBalloons[i].NeedyObjects[j].Delivered = true;
 
-                        // check if this delivered everything...
+                        // check if this 1 balloon delivered everything...
                         if (CheckIfOneBalloonHasAllItems(needyBalloons[i]) == true)
                         {
                             // If I have deivered everything for this one balloon, remove it from possible balloons to show
-                            UpdatePossibleBalloonsToShow(needyBalloons , i);
+                            UpdatePossibleBalloonsToShow(needyBalloons, i);
+                        }
+                        else
+                        {
+                            // If I have not delivered everything, show my balloon right away again !
+                            this.Show();
                         }
 
                         break;
@@ -196,7 +207,7 @@ public class BalloonNeedy : MonoBehaviour
                 }
                 if (foundNeedyToActivate == false)
                 {
-                    Debug.Log("Could noy find a Needy Object that was not yet delivered, doing nothing here. Pherhaps check Delivered bool ?");
+                    Debug.Log("Could not find a Needy Object that was not yet delivered, doing nothing here. Pherhaps check Delivered bool ?");
                 }
                 break;
             }

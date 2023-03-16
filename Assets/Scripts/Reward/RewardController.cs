@@ -52,20 +52,18 @@ public class RewardController : MonoBehaviour
 
     public void GiveReward(List<SkinPieceElement> skinPiecesToGive)
     {
-        // block input
-        GameManager.Instance.BlockInput = true;
-
-        // turn on the correct page
-        PageController.Instance.TurnAllPagesOffExcept(PageType.RewardScreen);
-
         // unlock the piece(s) in the closet + store the gameobjects in a list
         List<GameObject> instantiatedObjects = new List<GameObject>();
+        bool foundSomethingToGive = false;
         for (int i = 0; i < skinPiecesToGive.Count; i++)
         {
             // unlock the skinPiece
             ButtonSkinPiece buttonOfinterest = SkinsMouseController.Instance.UnlockSkinPiece(skinPiecesToGive[i]);
             if (buttonOfinterest != null)
             {
+                foundSomethingToGive = true;
+
+                // create a visual for to pop up in the explosion
                 GameObject objectToInstantiate = buttonOfinterest.MySpriteToActivateWhenFound;
 
                 // add to notification list           
@@ -93,14 +91,23 @@ public class RewardController : MonoBehaviour
             }
         }
 
-        // activate notifs
-        ClosetController.Instance.NotificationActivater(); 
+        if (foundSomethingToGive == true)
+        {
+            // block input
+            GameManager.Instance.BlockInput = true;
 
-        // tone down audio of OST & World
-        AudioController.Instance.TurnDownVolumeForOSTAndWorld();
-        
-        // play animations in proper sequence
-        StartCoroutine(PlayAnimations(instantiatedObjects));
+            // turn on the correct page
+            PageController.Instance.TurnAllPagesOffExcept(PageType.RewardScreen);
+
+            // activate notifs
+            ClosetController.Instance.NotificationActivater();
+
+            // tone down audio of OST & World
+            AudioController.Instance.TurnDownVolumeForOSTAndWorld();
+
+            // play animations in proper sequence
+            StartCoroutine(PlayAnimations(instantiatedObjects));
+        }
     }
 
 

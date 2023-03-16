@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358647096650210614}
-  m_LocalRotation: {x: -0, y: 0.0000000074505797, z: -0.42354086, w: 0.905877}
-  m_LocalPosition: {x: 0.17, y: 0.27, z: -0}
-  m_LocalScale: {x: 0.38537997, y: 0.6379935, z: 0.6379935}
+  m_LocalRotation: {x: -0.0021203905, y: -0.0011141002, z: -0.4668465, w: 0.8843352}
+  m_LocalPosition: {x: 0.23, y: 0.29, z: -0}
+  m_LocalScale: {x: 0.38580674, y: 0.74466604, z: 0.74466604}
   m_Children: []
   m_Father: {fileID: 282630317225317905}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -50.117}
+  m_LocalEulerAnglesHint: {x: -0.27400002, y: 0.001, z: -55.660004}
 --- !u!212 &2494738980262529194
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -338,8 +338,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteObjectInteractionInBalloon: {fileID: 8768976491019262332}
-  _animationClip: {fileID: 0}
-  _completeActions: []
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
   _interactableComponent: {fileID: 7156936596281603230}
   _interactionPickup: {fileID: 4368417321480910549}
 --- !u!114 &4368417321480910549
@@ -355,11 +357,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteObjectInteractionInBalloon: {fileID: 6111615151176576822}
-  _animationClip: {fileID: 0}
-  _completeActions: []
+  _instantActions: []
+  _useNewChain: 0
+  _chainActions: []
+  _chainActionsMono: []
   _pickUpInteractable: {fileID: 7156936596281603230}
   IsTwoHandPickup: 0
-  TypeOfPickup: 1
   SpriteRenderPickup: {fileID: 3410951446825981484}
 --- !u!1 &5550128081727710174
 GameObject:
@@ -757,27 +760,27 @@ PrefabInstance:
     - target: {fileID: 4627525107951304172, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25885162
+      value: 0.10446475
       objectReference: {fileID: 0}
     - target: {fileID: 4627525107951304172, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.25885162
+      value: 0.10446475
       objectReference: {fileID: 0}
     - target: {fileID: 4627525107951304172, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.25885162
+      value: 0.10446475
       objectReference: {fileID: 0}
     - target: {fileID: 4627525107951304172, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2
+      value: -0.39
       objectReference: {fileID: 0}
     - target: {fileID: 4627525107951304172, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.19
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4627525107951304172, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}
@@ -793,7 +796,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: da7404a0c095ab144943d0d6ffc85f97,
+      objectReference: {fileID: 21300000, guid: d46d5b5c9c172bc408ba169aa1424d17,
         type: 3}
     - target: {fileID: 5768726741368826337, guid: c96cc19a541c95c4fa33a5e4a5d357df,
         type: 3}

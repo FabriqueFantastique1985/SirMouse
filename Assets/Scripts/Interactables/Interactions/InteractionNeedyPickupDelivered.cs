@@ -26,13 +26,12 @@ public class InteractionNeedyPickupDelivered : Interaction
                     {
                         var buttonOfInterest = BackpackController.ItemButtonsInBackpack[j];
                         buttonPickupsToRemove.Add(buttonOfInterest);
-                        _myInteractable.HeldPickups.Add(buttonOfInterest.MyPickupType);
+
+                        //_myInteractable.HeldPickups.Add(buttonOfInterest.MyPickupType);
+                        _myInteractable.WantedPickups.Remove(_myInteractable.WantedPickups[i]);
 
                         // update needy balloon
                         _myInteractable.NeedyBalloon.UpdateOneRequiredNeedyPickup(BackpackController.ItemButtonsInBackpack[j].MyPickupType);
-
-
-                        //Debug.Log(buttonOfInterest.name + " I have been added to the list of things to remove" );
 
                         BackpackController.BackpackInstance.RemoveSingularItemFromBackpack(buttonOfInterest);
                         break;
@@ -52,9 +51,8 @@ public class InteractionNeedyPickupDelivered : Interaction
 
 
                 // add to list
-                _myInteractable.HeldPickups.Add(GameManager.Instance.Player.EquippedPickupType); // check if this becomes None !!!
-
-                Debug.Log("The item in the Players hands been added to the list of things to remove");
+                //_myInteractable.HeldPickups.Add(GameManager.Instance.Player.EquippedPickupType); 
+                _myInteractable.WantedPickups.Remove(_myInteractable.WantedPickups[i]);
 
                 // update needy balloon
                 _myInteractable.NeedyBalloon.UpdateOneRequiredNeedyPickup(GameManager.Instance.Player.EquippedPickupType);
@@ -65,8 +63,8 @@ public class InteractionNeedyPickupDelivered : Interaction
             }
         }
 
-        // if this made my HeldPickups.count == WantedPickups.count
-        if (_myInteractable.HeldPickups.Count >= _myInteractable.WantedPickups.Count)
+        // if this made my HeldPickups.count >= WantedPickups.count
+        if (_myInteractable.WantedPickups.Count <= 0) // change this to WantedPickups getting emptied -> if wanted.Count == 0
         {
             // activate new interactable that gives reward...
             _myInteractable.InteractableToActivateForReward.gameObject.SetActive(true);

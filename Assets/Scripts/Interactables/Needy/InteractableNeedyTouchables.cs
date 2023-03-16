@@ -87,6 +87,9 @@ public class InteractableNeedyTouchables : InteractableNeedy
 
     public void ResetMyInteractable()
     {
+        // Hide balloon conffetti interactable
+        _interactableToActivate.InteractionBalloon.Hide();
+
         // clear HeldTouchables
         HeldTouchables.Clear();
 

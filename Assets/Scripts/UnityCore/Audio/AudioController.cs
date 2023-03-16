@@ -23,6 +23,8 @@ namespace UnityCore
 
             private AudioJob _lastViableJob;
 
+            private Coroutine _runningAudioInfluencerRoutine;
+
 
             #region Extra Classes
 
@@ -104,70 +106,89 @@ namespace UnityCore
 
             public void TurnDownVolumeFor(AudioType typeAudio = AudioType.OST , bool iwantToBeQuieter = true)
             {
-                List<AudioSource> sourcesToInfluence = new List<AudioSource>();
-                switch(typeAudio)
+                // make sure to only do this when the coroutine is null
+                if (_runningAudioInfluencerRoutine == null)
                 {
-                    case AudioType.OST:
-                        for (int i = 0; i < TracksOST.Count; i++)
-                        {
-                            sourcesToInfluence.Add(TracksOST[i].Source);
+                    List<AudioSource> sourcesToInfluence = new List<AudioSource>();
+                    switch (typeAudio)
+                    {
+                        case AudioType.OST:
+                            for (int i = 0; i < TracksOST.Count; i++)
+                            {
+                                sourcesToInfluence.Add(TracksOST[i].Source);
 
-                            // add the currently set volumes to a float list (so we can refer to them later)
-                            _targetVolumesNormal.Add(TracksOST[i].Source.volume);
-                            _targetVolumesQuiet.Add(TracksOST[i].Source.volume);
-                        }
-                        break;
-                    case AudioType.SFX_UI:
-                        for (int i = 0; i < TracksUI.Count; i++)
-                        {
-                            sourcesToInfluence.Add(TracksUI[i].Source);
-                            _targetVolumesNormal.Add(TracksUI[i].Source.volume);
-                            _targetVolumesQuiet.Add(TracksUI[i].Source.volume);
-                        }
-                        break;
-                    case AudioType.SFX_SirMouse:
-                        for (int i = 0; i < TracksSirMouse.Count; i++)
-                        {
-                            sourcesToInfluence.Add(TracksSirMouse[i].Source);
-                            _targetVolumesNormal.Add(TracksSirMouse[i].Source.volume);
-                            _targetVolumesQuiet.Add(TracksSirMouse[i].Source.volume);
-                        }
-                        break;
-                    case AudioType.SFX_World:
-                        for (int i = 0; i < TracksWorld.Count; i++)
-                        {
-                            sourcesToInfluence.Add(TracksWorld[i].Source);
-                            _targetVolumesNormal.Add(TracksWorld[i].Source.volume);
-                            _targetVolumesQuiet.Add(TracksWorld[i].Source.volume);
-                        }
-                        break;
-                    default:
-                        break;
+                                // add the currently set volumes to a float list (so we can refer to them later)
+                                _targetVolumesNormal.Add(TracksOST[i].Source.volume);
+                                _targetVolumesQuiet.Add(TracksOST[i].Source.volume);
+                            }
+                            break;
+                        case AudioType.SFX_UI:
+                            for (int i = 0; i < TracksUI.Count; i++)
+                            {
+                                sourcesToInfluence.Add(TracksUI[i].Source);
+                                _targetVolumesNormal.Add(TracksUI[i].Source.volume);
+                                _targetVolumesQuiet.Add(TracksUI[i].Source.volume);
+                            }
+                            break;
+                        case AudioType.SFX_SirMouse:
+                            for (int i = 0; i < TracksSirMouse.Count; i++)
+                            {
+                                sourcesToInfluence.Add(TracksSirMouse[i].Source);
+                                _targetVolumesNormal.Add(TracksSirMouse[i].Source.volume);
+                                _targetVolumesQuiet.Add(TracksSirMouse[i].Source.volume);
+                            }
+                            break;
+                        case AudioType.SFX_World:
+                            for (int i = 0; i < TracksWorld.Count; i++)
+                            {
+                                sourcesToInfluence.Add(TracksWorld[i].Source);
+                                _targetVolumesNormal.Add(TracksWorld[i].Source.volume);
+                                _targetVolumesQuiet.Add(TracksWorld[i].Source.volume);
+                            }
+                            break;
+                        default:
+                            break;
 
+                    }
+                    _runningAudioInfluencerRoutine = StartCoroutine(InfluenceVolumeOnSources(sourcesToInfluence, iwantToBeQuieter));
+                }
+                else
+                {
+                    Debug.Log("Will not influence Audio levels, as the previous coroutine to change audio levels was still running. " +
+                              "SOLUTION : create cgreater wait time between wanting to change audio levels, or change the system");
                 }
 
-                StartCoroutine(InfluenceVolumeOnSources(sourcesToInfluence, iwantToBeQuieter));
             }
             public void TurnDownVolumeForOSTAndWorld(bool iwantToBeQuieter = true)
             {
-                List<AudioSource> sourcesToInfluence = new List<AudioSource>();
-
-                for (int i = 0; i < TracksOST.Count; i++)
+                // make sure to only do this when the coroutine is null
+                if (_runningAudioInfluencerRoutine == null)
                 {
-                    sourcesToInfluence.Add(TracksOST[i].Source);
+                    List<AudioSource> sourcesToInfluence = new List<AudioSource>();
 
-                    // add the currently set volumes to a float list (so we can refer to them later)
-                    _targetVolumesNormal.Add(TracksOST[i].Source.volume);
-                    _targetVolumesQuiet.Add(TracksOST[i].Source.volume);
+                    for (int i = 0; i < TracksOST.Count; i++)
+                    {
+                        sourcesToInfluence.Add(TracksOST[i].Source);
+
+                        // add the currently set volumes to a float list (so we can refer to them later)
+                        _targetVolumesNormal.Add(TracksOST[i].Source.volume);
+                        _targetVolumesQuiet.Add(TracksOST[i].Source.volume);
+                    }
+                    for (int i = 0; i < TracksWorld.Count; i++)
+                    {
+                        sourcesToInfluence.Add(TracksWorld[i].Source);
+                        _targetVolumesNormal.Add(TracksWorld[i].Source.volume);
+                        _targetVolumesQuiet.Add(TracksWorld[i].Source.volume);
+                    }
+
+                    _runningAudioInfluencerRoutine = StartCoroutine(InfluenceVolumeOnSources(sourcesToInfluence, iwantToBeQuieter));
                 }
-                for (int i = 0; i < TracksWorld.Count; i++)
+                else
                 {
-                    sourcesToInfluence.Add(TracksWorld[i].Source);
-                    _targetVolumesNormal.Add(TracksWorld[i].Source.volume);
-                    _targetVolumesQuiet.Add(TracksWorld[i].Source.volume);
+                    Debug.Log("Will not influence Audio levels, as the previous coroutine to change audio levels was still running. " +
+                              "SOLUTION : create cgreater wait time between wanting to change audio levels, or change the system");
                 }
-               
-                StartCoroutine(InfluenceVolumeOnSources(sourcesToInfluence, iwantToBeQuieter));
+
             }
             public void MuteOst(bool muteMe = true)
             {
@@ -356,7 +377,7 @@ namespace UnityCore
                         return null;
                 }
             }
-            private IEnumerator InfluenceVolumeOnSources(List<AudioSource> sources, bool iWantToBeQuieter)
+            private IEnumerator InfluenceVolumeOnSources(List<AudioSource> sources, bool iWantToBeQuieter) // this IEnum is problematic if I am calling it too fast in a row...
             {
                 if (iWantToBeQuieter == true)
                 {
@@ -379,7 +400,7 @@ namespace UnityCore
                     _targetVolumesNormal.Clear();
                     _targetVolumesQuiet.Clear();
 
-                    Debug.Log("turned down volume for some sources");
+                    //Debug.Log("turned down volume for some sources");
                 }
                 else
                 {
@@ -390,7 +411,7 @@ namespace UnityCore
                         _targetVolumesNormal[i] = (float)(_targetVolumesQuiet[i] * 5f);
 
                         // loop until we reach that goal
-                        while (sources[i].volume < _targetVolumesNormal[i])
+                        while (sources[i].volume < _targetVolumesNormal[i]) // index out of range ....??? // targte volumes double count (something is being done twice here)
                         {
                             sources[i].volume += 0.1f;
                             yield return new WaitForEndOfFrame();
@@ -402,8 +423,10 @@ namespace UnityCore
                     _targetVolumesNormal.Clear();
                     _targetVolumesQuiet.Clear();
 
-                    Debug.Log("turned UP volume for some sources");
-                }              
+                    //Debug.Log("turned UP volume for some sources");
+                }
+
+                _runningAudioInfluencerRoutine = null;
             }
             private IEnumerator MuteVolumeOnSources(List<AudioSource> sources, bool muteMe)
             {
