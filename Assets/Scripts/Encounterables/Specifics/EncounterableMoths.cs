@@ -28,6 +28,9 @@ public class EncounterableMoths : EncounterablePrerequisite
             _rigidbodiesMoths[i].useGravity = true;
         }
 
-        _skinPiece.gameObject.SetActive(true);
+        if (_skinPiece)
+        {
+            _skinPiece.gameObject.SetActive(true);
+        }
     }
 }
