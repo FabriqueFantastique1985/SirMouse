@@ -19,6 +19,7 @@ public class Player : MonoBehaviour, IClickable
     [SerializeField]
     private CharacterGeoReferences _characterGeoReferences;
 
+    [SerializeField] private Material _outfitMaterial;
     #endregion
 
     #region Properties
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour, IClickable
     private void Start()
     {
         Initialize();
+        _outfitMaterial.SetInt("_isExploded", 0);
     }
 
     public void Initialize()
@@ -253,6 +255,7 @@ public class Player : MonoBehaviour, IClickable
         _characterGeoReferences.SwapToExplodedMaterial();
         _characterGeoReferences.RedHeadOverlay.color = new Color(255,255,255,0);       
         _canExplode = false;
+        _outfitMaterial.SetInt("_isExploded", 1);
 
         // do the below after a short delay perhaps ?
         _explosionTickCount = 0;

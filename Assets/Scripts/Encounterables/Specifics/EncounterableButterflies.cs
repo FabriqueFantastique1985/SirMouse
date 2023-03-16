@@ -27,10 +27,10 @@ public class EncounterableButterflies : EncounterablePrerequisite
     {
         base.GenericBehaviour();
         _character.AnimatorRM.SetTrigger("Swing");
+        _butterflyJar.SetActive(true);
     }
 
     private void EnableJar(Character.States state)
     {
-        _butterflyJar.SetActive(true);
     }
 }
