@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class Touch_Drop : Touch_Action, IDataPersistence
 {
-    [SerializeField] private GameObject _apple;
-    [SerializeField] private Animator _animatorApple;
+    [SerializeField] private GameObject _droppedInteractable;
+    [SerializeField] private Animator _animatorDrop;
     private bool _hasFallen = false;
 
     protected override void Start()
     {
         base.Start();
-        _apple.SetActive(false);
+        _droppedInteractable.SetActive(false);
     }
 
     public override void Act()
@@ -21,9 +21,9 @@ public class Touch_Drop : Touch_Action, IDataPersistence
 
         if (!_hasFallen)
         {
-            _apple.SetActive(true);
-            _animatorApple.SetTrigger("Activate");
-            DataPersistenceManager.Instance.SaveGame();
+            _droppedInteractable.SetActive(true);
+            _animatorDrop.SetTrigger("Activate");
+            //DataPersistenceManager.Instance.SaveGame();
             _hasFallen = true;
         }
     }
@@ -42,6 +42,6 @@ public class Touch_Drop : Touch_Action, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        data.HasAppleFallen = _hasFallen;
+        //data.HasAppleFallen = _hasFallen;
     }
 }
