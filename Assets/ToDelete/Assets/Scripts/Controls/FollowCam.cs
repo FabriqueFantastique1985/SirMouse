@@ -40,7 +40,8 @@ public class FollowCam : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_cameraBounds && IsBorderActive && !_isOutsideBorder)
+        // Distance check only nessescary because camera can spawn somewhere completely different inside of bounds
+        if (_cameraBounds && IsBorderActive && !_isOutsideBorder && !(Vector3.Distance(transform.position, target.position + offset) > 20f))
         {
             FollowTargetInBounds();
         }

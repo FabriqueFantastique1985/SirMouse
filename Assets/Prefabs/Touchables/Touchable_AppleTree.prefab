@@ -339,6 +339,7 @@ MonoBehaviour:
   _touchComponent: {fileID: 3331364094101351655}
   OneTimeUse: 0
   HasACooldown: 1
+  UsedSuccesfully: 0
   _cooldownLength: 0.1
   Animator: {fileID: 3331364094101351672}
   Collider: {fileID: 3331364094101351640}
@@ -385,7 +386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822be3998fd185242bec3944c9bb6c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationComponent: {fileID: 562958906516748643}
   Pickup:
     Clip: {fileID: 0}
     Type: 0
@@ -410,8 +410,8 @@ MonoBehaviour:
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
-  _apple: {fileID: 1789704435103126521}
-  _animatorApple: {fileID: 5478241003733699342}
+  _droppedInteractable: {fileID: 1789704435103126521}
+  _animatorDrop: {fileID: 5478241003733699342}
 --- !u!95 &3331364094101351672
 Animator:
   serializedVersion: 3
