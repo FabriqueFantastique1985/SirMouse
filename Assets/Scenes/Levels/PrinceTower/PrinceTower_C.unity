@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -137,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneToTeleportTo
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 3819272454068836331, guid: 544d1d494b560c848a1e291bdb5192a6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: -0.7895586
       objectReference: {fileID: 0}
     - target: {fileID: 6370669743133667754, guid: 544d1d494b560c848a1e291bdb5192a6,
         type: 3}
@@ -932,7 +937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4fdab355163a44d81f9f8331e67a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationComponent: {fileID: 1838053150}
   Pickup:
     Clip: {fileID: 0}
     Type: 0
@@ -957,6 +961,7 @@ MonoBehaviour:
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+  _animationComponent: {fileID: 1838053150}
 --- !u!65 &367874091
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1301,7 +1306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4fdab355163a44d81f9f8331e67a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationComponent: {fileID: 776511290}
   Pickup:
     Clip: {fileID: 0}
     Type: 0
@@ -1326,6 +1330,7 @@ MonoBehaviour:
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+  _animationComponent: {fileID: 776511290}
 --- !u!65 &509764711
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1521,12 +1526,6 @@ PrefabInstance:
     - {fileID: 8040466910476417318, guid: 65d160319ceef1e448e2d8b85cc6e585, type: 3}
     - {fileID: 8040466910476417319, guid: 65d160319ceef1e448e2d8b85cc6e585, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 65d160319ceef1e448e2d8b85cc6e585, type: 3}
---- !u!111 &590512429 stripped
-Animation:
-  m_CorrespondingSourceObject: {fileID: 7263846217722204413, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4460218966289174672}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &650837048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2745,6 +2744,75 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4460218966289174672}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1054551770
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 423748912838243929, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_Name
+      value: Camera-Spectator
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -19
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.9659258
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.2588191
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000180873
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.00000004846478
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 423748912838243932, guid: 6c625bb0be5a5c544b78372400c7add5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6c625bb0be5a5c544b78372400c7add5, type: 3}
 --- !u!1 &1091983277
 GameObject:
   m_ObjectHideFlags: 0
@@ -5736,7 +5804,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _animationComponent
       value: 
-      objectReference: {fileID: 590512429}
+      objectReference: {fileID: 0}
     - target: {fileID: 6796601043260871621, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
         type: 3}
       propertyPath: m_IsActive
@@ -5776,7 +5844,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _animationComponent
       value: 
-      objectReference: {fileID: 590512429}
+      objectReference: {fileID: 0}
     - target: {fileID: 6796601044383992224, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
         type: 3}
       propertyPath: _flySpeed
@@ -5851,7 +5919,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _animationComponent
       value: 
-      objectReference: {fileID: 590512429}
+      objectReference: {fileID: 0}
     - target: {fileID: 6796601044516295808, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
         type: 3}
       propertyPath: m_RootOrder
@@ -5951,7 +6019,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _animationComponent
       value: 
-      objectReference: {fileID: 590512429}
+      objectReference: {fileID: 0}
     - target: {fileID: 6796601045018402813, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
         type: 3}
       propertyPath: _flySpeed
@@ -5986,7 +6054,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _animationComponent
       value: 
-      objectReference: {fileID: 590512429}
+      objectReference: {fileID: 0}
     - target: {fileID: 7074640585275286087, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6141,7 +6209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4fdab355163a44d81f9f8331e67a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationComponent: {fileID: 5650184113616208702}
   Pickup:
     Clip: {fileID: 0}
     Type: 0
@@ -6166,6 +6233,7 @@ MonoBehaviour:
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+  _animationComponent: {fileID: 5650184113616208702}
 --- !u!64 &5233979275766561815 stripped
 MeshCollider:
   m_CorrespondingSourceObject: {fileID: 815481474840104277, guid: 517a604cb59883649808bef3e8977c1f,
@@ -6635,7 +6703,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4fdab355163a44d81f9f8331e67a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationComponent: {fileID: 7694884562173178391}
   Pickup:
     Clip: {fileID: 0}
     Type: 0
@@ -6660,6 +6727,7 @@ MonoBehaviour:
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+  _animationComponent: {fileID: 7694884562173178391}
 --- !u!111 &7694884562173178391
 Animation:
   m_ObjectHideFlags: 0
