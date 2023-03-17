@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Player : MonoBehaviour, IClickable
 {
@@ -19,7 +21,9 @@ public class Player : MonoBehaviour, IClickable
     [SerializeField]
     private CharacterGeoReferences _characterGeoReferences;
 
-    [SerializeField] private Material _outfitMaterial;
+    [SerializeField] private List<Material> _outfitMaterials = new List<Material>();
+    [SerializeField] private float _explosionCountdownDuration = 5f;
+    [SerializeField] private float _explosionStayDuration = 5f;
     #endregion
 
     #region Properties
@@ -55,7 +59,11 @@ public class Player : MonoBehaviour, IClickable
     private void Start()
     {
         Initialize();
-        _outfitMaterial.SetInt("_isExploded", 0);
+
+        foreach (var material in _outfitMaterials)
+        {
+            material.SetFloat("_GrungeOpacity", 0f);
+        }
     }
 
     public void Initialize()
@@ -252,12 +260,37 @@ public class Player : MonoBehaviour, IClickable
     {
         // => play explosion, set new material, set cooldown, reset redhead alpha, return;
         Character.PlayExplosion();
-        _characterGeoReferences.SwapToExplodedMaterial();
         _characterGeoReferences.RedHeadOverlay.color = new Color(255,255,255,0);       
         _canExplode = false;
-        _outfitMaterial.SetInt("_isExploded", 1);
 
-        // do the below after a short delay perhaps ?
+        StartCoroutine(ExplosionCountdown());
+    }
+
+    private IEnumerator ExplosionCountdown()
+    {
+        float time = 0f;
+        float value = 1f;
+
+        // Reset grunge opacity to 1
+        foreach (var material in _outfitMaterials)
+        {
+            material.SetFloat("_GrungeOpacity", value);
+        }
+
+        yield return new WaitForSeconds(_explosionStayDuration);
+
+        // Slide grunge opacity from 1 to 0 based off of countdown duration
+        while (time < _explosionCountdownDuration)
+        {
+            time += Time.deltaTime;
+            value = Mathf.Max(1f - time / _explosionCountdownDuration, 0f);
+            foreach (var material in _outfitMaterials)
+            {
+                material.SetFloat("_GrungeOpacity", value);
+            }
+            yield return null;
+        }
+
         _explosionTickCount = 0;
     }
 }
