@@ -22,10 +22,6 @@ public class RecipeController : MiniGame
     [SerializeField]
     private Interactable _startGameMissionInteractableDummy;
 
-    [Header("Reward")]
-    [SerializeField]
-    private List<SkinPieceElement> _skinsToReward;
-
     [Header("Recipe specific")]
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
@@ -218,9 +214,6 @@ public class RecipeController : MiniGame
     public override void EndMiniGame(bool completeSuccesfully)
     {
         base.EndMiniGame(completeSuccesfully);
-
-        if (completeSuccesfully)
-            RewardController.Instance.GiveReward(_skinsToReward);
 
         StartCoroutine(EndMiniGameCoroutine());
     }
