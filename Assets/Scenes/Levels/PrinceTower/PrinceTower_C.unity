@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -632,6 +632,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6236272769642122546, guid: 47aa5c1e9e86cae4ba7e8458750f9736,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 6236272769642122546, guid: 47aa5c1e9e86cae4ba7e8458750f9736,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 13.94
+      objectReference: {fileID: 0}
     - target: {fileID: 6236272769704376924, guid: 47aa5c1e9e86cae4ba7e8458750f9736,
         type: 3}
       propertyPath: m_IsActive
@@ -641,6 +651,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931745280035124285, guid: 47aa5c1e9e86cae4ba7e8458750f9736,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47aa5c1e9e86cae4ba7e8458750f9736, type: 3}
@@ -938,9 +953,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pickup:
-    Clip: {fileID: 0}
-    Type: 0
-    Volume: 1
+    Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
+    Type: 4
+    Volume: 0.1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
@@ -1061,6 +1076,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2042924444}
     m_Modifications:
+    - target: {fileID: 195014559952276029, guid: 919217ddc0688d341865115bb4588e7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092871188625132163, guid: 919217ddc0688d341865115bb4588e7d,
         type: 3}
       propertyPath: m_RootOrder
@@ -1307,9 +1327,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pickup:
-    Clip: {fileID: 0}
-    Type: 0
-    Volume: 1
+    Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
+    Type: 4
+    Volume: 0.1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
@@ -1533,6 +1553,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2042924444}
     m_Modifications:
+    - target: {fileID: 195014559952276029, guid: 919217ddc0688d341865115bb4588e7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092871188625132163, guid: 919217ddc0688d341865115bb4588e7d,
         type: 3}
       propertyPath: m_RootOrder
@@ -2172,6 +2197,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2042924444}
     m_Modifications:
+    - target: {fileID: 195014559952276029, guid: 919217ddc0688d341865115bb4588e7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092871188625132163, guid: 919217ddc0688d341865115bb4588e7d,
         type: 3}
       propertyPath: m_RootOrder
@@ -2905,6 +2935,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2042924444}
     m_Modifications:
+    - target: {fileID: 195014559952276029, guid: 919217ddc0688d341865115bb4588e7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092871188625132163, guid: 919217ddc0688d341865115bb4588e7d,
         type: 3}
       propertyPath: m_RootOrder
@@ -3920,7 +3955,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-747582
+  m_Name: pb_Mesh-20759288
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4244,6 +4279,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2042924444}
     m_Modifications:
+    - target: {fileID: 195014559952276029, guid: 919217ddc0688d341865115bb4588e7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092871188625132163, guid: 919217ddc0688d341865115bb4588e7d,
         type: 3}
       propertyPath: m_RootOrder
@@ -4399,6 +4439,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2042924444}
     m_Modifications:
+    - target: {fileID: 195014559952276029, guid: 919217ddc0688d341865115bb4588e7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092871188625132163, guid: 919217ddc0688d341865115bb4588e7d,
         type: 3}
       propertyPath: m_RootOrder
@@ -4932,6 +4977,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2042924444}
     m_Modifications:
+    - target: {fileID: 195014559952276029, guid: 919217ddc0688d341865115bb4588e7d,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6092871188625132163, guid: 919217ddc0688d341865115bb4588e7d,
         type: 3}
       propertyPath: m_RootOrder
@@ -5810,6 +5860,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6796601043272433584, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6796601044345416482, guid: bbdb4a66371cb7f47aa337ac12c42d7f,
         type: 3}
       propertyPath: _flySpeed
@@ -6210,9 +6265,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pickup:
-    Clip: {fileID: 0}
-    Type: 0
-    Volume: 1
+    Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
+    Type: 4
+    Volume: 0.1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
@@ -6704,9 +6759,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pickup:
-    Clip: {fileID: 0}
-    Type: 0
-    Volume: 1
+    Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
+    Type: 4
+    Volume: 0.1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
