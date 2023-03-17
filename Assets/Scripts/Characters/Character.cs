@@ -159,7 +159,7 @@ public class Character : MonoBehaviour
     }
     public void SetBoolSleeping(bool forbidSleep)
     {
-        //_animatorRM.SetBool("ForbidSleep", forbidSleep);
+        _animatorRM.SetBool("ForbidSleep", forbidSleep);
     }
     
     private void ResetAllTriggers()
