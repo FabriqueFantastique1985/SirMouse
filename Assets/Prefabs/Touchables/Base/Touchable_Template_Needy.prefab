@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce27c7e47ee115f4fbc3a56446124d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationComponent: {fileID: 6381355406021955080}
   Pickup:
     Clip: {fileID: 8300000, guid: 02cab0b92f54b3945b7f926f22cf5d49, type: 3}
     Type: 4
@@ -38,6 +37,22 @@ MonoBehaviour:
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
   _interactableOfInterest: {fileID: 0}
+--- !u!114 &7480358577237527784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8170736112053791992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a9c10a399317646b91578d434f6400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 8170736112053791994}
+  _shineDelayMin: 2
+  _shineDelayMax: 4
+  _isShineActive: 1
 --- !u!1001 &2229619616105882280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,7 +178,7 @@ PrefabInstance:
     - target: {fileID: 8040466910476417317, guid: 65d160319ceef1e448e2d8b85cc6e585,
         type: 3}
       propertyPath: m_Name
-      value: Touchable_Template_Needy Variant
+      value: Touchable_Template_Needy
       objectReference: {fileID: 0}
     - target: {fileID: 8040466910476417319, guid: 65d160319ceef1e448e2d8b85cc6e585,
         type: 3}
@@ -250,9 +265,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2229619616105882280}
   m_PrefabAsset: {fileID: 0}
---- !u!111 &6381355406021955080 stripped
-Animation:
-  m_CorrespondingSourceObject: {fileID: 5079519234251222176, guid: 65d160319ceef1e448e2d8b85cc6e585,
+--- !u!1 &8170736112053791992 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8040466911535287888, guid: 65d160319ceef1e448e2d8b85cc6e585,
+    type: 3}
+  m_PrefabInstance: {fileID: 2229619616105882280}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8170736112053791994 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8040466911535287890, guid: 65d160319ceef1e448e2d8b85cc6e585,
     type: 3}
   m_PrefabInstance: {fileID: 2229619616105882280}
   m_PrefabAsset: {fileID: 0}
