@@ -9,8 +9,8 @@ using UnityEngine.Profiling;
 public class ShineBehaviour : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private float _shineDelayMin;
-    [SerializeField] private float _shineDelayMax;
+    [SerializeField] private float _shineDelayMin = 2f;
+    [SerializeField] private float _shineDelayMax = 4f;
     [SerializeField] private bool _isShineActive = true;
 
     public bool IsShineActive { get; set; }

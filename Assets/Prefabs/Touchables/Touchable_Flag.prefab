@@ -82,6 +82,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &6769620772501520505
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869479702846572751}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.78, z: 1}
+  m_Center: {x: 0, y: -0.52, z: 0}
 --- !u!114 &4892682414427416305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,44 +267,54 @@ PrefabInstance:
     - target: {fileID: 2068005309094465166, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2068005309094465166, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2068005309094465166, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2068005309094465166, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2068005309094465166, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2068005309094465166, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2068005309094465167, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9ca1ca2c27ecbfc45bdd8479aa823769,
+      objectReference: {fileID: -4969333462121959519, guid: 1f7566edd4a8a3149abf08d9679f18ef,
         type: 3}
+    - target: {fileID: 2068005309094465167, guid: f470bf3117b68034a90be8bb56189616,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 80b853a3bf4743543b592b902beffa4f, type: 2}
     - target: {fileID: 2068005310187960824, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: m_Name
       value: Touchable_Flags
       objectReference: {fileID: 0}
+    - target: {fileID: 2068005310187960828, guid: f470bf3117b68034a90be8bb56189616,
+        type: 3}
+      propertyPath: Collider
+      value: 
+      objectReference: {fileID: 6769620772501520505}
     - target: {fileID: 2068005310187960828, guid: f470bf3117b68034a90be8bb56189616,
         type: 3}
       propertyPath: _touchComponent
@@ -354,6 +377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2068005310187960827, guid: f470bf3117b68034a90be8bb56189616, type: 3}
+    - {fileID: 2068005310187960826, guid: f470bf3117b68034a90be8bb56189616, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f470bf3117b68034a90be8bb56189616, type: 3}
 --- !u!1 &6869479702846572751 stripped
 GameObject:
