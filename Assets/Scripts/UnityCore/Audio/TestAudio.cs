@@ -14,27 +14,27 @@ namespace UnityCore
 
             private void Start()
             {
-                foreach (var em in AudioElementals)
-                {
-                    if (em != null)
-                    {
-                        AudioController.Instance.AddAudioElement(em);
-                    }                   
-                }
-                foreach (var em in AudioOST)
-                {
-                    if (em != null)
-                    {
-                        AudioController.Instance.AddAudioElement(em);
-                    }                    
-                }
-                foreach (var em in AudioUI)
-                {
-                    if (em != null)
-                    {
-                        AudioController.Instance.AddAudioElement(em);
-                    }                   
-                }
+                //foreach (var em in AudioElementals)
+                //{
+                //    if (em != null)
+                //    {
+                //        AudioController.Instance.AddAudioElement(em);
+                //    }                   
+                //}
+                //foreach (var em in AudioOST)
+                //{
+                //    if (em != null)
+                //    {
+                //        AudioController.Instance.AddAudioElement(em);
+                //    }                    
+                //}
+                //foreach (var em in AudioUI)
+                //{
+                //    if (em != null)
+                //    {
+                //        AudioController.Instance.AddAudioElement(em);
+                //    }                   
+                //}
             }
 
 

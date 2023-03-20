@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1134724779030778079}
+  _pickupTypeNeededToProc: 0
+  _balloonShowingPrerequisite: {fileID: 0}
   _oneTimeUse: 1
   _hasACooldown: 0
   _cooldownLength: 2
@@ -55,6 +57,12 @@ MonoBehaviour:
   SoundEffect:
     Clip: {fileID: 8300000, guid: 30b5b752f2fc8784bb73f9ebdd388a1a, type: 3}
     Type: 4
+    Volume: 1
+    Pitch: 1
+    RandomizePitchSlightly: 0
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  _audioClips: []
 --- !u!65 &1134724779030778072
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -208,6 +216,6 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134724779424465651}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1225818785
+  m_SortingLayer: 2
   m_SortingOrder: 0

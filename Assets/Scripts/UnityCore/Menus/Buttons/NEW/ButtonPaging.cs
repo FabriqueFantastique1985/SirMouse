@@ -19,10 +19,10 @@ public class ButtonPaging : ButtonBaseNew
     {
         base.Start();
 
-        if (_soundEffectOff.Clip != null)
-        {
-            _audioInstance.AddAudioElement(_soundEffectOff);
-        }
+        //if (_soundEffectOff.Clip != null)
+        //{
+        //    _audioInstance.AddAudioElement(_soundEffectOff);
+        //}
 
         _pageInstance = PageController.Instance;
     }
@@ -56,16 +56,16 @@ public class ButtonPaging : ButtonBaseNew
         {
             _pageInstance.TurnPageOff(_turnThisPage);
 
-            if (DoIHaveActivePages() == false)
-            {
-                GameManager.Instance.BlockInput = false;
-            }
+            //if (DoIHaveActivePages() == false) // not needed ?
+            //{
+            //    GameManager.Instance.BlockInput = false;
+            //}
         }
         else
         {
             _pageInstance.TurnPageOn(_turnThisPage);
 
-            GameManager.Instance.BlockInput = true;
+            //GameManager.Instance.BlockInput = true; // not needed ?
         }
     }
 

@@ -20,6 +20,8 @@ public class MiniGame : MonoBehaviour, IDataPersistence
     
     #endregion
 
+    #region EditorFields
+
     /// <summary>
     /// Reference to the game object that is used to quit the minigame.
     /// </summary>
@@ -32,6 +34,11 @@ public class MiniGame : MonoBehaviour, IDataPersistence
     [SerializeField] 
     private Step[] _steps;
 
+    [SerializeField]
+    private bool _isLooping = false;
+
+    #endregion
+   
     #region Fields
     
     protected int _currentStepIndex = 0;
@@ -72,7 +79,16 @@ public class MiniGame : MonoBehaviour, IDataPersistence
         // Saves current index
         if (autoSave) DataPersistenceManager.Instance.SaveGame();
         
-        if (IsCurrentStepIndexInRange == false) return;
+        if (IsCurrentStepIndexInRange == false)
+        {
+            if (_isLooping)
+            {
+                _currentStepIndex = 0;
+                _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
+                _steps[_currentStepIndex].OnEnter();
+            }
+            return;
+        }
         _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
         _steps[_currentStepIndex].OnEnter();
     }

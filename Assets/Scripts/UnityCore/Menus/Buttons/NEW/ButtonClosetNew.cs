@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class ButtonClosetNew : ButtonPaging
 {
+    public bool IhaveNotificationsReadyInTheCloset;
+    public GameObject NotificationObject;
+
+
     protected override void TurnOnPage()
     {
         // if I'm closing the closet...
@@ -14,25 +18,7 @@ public class ButtonClosetNew : ButtonPaging
         }
         else // if I'm opening the closet...
         {
-            // turn off all other pages, except for the closet
-            _pageInstance.TurnAllPagesOffExcept(_turnThisPage);
-
-            // open up the last page that was opened within the closet
-            if (ClosetController.Instance.PageTypeOpenedInClosetLastTime == PageType.None)
-            {
-                _pageInstance.TurnPageOn(PageType.ClosetNewHats);
-            }
-            else
-            {
-                _pageInstance.TurnPageOn(ClosetController.Instance.PageTypeOpenedInClosetLastTime);
-            }
-            
-            // update images
-            _pageInstance.OpenClosetImage(true);
-            _pageInstance.OpenBagImage(false);
-
-            // turn on the UI player things
-            SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
+            ClosetController.Instance.OpenCloset(_turnThisPage);
         }
     }
 

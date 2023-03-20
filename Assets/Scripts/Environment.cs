@@ -7,8 +7,8 @@ using UnityEngine;
 public class Environment : MonoBehaviour
 {
 
-    [SerializeField]
-    private float _environmentAngle = 30.0f;
+    //[SerializeField]
+    //private float _environmentAngle = 30.0f;
     // Start is called before the first frame update
 
     private void OnValidate()

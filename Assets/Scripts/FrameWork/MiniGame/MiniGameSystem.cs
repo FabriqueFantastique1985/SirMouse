@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MiniGameSystem : GameSystem
 {
-    private int _layerMask;
+    private new int _layerMask;
 
     /// <summary>
     /// List of ground colliders used in the current scene.
@@ -55,12 +55,12 @@ public class MiniGameSystem : GameSystem
         if (Input.GetMouseButton(0) && _onCooldown == false)
         {
             Vector3 currentTarget = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(currentTarget);
+            Ray ray = Camera.allCameras[0].ScreenPointToRay(currentTarget);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                Debug.DrawLine(Camera.main.transform.position, hit.point);
+                Debug.DrawLine(Camera.allCameras[0].transform.position, hit.point);
 
                 Debug.Log("Hit " + hit.transform.name);
 

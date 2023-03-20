@@ -107,7 +107,7 @@ namespace UnityCore
                 TargetState = FLAG_NONE;
 
                 // did not get to this debug here at times !!!!
-                Debug.Log("Page [" + Type + "] finished transitioning to " + (on ? "On" : "Off"));
+                //Debug.Log("Page [" + Type + "] finished transitioning to " + (on ? "On" : "Off"));
 
                 if (on == false)
                 {

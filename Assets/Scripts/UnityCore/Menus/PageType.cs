@@ -7,23 +7,27 @@ namespace UnityCore
         public enum PageType 
         {
             None = 0,
+
             Loading = 1,
             Menu = 2,
+
             Backpack = 3,
+            Closet = 8,
+                             
+            ClosetHats = 9,
+            ClosetHeads = 10,
+            ClosetChests = 11,
+            ClosetArms = 12,
+            ClosetLegs = 13,
+            ClosetFeet = 14,
+            ClosetTails = 15,
+            ClosetSwords = 4,
+            ClosetShields = 5,
+       
+            RewardScreen = 6,
 
-            Closet = 4,           
-            ClosetHeadTorsoTail = 5,
-            ClosetLegs = 6,
-            ClosetArms = 7,
-
-            ClosetNew = 8,
-            ClosetNewHats = 9,
-            ClosetNewHeads = 10,
-            ClosetNewChests = 11,
-            ClosetNewArms = 12,
-            ClosetNewLegs = 13,
-            ClosetNewFeet = 14,
-            ClosetNewTails = 15
+            // re-use the below ones when possible 
+            ClosetOLDArms = 7,
         }
     }
 }

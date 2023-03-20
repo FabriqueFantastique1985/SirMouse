@@ -13,7 +13,10 @@ public class Touchable : MonoBehaviour, IClickable
     public bool OneTimeUse;
     public bool HasACooldown;
 
-    private bool _usedSuccesfully;
+    [HideInInspector]
+    public bool UsedSuccesfully;
+
+
     private bool _onCooldown;
     [SerializeField]
     private float _cooldownLength;
@@ -42,7 +45,6 @@ public class Touchable : MonoBehaviour, IClickable
         ParticleGlowy.Stop();
         Animator.SetBool("Activated", false);
     }
-
     public void Enable()
     {
         Collider.enabled = true;
@@ -53,16 +55,6 @@ public class Touchable : MonoBehaviour, IClickable
     private void Start()
     {
         //Disable();
-        var audioControl = AudioController.Instance;
-        // add the possible sound effects to the AudioTable and the correct track
-        foreach (AudioElement audioEm in AudioElements)
-        {
-            if (audioEm.Clip != null)
-            {
-                // there exists 1 Type more than there are Tracks -> move down by 1
-                audioControl.AddAudioElement(audioEm);
-            }
-        }
     }
 
     #endregion
@@ -72,7 +64,7 @@ public class Touchable : MonoBehaviour, IClickable
     // logic for what should happen when this gets tapped
     public void Click(Player player)
     {
-        if (OneTimeUse == false || OneTimeUse == true && _usedSuccesfully == false)
+        if (OneTimeUse == false || OneTimeUse == true && UsedSuccesfully == false)
         {
             if (_onCooldown == false)
             {
@@ -93,7 +85,9 @@ public class Touchable : MonoBehaviour, IClickable
                     StartCoroutine(ActivateCooldown());
                 }
 
-                _usedSuccesfully = true;
+                NeedyMethod();
+
+                UsedSuccesfully = true;
             }
         }
     }
@@ -102,6 +96,12 @@ public class Touchable : MonoBehaviour, IClickable
     public void PlayAnimationEventSound(int index)
     {
         AudioController.Instance.PlayAudio(AudioElements[index]);
+    }
+
+    // method for the needy variant
+    protected virtual void NeedyMethod()
+    {
+
     }
 
     #endregion

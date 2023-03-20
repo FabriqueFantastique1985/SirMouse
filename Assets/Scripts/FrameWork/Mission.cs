@@ -50,7 +50,7 @@ namespace Fabrique
             {
                 SetObjective(0);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return;
             }

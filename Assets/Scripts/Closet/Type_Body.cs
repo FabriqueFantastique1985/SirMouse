@@ -14,5 +14,7 @@ public enum Type_Body
     LegRight = 7,
     FootLeft = 8,
     FootRight = 9,
-    Tail
+    Tail = 10,
+    Sword = 11,
+    Shield = 12
 }

@@ -6,7 +6,18 @@ public class SkinsMouseController : MonoBehaviour
 {
     public static SkinsMouseController Instance { get; private set; }
 
+    public CharacterRigReferences CharacterRigRefs;
+    public CharacterRigReferences CharacterRigRefsUI;
+    public CharacterGeoReferences characterGeoReferences;
+    public CharacterGeoReferences characterGeoReferencesUI;
+    
     public Animator ClosetWrapInsideCamera;
+
+    //[HideInInspector]
+    public List<SkinPieceElement> EquipedSkinPieces = new List<SkinPieceElement>();
+    public List<SkinPieceElement> EquipedSkinPiecesUI = new List<SkinPieceElement>(); // iterate over this list
+
+    Dictionary<Type_Body, int> _bodyPiecesScore = new Dictionary<Type_Body, int>();
 
     #region SkinPiecesFields
 
@@ -22,6 +33,8 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyType SkinPiecesFootLeft;
     public SkinPiecesForThisBodyType SkinPiecesFootRight;
     public SkinPiecesForThisBodyType SkinPiecesTail;
+    public SkinPiecesForThisBodyType SkinPiecesSword;
+    public SkinPiecesForThisBodyType SkinPiecesShield;
     //
 
     [Header("Skins on player Rig in UI")]
@@ -36,6 +49,8 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyType SkinPiecesUIFootLeft;
     public SkinPiecesForThisBodyType SkinPiecesUIFootRight;
     public SkinPiecesForThisBodyType SkinPiecesUITail;
+    public SkinPiecesForThisBodyType SkinPiecesUISword;
+    public SkinPiecesForThisBodyType SkinPiecesUIShield;
     //
 
     [Header("Skins on buttons in UI closet")]
@@ -50,13 +65,19 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonFootLeft;
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonFootRight;
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonTail;
+    public SkinPiecesForThisBodyTypeButton SkinPiecesButtonSword;
+    public SkinPiecesForThisBodyTypeButton SkinPiecesButtonShield;
     //
 
-    //[HideInInspector]
-    public List<SkinPieceElement> EquipedSkinPieces = new List<SkinPieceElement>();
-    public List<SkinPieceElement> EquipedSkinPiecesUI = new List<SkinPieceElement>();
-
     #endregion
+
+
+    // possible to put this onto seperate ScoreController
+    #region ScoreFields
+    [HideInInspector]
+    public int ScoreTotal;
+    #endregion
+
 
     private void Awake()
     {
@@ -69,10 +90,18 @@ public class SkinsMouseController : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        _bodyPiecesScore.Clear();
+        for (int i = 1; i < System.Enum.GetValues(typeof(Type_Body)).Length; ++i)
+        {
+            _bodyPiecesScore.Add((Type_Body)i, 0);
+        }
+    }
 
     #region Public Functions
     // called on the interaction add...
-    public void UnlockSkinPiece(SkinPieceElement skinPieceElement)
+    public ButtonSkinPiece UnlockSkinPiece(SkinPieceElement skinPieceElement)
     {
         SkinPiecesForThisBodyTypeButton skinPieceForBodyX = null;
 
@@ -111,9 +140,15 @@ public class SkinsMouseController : MonoBehaviour
             case Type_Body.Tail:
                 skinPieceForBodyX = SkinPiecesButtonTail;
                 break;
+            case Type_Body.Sword:
+                skinPieceForBodyX = SkinPiecesButtonSword;
+                break;
+            case Type_Body.Shield:
+                skinPieceForBodyX = SkinPiecesButtonShield;
+                break;
         }
 
-        FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
+        return FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
     }
     // called when a piece is dragged onto SirMouse...
     public void EquipSkinPiece(SkinPieceElement skinPieceElement)
@@ -167,6 +202,14 @@ public class SkinsMouseController : MonoBehaviour
                 skinPieceForBodyX = SkinPiecesTail;
                 skinPieceForBodyUIX = SkinPiecesUITail;
                 break;
+            case Type_Body.Sword:
+                skinPieceForBodyX = SkinPiecesSword;
+                skinPieceForBodyUIX = SkinPiecesUISword;
+                break;
+            case Type_Body.Shield:
+                skinPieceForBodyX = SkinPiecesShield;
+                skinPieceForBodyUIX = SkinPiecesUIShield;
+                break;
         }
 
         // disable other equiped skin pieces for bodyTypeX
@@ -179,7 +222,7 @@ public class SkinsMouseController : MonoBehaviour
 
 
     #region Private Functions
-    private void FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, SkinPieceElement skinPieceElement)
+    private ButtonSkinPiece FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX, SkinPieceElement skinPieceElement)
     {
         for (int i = 0; i < skinPiecesForBodyX.MySkinPiecesButtons.Count; i++)
         {
@@ -190,9 +233,11 @@ public class SkinsMouseController : MonoBehaviour
                 // enable the sprite over the sillhouette on the button
                 skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound.SetActive(true);
 
-                break;
+                //return skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound;
+                return skinPiecesForBodyX.MySkinPiecesButtons[i];
             }
         }
+        return null;
     }
     private void FindCorrectSkinPieceRig(SkinPiecesForThisBodyType skinPiecesForBodyX, SkinPiecesForThisBodyType skinPiecesForBodyUIX, SkinPieceElement skinPieceElement)
     {
@@ -206,7 +251,11 @@ public class SkinsMouseController : MonoBehaviour
             if (skinPiecesForBodyX.MySkinPieces[i].MySkinType == skinPieceElement.MySkinType)
             {
                 tempListToClear.Add(skinPiecesForBodyX.MySkinPieces[i]);
-                tempListToClearUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);     
+                tempListToClearUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);
+
+                // link the score that was set on the Closet
+                skinPiecesForBodyX.MySkinPieces[i].ScoreValue = skinPieceElement.ScoreValue; 
+                skinPiecesForBodyUIX.MySkinPieces[i].ScoreValue = skinPieceElement.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
             }
         }
 
@@ -224,6 +273,8 @@ public class SkinsMouseController : MonoBehaviour
             // this logic is what applies the skins on the Closet mouse
             tempListToClearUI[i].gameObject.SetActive(true);
 
+            Debug.Log("Equiping piece " + tempListToClear[i]);
+
             // add to list of equiped skinpieces
             EquipedSkinPieces.Add(tempListToClear[i]);
             EquipedSkinPiecesUI.Add(tempListToClearUI[i]);
@@ -238,6 +289,8 @@ public class SkinsMouseController : MonoBehaviour
                 SetSirMouseGeometryState(skinPieceElement.MyBodyType, true);
             }
         }
+
+        DebugConsoleScore();
 
         tempListToClear.Clear();
         tempListToClearUI.Clear();
@@ -278,81 +331,113 @@ public class SkinsMouseController : MonoBehaviour
             case Type_Body.None:
                 break;
             case Type_Body.Hat:
-                GameManager.Instance.characterGeoReferences.EarL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.EarR.gameObject.SetActive(state);
+                characterGeoReferences.EarL.gameObject.SetActive(state);
+                characterGeoReferences.EarR.gameObject.SetActive(state);
                 // ui
-                GameManager.Instance.characterGeoReferencesUI.EarL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.EarR.gameObject.SetActive(state);
+                characterGeoReferencesUI.EarL.gameObject.SetActive(state);
+                characterGeoReferencesUI.EarR.gameObject.SetActive(state);
                 break;
             case Type_Body.Head:
-                GameManager.Instance.characterGeoReferences.Head.gameObject.SetActive(state);
+                characterGeoReferences.Head.gameObject.SetActive(state);
                 // ui
-                GameManager.Instance.characterGeoReferencesUI.Head.gameObject.SetActive(state);
+                characterGeoReferencesUI.Head.gameObject.SetActive(state);
                 break;
             case Type_Body.Chest:
-                GameManager.Instance.characterGeoReferences.Chest.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.Skirt.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.Chest.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
+                characterGeoReferences.Chest.gameObject.SetActive(state);
+                characterGeoReferences.Skirt.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.Chest.gameObject.SetActive(state);
+                characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
                 break;
             case Type_Body.ArmLeft:
-                GameManager.Instance.characterGeoReferences.ArmUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.HandL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ElbowL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ShoulderL.gameObject.SetActive(state);
+                characterGeoReferences.ArmUpL.gameObject.SetActive(state);
+                characterGeoReferences.HandL.gameObject.SetActive(state);
+                characterGeoReferences.ElbowL.gameObject.SetActive(state);
+                characterGeoReferences.ShoulderL.gameObject.SetActive(state);
                 // ui
-                GameManager.Instance.characterGeoReferencesUI.ArmUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.HandL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
+                characterGeoReferencesUI.ArmUpL.gameObject.SetActive(state);
+                characterGeoReferencesUI.HandL.gameObject.SetActive(state);
+                characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
+                characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
                 break;
             case Type_Body.ArmRight:
-                GameManager.Instance.characterGeoReferences.ArmUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.HandR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ElbowR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.ShoulderR.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.ArmUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.HandR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
+                characterGeoReferences.ArmUpR.gameObject.SetActive(state);
+                characterGeoReferences.HandR.gameObject.SetActive(state);
+                characterGeoReferences.ElbowR.gameObject.SetActive(state);
+                characterGeoReferences.ShoulderR.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.ArmUpR.gameObject.SetActive(state);
+                characterGeoReferencesUI.HandR.gameObject.SetActive(state);
+                characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
+                characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
                 break;
             case Type_Body.LegLeft:
-                GameManager.Instance.characterGeoReferences.LegUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.KneeL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.LegLowL.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.LegUpL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
+                characterGeoReferences.LegUpL.gameObject.SetActive(state);
+                characterGeoReferences.KneeL.gameObject.SetActive(state);
+                characterGeoReferences.LegLowL.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.LegUpL.gameObject.SetActive(state);
+                characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
+                characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
                 break;
             case Type_Body.LegRight:
-                GameManager.Instance.characterGeoReferences.LegUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.KneeR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferences.LegLowR.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.LegUpR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.KneeR.gameObject.SetActive(state);
-                GameManager.Instance.characterGeoReferencesUI.LegLowR.gameObject.SetActive(state);
+                characterGeoReferences.LegUpR.gameObject.SetActive(state);
+                characterGeoReferences.KneeR.gameObject.SetActive(state);
+                characterGeoReferences.LegLowR.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.LegUpR.gameObject.SetActive(state);
+                characterGeoReferencesUI.KneeR.gameObject.SetActive(state);
+                characterGeoReferencesUI.LegLowR.gameObject.SetActive(state);
                 break;
             case Type_Body.FootLeft:
-                GameManager.Instance.characterGeoReferences.FootL.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.FootL.gameObject.SetActive(state);
+                characterGeoReferences.FootL.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.FootL.gameObject.SetActive(state);
                 break;
             case Type_Body.FootRight:
-                GameManager.Instance.characterGeoReferences.FootR.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.FootR.gameObject.SetActive(state);
+                characterGeoReferences.FootR.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.FootR.gameObject.SetActive(state);
                 break;
             case Type_Body.Tail:
-                GameManager.Instance.characterGeoReferences.Tail.gameObject.SetActive(state);
-                // ui
-                GameManager.Instance.characterGeoReferencesUI.Tail.gameObject.SetActive(state);
+                characterGeoReferences.Tail.gameObject.SetActive(state);
+                
+                characterGeoReferencesUI.Tail.gameObject.SetActive(state);
+                break;
+            case Type_Body.Sword:
+                characterGeoReferences.Sword.gameObject.SetActive(state);
+
+                characterGeoReferencesUI.Sword.gameObject.SetActive(state);
+                break;
+            case Type_Body.Shield:
+                characterGeoReferences.Shield.gameObject.SetActive(state);
+
+                characterGeoReferencesUI.Shield.gameObject.SetActive(state);
                 break;
 
         }
+    }
+
+
+    private void DebugConsoleScore()
+    {
+        int totalScore = 0;
+
+        // Set correct score for each body part in dictionary
+        for (int i = 0; i < EquipedSkinPieces.Count; i++)
+        {
+            _bodyPiecesScore[EquipedSkinPieces[i].MyBodyType] = EquipedSkinPieces[i].ScoreValue;
+        }
+
+        // Loop over dictionary and add to total score
+        foreach (var item in _bodyPiecesScore)
+        {
+            totalScore += item.Value;
+        }
+
+        ScoreTotal = totalScore;
+
+        //Debug.Log("Total Score is " + ScoreTotal);
     }
 
     #endregion

@@ -1,6 +1,7 @@
 ﻿
 using System.Collections;
 using System.Threading.Tasks;
+using UnityCore.Audio;
 using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,7 +51,11 @@ namespace UnityCore
                 if (SceneControllerInstance == null)
                 {
                     Configure();
-                    DontDestroyOnLoad(gameObject);
+                    
+                    if (gameObject.transform.parent)
+                        DontDestroyOnLoad(gameObject.transform.parent);
+                    else
+                        DontDestroyOnLoad(gameObject);
                 }
                 else
                 {
@@ -139,7 +144,11 @@ namespace UnityCore
 
                 // updating the playfield and colliders I can cast on // TWEAK THIS
                 GameManager.Instance.PlayField = FindObjectOfType<PlayField>();
+
                 GameManager.Instance.AdjustGameSystem(GameManager.Instance.PlayField.GroundColliders);
+
+                // remove audiotracks where source is null
+                AudioController.Instance.VerifyAudioTracks();
 
 
                 // setting the player at the correct position
@@ -249,6 +258,7 @@ namespace UnityCore
                     case SceneType.MisterWitch_Int: return "MisterWitch_Int";
                     case SceneType.PrinceTower_C: return "PrinceTower_C";
                     case SceneType.ForestDuplicate: return "ForestLevelDuplicate";
+                    case SceneType.Castle_Courtyard: return "Castle_Courtyard";
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a string for a valid scene. ");
                         return string.Empty;
@@ -279,6 +289,7 @@ namespace UnityCore
                     case "MisterWitch_Int": return SceneType.MisterWitch_Int;
                     case "PrinceTower_C": return SceneType.PrinceTower_C;
                     case "ForestLevelDuplicate": return SceneType.ForestDuplicate;
+                    case "Castle_Courtyard": return SceneType.Castle_Courtyard;
                     default:
                         Debug.Log("Scene [" + scene + "] does not contain a type for a valid scene. ");
                         return SceneType.None;

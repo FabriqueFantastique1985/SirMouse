@@ -17,7 +17,7 @@ public class Character : MonoBehaviour
         UnEquip = 4,
         Drop = 5,
         TwoHanded = 6,
-        BackpackExtraction = 7
+        BackpackExtraction = 7,
     };
 
     #endregion
@@ -33,19 +33,26 @@ public class Character : MonoBehaviour
 
     #endregion
     
+    #region Properties
+    public Animator AnimatorRM
+    {
+        get { return _animatorRM; }
+    }
+    #endregion
+
     #region EditorFields
 
     [FormerlySerializedAs("AnimatorRM")] [SerializeField]
     private Animator _animatorRM;
+
+    [SerializeField]
+    private Animator _explosionAnimator;
 
     [FormerlySerializedAs("_runCondition")] [SerializeField]
     private string _walkName = "Run";
 
     [FormerlySerializedAs("_idleCondition")] [SerializeField]
     private string _idleName = "Idle";
-
-    [FormerlySerializedAs("_jumpCondition")] [SerializeField]
-    private string _jumpName = "Jump";
 
     [FormerlySerializedAs("_pickupCondition")] [SerializeField]
     private string _pickupName = "Pickup";
@@ -128,7 +135,6 @@ public class Character : MonoBehaviour
         
         _animatorRM.SetTrigger(animationString);
     }
-
     public void SetAnimatorBool(States state, bool setValue)
     {
         switch (state)
@@ -140,7 +146,6 @@ public class Character : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
     }
-
     public void SetCharacterMirrored(bool mirror)
     {
         if (mirror)
@@ -151,6 +156,10 @@ public class Character : MonoBehaviour
             transform.localScale = new Vector3(_originalScale.x, _originalScale.y,
                 _originalScale.z);
         }
+    }
+    public void SetBoolSleeping(bool forbidSleep)
+    {
+        _animatorRM.SetBool("ForbidSleep", forbidSleep);
     }
     
     private void ResetAllTriggers()
@@ -188,22 +197,28 @@ public class Character : MonoBehaviour
         //Debug.Log("Entered Idle state");
     }
 
+    public void PlayExplosion()
+    {
+        _explosionAnimator.SetTrigger("Activate");
+    }
+
 
     // animation events
     public void UnEquipGear()
     {
-        GameManager.Instance.characterGeoReferences.Sword.gameObject.SetActive(false);
-        GameManager.Instance.characterGeoReferences.Shield.gameObject.SetActive(false);
+        
+        SkinsMouseController.Instance.characterGeoReferences.Sword.gameObject.SetActive(false);
+        SkinsMouseController.Instance.characterGeoReferences.Shield.gameObject.SetActive(false);
 
-        GameManager.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(true);
-        GameManager.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(true);
     }
     public void EquipGear()
     {
-        GameManager.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(false);
-        GameManager.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(false);
+        SkinsMouseController.Instance.characterGeoReferences.SwordBack.gameObject.SetActive(false);
+        SkinsMouseController.Instance.characterGeoReferences.ShieldBack.gameObject.SetActive(false);
 
-        GameManager.Instance.characterGeoReferences.Sword.gameObject.SetActive(true);
-        GameManager.Instance.characterGeoReferences.Shield.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.Sword.gameObject.SetActive(true);
+        SkinsMouseController.Instance.characterGeoReferences.Shield.gameObject.SetActive(true);
     }
 }

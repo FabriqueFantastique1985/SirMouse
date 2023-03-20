@@ -13,6 +13,8 @@ public class IngredientEntranceTrigger : MonoBehaviour
     private Animator _cauldronAnimator;
     private List<ParticleSystem> _currentActiveParticles = new List<ParticleSystem>();
 
+    public AudioElement Splash;
+
     private void Start()
     {
         _cauldronAnimator = _recipeController.CauldronAnimator;
@@ -41,10 +43,11 @@ public class IngredientEntranceTrigger : MonoBehaviour
                 _recipeController.ParticleSplash.Play(true); // particle needs to be burst here!
 
                 // play sound
-
-                //AudioController.Instance.PlayAudio()
+                if (Splash.Clip != null)
+                {
+                    AudioController.Instance.PlayAudio(Splash);
+                }        
             }
-
         }
     }
 

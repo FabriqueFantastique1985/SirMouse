@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class ClosetController : MonoBehaviour
     public List<Page> PagesWithinCloset = new List<Page>();
 
     public ButtonClosetNew ButtonCloset;
+    public List<ButtonClosetOpenSpecificPieces> ButtonsClosetPagers = new List<ButtonClosetOpenSpecificPieces>();
     public SkinPieceElement CurrentlyHeldSkinPiece;
 
     [HideInInspector]
@@ -22,6 +24,13 @@ public class ClosetController : MonoBehaviour
     public GameObject CurrentlyHeldObject;
     [HideInInspector]
     public Animation AnimationSpawnedObject;
+
+    //[HideInInspector]
+    public List<ButtonSkinPiece> ButtonsWithNotifications = new List<ButtonSkinPiece>();
+    //[HideInInspector]
+    public List<ButtonClosetOpenSpecificPieces> ButtonsClosetPagerWithNotifs = new List<ButtonClosetOpenSpecificPieces>();
+
+    private float _closetPageArmCounter, _closetPageLegCounter, _closetPageFootCounter;
 
     [HideInInspector]
     public bool ActivatedFollowMouse;
@@ -130,6 +139,7 @@ public class ClosetController : MonoBehaviour
         CurrentlyHeldSkinPiece.MyBodyType = skinPieceElement.MyBodyType;  // null ref
         CurrentlyHeldSkinPiece.MySkinType = skinPieceElement.MySkinType;
         CurrentlyHeldSkinPiece.HidesSirMouseGeometry = skinPieceElement.HidesSirMouseGeometry;
+        CurrentlyHeldSkinPiece.ScoreValue = skinPieceElement.ScoreValue;
 
         //        AudioController.Instance.PlayAudio(AudioElements[0]);
 
@@ -154,23 +164,176 @@ public class ClosetController : MonoBehaviour
 
         PageTypeOpenedInClosetLastTime = turnToThisPage;
     }
+    public void OpenCloset(PageType typeToOpen)
+    {
+        //AudioController.Instance.TurnDownVolumeForOSTAndWorld();
+
+        // turn off all other pages, except for the closet
+        PageController.Instance.TurnAllPagesOffExcept(typeToOpen);
+
+        // open up the last page that was opened within the closet
+        if (PageTypeOpenedInClosetLastTime == PageType.None)
+        {
+            PageController.Instance.TurnPageOn(PageType.ClosetHats);
+        }
+        else
+        {
+            PageController.Instance.TurnPageOn(PageTypeOpenedInClosetLastTime);
+        }
+
+        // update images
+        PageController.Instance.OpenClosetImage(true);
+        PageController.Instance.OpenBagImage(false);
+
+        // turn on the UI player things
+        SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
+
+        // sleeping ILLEGAL
+        GameManager.Instance.Player.Character.SetBoolSleeping(true);
+    }
     public void CloseCloset()
     {
+        //AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
+
         // close closet page
-        PageController.Instance.TurnPageOff(PageType.ClosetNew);
+        PageController.Instance.TurnPageOff(PageType.Closet);
 
         // update ui images
         PageController.Instance.OpenClosetImage(false);
         PageController.Instance.OpenBagImage(false);
 
-        // this still eneded ?
+        // this still needed ?
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
+
+        // sleeping allowed
+        GameManager.Instance.Player.Character.SetBoolSleeping(false);
+    }
+
+    // called on GiveReward() in RewardController
+    public void AddNotificationToList(ButtonSkinPiece buttonSkinPiece)
+    {       
+        // found will always be true, so cannot use it here...
+        if (ButtonsWithNotifications.Contains(buttonSkinPiece) == false)
+        {
+            if (buttonSkinPiece.HasBeenNotified == false)
+            {
+                ButtonsWithNotifications.Add(buttonSkinPiece);
+            }          
+        }      
+    }
+    public void NotificationActivater()
+    {
+        for (int i = 0; i< ButtonsWithNotifications.Count; i++) // looping over the list of buttons with notifications 
+        {
+            // only do the following if List[i] NotifObject is not ON
+            if (ButtonsWithNotifications[i].NotificationObject.activeSelf == false)
+            {
+                // activate notif on button skinpiece
+                ButtonsWithNotifications[i].NotificationObject.SetActive(true);
+                ButtonsWithNotifications[i].HasBeenNotified = true;
+
+                // figure out what pager has a similar BodyType to the ButtonWithNotif...
+                for (int j = 0; j < ButtonsClosetPagers.Count; j++)
+                {
+                    if (ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == ButtonsClosetPagers[j].BodyType)
+                    {
+                        // activate notif on found button
+                        ButtonsClosetPagers[j].NotificationObject.SetActive(true);
+                        // list additions (if it has not already been added)
+                        if (ButtonsClosetPagerWithNotifs.Contains(ButtonsClosetPagers[j]) == false)
+                        {
+                            ButtonsClosetPagerWithNotifs.Add(ButtonsClosetPagers[j]);
+                        }
+
+                        ButtonsClosetPagers[j].IHaveButtonsWithNotificationOn = true;
+                        ButtonsClosetPagers[j].ButtonsWithNotifsOnOnMyPage.Add(ButtonsWithNotifications[i]); // this is not adding both arms right now                    
+                        break;
+                    }
+                    else if ((ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == Type_Body.FootRight && ButtonsClosetPagers[j].BodyType == Type_Body.FootLeft) ||
+                         (ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == Type_Body.LegRight && ButtonsClosetPagers[j].BodyType == Type_Body.LegLeft) ||
+                         (ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == Type_Body.ArmRight && ButtonsClosetPagers[j].BodyType == Type_Body.ArmLeft))
+                    {
+                        // activate notif on found button
+                        ButtonsClosetPagers[j].NotificationObject.SetActive(true);
+                        // list additions (if it has not already been added)
+                        if (ButtonsClosetPagerWithNotifs.Contains(ButtonsClosetPagers[j]) == false)
+                        {
+                            ButtonsClosetPagerWithNotifs.Add(ButtonsClosetPagers[j]);
+                        }
+
+                        ButtonsClosetPagers[j].IHaveButtonsWithNotificationOn = true;
+                        ButtonsClosetPagers[j].ButtonsWithNotifsOnOnMyPage.Add(ButtonsWithNotifications[i]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // activate notif on closet button
+        if (ButtonsWithNotifications.Count > 0)
+        {          
+            ButtonCloset.NotificationObject.SetActive(true);
+            ButtonCloset.IhaveNotificationsReadyInTheCloset = true;
+        }
+    }
+
+    // called when clicking on a piece
+    public void NotificationRemover(ButtonSkinPiece buttonSkinPiece)
+    {
+        // only jump into the removing logic if this was no TriedOutYet
+        if (buttonSkinPiece.TriedThisOut == false)
+        {
+            buttonSkinPiece.TriedThisOut = true;
+            buttonSkinPiece.NotificationObject.SetActive(false);
+
+            // remove it from the list "skinPiece buttons" ... 
+            ButtonsWithNotifications.Remove(buttonSkinPiece);
+
+            // AND some other lists...
+            for (int i = 0; i < ButtonsClosetPagerWithNotifs.Count; i++)
+            {
+                // prior IF will not be true if clicking a "Right" limb, hence the extra ELSE IF
+                if (buttonSkinPiece.MySkinPieceElement.MyBodyType == ButtonsClosetPagerWithNotifs[i].BodyType)
+                {
+                    CascadeNotificationLogic(buttonSkinPiece, i);
+                    break;
+                }
+                else if ((buttonSkinPiece.MySkinPieceElement.MyBodyType == Type_Body.FootRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.FootLeft) ||
+                         (buttonSkinPiece.MySkinPieceElement.MyBodyType == Type_Body.LegRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.LegLeft) ||
+                         (buttonSkinPiece.MySkinPieceElement.MyBodyType == Type_Body.ArmRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.ArmLeft))
+                {
+                    CascadeNotificationLogic(buttonSkinPiece, i);
+                    break;
+                }
+            }
+        }
+    }
+    private void CascadeNotificationLogic(ButtonSkinPiece buttonSkinPiece, int i)
+    {
+        ButtonsClosetPagerWithNotifs[i].ButtonsWithNotifsOnOnMyPage.Remove(buttonSkinPiece);
+
+        // check if the ButtonClosetSpecificPieces still has any buttons remaining with an active notif
+        if (ButtonsClosetPagerWithNotifs[i].ButtonsWithNotifsOnOnMyPage.Count == 0)
+        {
+            ButtonsClosetPagerWithNotifs[i].IHaveButtonsWithNotificationOn = false;
+            ButtonsClosetPagerWithNotifs[i].NotificationObject.SetActive(false);
+
+            ButtonsClosetPagerWithNotifs.Remove(ButtonsClosetPagerWithNotifs[i]);
+
+            // check if there are any ButtonClosetPagerWithNotifs in the list
+            if (ButtonsClosetPagerWithNotifs.Count == 0)
+            {
+                ButtonCloset.IhaveNotificationsReadyInTheCloset = false;
+                ButtonCloset.NotificationObject.SetActive(false);
+            }
+        }
     }
 
 
 
 
     // duplicate logic from BackpackController
+    /*
     public IEnumerator ForceObjectInCloset(InteractionClosetAdd interactCloset, float scaleForImage = 1)
     {
         // get the world to screen pos of the interactible
@@ -208,6 +371,7 @@ public class ClosetController : MonoBehaviour
 
         yield return null;
     }
+    */
     public IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
     {
         yield return new WaitForSeconds(0.25f);

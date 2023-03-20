@@ -9,14 +9,23 @@ public class AnimationStartTime : MonoBehaviour
     [SerializeField]
     private float _ramdomOffsetUpperLimit = 2.0f;
     [SerializeField]
-    private Rigidbody _rigidbody;
+    private Animator _animator;
 
     void Start()
     {
-        _animation.enabled = false;
-
         float randomOffset = Random.Range(0.0f, _ramdomOffsetUpperLimit);
-        StartCoroutine(ActivateAnimation(randomOffset));
+
+        if (_animation != null)
+        {
+            _animation.enabled = false;
+            StartCoroutine(ActivateAnimation(randomOffset));
+        }
+
+        if (_animator != null)
+        {
+            _animator.SetFloat("StartTime", Mathf.Clamp(randomOffset,0.0f, 1.0f));
+        }
+
     }
 
     private IEnumerator ActivateAnimation(float randomTime)

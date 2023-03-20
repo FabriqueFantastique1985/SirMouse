@@ -35,12 +35,16 @@ public class Balloon : MonoBehaviour, IClickable
     
     [SerializeField]
     private string _animPop = "Balloon_Pop";
+    [SerializeField]
+    private string _animPop2 = "Balloon_Pop2";
 
-    [Header("BalloonSprite")]
+    private bool _toggleAnimPop;
+
+    [Header("Audio")]
     [SerializeField]
     private AudioElement _soundEffectClick;
 
-    [Header("BalloonSprite")]
+    [Header("Sprite in Balloon (not being used)")]
     [SerializeField]
     private Image _objectImageRenderer;
 
@@ -59,12 +63,25 @@ public class Balloon : MonoBehaviour, IClickable
 
     private void Awake()
     {
-      if (_objectImageRenderer != null) _imageOriginalRect = _objectImageRenderer.rectTransform.rect;
+        if (_objectImageRenderer != null) _imageOriginalRect = _objectImageRenderer.rectTransform.rect;     
     }
 
     public void Click(Player player)
     {
-        if (_balloonAnimator != null) _balloonAnimator.Play(_animPop);
+        if (_balloonAnimator != null)
+        {
+            if (_toggleAnimPop == false)
+            {
+                _balloonAnimator.Play(_animPop);
+            }
+            else
+            {
+                _balloonAnimator.Play(_animPop2);
+            }
+            
+            _toggleAnimPop = !_toggleAnimPop;
+        }
+        
         if (_disableOnClick) StartCoroutine(DisableBalloon());
         AudioController.Instance.PlayAudio(_soundEffectClick);
         OnBalloonClicked?.Invoke(this, player);
@@ -85,6 +102,8 @@ public class Balloon : MonoBehaviour, IClickable
     {
         gameObject.SetActive(true);
         if (_balloonAnimator != null) _balloonAnimator.Play(_animFloat);
+
+        BalloonTrigger.enabled = true;
     }
     
     public void Hide()

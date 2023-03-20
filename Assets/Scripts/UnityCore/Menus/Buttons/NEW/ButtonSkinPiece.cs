@@ -9,8 +9,12 @@ public class ButtonSkinPiece : ButtonBaseNew
     public GameObject MySpriteToActivateWhenFound;
     public GameObject MySpriteToDuplicateAndMove;
 
-    [Header("status")]
-    public bool Found;
+    [Header("Status-es")]
+    public bool Found; // set -> GiveReward()
+    public bool TriedThisOut; // set -> when clicking the button
+    public bool HasBeenNotified; // set -> GiveReward() (but later on)
+
+    public GameObject NotificationObject;
 
 
     public override void ClickedButton()
@@ -18,6 +22,9 @@ public class ButtonSkinPiece : ButtonBaseNew
         // if this is a skinPiece I have found...
         if (Found == true)  
         {
+            // change notification status
+            ClosetController.Instance.NotificationRemover(this);
+
             // if I don't already have a skinPiece on my finger...
             if (ClosetController.Instance.ActivatedFollowMouse == false)
             {
@@ -27,7 +34,6 @@ public class ButtonSkinPiece : ButtonBaseNew
                 // create copy of skinPiece
                 ClosetController.Instance.ClickedSkinPieceButton(MySpriteToDuplicateAndMove, MySkinPieceElement, this.transform.position);
             }
-
         }
     }
 

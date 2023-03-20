@@ -323,8 +323,9 @@ GameObject:
   - component: {fileID: 6236272767926361335}
   - component: {fileID: 6236272767926361329}
   - component: {fileID: 6236272767926361334}
+  - component: {fileID: 4403048971779744430}
   m_Layer: 15
-  m_Name: Wardrobe
+  m_Name: Touchable_Wardrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,9 +361,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationComponent: {fileID: 6236272769085846628}
-  AudioElements:
-  - Clip: {fileID: 8300000, guid: 24a6f39cac0b1204f91f728ee3c2fe39, type: 3}
+  Pickup:
+    Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
     Type: 4
+    Volume: 0.1
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  Drop:
+    Clip: {fileID: 8300000, guid: 8e6a0d94ac69326429ebe0863979051d, type: 3}
+    Type: 4
+    Volume: 0.2
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+  Disappear:
+    Clip: {fileID: 8300000, guid: 358c6394577d3644c93f4267935371e4, type: 3}
+    Type: 4
+    Volume: 0.2
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
 --- !u!95 &6236272767926361335
 Animator:
   serializedVersion: 3
@@ -420,6 +442,22 @@ MonoBehaviour:
   AudioElements:
   - Clip: {fileID: 8300000, guid: 24a6f39cac0b1204f91f728ee3c2fe39, type: 3}
     Type: 4
+    Volume: 0.3
+    Pitch: 1
+    RandomizePitchSlightly: 1
+    PitchLowerLimitAddition: 0.2
+    PitchUpperLimitAddition: 0.2
+--- !u!210 &4403048971779744430
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6236272767926361331}
+  m_Enabled: 1
+  m_SortingLayerID: 1225818785
+  m_SortingLayer: 2
+  m_SortingOrder: 0
 --- !u!1 &6236272767929725501
 GameObject:
   m_ObjectHideFlags: 0

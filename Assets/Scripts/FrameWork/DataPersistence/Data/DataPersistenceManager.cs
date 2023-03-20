@@ -10,10 +10,14 @@ public class DataPersistenceManager : MonoBehaviour
 {
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
-    
+
+    #region Fields
+
     private GameData _gameData;
     private List<IDataPersistence> _dataPersistenceObjects;
     private FileDataHandler _dataHandler;
+
+    #endregion
 
     public static DataPersistenceManager Instance { get; private set; }
 
@@ -60,6 +64,14 @@ public class DataPersistenceManager : MonoBehaviour
         }
 
         _dataHandler.Save(_gameData);
+    }
+
+    /// <summary>
+    /// Temporary method to clear all save files
+    /// </summary>
+    public void ClearGame()
+    {
+        _dataHandler.ClearSaveFiles();
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()

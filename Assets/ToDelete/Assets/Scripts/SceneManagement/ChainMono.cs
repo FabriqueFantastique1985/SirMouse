@@ -13,7 +13,7 @@ public class ChainMono : IDisposable
     private Queue<ChainActionMonoBehaviour> _chainActions = new Queue<ChainActionMonoBehaviour>();
     private ChainActionMonoBehaviour _currentChainAction;
     
-    private int _currentChainActionIndex = -1;
+    //private int _currentChainActionIndex = -1;
     private float _elapsedTime = 0.0f;
 
     private bool _isPlaying = false;

@@ -35,7 +35,7 @@ public class FollowCamera : MonoBehaviour
     private Vector3 _boundaryCheckerRayOriginLeft;
     private Vector3 _boundaryCheckerRayOriginRight;
 
-    private bool _hasArrived = false;
+    //private bool _hasArrived = false;
 
     private void Start()
     {

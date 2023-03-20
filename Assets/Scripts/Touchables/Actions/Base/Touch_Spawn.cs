@@ -53,8 +53,8 @@ public class Touch_Spawn : Touch_Action
         if (_acted == false)
         {
             //base.Act();
-
-            AudioController.Instance.PlayAudio(AudioElements[0]);
+            PlayAudio(Pickup);
+            
             SpawnObject();
             _animationSpawnedObject.Play(_animPop);
             _animationSpawnedObject.PlayQueued(_animIdle);
@@ -70,8 +70,7 @@ public class Touch_Spawn : Touch_Action
     private void FollowMouseLogic()
     {
         if (Input.GetMouseButtonUp(0))
-        {
-            AudioController.Instance.PlayAudio(AudioElements[1]);
+        {            
             LetGoOfMouse();           
         }
         else if (_activatedFollowMouse == true)
@@ -81,6 +80,8 @@ public class Touch_Spawn : Touch_Action
     }
     private void LetGoOfMouse()
     {
+        PlayAudio(Drop);
+        
         _animationSpawnedObject.Play(_animPop);
 
         _activatedFollowMouse = false;
@@ -140,7 +141,7 @@ public class Touch_Spawn : Touch_Action
         // remove the object (limited for performance/memory)
         if (_spawnedObjects.Count > _spawnLimit)
         {
-            AudioController.Instance.PlayAudio(AudioElements[2]);
+            PlayAudio(Disappear);
 
             Instantiate(_prefabParticlePoof, _spawnedObjects[0].transform.position, Quaternion.identity);
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class Interactable : MonoBehaviour, IDataPersistence
@@ -46,15 +47,6 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
     protected int _currentInteractionIndex = 0;
 
-    [Header("Shine")]
-    [SerializeField]
-    private SpriteRenderer _spriteRenderer;
-    [SerializeField]
-    private float _shineDelay;
-    [SerializeField]
-    private float _shineScale;
-    [SerializeField]
-    private bool _isShineActive;
 
     #region Properties
 
@@ -67,7 +59,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
     }
 
     #endregion
-    
+
     private void Start()
     {
         InteractionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
@@ -77,12 +69,6 @@ public class Interactable : MonoBehaviour, IDataPersistence
         {
             _swapBalloon.OnBalloonClicked += OnInteractSwapBalloonClicked;
             _swapBalloon.gameObject.SetActive(false);
-        }
-
-        if (_spriteRenderer)
-        {
-
-            StartCoroutine(MoveShine());
         }
 
         Initialize();
@@ -121,28 +107,6 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
     #region Private Functions
 
-    private IEnumerator MoveShine()
-    {
-        float showDuration = _spriteRenderer.material.GetFloat("_ScrollSpeed");
-        _spriteRenderer.material.SetFloat("_Scale", _shineScale);
-        while (_isShineActive)
-        {
-            float timer = 0f;
-            while (timer < _shineDelay + showDuration)
-            {
-                timer += Time.deltaTime;
-
-                if (timer < 1f / showDuration)
-                {
-                    _spriteRenderer.material.SetFloat("_ScrollTime", timer);
-                }
-
-                yield return null;
-            }
-        }
-    }
-
-
     // current way of adjusting interaction will not always work
     // -> example: interaction_0 & interaction_2 are possible, but interaction_1 not --> this logic would show the wrong sprites of 0 & 1 unless updated !
     private void AdjustInteraction()
@@ -151,7 +115,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
         InteractionBalloon.SetSprite(_interactions[_currentInteractionIndex].SpriteObjectInteractionBalloon);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         var player = other.transform.GetComponent<Player>();
         if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !
@@ -160,7 +124,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         var player = other.transform.GetComponent<Player>();
         if (player != null)  // if statement doesn't need to exist if we use layers to decide what can enter the trigger !

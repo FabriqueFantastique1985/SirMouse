@@ -13,13 +13,9 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public PlayField PlayField;
     public Player Player;
 
-    public CharacterRigReferences CharacterRigRefs;
-    public CharacterRigReferences CharacterRigRefsUI;
-    public CharacterGeoReferences characterGeoReferences;
-    public CharacterGeoReferences characterGeoReferencesUI;
-
     [FormerlySerializedAs("MainCamera")] public Camera CurrentCamera;
     [FormerlySerializedAs("MainCameraScript")] public FollowCam FollowCamera;
+    public ZoomCam ZoomCamera;
 
     public GameObject PanelUIButtonsClosetAndBackpack;
 
@@ -50,7 +46,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     #endregion
 
-    private void Awake()
+    private new void Awake()
     {
         base.Awake();
 
@@ -97,6 +93,9 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public void AdjustGameSystem(Collider[] newGroundColliders)
     {
         _currentGameSystem = new MainGameSystem(Player, LayersMainGameSystemWillIgnore, newGroundColliders);
+
+        // make sleeping legal
+        Player.Character.SetBoolSleeping(false);
     }
 
     public void ExitMiniGameSystem(bool hasWon)
@@ -111,11 +110,17 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         _currentGameSystem = new MainGameSystem(Player, LayersMainGameSystemWillIgnore,
             GameManager.Instance.PlayField.GroundColliders);
+
+        // make sleeping legal
+        Player.Character.SetBoolSleeping(false);
     }
 
     public void EnterMiniGameSystem()
     {
         _currentGameSystem = new MiniGameSystem(Player, LayersMiniGameSystemWillIgnore);
+
+        // make sleeping illegal
+        Player.Character.SetBoolSleeping(true);
     }
 
     private void Update()

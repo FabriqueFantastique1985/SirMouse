@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MissionAction : ChainAction
 {
-    private enum ActionType
+    private new enum ActionType
     {
         StartMission
     }

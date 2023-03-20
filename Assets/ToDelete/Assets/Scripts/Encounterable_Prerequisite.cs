@@ -5,7 +5,7 @@ using UnityEngine;
 public class Encounterable_Prerequisite : Encounterable
 {
     [SerializeField] private Interactable _requiredItem;
-    private bool _triggerEntered = true;
+    //private bool _triggerEntered = true;
 
     //protected override void GenericBehaviour()
     //{

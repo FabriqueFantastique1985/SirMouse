@@ -14,7 +14,9 @@ public class BedroomCloset : MonoBehaviour
 
     public Sprite[] shields = new Sprite[4];
 
+#pragma warning disable IDE0052 // Remove unread private members
     private bool playerInLocation = false;
+#pragma warning restore IDE0052 // Remove unread private members
     public int spriteIndex = 0;
 
     public AudioClip OpenDoor;
@@ -100,12 +102,6 @@ public class BedroomCloset : MonoBehaviour
             OpenOrClosed = true;
         }
     }
-
-
-
-
-
-
 
     IEnumerator TurnOnPointer()
     {

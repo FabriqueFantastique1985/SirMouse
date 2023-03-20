@@ -7,6 +7,7 @@ public class VegtableSplash : MonoBehaviour
     public GameObject splash;
     public GameObject sprite;
 
+    [System.Obsolete]
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.impactForceSum.y < -6.5f || collision.impactForceSum.y > 6.5f)

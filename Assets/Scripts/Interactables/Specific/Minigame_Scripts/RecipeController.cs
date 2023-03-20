@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class RecipeController : MiniGame
 {
-    [Header("Recipe specific")]
+    [Header("Chain action related")]
     [SerializeField]
     private CutsceneAction _bookCutscene;
 
@@ -20,7 +21,8 @@ public class RecipeController : MiniGame
     /// </summary>
     [SerializeField]
     private Interactable _startGameMissionInteractableDummy;
-    
+
+    [Header("Recipe specific")]
     // this bool needs to be changed depending on save file/objective data
     public bool CompletedMainQuest;
     public bool MinigameActive;
@@ -50,6 +52,10 @@ public class RecipeController : MiniGame
 
     [SerializeField]
     private int _recipesRequiredToEndMainQuest = 5;
+
+    [Header("Audio")]
+    [SerializeField]
+    private AudioElement ExplosionSound;
 
     private Type_Difficulty _currentDifficulty;
     private Recipe_Script _currentRecipe;
@@ -96,8 +102,8 @@ public class RecipeController : MiniGame
     {
         _currentRecipe = MyRecipes[0];
         
-        _startGameInteractable.gameObject.SetActive(IsCurrentStepIndexInRange == false);
         _startGameMissionInteractableDummy.gameObject.SetActive(IsCurrentStepIndexInRange);
+        _startGameInteractable.gameObject.SetActive(IsCurrentStepIndexInRange == false);
         _startGameInteractable.OnInteracted += OnInteractedStartGame;
     }
 
@@ -113,7 +119,7 @@ public class RecipeController : MiniGame
         base.StartMiniGame();
         
         GameManager.Instance.FollowCamera.target = NewCameraTarget.transform;
-        StartCoroutine(GameManager.Instance.FollowCamera.ZoomOut(0.58f));
+        GameManager.Instance.ZoomCamera.Zoom(0.58f);
         GameManager.Instance.EnterMiniGameSystem();
 
         MinigameActive = true;
@@ -129,7 +135,12 @@ public class RecipeController : MiniGame
 
         // set health to max
         _currentHealth = 3;
-
+        // reset explosion
+        for (int i = 0; i < MyHealth.Count; i++)
+        {
+            MyHealth[i].ResetExplosion();
+        }
+        
         // show first scroll
         FirstScroll();
     }
@@ -194,7 +205,7 @@ public class RecipeController : MiniGame
         }
 
         GameManager.Instance.FollowCamera.target = GameManager.Instance.Player.transform;
-        StartCoroutine(GameManager.Instance.FollowCamera.ZoomInNormal());
+        GameManager.Instance.ZoomCamera.ResetZoom();
 
         // Go back to the main Game System to control mouse
         GameManager.Instance.EnterMainGameSystem();
@@ -203,6 +214,7 @@ public class RecipeController : MiniGame
     public override void EndMiniGame(bool completeSuccesfully)
     {
         base.EndMiniGame(completeSuccesfully);
+
         StartCoroutine(EndMiniGameCoroutine());
     }
 
@@ -558,6 +570,11 @@ public class RecipeController : MiniGame
     private void PunishThePlayer()
     {
         Debug.Log("WRONG INGREDIENT FOOOOOOL");
+
+        if (ExplosionSound.Clip != null)
+        {
+            AudioController.Instance.PlayAudio(ExplosionSound);
+        }
 
         _currentHealth -= 1;
 

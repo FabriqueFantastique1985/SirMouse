@@ -67,8 +67,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1225818785
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6348366060763820347, guid: f06834cfb9a02ec458b82d3769f56782,
     type: 3}
@@ -111,7 +111,17 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 8e6a0d94ac69326429ebe0863979051d, type: 3}
     - target: {fileID: 1134724779030778073, guid: 96ac81f05c1cfb7438b191d93c4c08e9,
         type: 3}
+      propertyPath: SoundEffect.Volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134724779030778073, guid: 96ac81f05c1cfb7438b191d93c4c08e9,
+        type: 3}
       propertyPath: _giveRandomOffsetAnimationIdle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134724779030778073, guid: 96ac81f05c1cfb7438b191d93c4c08e9,
+        type: 3}
+      propertyPath: SoundEffect.RandomizePitchSlightly
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1134724779030778074, guid: 96ac81f05c1cfb7438b191d93c4c08e9,
@@ -190,6 +200,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8203941389658267156, guid: f06834cfb9a02ec458b82d3769f56782,
         type: 3}
+    - target: {fileID: 1134724779413841125, guid: 96ac81f05c1cfb7438b191d93c4c08e9,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134724779413841125, guid: 96ac81f05c1cfb7438b191d93c4c08e9,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1225818785
+      objectReference: {fileID: 0}
     - target: {fileID: 1134724779424465660, guid: 96ac81f05c1cfb7438b191d93c4c08e9,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -225,7 +245,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 983330919215587712, guid: 96ac81f05c1cfb7438b191d93c4c08e9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 96ac81f05c1cfb7438b191d93c4c08e9, type: 3}
 --- !u!4 &3754864282514590254 stripped
 Transform:

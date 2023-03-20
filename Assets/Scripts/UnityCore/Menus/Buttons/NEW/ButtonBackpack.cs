@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityCore.Menus;
+using UnityCore.Audio;
 
-public class ButtonBackpack : ButtonPaging, IClickable
+public class ButtonBackpack : ButtonPaging
 {
     protected override void TurnOnPage()
     {
@@ -13,31 +14,33 @@ public class ButtonBackpack : ButtonPaging, IClickable
 
             _pageInstance.OpenBagImage(false);
             _pageInstance.OpenClosetImage(false);
-            
-            if (DoIHaveActivePages() == false)
-            {
-                GameManager.Instance.BlockInput = false;
-            }
+
+            //AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
+
+            // sleeping allowed
+            GameManager.Instance.Player.Character.SetBoolSleeping(false);
+
+            //if (DoIHaveActivePages() == false) // not needed ?
+            //{
+            //    GameManager.Instance.BlockInput = false;
+            //}
         }
         else
         {
             // turn off the camera wrap for closet
             SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
-            //SkinController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
-            GameManager.Instance.characterGeoReferencesUI.DefaultTextureSirMouse();
 
             _pageInstance.TurnAllPagesOffExcept(_turnThisPage);
-            //_pageInstance.TurnPageOn(_turnThisPage);
+
+            //AudioController.Instance.TurnDownVolumeForOSTAndWorld();
 
             _pageInstance.OpenBagImage(true);
             _pageInstance.OpenClosetImage(false);
 
-        //    GameManager.Instance.BlockInput = true;
-        }
-    }
+            // sleeping ILLEGAL
+            GameManager.Instance.Player.Character.SetBoolSleeping(true);
 
-    public void Click(Player player)
-    {
-        ClickedButton();
+            //    GameManager.Instance.BlockInput = true;
+        }
     }
 }
