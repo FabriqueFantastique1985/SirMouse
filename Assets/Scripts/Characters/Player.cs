@@ -263,6 +263,8 @@ public class Player : MonoBehaviour, IClickable
         _characterGeoReferences.RedHeadOverlay.color = new Color(255,255,255,0);       
         _canExplode = false;
 
+        _character.AnimatorRM.SetTrigger("WakeUp");
+
         StartCoroutine(ExplosionCountdown());
     }
 
