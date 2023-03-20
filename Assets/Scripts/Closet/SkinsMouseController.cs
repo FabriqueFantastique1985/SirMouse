@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SkinsMouseController : MonoBehaviour
@@ -69,6 +71,9 @@ public class SkinsMouseController : MonoBehaviour
     public SkinPiecesForThisBodyTypeButton SkinPiecesButtonShield;
     //
 
+    // complete list for easy iteration on cheat code
+    private List<SkinPiecesForThisBodyTypeButton> _listsOfButtons = new List<SkinPiecesForThisBodyTypeButton>();
+
     #endregion
 
 
@@ -88,6 +93,19 @@ public class SkinsMouseController : MonoBehaviour
             return;
         }
         Instance = this;
+
+        _listsOfButtons.Add(SkinPiecesButtonHat);
+        _listsOfButtons.Add(SkinPiecesButtonHead);
+        _listsOfButtons.Add(SkinPiecesButtonChest);
+        _listsOfButtons.Add(SkinPiecesButtonArmLeft);
+        _listsOfButtons.Add(SkinPiecesButtonArmRight);
+        _listsOfButtons.Add(SkinPiecesButtonLegLeft);
+        _listsOfButtons.Add(SkinPiecesButtonLegRight);
+        _listsOfButtons.Add(SkinPiecesButtonFootLeft);
+        _listsOfButtons.Add(SkinPiecesButtonFootRight);
+        _listsOfButtons.Add(SkinPiecesButtonTail);
+        _listsOfButtons.Add(SkinPiecesButtonSword);
+        _listsOfButtons.Add(SkinPiecesButtonShield);
     }
 
     private void Start()
@@ -150,6 +168,23 @@ public class SkinsMouseController : MonoBehaviour
 
         return FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
     }
+    public ButtonSkinPiece UnlockAllSkins()
+    { 
+        for (int i = 0; i < _listsOfButtons.Count; i++)
+        {
+            for (int j = 0; j < _listsOfButtons[i].MySkinPiecesButtons.Count; j++)
+            {
+                // activate the button
+                _listsOfButtons[i].MySkinPiecesButtons[j].Found = true;
+                // enable the sprite over the sillhouette on the button
+                _listsOfButtons[i].MySkinPiecesButtons[j].MySpriteToActivateWhenFound.SetActive(true);
+            }
+        }
+
+        // always return the same button for the popup       
+        return FindCorrectSkinPieceButton(SkinPiecesButtonSword, SkinPiecesButtonSword.MySkinPiecesButtons[1].MySkinPieceElement);
+    }
+
     // called when a piece is dragged onto SirMouse...
     public void EquipSkinPiece(SkinPieceElement skinPieceElement)
     {
