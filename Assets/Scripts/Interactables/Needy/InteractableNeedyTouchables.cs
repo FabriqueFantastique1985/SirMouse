@@ -10,9 +10,10 @@ public class InteractableNeedyTouchables : InteractableNeedy
 
     public bool ResetAble;
 
-    [Header("Needing Touchables")]
+    [Header("Touchables")]
     public List<Touchable> WantedTouchables;
 
+    [Header("Spawns")]
     [SerializeField]
     private List<BoxCollider> _spawnAreas = new List<BoxCollider>();
     private List<SizesSpawn> _spawnSizes = new List<SizesSpawn>();

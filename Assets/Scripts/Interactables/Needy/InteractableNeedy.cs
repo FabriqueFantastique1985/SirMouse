@@ -39,6 +39,7 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
     private bool _gotAllPrerequisites;
 
     // List of possible interactions with this interactable  ==> this case 1 interaction for donating the said items
+    [Header("List of Interactions")] 
     [SerializeField]
     private List<Interaction> _interactions = new List<Interaction>();
 

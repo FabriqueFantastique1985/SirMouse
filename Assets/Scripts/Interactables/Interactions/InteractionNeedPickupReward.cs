@@ -6,12 +6,17 @@ using UnityEngine;
 public class InteractionNeedPickupReward : Interaction
 {
     [Header("Skin Reward params")]
-
     [SerializeField]
     private List<SkinPieceElement> _mySkinPieceElements;
 
     [Header("Sprite Parent")]
     public GameObject SpriteParent;
+
+    [Header("Objects to Activate/Disable")]
+    [SerializeField]
+    private GameObject ObjectToActivate;
+    [SerializeField]
+    private GameObject ObjectToDisable;
 
     [Header("Perhaps I activate a new needy wrap ?")]
     [SerializeField]
@@ -21,20 +26,32 @@ public class InteractionNeedPickupReward : Interaction
     {
         base.SpecificAction(player);
 
+        // disable this one
         if (SpriteParent != null)
         {
             ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SpriteParent));
         }
 
-        RewardController.Instance.GiveReward(_mySkinPieceElements);
+        // give the reward
+        if (_mySkinPieceElements.Count > 0)
+        {
+            RewardController.Instance.GiveReward(_mySkinPieceElements);
+        }
 
-        // activate new interactable if there is any
+        // activate new interactable if there is one
         if (_interactableNeedyWrapToActivate != null)
         {
             _interactableNeedyWrapToActivate.gameObject.SetActive(true);
         }
-
-        // disable this one
-        ClosetController.Instance.StartCoroutine(ClosetController.Instance.SetObjectToFalseAfterDelay(this.gameObject, SpriteParent));
+    
+        // activate new obj (example: disable rat without instrument, enable rat with instrument)
+        if (ObjectToActivate != null)
+        {
+            ObjectToActivate.SetActive(true);
+        }
+        if (ObjectToDisable != null)
+        {
+            ObjectToDisable.SetActive(false);
+        }
     }
 }

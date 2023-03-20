@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class InteractableNeedyPickups : InteractableNeedy
 {
-    [Header("Needing Pickups")]
+    [Header("Pickups I Want")]
     public List<Type_Pickup> WantedPickups;  // update this runtime  + save 
 
+    [Header("Pickups I Own")]
     public List<Type_Pickup> HeldPickups;  // update this runtime + save
 
     [Header("Interactable To Activate")]
     public Interactable InteractableToActivateForReward;
-
 
 
     protected override void OnTriggerEnter(Collider other)
