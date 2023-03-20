@@ -146,6 +146,8 @@ public class Player : MonoBehaviour, IClickable
         _equippedItem.transform.parent = _characterRigReferences.HandRightTransform;
         _equippedItem.transform.localPosition = Vector3.zero;
 
+        _equippedItem.DisableShader();
+
         //_equippedItem.transform.localRotation = Quaternion.identity;
         if (outOfBackpack == true)
         {
@@ -164,6 +166,8 @@ public class Player : MonoBehaviour, IClickable
 
             _equippedItem.transform.position = new Vector3(playerPos.x, 0.0f, playerPos.z);
             _equippedItem.transform.localScale = new Vector3(1, 1, 1); // always the same orientation
+
+            _equippedItem.EnableShader();
 
             // activate collider again
             _equippedItem.GetComponent<Collider>().enabled = true;
