@@ -8,10 +8,9 @@ public class SceneSetup : MonoBehaviour
     [SerializeField]
     private GameManager _gameManagerPrefab;
 
-    [SerializeField]
-    private Transform _playerStart;
+    public List<InteractionLevelChange> PlayerSpawns = new List<InteractionLevelChange>();
 
-    [Header ("Camea parameters")]
+    [Header ("Camera parameters")]
     [SerializeField]
     private MeshCollider _cameraBounds;
 
@@ -28,6 +27,8 @@ public class SceneSetup : MonoBehaviour
             Instantiate(_gameManagerPrefab);
         }
 
+        GameManager.Instance.CurrentSceneSetup = this;
+
         // Set the min and max bounds of the follow camera with bounds of the collider
         GameManager.Instance.FollowCamera.SetBounds(_cameraBounds);
 
@@ -36,9 +37,11 @@ public class SceneSetup : MonoBehaviour
         GameManager.Instance.ZoomCamera.OrthographicSize = _orthographicSize;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
-    }
+
+
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
+    //}
 }

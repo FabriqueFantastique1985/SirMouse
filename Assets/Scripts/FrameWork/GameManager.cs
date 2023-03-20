@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     public GameObject PanelUIButtonsClosetAndBackpack;
 
+    [HideInInspector]
+    public SceneSetup CurrentSceneSetup;
+
     public LayerMask LayersMainGameSystemWillIgnore;
     public LayerMask LayersMiniGameSystemWillIgnore;
 
