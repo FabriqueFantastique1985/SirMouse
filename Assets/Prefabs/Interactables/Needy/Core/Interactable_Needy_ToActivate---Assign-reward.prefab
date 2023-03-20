@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &541772564321297891
 Transform:
   m_ObjectHideFlags: 0
@@ -88,6 +88,8 @@ MonoBehaviour:
   _mySkinPieceElements:
   - {fileID: 541772564321297893}
   SpriteParent: {fileID: 541772564687108700}
+  ObjectToActivate: {fileID: 0}
+  ObjectToDisable: {fileID: 0}
   _interactableNeedyWrapToActivate: {fileID: 0}
 --- !u!114 &541772564321297893
 MonoBehaviour:
@@ -314,17 +316,32 @@ PrefabInstance:
     - target: {fileID: 1371300445220765427, guid: bbac6baff9eecb04c83c38fea1eddf51,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.067
+      value: 0.39213318
       objectReference: {fileID: 0}
     - target: {fileID: 1371300445220765427, guid: bbac6baff9eecb04c83c38fea1eddf51,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.067
+      value: 0.39213318
       objectReference: {fileID: 0}
     - target: {fileID: 1371300445220765427, guid: bbac6baff9eecb04c83c38fea1eddf51,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.067
+      value: 0.39213318
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371300445220765427, guid: bbac6baff9eecb04c83c38fea1eddf51,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.016
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371300445220765427, guid: bbac6baff9eecb04c83c38fea1eddf51,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371300445220765427, guid: bbac6baff9eecb04c83c38fea1eddf51,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1371300445220765427, guid: bbac6baff9eecb04c83c38fea1eddf51,
         type: 3}
@@ -350,7 +367,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1461ba527fbd7e44596cedbe6b8c1d54,
+      objectReference: {fileID: 21300000, guid: ae2eb025f02db154b9d1f58483be66ad,
         type: 3}
     - target: {fileID: 9110276348959794212, guid: bbac6baff9eecb04c83c38fea1eddf51,
         type: 3}
