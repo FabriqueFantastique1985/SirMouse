@@ -187,6 +187,7 @@ public class ClosetController : MonoBehaviour
 
         // turn on the UI player things
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
+        PageController.Instance.CameraUI_Backpack_Closet.enabled = true;
 
         // sleeping ILLEGAL
         GameManager.Instance.Player.Character.SetBoolSleeping(true);
@@ -204,6 +205,7 @@ public class ClosetController : MonoBehaviour
 
         // this still needed ?
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
+        PageController.Instance.CameraUI_Backpack_Closet.enabled = false;
 
         // sleeping allowed
         GameManager.Instance.Player.Character.SetBoolSleeping(false);
