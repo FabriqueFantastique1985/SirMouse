@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Menus;
+using UnityCore.Scene;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
 
 public class LoadSceneAction : ChainActionMonoBehaviour
 {
-
-    [SerializeField] private SceneField _scene;
+    [SerializeField] private SceneType _scene;
+    private int spawnvalue;
 
 
     public override void Execute()
     {
         base.Execute();
         Debug.Log(_scene.ToString());
-        SceneManager.LoadScene(_scene);
+        SceneController.SceneControllerInstance.Load(_scene, null, false, PageType.Loading, spawnvalue);
     }
 }
