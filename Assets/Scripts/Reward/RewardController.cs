@@ -57,8 +57,10 @@ public class RewardController : MonoBehaviour
         bool foundSomethingToGive = false;
         for (int i = 0; i < skinPiecesToGive.Count; i++)
         {
-            // unlock the skinPiece
+            // ! UNLOCK the skinPiece !
             ButtonSkinPiece buttonOfinterest = SkinsMouseController.Instance.UnlockSkinPiece(skinPiecesToGive[i]);
+
+
             if (buttonOfinterest != null)
             {
                 foundSomethingToGive = true;
@@ -101,6 +103,38 @@ public class RewardController : MonoBehaviour
 
             // activate notifs
             ClosetController.Instance.NotificationActivater();
+
+            // tone down audio of OST & World
+            AudioController.Instance.TurnDownVolumeForOSTAndWorld();
+
+            // play animations in proper sequence
+            StartCoroutine(PlayAnimations(instantiatedObjects));
+        }
+    }
+    public void GiveCheatReward()
+    {
+        // unlock the piece(s) in the closet + store the gameobjects in a list
+        List<GameObject> instantiatedObjects = new List<GameObject>();
+        bool foundSomethingToGive = false;
+        ButtonSkinPiece buttonOfinterest = SkinsMouseController.Instance.UnlockAllSkins();
+
+        // creating a visual popup of 1 item //
+        GameObject objectToInstantiate = buttonOfinterest.MySpriteToActivateWhenFound; // assign this a single button, doesn't matter what one
+        GameObject objectToAdd = Instantiate(objectToInstantiate, _visualOfAnimatorSkinPiece.transform);
+        // set it to false
+        objectToAdd.SetActive(false);
+        // add to list
+        instantiatedObjects.Add(objectToAdd);
+        //                             //
+
+        foundSomethingToGive = true;
+        if (foundSomethingToGive == true)
+        {
+            // block input
+            GameManager.Instance.BlockInput = true;
+
+            // turn on the correct page
+            PageController.Instance.TurnAllPagesOffExcept(PageType.RewardScreen);
 
             // tone down audio of OST & World
             AudioController.Instance.TurnDownVolumeForOSTAndWorld();

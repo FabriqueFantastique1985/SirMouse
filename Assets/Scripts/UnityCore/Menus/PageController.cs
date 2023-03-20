@@ -19,6 +19,8 @@ namespace UnityCore
 
             public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
 
+            public Camera CameraUI_Backpack_Closet;
+
             #region Unity Functions
 
             private void Awake()
