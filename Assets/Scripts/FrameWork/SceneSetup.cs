@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Scene;
 using UnityEngine;
 
 public class SceneSetup : MonoBehaviour
@@ -20,11 +21,15 @@ public class SceneSetup : MonoBehaviour
     [SerializeField]
     private float _orthographicSize = 5f;
 
+    private bool _startedInThisScene;
+
     private void Awake()
     {
         if (FindObjectOfType<GameManager>() == null)
         {
             Instantiate(_gameManagerPrefab);
+
+            _startedInThisScene = true;
         }
 
         GameManager.Instance.CurrentSceneSetup = this;
@@ -39,9 +44,14 @@ public class SceneSetup : MonoBehaviour
 
 
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
-    //}
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (_startedInThisScene == true)
+        {
+            SceneController.SceneControllerInstance.SpawnPlayerOnCorrectPosition();
+        }
+
+        //GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
+    }
 }
