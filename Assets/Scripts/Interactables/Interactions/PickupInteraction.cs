@@ -12,6 +12,9 @@ public class PickupInteraction : Interaction
 
     public SpriteRenderer SpriteRenderPickup;
 
+
+    
+
     protected override void SpecificAction(Player player)
     {
         player.PushState(new PickUpState(player, _pickUpInteractable, _pickUpInteractable.MyPickupType, IsTwoHandPickup));

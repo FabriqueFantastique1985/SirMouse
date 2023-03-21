@@ -1,5 +1,6 @@
 ﻿
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityCore.Audio;
 using UnityCore.Menus;
@@ -40,7 +41,7 @@ namespace UnityCore
                 }
             }
 
-            private int _nextSceneSpawnLocation;
+            private int _nextSceneSpawnLocationValue;
 
 
 
@@ -92,7 +93,7 @@ namespace UnityCore
                 m_TargetScene = scene;
                 m_SceneLoadDelegate = sceneLoadDelegate;
                 m_LoadingPage = loadingPage;
-                _nextSceneSpawnLocation = spawnLocationValue;
+                _nextSceneSpawnLocationValue = spawnLocationValue;
 
                 // Make the player a child of the GameManager (so it's part of DontDestroy)
                 GameManager.Instance.Player.transform.SetParent(GameManager.Instance.transform);
@@ -163,34 +164,45 @@ namespace UnityCore
                 m_SceneIsLoading = false;
             }
 
-            private void SpawnPlayerOnCorrectPosition()
+            public void SpawnPlayerOnCorrectPosition()
             {
-                // change this so we don't iterate over all objects !!!
-                InteractionLevelChange[] spawnScripts = FindObjectsOfType<InteractionLevelChange>();
-
                 var player = GameManager.Instance.Player;
+
+                List<InteractionLevelChange> spawnScripts = GameManager.Instance.CurrentSceneSetup.PlayerSpawns;
 
                 if (spawnScripts != null)
                 {
+                    bool foundSpawn = false;
                     foreach (InteractionLevelChange spawnScript in spawnScripts)
                     {
-                        // if the spawnvalues integer == the value on this script....
-                        if (spawnScript.SpawnValue == _nextSceneSpawnLocation)
+                        // if the spawnvalues integer == the value on this script...
+                        if (spawnScript.SpawnValue == _nextSceneSpawnLocationValue)
                         {
+                            Debug.Log("Spawning player at " + spawnScript.name);
+
                             // move the player over there
                             player.Agent.enabled = false;
                             player.transform.position = spawnScript.transform.position;
                             player.Agent.enabled = true;
+
+                            foundSpawn = true;
+
+                            break;
                         }
+                    }
+
+                    if (foundSpawn == false)
+                    {
+                        Debug.Log("Could not find a spawn for the player, setting player to first spawn available");
+                        // move the player over there
+                        player.Agent.enabled = false;
+                        player.transform.position = spawnScripts[0].transform.position;
+                        player.Agent.enabled = true;
                     }
                 }
                 else
                 {
-                    Debug.Log("Could not find a spawn for the player, setting player to coordinates 0,0,0,");
-                    // move the player over there
-                    player.Agent.enabled = false;
-                    player.transform.position = new Vector3(0, 0, 0);
-                    player.Agent.enabled = true;
+                    Debug.Log("Could not find PlayerSpawns, perhaps assign something in SceneSetup ?");
                 }
             }
 

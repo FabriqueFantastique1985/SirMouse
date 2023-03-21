@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 3228909770361932968}
   - component: {fileID: 3228909770361932971}
   - component: {fileID: 7067396780915670357}
+  - component: {fileID: 9026012033327229785}
   m_Layer: 15
   m_Name: Touchable_Snake
   m_TagString: Untagged
@@ -321,6 +322,23 @@ MonoBehaviour:
   _doOnce: 0
   _minWaitTime: 1
   _maxWaitTime: 5
+--- !u!114 &9026012033327229785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228909770361932950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a9c10a399317646b91578d434f6400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderers:
+  - {fileID: 3228909771454905313}
+  _shineDelayMin: 2
+  _shineDelayMax: 4
+  _isShineActive: 1
 --- !u!1 &3228909771454905315
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +388,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 80b853a3bf4743543b592b902beffa4f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -455,7 +473,7 @@ PrefabInstance:
     - target: {fileID: 3276472118974529808, guid: 45b41461346210341b5be6c85b509800,
         type: 3}
       propertyPath: playOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3276472118974529810, guid: 45b41461346210341b5be6c85b509800,
         type: 3}

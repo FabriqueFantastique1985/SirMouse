@@ -102,14 +102,14 @@ public class BackpackController : MonoBehaviour
     // methods called related to Needy Interactables
     public void RemoveSingularItemFromBackpack(ButtonPickupBackpack buttonPickup) // called from clicking the balloon of interactable needy
     {
-        //-update Type
+        //-update Type list
         ItemsInBackpack.Remove(buttonPickup.MyPickupType);
 
-        //-update Interactable Obj
+        //-update Interactable Obj list (+ destroys the interactable (maybe don't do this... -> could fix needy Interactables)
         InteractablesInBackpack.Remove(buttonPickup.MyInteractable.gameObject);
         Destroy(buttonPickup.MyInteractable.gameObject);
 
-        //-update Button
+        //-update Button list
         ItemButtonsInBackpack.Remove(buttonPickup);
         // destroy the current button
         Destroy(buttonPickup.gameObject);

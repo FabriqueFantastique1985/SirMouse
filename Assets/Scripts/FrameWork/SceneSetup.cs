@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Scene;
 using UnityEngine;
 
 public class SceneSetup : MonoBehaviour
@@ -8,10 +9,9 @@ public class SceneSetup : MonoBehaviour
     [SerializeField]
     private GameManager _gameManagerPrefab;
 
-    [SerializeField]
-    private Transform _playerStart;
+    public List<InteractionLevelChange> PlayerSpawns = new List<InteractionLevelChange>();
 
-    [Header ("Camea parameters")]
+    [Header ("Camera parameters")]
     [SerializeField]
     private MeshCollider _cameraBounds;
 
@@ -21,12 +21,18 @@ public class SceneSetup : MonoBehaviour
     [SerializeField]
     private float _orthographicSize = 5f;
 
+    private bool _startedInThisScene;
+
     private void Awake()
     {
         if (FindObjectOfType<GameManager>() == null)
         {
             Instantiate(_gameManagerPrefab);
+
+            _startedInThisScene = true;
         }
+
+        GameManager.Instance.CurrentSceneSetup = this;
 
         // Set the min and max bounds of the follow camera with bounds of the collider
         GameManager.Instance.FollowCamera.SetBounds(_cameraBounds);
@@ -36,9 +42,16 @@ public class SceneSetup : MonoBehaviour
         GameManager.Instance.ZoomCamera.OrthographicSize = _orthographicSize;
     }
 
+
+
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
+        if (_startedInThisScene == true)
+        {
+            SceneController.SceneControllerInstance.SpawnPlayerOnCorrectPosition();
+        }
+
+        //GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
     }
 }

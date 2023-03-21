@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2807105749534687581}
   m_Layer: 0
-  m_Name: PlayerStart
+  m_Name: PlayerStart_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4380598106594203298}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5621056454847133394
 GameObject:
@@ -59,7 +59,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4380598106594203298}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2945658551606623627
 MonoBehaviour:
@@ -102,8 +102,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2807105749534687581}
   - {fileID: 8608600973941404514}
+  - {fileID: 2807105749534687581}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -121,5 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameManagerPrefab: {fileID: 1385039494480847313, guid: 1a7e1fd78891646479842348046f2fcd,
     type: 3}
-  _playerStart: {fileID: 2807105749534687581}
+  PlayerSpawns:
+  - {fileID: 688010534572975462}
   _cameraBounds: {fileID: 0}
+  _shouldZoomOnMove: 0
+  _orthographicSize: 5

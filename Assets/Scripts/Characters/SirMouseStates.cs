@@ -115,7 +115,7 @@ public class PickUpState : SirMouseState
         player.Character.AnimationDoneEvent += OnAnimationDone;
         player.Character.InteractionDoneEvent += OnInteractionDone;
         player.Character.EnteredIdleEvent += OnIdleEntered;
-        
+
         Debug.Log("Entered PickUp State");
     }
 
@@ -168,6 +168,8 @@ public class DropState : SirMouseState
         
         player.Character.InteractionDoneEvent -= OnInteractionDone;
         player.Character.EnteredIdleEvent -= OnEnteredIdle;
+
+
     }
 
     private void OnInteractionDone(Character.States state)

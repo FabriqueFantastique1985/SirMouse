@@ -9,6 +9,8 @@ public class EncounterableButterflies : EncounterablePrerequisite
 
     private Character _character;
 
+    private bool _isCatchingButterflies = false;
+
     protected override void Start()
     {
         base.Start();
@@ -26,11 +28,17 @@ public class EncounterableButterflies : EncounterablePrerequisite
     protected override void GenericBehaviour()
     {
         base.GenericBehaviour();
+
         _character.AnimatorRM.SetTrigger("Swing");
-        _butterflyJar.SetActive(true);
+        _isCatchingButterflies = true;
     }
 
     private void EnableJar(Character.States state)
     {
+        if (_isCatchingButterflies)
+        {
+            _butterflyJar.SetActive(true);
+           _character.AnimationDoneEvent -= EnableJar;
+        }
     }
 }

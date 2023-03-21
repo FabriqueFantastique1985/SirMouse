@@ -5,6 +5,11 @@ using UnityCore.Audio;
 
 public class Touch_Move : Touch_Action
 {
+    public delegate void TouchMoveDelegate(Touch_Move thisTouchMove);
+    public event TouchMoveDelegate OnPickup;
+    public event TouchMoveDelegate OnDrop;
+
+
     [SerializeField]
     protected Animation _animationComponent;
 
@@ -45,6 +50,8 @@ public class Touch_Move : Touch_Action
             _activatedFollowMouse = true;
             _acted = true;
             this.enabled = true;
+
+            OnPickup?.Invoke(this);
         }
     }
 
@@ -73,6 +80,7 @@ public class Touch_Move : Touch_Action
         GameManager.Instance.BlockInput = false;
 
         this.enabled = false;
+        OnDrop?.Invoke(this);
     }
 
     private void FollowMouseCalculations()

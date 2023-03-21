@@ -43,7 +43,7 @@ public class Player : MonoBehaviour, IClickable
     private Type_Pickup _equippedPickupType;
     [SerializeField]
     private float _explosionCooldown;
-    private bool _canExplode;
+    private bool _canExplode = true;
     private float _explosionTickCount, _explosionTimer, _degradeTickTimer;
     private float _explosionTickGoal = 5;
     private float _degradeTickGoal = 2;
@@ -86,18 +86,6 @@ public class Player : MonoBehaviour, IClickable
 
         if (currentState != null) currentState.Update(this);
 
-
-
-        if (_canExplode == false)
-        {
-            _explosionTimer += Time.deltaTime;
-
-            if (_explosionTimer >= _explosionCooldown)
-            {
-                _explosionTimer = 0;               
-                _canExplode = true;
-            }
-        }
         if (_explosionTickCount > 0)
         {
             _degradeTickTimer += Time.deltaTime;
@@ -146,6 +134,8 @@ public class Player : MonoBehaviour, IClickable
         _equippedItem.transform.parent = _characterRigReferences.HandRightTransform;
         _equippedItem.transform.localPosition = Vector3.zero;
 
+        _equippedItem.DisableShader();
+
         //_equippedItem.transform.localRotation = Quaternion.identity;
         if (outOfBackpack == true)
         {
@@ -164,6 +154,8 @@ public class Player : MonoBehaviour, IClickable
 
             _equippedItem.transform.position = new Vector3(playerPos.x, 0.0f, playerPos.z);
             _equippedItem.transform.localScale = new Vector3(1, 1, 1); // always the same orientation
+
+            _equippedItem.EnableShader();
 
             // activate collider again
             _equippedItem.GetComponent<Collider>().enabled = true;
@@ -263,6 +255,8 @@ public class Player : MonoBehaviour, IClickable
         _characterGeoReferences.RedHeadOverlay.color = new Color(255,255,255,0);       
         _canExplode = false;
 
+        _character.AnimatorRM.SetTrigger("WakeUp");
+
         StartCoroutine(ExplosionCountdown());
     }
 
@@ -291,6 +285,22 @@ public class Player : MonoBehaviour, IClickable
             yield return null;
         }
 
-        _explosionTickCount = 0;
+        StartCoroutine(ExplosionCooldown());
+    }
+
+    private IEnumerator ExplosionCooldown()
+    {
+        while (_canExplode == false)
+        {
+            _explosionTimer += Time.deltaTime;
+
+            if (_explosionTimer >= _explosionCooldown)
+            {
+                _explosionTimer = 0;
+                _canExplode = true;
+                _explosionTickCount = 0;
+                yield return null;
+            }
+        }
     }
 }

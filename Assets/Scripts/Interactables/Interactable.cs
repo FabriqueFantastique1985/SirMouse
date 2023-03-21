@@ -47,6 +47,7 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
     protected int _currentInteractionIndex = 0;
 
+    private ShineBehaviour _shineBehaviour;
 
     #region Properties
 
@@ -70,6 +71,8 @@ public class Interactable : MonoBehaviour, IDataPersistence
             _swapBalloon.OnBalloonClicked += OnInteractSwapBalloonClicked;
             _swapBalloon.gameObject.SetActive(false);
         }
+
+        _shineBehaviour = GetComponent<ShineBehaviour>();
 
         Initialize();
     }
@@ -162,6 +165,18 @@ public class Interactable : MonoBehaviour, IDataPersistence
     public virtual void HideBalloonBackpack()
     {
         HideInteractionBalloon();
+    }
+
+    public void EnableShader()
+    {
+        if (_shineBehaviour)
+            _shineBehaviour.IsShineActive = true;
+    }
+
+    public void DisableShader()
+    {
+        if (_shineBehaviour)
+            _shineBehaviour.IsShineActive = false;
     }
 
     #endregion

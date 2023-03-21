@@ -8,23 +8,29 @@ using UnityEngine.Profiling;
 
 public class ShineBehaviour : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private float _shineDelayMin;
-    [SerializeField] private float _shineDelayMax;
-    [SerializeField] private bool _isShineActive;
+    [SerializeField] private List<SpriteRenderer> _spriteRenderers = new List<SpriteRenderer>();
+    [SerializeField] private float _shineDelayMin = 2f;
+    [SerializeField] private float _shineDelayMax = 4f;
+    [SerializeField] private bool _isShineActive = true;
+
+    private float _shineDelay;
 
     public bool IsShineActive { get; set; }
 
     private void Awake()
     {
         IsShineActive = _isShineActive;
+        _shineDelay = Random.Range(_shineDelayMin, _shineDelayMax);
     }
 
     private void OnEnable()
     {
-        if (_spriteRenderer && _isShineActive)
+        if (_isShineActive)
         {
-            StartCoroutine(MoveShine());
+            foreach (var renderer in _spriteRenderers)
+            {
+                StartCoroutine(MoveShine(renderer));
+            }
         }
     }
 
@@ -35,37 +41,38 @@ public class ShineBehaviour : MonoBehaviour
 
     private void SetParameters()
     {
-        // Set scroll time so shine starts out of view
-        _spriteRenderer.material.SetFloat("_ScrollTime", -1f);
+        foreach (var renderer in _spriteRenderers)
+        {
+            // Set scroll time so shine starts out of view
+            renderer.material.SetFloat("_ScrollTime", -1f);
 
-        // Set texture parameters
-        Texture2D texture = GetSlicedSpriteTexture(_spriteRenderer.sprite);
-        Rect rect = new Rect(0, 0, texture.width, texture.height);
-        _spriteRenderer.sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f));
+            // Set texture parameters
+            Texture2D texture = GetSlicedSpriteTexture(renderer.sprite);
+            Rect rect = new Rect(0, 0, texture.width, texture.height);
+            renderer.sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f));
+        }
     }
 
-    private IEnumerator MoveShine()
+    private IEnumerator MoveShine(SpriteRenderer renderer)
     {
         SetParameters();
 
-
         // Delay shine at game start
-        float shineDelay = Random.Range(_shineDelayMin, _shineDelayMax);
-        float showTime = 1f / _spriteRenderer.material.GetFloat("_ScrollSpeed");
+        float showTime = 1f / renderer.material.GetFloat("_ScrollSpeed");
 
-        yield return new WaitForSeconds(shineDelay);
+        yield return new WaitForSeconds(_shineDelay);
 
         while (_isShineActive)
         {
             float timer = -1f;
-            _spriteRenderer.material.SetFloat("_ScrollTime", timer);
+            renderer.material.SetFloat("_ScrollTime", timer);
 
-            while (IsShineActive && timer < (shineDelay + showTime))
+            while (IsShineActive && timer < (_shineDelay + showTime))
             {
                 timer += Time.deltaTime;
                 if (timer < showTime)
                 {
-                    _spriteRenderer.material.SetFloat("_ScrollTime", timer);
+                    renderer.material.SetFloat("_ScrollTime", timer);
                 }
                 yield return null;
             }
