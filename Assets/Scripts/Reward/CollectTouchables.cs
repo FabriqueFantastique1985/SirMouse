@@ -8,6 +8,8 @@ public class CollectTouchables : MonoBehaviour
     [SerializeField] private Material _baseMaterial;
     [SerializeField] private Material _outlineMaterial;
 
+    [SerializeField] private GameObject _gradient;
+
     private List<GameObject> _enteredGameObjects = new List<GameObject>();
 
 
@@ -20,6 +22,7 @@ public class CollectTouchables : MonoBehaviour
             moveObject.OnDrop += OnDrop;
         }
         _spriteRenderer.material = _baseMaterial;
+        _gradient.SetActive(false);
     }
 
     private void OnDestroy()
@@ -36,12 +39,14 @@ public class CollectTouchables : MonoBehaviour
     {
         // hightlight box
         _spriteRenderer.material = _outlineMaterial;
+        _gradient.SetActive(true);
     }
 
     private void OnDrop(Touch_Move obj)
     {
         // remove hightlight box
         _spriteRenderer.material = _baseMaterial;
+        _gradient.SetActive(false);
 
         // Raycast to check if mouse is above chest
         Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
