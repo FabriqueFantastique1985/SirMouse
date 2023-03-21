@@ -15,31 +15,27 @@ public class DragAndDrop : MonoBehaviour
 
     public Camera CameraPuzzle;
 
-    [SerializeField]
-    private LayerMask _ignoreMe;
+    [SerializeField] private LayerMask _ignoreMe;
 
     private bool _clickedPiece;
-    [HideInInspector]
-    public GameObject SelectedPiece;
+    [HideInInspector] public GameObject SelectedPiece;
     private PuzzlePieceScript _selectedPieceScript;
-
-    private int _orderInLayerSelectedPiece;
 
     public GameObject _prefabParticleSuccess;
 
-    [SerializeField]
-    private int _rowAmount;
-    [SerializeField]
-    private int _collumnAmount;
+    [SerializeField] private int _rowAmount;
+    [SerializeField] private int _collumnAmount;
 
     private int _correctAmount;
 
-    [SerializeField]
-    private List<Sprite> _puzzelPictures;
+    [SerializeField] private List<Sprite> _puzzelPictures;
     int _currentPicture;
 
-    [SerializeField]
-    float _endMinigameDelay;
+    [SerializeField] float _endMinigameDelay;
+
+    [SerializeField] private SpriteRenderer _imageReference;
+
+    private bool _isCompletedOnce = false;
 
     // !! call this on interaction for puzzle game !!
     public void StartMiniGame()
@@ -60,7 +56,10 @@ public class DragAndDrop : MonoBehaviour
 
         // hide sirMouse rig
         SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(false);
+    }
 
+    public void ResetPuzzle()
+    {
         if (_correctAmount == (_collumnAmount * _rowAmount))
         {
             // Give different sprite as parameter incase the puzzle gets changed
@@ -69,6 +68,7 @@ public class DragAndDrop : MonoBehaviour
                 ++_currentPicture;
                 _currentPicture %= _puzzelPictures.Count;
                 OnPuzzleRestarted?.Invoke(_puzzelPictures[_currentPicture]);
+                _imageReference.sprite = _puzzelPictures[_currentPicture];
             }
             else
             {
@@ -164,7 +164,12 @@ public class DragAndDrop : MonoBehaviour
     private IEnumerator EndingDelay()
     {
         yield return new WaitForSeconds(_endMinigameDelay);
-        EndMiniGame();
+        if (!_isCompletedOnce)
+        {
+            EndMiniGame();
+            _isCompletedOnce = true;
+        }
+
         OnPuzzleCompleted?.Invoke();
     }
 
