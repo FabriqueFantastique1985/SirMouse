@@ -31,6 +31,9 @@ public class EncounterableButterflies : EncounterablePrerequisite
 
         _character.AnimatorRM.SetTrigger("Swing");
         _isCatchingButterflies = true;
+
+        GameManager.Instance.Player.Agent.SetDestination(GameManager.Instance.Player.gameObject.transform.position);
+        GameManager.Instance.BlockInput = true;
     }
 
     private void EnableJar(Character.States state)
@@ -38,7 +41,8 @@ public class EncounterableButterflies : EncounterablePrerequisite
         if (_isCatchingButterflies)
         {
             _butterflyJar.SetActive(true);
-           _character.AnimationDoneEvent -= EnableJar;
+            _character.AnimationDoneEvent -= EnableJar;
+            GameManager.Instance.BlockInput = false;
         }
     }
 }
