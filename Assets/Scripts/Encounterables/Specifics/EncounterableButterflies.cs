@@ -38,7 +38,7 @@ public class EncounterableButterflies : EncounterablePrerequisite
         if (_isCatchingButterflies)
         {
             _butterflyJar.SetActive(true);
+           _character.AnimationDoneEvent -= EnableJar;
         }
-        _character.AnimationDoneEvent -= EnableJar;
     }
 }
