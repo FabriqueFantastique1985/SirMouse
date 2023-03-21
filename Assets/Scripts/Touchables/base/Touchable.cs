@@ -52,7 +52,7 @@ public class Touchable : MonoBehaviour, IClickable
         Animator.SetBool("Activated", true);
     }
     
-    private void Start()
+    protected virtual void Start()
     {
         //Disable();
     }
@@ -74,10 +74,7 @@ public class Touchable : MonoBehaviour, IClickable
                 _touchComponent.Act();
 
                 // plays animation (only if my touch component is not the "Move")
-                if (Animator != null && GetComponent<Touch_Move>() == null)
-                {
-                    Animator.SetTrigger("Activate");
-                }
+                TriggerAnimation();
            
                 // if cooldown is present
                 if (HasACooldown == true)
@@ -85,10 +82,18 @@ public class Touchable : MonoBehaviour, IClickable
                     StartCoroutine(ActivateCooldown());
                 }
 
-                NeedyMethod();
-
                 UsedSuccesfully = true;
             }
+        }
+    }
+
+    // play animator animation through activate trigger
+    protected virtual void TriggerAnimation()
+    {
+        // plays animation (only if my touch component is not the "Move")
+        if (Animator != null && GetComponent<Touch_Move>() == null)
+        {
+            Animator.SetTrigger("Activate");
         }
     }
 
@@ -96,12 +101,6 @@ public class Touchable : MonoBehaviour, IClickable
     public void PlayAnimationEventSound(int index)
     {
         AudioController.Instance.PlayAudio(AudioElements[index]);
-    }
-
-    // method for the needy variant
-    protected virtual void NeedyMethod()
-    {
-
     }
 
     #endregion

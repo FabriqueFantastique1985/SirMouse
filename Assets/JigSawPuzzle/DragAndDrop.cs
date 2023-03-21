@@ -141,7 +141,8 @@ public class DragAndDrop : MonoBehaviour
 
                     if (_prefabParticleSuccess != null)
                     {
-                        Instantiate(_prefabParticleSuccess, SelectedPiece.transform.position, Quaternion.identity);
+                        var particleSystem = Instantiate(_prefabParticleSuccess, SelectedPiece.transform.position, Quaternion.identity);
+                        particleSystem.GetComponent<ParticleSystem>().Play();
                     }
                 }
                 
