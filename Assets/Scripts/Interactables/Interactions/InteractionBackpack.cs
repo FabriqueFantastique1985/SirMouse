@@ -13,10 +13,13 @@ public class InteractionBackpack : Interaction
     [SerializeField]
     private PickupInteraction _interactionPickup;
 
+    [SerializeField]
+    private float _scaleImage = 1;
+
     protected override void SpecificAction(Player player)
     {
         // needs the interactable itself and the type
-        BackpackController.BackpackInstance.AddItemToBackpackFromFloor(_interactableComponent, this.gameObject, _interactableComponent.MyPickupType, _interactionPickup.SpriteRenderPickup, 1);
+        BackpackController.BackpackInstance.AddItemToBackpackFromFloor(_interactableComponent, this.gameObject, _interactableComponent.MyPickupType, _interactionPickup.SpriteRenderPickup, _scaleImage);
         //Debug.Log($"Added item: {gameObject}, {_interactionPickup.TypeOfPickup} to the backpack.");
     }
 }
