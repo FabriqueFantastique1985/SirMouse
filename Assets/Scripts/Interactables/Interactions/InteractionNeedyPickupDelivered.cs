@@ -29,7 +29,7 @@ public class InteractionNeedyPickupDelivered : Interaction
             for (int j = 0; j < BackpackController.ItemButtonsInBackpack.Count; j++)
             {
                 //Debug.Log("test 1");
-                if (BackpackController.ItemButtonsInBackpack[j].MyPickupType == tempList[i])
+                if (BackpackController.ItemButtonsInBackpack[j].MyPickupType == _myInteractable.WantedPickups[i])
                 {
                     //Debug.Log("test 2");
                     // if this has not yet been added to my list (dont want to add the exact same pickup 3 times)
