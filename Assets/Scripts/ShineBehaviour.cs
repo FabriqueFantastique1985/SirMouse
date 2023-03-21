@@ -1,6 +1,4 @@
-﻿//#define USE_CONVERT_TEXTURE
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -110,24 +108,11 @@ public class ShineBehaviour : MonoBehaviour
         Texture2D slicedTex = new Texture2D((int)rect.width, (int)rect.height);
         slicedTex.filterMode = sprite.texture.filterMode;
 
-#if USE_CONVERT_TEXTURE
-        // Converts the imgage only if it has been crunch compressed
-        Texture2D originalTex;
-        switch (sprite.texture.format)
-        {
-            case TextureFormat.DXT1Crunched:
-            case TextureFormat.DXT5Crunched:
-            case TextureFormat.ETC_RGB4Crunched:
-            case TextureFormat.ETC2_RGBA8Crunched:
-                originalTex = Convert(sprite.texture);
-                break;
-            default:
-                originalTex = sprite.texture;
-                break;
-        }
-        slicedTex.SetPixels(0, 0, (int)rect.width, (int)rect.height, originalTex.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height));
+#if UNITY_IOS
+        Color[] colors = GetPixelsInRect(sprite.texture, (int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+        slicedTex.SetPixels(0, 0, (int) rect.width, (int) rect.height, colors);
 #else
-        Color[] colors;
+    Color[] colors;
         switch (sprite.texture.format)
         {
             case TextureFormat.DXT1Crunched:
