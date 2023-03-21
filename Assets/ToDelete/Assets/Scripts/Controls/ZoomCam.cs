@@ -77,6 +77,16 @@ public class ZoomCam : MonoBehaviour
         if (_playerAgent.velocity.sqrMagnitude < 0.1f && _isMoving)
         {
             _isMoving = false;
+            StartCoroutine(DelayResetZoom(2f));
+        }
+    }
+
+    private IEnumerator DelayResetZoom(float waitAmount)
+    {
+        yield return new WaitForSeconds(waitAmount);
+
+        if (!_isMoving)
+        {
             ResetZoom();
         }
     }
