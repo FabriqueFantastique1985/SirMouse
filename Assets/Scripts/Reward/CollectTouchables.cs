@@ -43,13 +43,17 @@ public class CollectTouchables : MonoBehaviour
         // remove hightlight box
         _spriteRenderer.material = _baseMaterial;
 
-        foreach (var go in _enteredGameObjects)
+        // Raycast to check if mouse is above chest
+        Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        LayerMask mask = LayerMask.GetMask("Collect");
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
         {
-            if (obj.gameObject == go)
+            if (hit.collider.gameObject == gameObject)
             {
-                _enteredGameObjects.Remove(go);
-                Destroy(go);
-                break;
+                Destroy(obj.gameObject);
             }
         }
     }
