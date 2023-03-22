@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SkinsMouseController : MonoBehaviour
+public class SkinsMouseController : MonoBehaviour, IDataPersistence
 {
     public static SkinsMouseController Instance { get; private set; }
 
@@ -73,7 +73,6 @@ public class SkinsMouseController : MonoBehaviour
 
     // complete list for easy iteration on cheat code
     private List<SkinPiecesForThisBodyTypeButton> _listsOfButtons = new List<SkinPiecesForThisBodyTypeButton>();
-
     #endregion
 
 
@@ -93,7 +92,7 @@ public class SkinsMouseController : MonoBehaviour
             return;
         }
         Instance = this;
-
+        
         _listsOfButtons.Add(SkinPiecesButtonHat);
         _listsOfButtons.Add(SkinPiecesButtonHead);
         _listsOfButtons.Add(SkinPiecesButtonChest);
@@ -476,4 +475,27 @@ public class SkinsMouseController : MonoBehaviour
     }
 
     #endregion
+
+    public void LoadData(GameData data)
+    {
+        EquipedSkinPieces = data.EquipedSkinPieces;
+        EquipedSkinPieces.ForEach(x => EquipSkinPiece(x));
+        if (data.ListsOfButtons.Count != 0) _listsOfButtons = data.ListsOfButtons;
+        _listsOfButtons.ForEach(x =>
+        {
+            foreach (var skinPieceButton in x.MySkinPiecesButtons)
+            {
+                if (skinPieceButton.Found)
+                {
+                    UnlockSkinPiece(skinPieceButton.MySkinPieceElement);
+                }
+            }
+        });
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.EquipedSkinPieces = EquipedSkinPieces;
+        data.ListsOfButtons = _listsOfButtons;
+    }
 }
