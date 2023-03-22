@@ -11,6 +11,7 @@ public class PuzzlePieceCollector : MonoBehaviour
     [SerializeField] private List<Touch_PuzzlePiece> _puzzlePieces = new List<Touch_PuzzlePiece>();
 
     private int _collectedPiecesCount = 0;
+    private int _clickedPiecesCount = 0;
 
     [SerializeField] private float _hintTimer;
 
@@ -26,6 +27,7 @@ public class PuzzlePieceCollector : MonoBehaviour
         foreach (var piece in _puzzlePieces)
         {
             piece.OnPiecePickedUp += OnPiecePickedUp;
+            piece.OnPieceClicked += OnPieceCicked;
         }
     }
 
@@ -58,24 +60,28 @@ public class PuzzlePieceCollector : MonoBehaviour
         }
     }
 
+    private void OnPieceCicked(Touch_PuzzlePiece piece)
+    {
+        if (_clickedPiecesCount < _targetLocations.Count)
+        {
+            piece.TargetDestination = _targetLocations[_clickedPiecesCount].position;
+        }
+
+        ++_clickedPiecesCount;
+    }
+
     private void OnPiecePickedUp(Touch_PuzzlePiece piece)
     {
         OnPieceCollected?.Invoke();
 
-        if (_collectedPiecesCount < _targetLocations.Count)
-        {
-            piece.TargetDestination = _targetLocations[_collectedPiecesCount].position;
-        }
-
         ++_collectedPiecesCount;
 
-        // Remove soon to be deleted piece from list of puzzle pieces
+        // Remove piece from list of puzzle pieces
         int idx = _puzzlePieces.IndexOf(piece);
         if (idx >= 0 && idx < MaxPieces)
         {
             _puzzlePieces[idx] = null;
         }
-
         
         if (_collectedPiecesCount == MaxPieces)
         {
