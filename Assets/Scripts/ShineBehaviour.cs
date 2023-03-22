@@ -47,7 +47,8 @@ public class ShineBehaviour : MonoBehaviour
             // Set texture parameters
             Texture2D texture = GetSlicedSpriteTexture(renderer.sprite);
             Rect rect = new Rect(0, 0, texture.width, texture.height);
-            renderer.sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f));
+            var sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f), 100, 5);
+            renderer.sprite = sprite;
         }
     }
 
@@ -107,7 +108,6 @@ public class ShineBehaviour : MonoBehaviour
         Rect rect = sprite.rect;
         Texture2D slicedTex = new Texture2D((int)rect.width, (int)rect.height);
         slicedTex.filterMode = sprite.texture.filterMode;
-
 #if UNITY_IOS
         Color[] colors = GetPixelsInRect(sprite.texture, (int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
         slicedTex.SetPixels(0, 0, (int) rect.width, (int) rect.height, colors);
