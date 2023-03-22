@@ -567,6 +567,8 @@ GameObject:
   - component: {fileID: 53708296}
   - component: {fileID: 53708295}
   - component: {fileID: 53708294}
+  - component: {fileID: 53708298}
+  - component: {fileID: 53708297}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -617,7 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6313726}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -641,6 +643,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53708292}
   m_CullTransparentMesh: 0
+--- !u!320 &53708297
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53708292}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 92b611ad0245e1942ad03571c100074d, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 7620224739118983015, guid: b56e14bdb84ec58499d92ceb092637c7, type: 2}
+    value: {fileID: 53708298}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: -4631328849641778042, guid: 92b611ad0245e1942ad03571c100074d, type: 2}
+    value: {fileID: 53708298}
+  m_ExposedReferences:
+    m_References: []
+--- !u!95 &53708298
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53708292}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &56145578
 GameObject:
   m_ObjectHideFlags: 0
@@ -5729,6 +5773,11 @@ PrefabInstance:
       propertyPath: _glowShader
       value: 
       objectReference: {fileID: 2100000, guid: f4ec76bf3d928a745b75dea01d641e50, type: 2}
+    - target: {fileID: 3190461176604182698, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
+        type: 3}
+      propertyPath: _darkBackground
+      value: 
+      objectReference: {fileID: 1070554323}
     - target: {fileID: 3236322225287539360, guid: ee7b0dc9db94ba34eb069b05ebc5740b,
         type: 3}
       propertyPath: _isShineActive
@@ -6028,7 +6077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &1070554318
 Animator:
   serializedVersion: 3
@@ -6141,6 +6190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 1070554321}
+  _playableDirector: {fileID: 53708297}
+  _fadeIn: {fileID: 11400000, guid: 92b611ad0245e1942ad03571c100074d, type: 2}
+  _fadeOut: {fileID: 11400000, guid: b56e14bdb84ec58499d92ceb092637c7, type: 2}
 --- !u!1 &1103663336
 GameObject:
   m_ObjectHideFlags: 0
@@ -10341,7 +10393,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh228964
+  m_Name: pb_Mesh675918
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
