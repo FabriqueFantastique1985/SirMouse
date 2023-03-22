@@ -6,8 +6,9 @@ public class Move : MonoBehaviour
 {
     [SerializeField] private Transform _startPoint;
     [SerializeField] private Transform _endPoint;
-    [SerializeField] private float _speed = 1;
     [SerializeField] private bool _doOnce = false;
+
+    [SerializeField] private float _time = 2f;
 
     private bool _isMoving = false;
 
@@ -33,7 +34,8 @@ public class Move : MonoBehaviour
         while (Vector3.Distance(transform.position, _endPoint.position) > 0.001f)
         {
             // Move our position a step closer to the target.
-            var step = _speed * Time.deltaTime;
+            float speed = Vector3.Distance(_endPoint.position, _startPoint.position) / _time;
+            var step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, _endPoint.position, step);
 
             yield return null;
@@ -49,7 +51,9 @@ public class Move : MonoBehaviour
         while (Vector3.Distance(transform.position, _startPoint.position) > 0.001f)
         {
             // Move our position a step closer to the target.
-            var step = _speed * Time.deltaTime;
+
+            float speed = Vector3.Distance(_endPoint.position, _startPoint.position) / _time;
+            var step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, _startPoint.position, step);
 
             yield return null;
