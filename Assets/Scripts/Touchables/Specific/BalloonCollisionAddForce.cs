@@ -12,9 +12,9 @@ public class BalloonCollisionAddForce : MonoBehaviour
 
 
     // if I collide with the player....
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.layer == 10)
+        if (other.gameObject.layer == 10)
         {
             Vector3 bounceDirection;
             Vector3 rotateDirection;
@@ -34,7 +34,7 @@ public class BalloonCollisionAddForce : MonoBehaviour
 
             _rigidBodyToInfluence.velocity = (bounceUp + bounceDirection);
 
-            _rigidBodyToInfluence.AddRelativeTorque(rotateDirection);      
+            _rigidBodyToInfluence.AddRelativeTorque(rotateDirection);
         }
     }
 }

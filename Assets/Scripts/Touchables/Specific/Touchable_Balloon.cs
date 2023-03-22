@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Touchable_Balloon : Touchable
 {
-    [Header("Parent with Rigidbody if present")]
+    [Header("Balloon Collection parent")]
     [SerializeField]
-    private Rigidbody _rigidBody;
+    private BalloonCollection _balloonCollection;
 
     protected override void ExtraLogic()
     {
         base.ExtraLogic();
 
-        if (_rigidBody != null)
+        if (_balloonCollection != null)
         {
             StartCoroutine(DestroyBalloon());
         }      
@@ -23,6 +23,6 @@ public class Touchable_Balloon : Touchable
     {
         yield return new WaitForSeconds(1f);
 
-        Destroy(_rigidBody.gameObject);
+        Destroy(_balloonCollection.gameObject);
     }
 }
