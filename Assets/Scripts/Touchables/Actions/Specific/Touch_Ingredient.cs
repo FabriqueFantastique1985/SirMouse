@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Touch_Ingredient : Touch_Physics
 {
@@ -99,4 +100,17 @@ public class Touch_Ingredient : Touch_Physics
 
         this.enabled = false;
     }
+
+    protected override IEnumerator StopPhysicsUpdate(float timeActive, Rigidbody rigidSpawnedobject, Collider collSpawnedObject)
+    {
+        StartCoroutine(base.StopPhysicsUpdate(timeActive, rigidSpawnedobject, collSpawnedObject));
+
+        do
+        {
+            yield return null;
+        } while (Mathf.Abs(rigidSpawnedobject.velocity.y) > 0f);
+        
+        rigidSpawnedobject.gameObject.GetComponent<SortingGroup>().sortingOrder = 0;
+    }
+
 }

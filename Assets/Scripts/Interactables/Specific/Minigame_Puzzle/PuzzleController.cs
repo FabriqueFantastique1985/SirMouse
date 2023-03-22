@@ -16,7 +16,6 @@ public class PuzzleController : MiniGame
         base.EndMiniGame(true);
     }
 
-    // called from interaction
     public override void StartMiniGame()
     {
         base.StartMiniGame();
