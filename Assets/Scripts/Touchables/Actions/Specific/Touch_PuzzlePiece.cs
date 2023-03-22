@@ -8,6 +8,7 @@ public class Touch_PuzzlePiece : Touch_Action
 {
     public delegate void PuzzlePieceDelegate(Touch_PuzzlePiece piece);
     public event PuzzlePieceDelegate OnPiecePickedUp;
+    public event PuzzlePieceDelegate OnPieceClicked;
 
     [SerializeField] private float _flyCooldown;
     [SerializeField] private Vector3 _endPosition;
@@ -45,12 +46,12 @@ public class Touch_PuzzlePiece : Touch_Action
 
             yield return null;
         }
-        //Destroy(gameObject);
+        OnPiecePickedUp?.Invoke(this);
     }
 
     private IEnumerator PickupPiece()
     {
-        OnPiecePickedUp?.Invoke(this);
+        OnPieceClicked?.Invoke(this);
 
         GetComponent<ShineBehaviour>().IsShineActive = false;
 
