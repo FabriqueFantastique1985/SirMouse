@@ -70,7 +70,7 @@ public class MainGameSystem : GameSystem
                     }
                 }
 
-                Debug.Log("Hit " + hit.transform.name);
+                //Debug.Log("Hit " + hit.transform.name);
 
                 if (_player.State is WalkingState == false && hit.transform.TryGetComponent<IClickable>(out IClickable clickable))
                 {
