@@ -10,6 +10,11 @@ public class RecipeController : MiniGame
     [SerializeField]
     private CutsceneAction _bookCutscene;
 
+    // Polish
+    [SerializeField] private DarkBackgroundBehavior _darkBackground;
+    [SerializeField] private Material _glowShader;
+    private Material _originalShader;
+
     /// <summary>
     /// When interacted with this interactable, we start the game.
     /// </summary>
@@ -127,10 +132,20 @@ public class RecipeController : MiniGame
 
         IngredientAnimator.SetBool("Activated", true);
 
+        _darkBackground.FadeIn();
+
         // enables touchables
         for (int i = 0; i < TouchableIngredients.Count; i++)
         {
             TouchableIngredients[i].Enable();
+
+            // Turn on glow ingredients
+            var spriteRenderer = TouchableIngredients[i].GetComponentInChildren<SpriteRenderer>();
+            if (spriteRenderer)
+            {
+                _originalShader = spriteRenderer.material;
+                spriteRenderer.material = _glowShader;
+            }
         }
 
         // set health to max
@@ -202,6 +217,14 @@ public class RecipeController : MiniGame
         {
             //TouchableIngredients[i].Disable();
             TouchableIngredients[i].Animator.SetBool("Activated", false);
+
+            // Turn off glow to ingredients
+            var spriteRenderer = TouchableIngredients[i].GetComponentInChildren<SpriteRenderer>();
+            if (spriteRenderer)
+            {
+                spriteRenderer.material = _originalShader;
+            }
+
         }
 
         GameManager.Instance.FollowCamera.target = GameManager.Instance.Player.transform;
@@ -214,6 +237,7 @@ public class RecipeController : MiniGame
     public override void EndMiniGame(bool completeSuccesfully)
     {
         base.EndMiniGame(completeSuccesfully);
+        _darkBackground.FadeOut();
 
         StartCoroutine(EndMiniGameCoroutine());
     }

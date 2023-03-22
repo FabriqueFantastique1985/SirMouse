@@ -8,13 +8,13 @@ public class PuzzlePieceCollector : MonoBehaviour
     public event PuzzlePieceCollectorDelegate OnAllPiecesPickedUp;
     public event PuzzlePieceCollectorDelegate OnPieceCollected;
     
-    [SerializeField]
-    private List<Touch_PuzzlePiece> _puzzlePieces = new List<Touch_PuzzlePiece>();
+    [SerializeField] private List<Touch_PuzzlePiece> _puzzlePieces = new List<Touch_PuzzlePiece>();
 
     private int _collectedPiecesCount = 0;
 
-    [SerializeField]
-    private float _hintTimer;
+    [SerializeField] private float _hintTimer;
+
+    [SerializeField] private List<Transform> _targetLocations = new List<Transform>();
 
     public int MaxPieces
     {
@@ -61,6 +61,11 @@ public class PuzzlePieceCollector : MonoBehaviour
     private void OnPiecePickedUp(Touch_PuzzlePiece piece)
     {
         OnPieceCollected?.Invoke();
+
+        if (_collectedPiecesCount < _targetLocations.Count)
+        {
+            piece.TargetDestination = _targetLocations[_collectedPiecesCount].position;
+        }
 
         ++_collectedPiecesCount;
 

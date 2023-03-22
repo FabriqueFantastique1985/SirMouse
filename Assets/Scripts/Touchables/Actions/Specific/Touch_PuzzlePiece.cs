@@ -9,15 +9,14 @@ public class Touch_PuzzlePiece : Touch_Action
     public delegate void PuzzlePieceDelegate(Touch_PuzzlePiece piece);
     public event PuzzlePieceDelegate OnPiecePickedUp;
 
-    [SerializeField]
-    private float _flyCooldown;
+    [SerializeField] private float _flyCooldown;
+    [SerializeField] private Vector3 _endPosition;
+    [SerializeField] private float _flySpeed;
 
-    [SerializeField]
-    private Vector3 _endPosition;
-    private Vector3 _startPosition;
-
-    [SerializeField]
-    private float _flySpeed;
+    public Vector3 TargetDestination
+    {
+        set { _endPosition = value; }
+    }
 
     protected override void Start()
     {
@@ -25,8 +24,6 @@ public class Touch_PuzzlePiece : Touch_Action
 
         _touchableScript.HasACooldown = false;
         _touchableScript.OneTimeUse = true;
-
-        _startPosition = transform.position;
     }
 
     public override void Act()
@@ -48,14 +45,18 @@ public class Touch_PuzzlePiece : Touch_Action
 
             yield return null;
         }
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
     private IEnumerator PickupPiece()
     {
         OnPiecePickedUp?.Invoke(this);
 
+        GetComponent<ShineBehaviour>().IsShineActive = false;
+
         yield return new WaitForSeconds(_flyCooldown);
+
+        _touchableScript.Animator.SetTrigger("Activate");
 
         StartCoroutine(MoveToTable());
     }
