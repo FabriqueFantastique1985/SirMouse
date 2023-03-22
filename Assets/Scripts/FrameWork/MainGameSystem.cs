@@ -77,6 +77,11 @@ public class MainGameSystem : GameSystem
                     clickable.Click(_player);
                     _onCooldown = true;
                 }
+                else if (_player.State is WalkingState == false && hit.transform.gameObject.layer == 21) // if I click an object with physics, which also is a touchable (balloons)
+                {
+                    hit.transform.GetComponentInChildren<IClickable>().Click(_player);
+                    _onCooldown = true;
+                }
             }
         }
     }

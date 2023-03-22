@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
@@ -82,9 +83,16 @@ public class Touchable : MonoBehaviour, IClickable
                     StartCoroutine(ActivateCooldown());
                 }
 
+                ExtraLogic();
+
                 UsedSuccesfully = true;
             }
         }
+    }
+
+    protected virtual void ExtraLogic()
+    {
+        
     }
 
     // play animator animation through activate trigger
