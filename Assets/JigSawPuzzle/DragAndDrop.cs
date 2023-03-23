@@ -14,6 +14,7 @@ public class DragAndDrop : MonoBehaviour
     public event RestartDelegate OnPuzzleRestarted;
 
     public Camera CameraPuzzle;
+    private Camera _playerCamera;
 
     [SerializeField] private LayerMask _ignoreMe;
 
@@ -47,12 +48,14 @@ public class DragAndDrop : MonoBehaviour
         // hide the buttons for the closet and backpack
         GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(false);
 
+        // disable the camera component which follows the player
+        _playerCamera = Camera.allCameras[0];
+        _playerCamera.gameObject.SetActive(false);
+        GameManager.Instance.CurrentCamera.enabled = false;
+
         // enable the update on this script
         this.enabled = true;
         gameObject.SetActive(true);
-
-        // disable the camera component which follows the player
-        GameManager.Instance.CurrentCamera.enabled = false;
 
         // hide sirMouse rig
         SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(false);
@@ -91,6 +94,7 @@ public class DragAndDrop : MonoBehaviour
         SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(true);
 
         // enable the camera component which follows the player
+        _playerCamera.gameObject.SetActive(true);
         GameManager.Instance.CurrentCamera.enabled = true;
 
         // un-hide the buttons for the closet and backpack
