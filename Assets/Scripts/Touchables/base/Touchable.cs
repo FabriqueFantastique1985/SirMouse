@@ -78,7 +78,7 @@ public class Touchable : MonoBehaviour, IClickable
                 TriggerAnimation();
            
                 // if cooldown is present
-                if (HasACooldown == true)
+                if (OneTimeUse == false &&HasACooldown == true)
                 {
                     StartCoroutine(ActivateCooldown());
                 }
