@@ -14,6 +14,8 @@ public class BackAndForth_Continous : Move
     protected Touch_Event TouchEvent => _touchEvent;
     [SerializeField] private Touch_Event _touchEvent;
 
+    [SerializeField] private Animator _animator;
+
     protected virtual void Start()
     {
         _touchEvent.OnPropTouched += StartMove;
@@ -37,12 +39,14 @@ public class BackAndForth_Continous : Move
         IsMoving = true;
 
         OnMoveToEnd?.Invoke();
+        if (_animator) _animator.SetTrigger("HookDown");
         yield return StartCoroutine(MoveToEnd());
         OnReachedEnd?.Invoke(); 
 
         yield return new WaitForSeconds(_waitTime);
 
         OnMoveToStart?.Invoke();
+        if (_animator) _animator.SetTrigger("HookUp");
         yield return StartCoroutine(MoveToStart());
         OnReachedStart?.Invoke();
 
