@@ -38,6 +38,8 @@ public class DragAndDrop : MonoBehaviour
 
     private bool _isCompletedOnce = false;
 
+    [SerializeField] private PuzzleInBounds _puzzleInBounds;
+
     // !! call this on interaction for puzzle game !!
     public void StartMiniGame()
     {
