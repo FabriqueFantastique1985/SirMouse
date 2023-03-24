@@ -12,11 +12,20 @@ public class PuzzlePieceScript : MonoBehaviour
 
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
-        
+
+    private float _minBoundsX;
+    private float _maxBoundsX;
+
     void Start()
     {
         CorrectPosition = transform.position;
         _collider = GetComponent<Collider>();
+
+        var bounds = FindObjectOfType<PuzzleInBounds>();
+        _minBoundsX = bounds.PuzzlePieceMinX;
+        _minBoundsX += _collider.bounds.size.x;
+        _maxBoundsX = bounds.PuzzlePieceMaxX;
+        _maxBoundsX -= _collider.bounds.size.x;
 
         RestartPuzzle(null);
 
@@ -30,7 +39,10 @@ public class PuzzlePieceScript : MonoBehaviour
 
     private void RestartPuzzle(Sprite sprite)
     {
-        transform.localPosition = new Vector3(Random.Range(-12f, -2.5f), Random.Range(-9.5f, 0.5f));
+        //transform.localPosition = new Vector3(Random.Range(-12f, -2.5f), Random.Range(-9.5f, 0.5f));
+        transform.position = new Vector3(Random.Range(_minBoundsX, _maxBoundsX), transform.position.y);
+        transform.localPosition = new Vector3(transform.localPosition.x, Random.Range(-9.5f, 0.5f));
+        
         _collider.enabled = true;
 
         if (_spriteRenderer && sprite)
