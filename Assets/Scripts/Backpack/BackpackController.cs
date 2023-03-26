@@ -41,8 +41,8 @@ public class BackpackController : MonoBehaviour
     [Header("Button Animation Components")]
     [SerializeField]
     private ButtonBaseNew _buttonBackpack;
-    [SerializeField]
-    private ButtonBaseNew _buttonCloset;
+    //[SerializeField]
+    //private ButtonBaseNew _buttonCloset;
     [Header("Reference UI Overlay")]
     [SerializeField]
     private GameObject _buttonBackpackReference;
@@ -310,7 +310,7 @@ public class BackpackController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.25f);
 
-        PageController.Instance.TurnPageOff(PageType.Backpack);  
+        PageController.Instance.TurnPageOff(PageType.BackpackResources);  
 
         // SirMouse State change  // --> plays animation ---> set equiped item
         var player = GameManager.Instance.Player;
@@ -334,8 +334,6 @@ public class BackpackController : MonoBehaviour
         // re-organize the backpack
         ReOriganizeBackpack();
     }
-
-
     private void ReOriganizeBackpack()
     {
         // when I click a button in Group0, and I'm already using another Group ...

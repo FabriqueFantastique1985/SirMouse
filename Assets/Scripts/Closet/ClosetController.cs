@@ -9,15 +9,15 @@ public class ClosetController : MonoBehaviour
 {
     public static ClosetController Instance { get; private set; }
 
-    public LayerMask LayersToCastOn;
-    public GameObject PanelToInstantiateClosetImagesOn;
-
+    [Header("Closet References")]
     public List<Page> PagesWithinCloset = new List<Page>();
-
-    public ButtonClosetNew ButtonCloset;
     public List<ButtonClosetOpenSpecificPieces> ButtonsClosetPagers = new List<ButtonClosetOpenSpecificPieces>();
-    public SkinPieceElement CurrentlyHeldSkinPiece;
+    public ButtonClosetSelect ButtonCloset;
 
+    public LayerMask LayersToCastOn;
+
+    [HideInInspector]
+    public SkinPieceElement CurrentlyHeldSkinPiece;
     [HideInInspector]
     public PageType PageTypeOpenedInClosetLastTime;
     [HideInInspector]
@@ -25,6 +25,7 @@ public class ClosetController : MonoBehaviour
     [HideInInspector]
     public Animation AnimationSpawnedObject;
 
+    [Header("Notification stuff")]
     //[HideInInspector]
     public List<ButtonSkinPiece> ButtonsWithNotifications = new List<ButtonSkinPiece>();
     //[HideInInspector]
@@ -42,11 +43,13 @@ public class ClosetController : MonoBehaviour
     private RaycastHit _hit;
 
     // below is for chugging things in the closet ...(am i sure bout this?)
+    [Header("Refs for throwing objects on UI page")]
+    public GameObject PanelToInstantiateClosetImagesOn;
+    [SerializeField]
+    private GameObject _panelInstantiatedUI;
     [SerializeField]
     private GameObject _emptyGameObject;
 
-    [SerializeField]
-    private GameObject _panelInstantiatedUI;
 
     float _speed;
     float _arcHeight;
@@ -188,16 +191,13 @@ public class ClosetController : MonoBehaviour
         // turn on the UI player things
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
         PageController.Instance.CameraUI_Backpack_Closet.enabled = true;
-
-        // sleeping ILLEGAL
-        GameManager.Instance.Player.Character.SetBoolSleeping(true);
     }
     public void CloseCloset()
     {
         //AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
 
         // close closet page
-        PageController.Instance.TurnPageOff(PageType.Closet);
+        PageController.Instance.TurnPageOff(PageType.BackpackCloset);
 
         // update ui images
         PageController.Instance.OpenClosetImage(false);
@@ -206,9 +206,6 @@ public class ClosetController : MonoBehaviour
         // this still needed ?
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
         PageController.Instance.CameraUI_Backpack_Closet.enabled = false;
-
-        // sleeping allowed
-        GameManager.Instance.Player.Character.SetBoolSleeping(false);
     }
 
     // called on GiveReward() in RewardController

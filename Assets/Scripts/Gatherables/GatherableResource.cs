@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GatherableResource : MonoBehaviour
+public class GatherableResource : GatherableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Type_Resource ResourceType;
 
-    // Update is called once per frame
-    void Update()
+    public override void PickedUpGatherable()
     {
-        
+        base.PickedUpGatherable();
+
+        ResourceController.Instance.AddResource(ResourceType);
+
+        UIFlyingToBackpackController.Instance.ThrowItemIntoBackpack(this, ResourceType);
     }
 }

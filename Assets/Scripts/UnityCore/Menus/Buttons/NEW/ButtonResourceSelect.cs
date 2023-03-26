@@ -3,25 +3,23 @@ using System.Collections.Generic;
 using UnityCore.Menus;
 using UnityEngine;
 
-public class ButtonClosetNew : ButtonPaging
+public class ButtonResourceSelect : ButtonPaging
 {
+    [Header("Notification related")]
     public bool IhaveNotificationsReadyInTheCloset;
     public GameObject NotificationObject;
 
 
     protected override void TurnOnPage()
     {
-        // if I'm closing the closet...
+        // if I'm closing the resources...
         if (_pageInstance.PageIsOn(_turnThisPage) == true)
         {
-            ClosetController.Instance.CloseCloset();
+            PageController.Instance.TurnAllPagesOffExcept(PageType.BackpackButtons);
         }
-        else // if I'm opening the closet...
+        else // if I'm opening the resources...
         {
-            ClosetController.Instance.OpenCloset(_turnThisPage);
+            PageController.Instance.TurnAllPagesOffExcept(_turnThisPage);
         }
     }
-
-
-
 }

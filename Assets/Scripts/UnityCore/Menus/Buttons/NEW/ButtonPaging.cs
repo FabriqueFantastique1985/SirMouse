@@ -9,6 +9,7 @@ public class ButtonPaging : ButtonBaseNew
     [SerializeField]
     protected AudioElement _soundEffectOff;
 
+    [Header("Page to activate")]
     [SerializeField]
     protected PageType _turnThisPage;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SlotInstrument : ButtonBaseNew
 {
@@ -12,8 +13,13 @@ public class SlotInstrument : ButtonBaseNew
     public bool Unlocked;
     public bool IsActive;
 
-    public GameObject SpriteFull;
+    [Header("Button Component")]
+    public Button ButtonComponent;
+
+    [Header("References Children")]
     public GameObject GlowActivation;
+    public GameObject SpriteFull;
+    
 
     public override void ClickedButton()
     {
@@ -35,6 +41,7 @@ public class SlotInstrument : ButtonBaseNew
     {
         Unlocked = true;
         SpriteFull.SetActive(true);
-        _buttonCollider.enabled = true;      
+        _buttonCollider.enabled = true;
+        ButtonComponent.enabled = true;
     }
 }

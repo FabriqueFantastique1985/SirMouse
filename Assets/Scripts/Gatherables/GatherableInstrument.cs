@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GatherableInstrument : MonoBehaviour
+public class GatherableInstrument : GatherableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Type_Instrument InstrumentType;
 
-    // Update is called once per frame
-    void Update()
+    public override void PickedUpGatherable()
     {
-        
+        base.PickedUpGatherable();
+
+        InstrumentController.Instance.UnlockInstrument(InstrumentType);
+
+        UIFlyingToBackpackController.Instance.ThrowItemIntoBackpack(this, Type_Resource.None, InstrumentType);
     }
 }

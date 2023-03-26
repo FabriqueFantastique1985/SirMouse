@@ -17,7 +17,11 @@ namespace UnityCore
 
             private Hashtable m_Pages;
 
-            public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
+            public ButtonBackpackSuper ButtonBackpackSuper;
+            public ButtonEquipToggle ButtonEquipToggle;
+
+
+            //public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
 
             public Camera CameraUI_Backpack_Closet;
 
@@ -161,13 +165,13 @@ namespace UnityCore
 
             public void OpenBagImage(bool state)
             {
-                BackpackImage0.SetActive(!state);
-                BackpackImage1.SetActive(state);
+                //BackpackImage0.SetActive(!state);
+                //BackpackImage1.SetActive(state);
             }
             public void OpenClosetImage(bool state)
             {
-                ClosetImage0.SetActive(!state);
-                ClosetImage1.SetActive(state);
+                //ClosetImage0.SetActive(!state);
+                //ClosetImage1.SetActive(state);
             }
 
 

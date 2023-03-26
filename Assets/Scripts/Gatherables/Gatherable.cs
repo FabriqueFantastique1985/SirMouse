@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class Gatherable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("Gatherable Component")]
+    public GatherableObject GatherableSpecificComponent;
+
+    [Header("Other Components")]
+    [SerializeField]
+    private Collider _trigger;
+
+    [Header("Children Objects")]
+    [SerializeField]
+    private GameObject SpriteVisuals;
+
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        
+        GatherableSpecificComponent.PickedUpGatherable();
+
+        VisualEventProc();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    protected virtual void VisualEventProc()
     {
-        
+
     }
 }

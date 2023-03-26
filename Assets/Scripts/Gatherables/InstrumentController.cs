@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Menus;
 using UnityEngine;
 
 public class InstrumentController : MonoBehaviour
@@ -59,9 +60,12 @@ public class InstrumentController : MonoBehaviour
     }
     public void DeactivateInstrument()
     {
-        ActiveInstrumentSlot.GlowActivation.SetActive(false);
-        ActiveInstrumentSlot.IsActive = false;
-        ActiveInstrumentSlot = null;
+        if (ActiveInstrumentSlot != null)
+        {
+            ActiveInstrumentSlot.GlowActivation.SetActive(false);
+            ActiveInstrumentSlot.IsActive = false;
+            ActiveInstrumentSlot = null;
+        }
     }
 
 
@@ -99,4 +103,7 @@ public class InstrumentController : MonoBehaviour
         ActiveInstrumentPiece = null;
         EquipedInstrument = Type_Instrument.None;
     }
+
+
+
 }
