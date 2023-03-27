@@ -114,11 +114,11 @@ public class UIFlyingToBackpackController : MonoBehaviour
         _startPos = screenPosition;
         _endPos = targetPosition;
 
-        StartCoroutine(MoveThrownObject(_objectToMove));
+        StartCoroutine(MoveThrownObject(_objectToMove, _startPos, _endPos));
 
         yield return null;
     }
-    private IEnumerator MoveThrownObject(GameObject objectChugged)
+    private IEnumerator MoveThrownObject(GameObject objectChugged, Vector2 startPos, Vector2 endPos)
     {
         float progress = 0;
         float arcHeight = _arcHeight;
@@ -130,7 +130,7 @@ public class UIFlyingToBackpackController : MonoBehaviour
             // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
             float parabola = 1.0f - 4.0f * (progress - 0.5f) * (progress - 0.5f);
             // Travel in a straight line from our start position to the target.        
-            Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, progress);
+            Vector3 nextPos = Vector3.Lerp(startPos, endPos, progress);
             // Then add a vertical arc in excess of this.
             nextPos.y += parabola * arcHeight;
 
