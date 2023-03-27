@@ -13,7 +13,9 @@ public class ResourceController : MonoBehaviour
     private List<SlotResource> _slotsResources = new List<SlotResource>();
     private List<SlotResource> _slotsResourcesTaken = new List<SlotResource>();
 
-    //[Header("Prefabs for UI visuals")]
+    [Header("Prefabs for UI visuals")]
+    [SerializeField]
+    private List<GameObject> _prefabsUI = new List<GameObject>();
 
     [Header("Number sprites")]
     [SerializeField]
@@ -38,28 +40,41 @@ public class ResourceController : MonoBehaviour
     {
         for (int i = 0; i < _slotsResources.Count; i++)
         {
-            SlotResource SlotOfInterest = _slotsResources[i];
+            SlotResource slotOfInterest = _slotsResources[i];
 
-            if (SlotOfInterest.ResourceType == resourceToAdd)
+            if (slotOfInterest.ResourceType == resourceToAdd)
             {
-                SlotOfInterest.Amount += 1;                
-                // change the sprite number
+                slotOfInterest.Amount += 1;
+                if (slotOfInterest.Amount >= 9)
+                {
+                    slotOfInterest.Amount = 9;
+                }
 
+                // change the sprite number
+                slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Amount - 1];
 
                 break;
             }
 
-            if(SlotOfInterest.SlotTaken == false)
+            if(slotOfInterest.SlotTaken == false)
             {
-                SlotOfInterest.ResourceType = resourceToAdd;
-                SlotOfInterest.SlotTaken = true;
+                slotOfInterest.ResourceType = resourceToAdd;
+                slotOfInterest.SlotTaken = true;
 
-                SlotOfInterest.Amount += 1;
-                _slotsResourcesTaken.Add(SlotOfInterest);
+                slotOfInterest.Amount += 1;
+                if (slotOfInterest.Amount >= 9)
+                {
+                    slotOfInterest.Amount = 9;
+                }
+
+                _slotsResourcesTaken.Add(slotOfInterest);
+
                 // change the sprite number
+                slotOfInterest.ImageAmount.enabled = true;
+                slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Amount - 1];
 
                 // create the sprite visual
-
+                Instantiate(_prefabsUI[((int)resourceToAdd) - 1], slotOfInterest.ParentInstantiatedPrefab.transform);
 
                 break;
             }
@@ -71,22 +86,24 @@ public class ResourceController : MonoBehaviour
     {
         for (int i = 0; i < _slotsResourcesTaken.Count; i++)
         {
-            SlotResource SlotOfInterest = _slotsResourcesTaken[i];
+            SlotResource slotOfInterest = _slotsResourcesTaken[i];
 
-            if (SlotOfInterest.ResourceType == resourceToRemove)
+            if (slotOfInterest.ResourceType == resourceToRemove)
             {
-                SlotOfInterest.Amount -= 1;
-                // change the sprite number
+                slotOfInterest.Amount -= 1;
 
-                if (SlotOfInterest.Amount <= 0)
+                // change the sprite number
+                slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Amount - 1];
+
+                if (slotOfInterest.Amount <= 0)
                 {
-                    SlotOfInterest.ResourceType = Type_Resource.None;
-                    SlotOfInterest.SlotTaken = false;
+                    slotOfInterest.ResourceType = Type_Resource.None;
+                    slotOfInterest.SlotTaken = false;
 
                     // remove the sprite visual
+                    Destroy(slotOfInterest.ParentInstantiatedPrefab.transform.GetChild(0).gameObject);
 
-
-                    _slotsResourcesTaken.Remove(SlotOfInterest);
+                    _slotsResourcesTaken.Remove(slotOfInterest);
                 }
 
                 break;

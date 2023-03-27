@@ -11,5 +11,6 @@ public class SlotResource : MonoBehaviour
 
     [Header("References Children")]
     public GameObject Visuals;
+    public GameObject ParentInstantiatedPrefab;
     public Image ImageAmount;
 }
