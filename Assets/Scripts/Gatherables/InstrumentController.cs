@@ -10,8 +10,7 @@ public class InstrumentController : MonoBehaviour
     public Type_Instrument EquipedInstrument;
 
     [Header("Instruments on Player")]
-    [SerializeField]
-    private List<InstrumentPiece> _playerInstruments = new List<InstrumentPiece>();
+    public List<InstrumentPiece> PlayerInstruments = new List<InstrumentPiece>();
 
     [Header("Instrument Buttons")]
     [SerializeField]
@@ -44,6 +43,10 @@ public class InstrumentController : MonoBehaviour
                 SlotInstrument slotInstrumentOfInterest = _slotsInstruments[i];
 
                 slotInstrumentOfInterest.UnlockThisSlot();
+
+                PageController.Instance.ButtonInstrumentSuper.NotificationObject.SetActive(true);
+                PageController.Instance.ButtonBackpackSuper.IhaveNotificationsLeftInstruments = true;
+                PageController.Instance.NotifyBackpackSuper();
                 break;
             }
         }
@@ -78,15 +81,15 @@ public class InstrumentController : MonoBehaviour
             UnEquipInstrument();
         }
         
-        for (int i = 0; i < _playerInstruments.Count; i++)
+        for (int i = 0; i < PlayerInstruments.Count; i++)
         {
-            if (_playerInstruments[i].InstrumentType == instrumentToEquip)
+            if (PlayerInstruments[i].InstrumentType == instrumentToEquip)
             {
                 // push state which does the unequip animation -> equip animation
                 // (start of the second animation will have interaction event which will pass through the Type_Instrument (?)
 
                 // this could all happen in de animation event (?)
-                InstrumentPiece instrumentOfInterest = _playerInstruments[i];
+                InstrumentPiece instrumentOfInterest = PlayerInstruments[i];
                 ActiveInstrumentPiece = instrumentOfInterest;
                 ActiveInstrumentPiece.gameObject.SetActive(true);
                 EquipedInstrument = instrumentToEquip;
@@ -98,12 +101,8 @@ public class InstrumentController : MonoBehaviour
     public void UnEquipInstrument()
     {
         // called in the animation event (as well)(?) 
-
         ActiveInstrumentPiece.gameObject.SetActive(false);
         ActiveInstrumentPiece = null;
         EquipedInstrument = Type_Instrument.None;
     }
-
-
-
 }

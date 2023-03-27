@@ -17,12 +17,18 @@ namespace UnityCore
 
             private Hashtable m_Pages;
 
+            [Header("Buttons main UI")]
             public ButtonBackpackSuper ButtonBackpackSuper;
             public ButtonEquipToggle ButtonEquipToggle;
 
+            [Header("Buttons inside BackpackSuper")]
+            public ButtonInstrumentSelect ButtonInstrumentSuper;
+            public ButtonClosetSelect ButtonClosetSuper;
+            public ButtonResourceSelect ButtonResourceSuper;
+
 
             //public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
-
+            [Header("Camera extra for UI ??")]
             public Camera CameraUI_Backpack_Closet;
 
             #region Unity Functions
@@ -163,6 +169,18 @@ namespace UnityCore
             }
 
 
+
+            public void NotifyBackpackSuper()
+            {
+                if (ButtonBackpackSuper.IhaveNotificationsLeftCloset == false && ButtonBackpackSuper.IhaveNotificationsLeftInstruments == false)
+                {
+                    ButtonBackpackSuper.NotificationObject.SetActive(false);
+                }
+                else
+                {
+                    ButtonBackpackSuper.NotificationObject.SetActive(true);
+                }
+            }
             public void OpenBagImage(bool state)
             {
                 //BackpackImage0.SetActive(!state);

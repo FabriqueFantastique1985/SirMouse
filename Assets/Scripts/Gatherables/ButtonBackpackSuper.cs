@@ -8,7 +8,9 @@ public class ButtonBackpackSuper : ButtonPaging
     // I should show the page with 3 other buttons
 
     [Header("Notification related")]
-    public bool IhaveNotificationsReadyInTheCloset;
+    public bool IhaveNotificationsLeftCloset;
+    public bool IhaveNotificationsLeftInstruments;
+
     public GameObject NotificationObject;
 
     protected override void TurnOnPage()

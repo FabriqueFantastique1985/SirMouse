@@ -6,7 +6,6 @@ using UnityEngine;
 public class ButtonInstrumentSelect : ButtonPaging
 {
     [Header("Notification related")]
-    public bool IhaveNotificationsReadyInTheCloset;
     public GameObject NotificationObject;
 
 
@@ -20,6 +19,10 @@ public class ButtonInstrumentSelect : ButtonPaging
         else // if I'm opening the instruments...
         {
             PageController.Instance.TurnAllPagesOffExcept(_turnThisPage);
+
+            NotificationObject.SetActive(false);
+            PageController.Instance.ButtonBackpackSuper.IhaveNotificationsLeftInstruments = false;
+            PageController.Instance.NotifyBackpackSuper();
         }
     }
 }

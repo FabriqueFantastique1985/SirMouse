@@ -210,15 +210,23 @@ public class ClosetController : MonoBehaviour
 
     // called on GiveReward() in RewardController
     public void AddNotificationToList(ButtonSkinPiece buttonSkinPiece)
-    {       
+    {
+        bool foundNotification = false;
         // found will always be true, so cannot use it here...
         if (ButtonsWithNotifications.Contains(buttonSkinPiece) == false)
         {
             if (buttonSkinPiece.HasBeenNotified == false)
             {
                 ButtonsWithNotifications.Add(buttonSkinPiece);
+                foundNotification = true;
             }          
-        }      
+        }
+
+        if (foundNotification == true)
+        {
+            PageController.Instance.ButtonBackpackSuper.IhaveNotificationsLeftCloset = true;
+            PageController.Instance.NotifyBackpackSuper();
+        }
     }
     public void NotificationActivater()
     {
@@ -324,53 +332,15 @@ public class ClosetController : MonoBehaviour
             {
                 ButtonCloset.IhaveNotificationsReadyInTheCloset = false;
                 ButtonCloset.NotificationObject.SetActive(false);
+
+                PageController.Instance.ButtonBackpackSuper.IhaveNotificationsLeftCloset = false;
+                PageController.Instance.NotifyBackpackSuper();
             }
         }
     }
 
 
 
-
-    // duplicate logic from BackpackController
-    /*
-    public IEnumerator ForceObjectInCloset(InteractionClosetAdd interactCloset, float scaleForImage = 1)
-    {
-        // get the world to screen pos of the interactible
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactCloset.transform.position);
-        Sprite interactableSprite = interactCloset.SkinSpriteRenderer.sprite;
-
-        var uiImageForCloset = Instantiate(_emptyGameObject, _panelInstantiatedUI.transform);
-        var uiImageComponent = uiImageForCloset.AddComponent<Image>();
-        uiImageComponent.sprite = interactableSprite;
-
-        // fix size of sprite
-        uiImageComponent.SetNativeSize();
-
-        uiImageForCloset.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
-        uiImageForCloset.SetActive(true);
-
-        // the position of the bag
-        var targetPosition = ButtonCloset.transform.position;
-        // Calculate distance to target
-        float target_Distance = Vector2.Distance(targetPosition, screenPosition);
-
-        _speed = 400f;
-        _arcHeight = 0.5f;
-        _stepScale = 0f;
-        _progress = 0f;
-        _stepScale = _speed / target_Distance;
-        _arcHeight = _arcHeight * target_Distance;
-
-        _startPos = screenPosition;
-        _endPos = targetPosition;
-        _objectToMove = uiImageForCloset;
-
-
-        StartCoroutine(ChugObjectIntoBag(_objectToMove));
-
-        yield return null;
-    }
-    */
     public IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
     {
         yield return new WaitForSeconds(0.25f);
@@ -378,43 +348,5 @@ public class ClosetController : MonoBehaviour
         interactable.SetActive(false);
         spriteParent.SetActive(true);
         interactable.GetComponent<Interactable>().HideBalloonBackpack();
-    }
-
-
-
-
-
-
-    // duplicate logic from BackpackController
-    private void ImageArrivedInCloset(GameObject objectChugged)
-    {
-        // activates animation bag
-        ButtonCloset.PlayAnimationPress();
-
-        // destroy the UI image
-        Destroy(objectChugged);
-    }
-    private IEnumerator ChugObjectIntoBag(GameObject objectChugged)
-    {
-        float progress = 0;
-        float arcHeight = _arcHeight;
-
-        while (progress < 1.0f)
-        {
-            // Increment our progress from 0 at the start, to 1 when we arrive.
-            progress = Mathf.Min(progress + Time.deltaTime * _stepScale, 1.0f);
-            // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
-            float parabola = 1.0f - 4.0f * (progress - 0.5f) * (progress - 0.5f);
-            // Travel in a straight line from our start position to the target.        
-            Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, progress);
-            // Then add a vertical arc in excess of this.
-            nextPos.y += parabola * arcHeight;
-            // Continue as before.                            
-            objectChugged.transform.position = nextPos;
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        ImageArrivedInCloset(objectChugged);
     }
 }
