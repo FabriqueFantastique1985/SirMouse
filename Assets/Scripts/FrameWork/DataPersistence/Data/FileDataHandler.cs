@@ -57,7 +57,12 @@ public class FileDataHandler
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
             // serialize data to json
-            string dataToStore = JsonConvert.SerializeObject(data);// JsonUtility.ToJson(data, true);
+            string dataToStore = JsonConvert.SerializeObject(data, Formatting.Indented, 
+                new JsonSerializerSettings 
+                { 
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+                });// JsonUtility.ToJson(data, true);
             
             // write the serialized data to the file
             using (FileStream stream = new FileStream(fullPath, FileMode.Create))

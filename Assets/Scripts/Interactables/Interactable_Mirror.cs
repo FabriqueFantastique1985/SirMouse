@@ -19,7 +19,7 @@ public class Interactable_Mirror : Interactable
     {
         foreach(var skinPiece in SkinsMouseController.Instance.EquipedSkinPieces) 
         { 
-            if (skinPiece.MyBodyType == Type_Body.Hat && skinPiece.MySkinType == Type_Skin.Ostrich)
+            if (skinPiece.Data.MyBodyType == Type_Body.Hat && skinPiece.Data.MySkinType == Type_Skin.Ostrich)
             {
                 base.OnTriggerEnter(other);
                 break;

@@ -25,7 +25,7 @@ public class ButtonSkinPiece : ButtonBaseNew
         set
         {
             _found = value;
-            DataPersistenceManager.Instance.SaveGame();
+        //    DataPersistenceManager.Instance.SaveGame();
         }
     }
     

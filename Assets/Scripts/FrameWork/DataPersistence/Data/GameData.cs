@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class GameData
@@ -16,7 +17,7 @@ public class GameData
     /// <summary>
     /// Equiped skin pieces RM is wearing. 
     /// </summary>
-    public List<SkinPieceElement> EquipedSkinPieces = new List<SkinPieceElement>();
+    [FormerlySerializedAs("EquipedSkinPieces")] public List<SkinPieceElementData> EquipedSkinPiecesData = new List<SkinPieceElementData>();
     public List<SkinPiecesForThisBodyTypeButton> ListsOfButtons = new List<SkinPiecesForThisBodyTypeButton>();
 
    // public Dictionary<string, List<ObjectData>> InteractablesPerScene = new Dictionary<string, List<ObjectData>>();

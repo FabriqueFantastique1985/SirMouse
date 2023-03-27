@@ -122,7 +122,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     {
         SkinPiecesForThisBodyTypeButton skinPieceForBodyX = null;
 
-        switch (skinPieceElement.MyBodyType)
+        switch (skinPieceElement.Data.MyBodyType)
         {
             case Type_Body.None:
                 skinPieceForBodyX = null;
@@ -184,13 +184,21 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         return FindCorrectSkinPieceButton(SkinPiecesButtonSword, SkinPiecesButtonSword.MySkinPiecesButtons[1].MySkinPieceElement);
     }
 
+    public void EquipSkinPiece(Type_Body bodyType, Type_Skin skinType)
+    {
+        switch (bodyType)
+        {
+            
+        }
+    }
+    
     // called when a piece is dragged onto SirMouse...
     public void EquipSkinPiece(SkinPieceElement skinPieceElement)
     {
         SkinPiecesForThisBodyType skinPieceForBodyX = null;
         SkinPiecesForThisBodyType skinPieceForBodyUIX = null;
 
-        switch (skinPieceElement.MyBodyType)
+        switch (skinPieceElement.Data.MyBodyType)
         {
             case Type_Body.None:
                 skinPieceForBodyX = null;
@@ -247,7 +255,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         }
 
         // disable other equiped skin pieces for bodyTypeX
-        UnEquipOtherSkinPieces(skinPieceElement.MyBodyType);
+        UnEquipOtherSkinPieces(skinPieceElement.Data.MyBodyType);
         // find correct skin piece to equip for bodyTypeX
         FindCorrectSkinPieceRig(skinPieceForBodyX, skinPieceForBodyUIX, skinPieceElement);
     }
@@ -260,7 +268,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     {
         for (int i = 0; i < skinPiecesForBodyX.MySkinPiecesButtons.Count; i++)
         {
-            if (skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.MySkinType == skinPieceElement.MySkinType)
+            if (skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MySkinType == skinPieceElement.Data.MySkinType)
             {
                 // activate the button
                 skinPiecesForBodyX.MySkinPiecesButtons[i].Found = true;
@@ -277,57 +285,56 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     {
         // should first add all of the pieces == skinType to temp lists 
         // (we iterate over every single skinPiece on BodyTypeX, so i'd better seperate additional lines of code for smaller temp lists)
-        List<SkinPieceElement> tempListToClear = new List<SkinPieceElement>();
-        List<SkinPieceElement> tempListToClearUI = new List<SkinPieceElement>();
+        List<SkinPieceElement> tempList = new List<SkinPieceElement>();
+        List<SkinPieceElement> tempListUI = new List<SkinPieceElement>();
         for (int i = 0; i < skinPiecesForBodyX.MySkinPieces.Count; i++)
         {
             // find corresponding skinTypes in the list of skinPieces (will not enter the if, if I'm using default --- check tempList size count 0)
-            if (skinPiecesForBodyX.MySkinPieces[i].MySkinType == skinPieceElement.MySkinType)
+            if (skinPiecesForBodyX.MySkinPieces[i].Data.MySkinType == skinPieceElement.Data.MySkinType)
             {
-                tempListToClear.Add(skinPiecesForBodyX.MySkinPieces[i]);
-                tempListToClearUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);
+                tempList.Add(skinPiecesForBodyX.MySkinPieces[i]);
+                tempListUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);
 
                 // link the score that was set on the Closet
-                skinPiecesForBodyX.MySkinPieces[i].ScoreValue = skinPieceElement.ScoreValue; 
-                skinPiecesForBodyUIX.MySkinPieces[i].ScoreValue = skinPieceElement.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
+                skinPiecesForBodyX.MySkinPieces[i].Data.ScoreValue = skinPieceElement.Data.ScoreValue; 
+                skinPiecesForBodyUIX.MySkinPieces[i].Data.ScoreValue = skinPieceElement.Data.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
+
+                break;
             }
         }
 
         // indicating that we're trying to equip a Sir Mouse default skinPiece
-        if (tempListToClear.Count == 0)
+        if (tempList.Count == 0)
         {
-            SetSirMouseGeometryState(skinPieceElement.MyBodyType, true);
+            SetSirMouseGeometryState(skinPieceElement.Data.MyBodyType, true);
         }
 
         // iterate through the temp lists
-        for (int i = 0; i < tempListToClear.Count; i++)
+        for (int i = 0; i < tempList.Count; i++)
         {
             // this logic is what applies the skins on the player character
-            tempListToClear[i].gameObject.SetActive(true);
+            tempList[i].gameObject.SetActive(true);
             // this logic is what applies the skins on the Closet mouse
-            tempListToClearUI[i].gameObject.SetActive(true);
+            tempListUI[i].gameObject.SetActive(true);
 
-            Debug.Log("Equiping piece " + tempListToClear[i]);
+            Debug.Log("Equiping piece " + tempList[i]);
 
             // add to list of equiped skinpieces
-            EquipedSkinPieces.Add(tempListToClear[i]);
-            EquipedSkinPiecesUI.Add(tempListToClearUI[i]);
+            EquipedSkinPieces.Add(tempList[i]);
+            EquipedSkinPiecesUI.Add(tempListUI[i]);
 
             // de-activate old geo if Hide == true
-            if (tempListToClear[i].HidesSirMouseGeometry == true)
+            if (tempList[i].Data.HidesSirMouseGeometry == true)
             {
-                SetSirMouseGeometryState(skinPieceElement.MyBodyType, false);
+                SetSirMouseGeometryState(skinPieceElement.Data.MyBodyType, false);
             }
             else
             {
-                SetSirMouseGeometryState(skinPieceElement.MyBodyType, true);
+                SetSirMouseGeometryState(skinPieceElement.Data.MyBodyType, true);
             }
         }
 
         DebugConsoleScore();
-
-        tempListToClear.Clear();
-        tempListToClearUI.Clear();
     }
     private void UnEquipOtherSkinPieces(Type_Body bodyTypeToCheck)
     {
@@ -336,7 +343,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         List<SkinPieceElement> tempListToClearUI = new List<SkinPieceElement>();
         for (int i = 0; i < EquipedSkinPieces.Count; i++)
         {
-            if (EquipedSkinPieces[i].MyBodyType == bodyTypeToCheck)
+            if (EquipedSkinPieces[i].Data.MyBodyType == bodyTypeToCheck)
             {
                 tempListToClear.Add(EquipedSkinPieces[i]);
                 tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
@@ -460,7 +467,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         // Set correct score for each body part in dictionary
         for (int i = 0; i < EquipedSkinPieces.Count; i++)
         {
-            _bodyPiecesScore[EquipedSkinPieces[i].MyBodyType] = EquipedSkinPieces[i].ScoreValue;
+            _bodyPiecesScore[EquipedSkinPieces[i].Data.MyBodyType] = EquipedSkinPieces[i].Data.ScoreValue;
         }
 
         // Loop over dictionary and add to total score
@@ -478,24 +485,33 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        EquipedSkinPieces = data.EquipedSkinPieces;
-        EquipedSkinPieces.ForEach(x => EquipSkinPiece(x));
-        if (data.ListsOfButtons.Count != 0) _listsOfButtons = data.ListsOfButtons;
-        _listsOfButtons.ForEach(x =>
+        EquipedSkinPieces = new List<SkinPieceElement>();
+        foreach (var skinPieceData in data.EquipedSkinPiecesData)
         {
-            foreach (var skinPieceButton in x.MySkinPiecesButtons)
-            {
-                if (skinPieceButton.Found)
-                {
-                    UnlockSkinPiece(skinPieceButton.MySkinPieceElement);
-                }
-            }
-        });
+            EquipedSkinPieces.Clear();
+            EquipedSkinPieces.Add();
+        }
+        EquipedSkinPieces = data.EquipedSkinPiecesData;
+        EquipedSkinPieces.ForEach(x => EquipSkinPiece(x));
+   //    if (data.ListsOfButtons.Count != 0) _listsOfButtons = data.ListsOfButtons;
+   //    _listsOfButtons.ForEach(x =>
+   //    {
+   //        foreach (var skinPieceButton in x.MySkinPiecesButtons)
+   //        {
+   //            if (skinPieceButton.Found)
+   //            {
+   //                UnlockSkinPiece(skinPieceButton.MySkinPieceElement);
+   //            }
+   //        }
+   //    });
     }
 
     public void SaveData(ref GameData data)
     {
-        data.EquipedSkinPieces = EquipedSkinPieces;
-        data.ListsOfButtons = _listsOfButtons;
+        foreach (var skinPiece in EquipedSkinPieces)
+        {
+            data.EquipedSkinPiecesData.Add(skinPiece.Data);
+        }
+     //   data.ListsOfButtons = _listsOfButtons;
     }
 }

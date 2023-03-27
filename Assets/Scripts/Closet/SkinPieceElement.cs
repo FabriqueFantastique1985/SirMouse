@@ -7,14 +7,8 @@ using UnityEngine.Assertions;
 [Serializable]
 public class SkinPieceElement : MonoBehaviour
 {
-    public Type_Body MyBodyType;
-    public Type_Skin MySkinType;
-
-    public bool HidesSirMouseGeometry;
-
-    [Header("To Assign only in Closet Buttons")]
-    public int ScoreValue;
-
+    public SkinPieceElementData Data;
+    
     #region SetScoreValue
     private static int _maxScore = 0;
     public static int MaxScore
@@ -32,8 +26,20 @@ public class SkinPieceElement : MonoBehaviour
     {
         if (_maxScore > 0)
         {
-            ScoreValue = Mathf.Clamp(ScoreValue, 0, _maxScore);
+            Data.ScoreValue = Mathf.Clamp(Data.ScoreValue, 0, _maxScore);
         }
     }
     #endregion
+}
+
+[Serializable]
+public class SkinPieceElementData
+{
+    public Type_Body MyBodyType;
+    public Type_Skin MySkinType;
+
+    public bool HidesSirMouseGeometry;
+
+    [Header("To Assign only in Closet Buttons")]
+    public int ScoreValue;
 }

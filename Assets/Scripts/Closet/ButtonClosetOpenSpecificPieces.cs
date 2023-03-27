@@ -25,8 +25,8 @@ public class ButtonClosetOpenSpecificPieces : ButtonPaging
 
             for (int i = 0; i < SkinsMouseController.Instance.EquipedSkinPiecesUI.Count; i++)
             {
-                if (SkinsMouseController.Instance.EquipedSkinPiecesUI[i].MyBodyType == Type_Body.Sword 
-                    || SkinsMouseController.Instance.EquipedSkinPiecesUI[i].MyBodyType == Type_Body.Shield)
+                if (SkinsMouseController.Instance.EquipedSkinPiecesUI[i].Data.MyBodyType == Type_Body.Sword 
+                    || SkinsMouseController.Instance.EquipedSkinPiecesUI[i].Data.MyBodyType == Type_Body.Shield)
                 {
                     SkinsMouseController.Instance.EquipedSkinPiecesUI[i].gameObject.SetActive(true);
                 }
@@ -39,8 +39,8 @@ public class ButtonClosetOpenSpecificPieces : ButtonPaging
 
             for (int i = 0; i < SkinsMouseController.Instance.EquipedSkinPiecesUI.Count; i++)
             {
-                if (SkinsMouseController.Instance.EquipedSkinPiecesUI[i].MyBodyType == Type_Body.Sword
-                    || SkinsMouseController.Instance.EquipedSkinPiecesUI[i].MyBodyType == Type_Body.Shield)
+                if (SkinsMouseController.Instance.EquipedSkinPiecesUI[i].Data.MyBodyType == Type_Body.Sword
+                    || SkinsMouseController.Instance.EquipedSkinPiecesUI[i].Data.MyBodyType == Type_Body.Shield)
                 {
                     SkinsMouseController.Instance.EquipedSkinPiecesUI[i].gameObject.SetActive(false);
                 }
