@@ -335,8 +335,6 @@ public class InstrumentEquipState : SirMouseState
     private void OnInteractionDone(Character.States state)
     {
         InstrumentController.Instance.EquipInstrument(_instrumentType);
-
-        SkinsMouseController.Instance.HideOrShowSwordAndShield(false);
     }
 }
 
@@ -371,8 +369,6 @@ public class InstrumentUnequipState : SirMouseState
     private void OnInteractionDone(Character.States state)
     {
         InstrumentController.Instance.UnEquipInstrument();
-
-        SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
     }
 
     private void OnEnteredIdle(Character.States state)
