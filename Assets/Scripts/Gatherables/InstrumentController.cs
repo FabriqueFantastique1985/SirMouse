@@ -9,9 +9,6 @@ public class InstrumentController : MonoBehaviour
 
     public Type_Instrument EquipedInstrument;
 
-    [Header("Instruments on Player")]
-    public List<InstrumentPiece> PlayerInstruments = new List<InstrumentPiece>();
-
     [Header("Instrument Buttons")]
     [SerializeField]
     private List<SlotInstrument> _slotsInstruments = new List<SlotInstrument>();
@@ -60,6 +57,17 @@ public class InstrumentController : MonoBehaviour
 
         ActiveInstrumentSlot.IsActive = true;
         ActiveInstrumentSlot.GlowActivation.SetActive(true);
+
+        for (int i = 0; i < GameManager.Instance.Player.Character.InstrumentsOnMe.Count; i++)
+        {
+            if (GameManager.Instance.Player.Character.InstrumentsOnMe[i].InstrumentType == slotToActivate.InstrumentType)
+            {
+                InstrumentPiece instrumentOfInterest = GameManager.Instance.Player.Character.InstrumentsOnMe[i];
+                ActiveInstrumentPiece = instrumentOfInterest;
+
+                break;
+            }
+        }
     }
     public void DeactivateInstrument()
     {
@@ -68,6 +76,8 @@ public class InstrumentController : MonoBehaviour
             ActiveInstrumentSlot.GlowActivation.SetActive(false);
             ActiveInstrumentSlot.IsActive = false;
             ActiveInstrumentSlot = null;
+
+            ActiveInstrumentPiece = null;
         }
     }
 
@@ -81,15 +91,11 @@ public class InstrumentController : MonoBehaviour
             UnEquipInstrument();
         }
         
-        for (int i = 0; i < PlayerInstruments.Count; i++)
+        for (int i = 0; i < GameManager.Instance.Player.Character.InstrumentsOnMe.Count; i++)
         {
-            if (PlayerInstruments[i].InstrumentType == instrumentToEquip)
+            if (GameManager.Instance.Player.Character.InstrumentsOnMe[i].InstrumentType == instrumentToEquip)
             {
-                // push state which does the unequip animation -> equip animation
-                // (start of the second animation will have interaction event which will pass through the Type_Instrument (?)
-
-                // this could all happen in de animation event (?)
-                InstrumentPiece instrumentOfInterest = PlayerInstruments[i];
+                InstrumentPiece instrumentOfInterest = GameManager.Instance.Player.Character.InstrumentsOnMe[i];
                 ActiveInstrumentPiece = instrumentOfInterest;
                 ActiveInstrumentPiece.gameObject.SetActive(true);
                 EquipedInstrument = instrumentToEquip;
@@ -100,9 +106,8 @@ public class InstrumentController : MonoBehaviour
     }
     public void UnEquipInstrument()
     {
-        // called in the animation event (as well)(?) 
         ActiveInstrumentPiece.gameObject.SetActive(false);
-        ActiveInstrumentPiece = null;
+        //ActiveInstrumentPiece = null;
         EquipedInstrument = Type_Instrument.None;
     }
 }

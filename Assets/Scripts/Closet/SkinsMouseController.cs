@@ -252,6 +252,49 @@ public class SkinsMouseController : MonoBehaviour
         // find correct skin piece to equip for bodyTypeX
         FindCorrectSkinPieceRig(skinPieceForBodyX, skinPieceForBodyUIX, skinPieceElement);
     }
+
+    public void HideOrShowSwordAndShield(bool showMe)
+    {
+        // check for possibly equiped skinpieces on shield/sword...   
+        List<SkinPieceElement> tempList = new List<SkinPieceElement>();
+        for (int i = 0; i < EquipedSkinPieces.Count; i++)
+        {
+            if (EquipedSkinPieces[i].MyBodyType == Type_Body.Sword || EquipedSkinPieces[i].MyBodyType == Type_Body.Shield)
+            {
+                tempList.Add(EquipedSkinPieces[i]);
+            }
+        }
+        // enaable the visuals of said sword/shield
+        if (tempList.Count > 1)
+        {
+            for (int i = 0; i < tempList.Count; i++)
+            {
+                tempList[i].gameObject.SetActive(showMe);
+            }
+        }
+        else if (tempList.Count > 0)
+        {
+            if (tempList[0].MyBodyType == Type_Body.Sword)
+            {
+                // show the sword skin
+                tempList[0].gameObject.SetActive(showMe);
+                // show geo shield
+                characterGeoReferences.Shield.gameObject.SetActive(showMe);
+            }
+            else
+            {
+                // show shield skin
+                tempList[0].gameObject.SetActive(showMe);
+                // show geo sword
+                characterGeoReferences.Sword.gameObject.SetActive(showMe);
+            }
+        }
+        else // else show the sir mouse geo
+        {
+            characterGeoReferences.Sword.gameObject.SetActive(showMe);
+            characterGeoReferences.Shield.gameObject.SetActive(showMe);
+        }
+    }
     #endregion
 
 

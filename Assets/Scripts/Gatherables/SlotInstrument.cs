@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,9 +33,11 @@ public class SlotInstrument : ButtonBaseNew
         InstrumentController.Instance.ActivateInstrument(this);
 
         // equip this one
-        InstrumentController.Instance.EquipInstrument(InstrumentType);
+        GameManager.Instance.Player.PushState(new InstrumentEquipState(GameManager.Instance.Player, InstrumentType));
 
         // turn off the current pages (maybe not this ?)
+        PageController.Instance.TurnPageOff(PageType.BackpackInstruments);
+        PageController.Instance.TurnPageOff(PageType.BackpackButtons);
     }
 
     public void UnlockThisSlot()

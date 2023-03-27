@@ -18,6 +18,8 @@ public class Character : MonoBehaviour
         Drop = 5,
         TwoHanded = 6,
         BackpackExtraction = 7,
+        InstrumentEquip = 8,
+        InstrumentUnequip = 9,
     };
 
     #endregion
@@ -38,12 +40,19 @@ public class Character : MonoBehaviour
     {
         get { return _animatorRM; }
     }
+    public List<InstrumentPiece> InstrumentsOnMe
+    {
+        get { return _instrumentsOnMe; }
+    }
     #endregion
 
     #region EditorFields
 
     [FormerlySerializedAs("AnimatorRM")] [SerializeField]
     private Animator _animatorRM;
+
+    [SerializeField]
+    private List<InstrumentPiece> _instrumentsOnMe = new List<InstrumentPiece>();
 
     [SerializeField]
     private Animator _explosionAnimator;
@@ -63,6 +72,11 @@ public class Character : MonoBehaviour
     [FormerlySerializedAs("_backpackExtractionCondition")]
     [SerializeField]
     private string _backpackExtractionName = "BackpackExtraction";
+
+    [SerializeField]
+    private string _instrumentEquip = "InstrumentEquip";
+    [SerializeField]
+    private string _instrumentUnequip = "InstrumentUnequip";
 
     [SerializeField]
     private string _unEquipName = "UnEquip";
@@ -128,6 +142,12 @@ public class Character : MonoBehaviour
                 break;
             case States.BackpackExtraction:
                 animationString = _backpackExtractionName;
+                break;
+            case States.InstrumentEquip:
+                animationString = _instrumentEquip;
+                break;
+            case States.InstrumentUnequip:
+                animationString = _instrumentUnequip;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);

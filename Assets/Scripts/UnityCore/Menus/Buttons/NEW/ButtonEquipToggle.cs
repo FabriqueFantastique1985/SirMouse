@@ -18,5 +18,21 @@ public class ButtonEquipToggle : ButtonBaseNew
         base.ClickedButton();
 
         // additional equip logic
+        if (InstrumentController.Instance.ActiveInstrumentPiece == null)
+        {
+            Debug.Log("not instrument has been activated, so pressing me does nothing");
+        }
+        else
+        {
+            if (InstrumentController.Instance.EquipedInstrument == Type_Instrument.None)
+            {
+                GameManager.Instance.Player.PushState(new InstrumentEquipState(GameManager.Instance.Player, InstrumentController.Instance.ActiveInstrumentPiece.InstrumentType));
+            }
+            else
+            {
+                GameManager.Instance.Player.PushState(new InstrumentUnequipState(GameManager.Instance.Player));
+            }
+        }
+
     }
 }
