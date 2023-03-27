@@ -346,12 +346,30 @@ public class SkinsMouseController : MonoBehaviour
         // iterate through the temp lists
         for (int i = 0; i < tempListToClear.Count; i++)
         {
-            // this logic is what applies the skins on the player character
-            tempListToClear[i].gameObject.SetActive(true);
-            // this logic is what applies the skins on the Closet mouse
-            tempListToClearUI[i].gameObject.SetActive(true);
+            
+            if (tempListToClear[i].MyBodyType == Type_Body.Sword || tempListToClear[i].MyBodyType == Type_Body.Shield)
+            {
+                if (InstrumentController.Instance.EquipedInstrument != Type_Instrument.None) // if i have equipment out...
+                {
+                    // this logic is what applies the skins on the player character
+                    tempListToClear[i].gameObject.SetActive(false);
+                }
+                else
+                {
+                    tempListToClear[i].gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                tempListToClear[i].gameObject.SetActive(true);        
+            }
 
-            Debug.Log("Equiping piece " + tempListToClear[i]);
+            // this logic is what applies the skins on the closet character
+            tempListToClearUI[i].gameObject.SetActive(true);
+            
+
+
+            //Debug.Log("Equiping piece " + tempListToClear[i]);
 
             // add to list of equiped skinpieces
             EquipedSkinPieces.Add(tempListToClear[i]);
@@ -483,12 +501,40 @@ public class SkinsMouseController : MonoBehaviour
                 characterGeoReferencesUI.Tail.gameObject.SetActive(state);
                 break;
             case Type_Body.Sword:
-                characterGeoReferences.Sword.gameObject.SetActive(state);
+                if (InstrumentController.Instance.EquipedInstrument != Type_Instrument.None) // if i have equipment out...
+                {
+                    if (state == true) // if i want to show visuals of the sword...
+                    {
+                        characterGeoReferences.Sword.gameObject.SetActive(!state);
+                    }
+                    else
+                    {
+                        characterGeoReferences.Sword.gameObject.SetActive(state);
+                    }
+                }
+                else
+                {
+                    characterGeoReferences.Sword.gameObject.SetActive(state);
+                }
 
                 characterGeoReferencesUI.Sword.gameObject.SetActive(state);
                 break;
             case Type_Body.Shield:
-                characterGeoReferences.Shield.gameObject.SetActive(state);
+                if (InstrumentController.Instance.EquipedInstrument != Type_Instrument.None) // if i have equipment out...
+                {
+                    if (state == true) // if i want to show visuals of the sword...
+                    {
+                        characterGeoReferences.Shield.gameObject.SetActive(!state);
+                    }
+                    else
+                    {
+                        characterGeoReferences.Shield.gameObject.SetActive(state);
+                    }
+                }
+                else
+                {
+                    characterGeoReferences.Shield.gameObject.SetActive(state);
+                }
 
                 characterGeoReferencesUI.Shield.gameObject.SetActive(state);
                 break;

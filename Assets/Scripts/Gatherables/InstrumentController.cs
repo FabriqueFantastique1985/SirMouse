@@ -103,11 +103,15 @@ public class InstrumentController : MonoBehaviour
                 break;
             }
         }
+
+        SkinsMouseController.Instance.HideOrShowSwordAndShield(false);
     }
     public void UnEquipInstrument()
     {
         ActiveInstrumentPiece.gameObject.SetActive(false);
         //ActiveInstrumentPiece = null;
         EquipedInstrument = Type_Instrument.None;
+
+        SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
     }
 }
