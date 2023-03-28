@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class ButtonBackpackSuper : ButtonPaging
 {
-    // I should show the page with 3 other buttons
+    // I should show the page with 3 other buttons + disable buttons main gameplay
+    [SerializeField]
+    protected string _animationNameAppear;
 
     [Header("Notification related")]
     public bool IhaveNotificationsLeftCloset;
@@ -20,13 +22,13 @@ public class ButtonBackpackSuper : ButtonPaging
         {
             _pageInstance.TurnPageOff(_turnThisPage);
 
-            _pageInstance.OpenBagImage(false);
-            _pageInstance.OpenClosetImage(false);
-
-            //AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
+            //_pageInstance.OpenBagImage(false); // changed sprite in past
+            //_pageInstance.OpenClosetImage(false); // changed sprite in past
 
             // sleeping allowed
             GameManager.Instance.Player.Character.SetBoolSleeping(false);
+
+            _pageInstance.ShowGameplayHUD(true);
         }
         else // else TURN ON
         {
@@ -36,13 +38,18 @@ public class ButtonBackpackSuper : ButtonPaging
 
             _pageInstance.TurnAllPagesOffExcept(_turnThisPage);
 
-            //AudioController.Instance.TurnDownVolumeForOSTAndWorld();
-
-            _pageInstance.OpenBagImage(true);
-            _pageInstance.OpenClosetImage(false);
+            //_pageInstance.OpenBagImage(true); // changed sprite in past
+            //_pageInstance.OpenClosetImage(false); // changed sprite in past
 
             // sleeping ILLEGAL
             GameManager.Instance.Player.Character.SetBoolSleeping(true);
+
+            _pageInstance.ShowGameplayHUD(false);
         }
+    }
+
+    private void OnEnable()
+    {
+        _animationComponent.Play(_animationNameAppear);
     }
 }

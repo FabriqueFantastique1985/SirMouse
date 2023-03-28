@@ -8,7 +8,7 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
 {
     [Header("Animation stuff")]
     [SerializeField]
-    private Animation _animationComponent;
+    protected Animation _animationComponent;
     [SerializeField]
     protected string _animationName;
 
@@ -33,6 +33,13 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
         if (_soundEffect != null)
         {
             _audioInstance.PlayAudio(_soundEffect);
+        }
+    }
+    protected virtual void PlaySoundEffectMultiple(AudioElement audioElement)
+    {
+        if (audioElement != null)
+        {
+            _audioInstance.PlayAudio(audioElement);
         }
     }
 

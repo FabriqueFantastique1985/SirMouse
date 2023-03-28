@@ -1,10 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonEquipToggle : ButtonBaseNew
 {
+    [SerializeField]
+    protected string _animationNameAppear;
+
+    [Header("adittional audio")]
+    [SerializeField]
+    protected AudioElement _soundEffectDifferentState;
+
     [Header("Components")]
     public Button ButtonComponent;
     public Collider ColliderComponent;
@@ -15,7 +23,7 @@ public class ButtonEquipToggle : ButtonBaseNew
 
     public override void ClickedButton()
     {
-        base.ClickedButton();
+        PlayAnimationPress();
 
         // additional equip logic
         if (InstrumentController.Instance.ActiveInstrumentPiece == null)
@@ -27,12 +35,19 @@ public class ButtonEquipToggle : ButtonBaseNew
             if (InstrumentController.Instance.EquipedInstrument == Type_Instrument.None)
             {
                 GameManager.Instance.Player.PushState(new InstrumentEquipState(GameManager.Instance.Player, InstrumentController.Instance.ActiveInstrumentPiece.InstrumentType));
+                PlaySoundEffectMultiple(_soundEffect);
             }
             else
             {
                 GameManager.Instance.Player.PushState(new InstrumentUnequipState(GameManager.Instance.Player));
+                PlaySoundEffectMultiple(_soundEffectDifferentState);
             }
         }
 
+    }
+
+    private void OnEnable()
+    {
+        _animationComponent.Play(_animationNameAppear);
     }
 }

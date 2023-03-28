@@ -103,7 +103,7 @@ public class InstrumentController : MonoBehaviour
                 EquipedInstrument = instrumentToEquip;
                 
                 EquipedInstrumentPiece = GameManager.Instance.Player.Character.InstrumentsOnMe[i];
-                Debug.Log(EquipedInstrumentPiece.gameObject.name + " to be equiped instrument");
+                //Debug.Log(EquipedInstrumentPiece.gameObject.name + " to be equiped instrument");
                 EquipedInstrumentPiece.gameObject.SetActive(true);
 
                 break;
@@ -114,7 +114,7 @@ public class InstrumentController : MonoBehaviour
     }
     public void UnEquipInstrument()
     {
-        Debug.Log("Active piece is " + ActiveInstrumentPiece.gameObject.name);
+        //Debug.Log("Active piece is " + ActiveInstrumentPiece.gameObject.name);
         //ActiveInstrumentPiece.gameObject.SetActive(false);
 
         EquipedInstrument = Type_Instrument.None;

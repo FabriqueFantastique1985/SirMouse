@@ -20,6 +20,7 @@ namespace UnityCore
             [Header("Buttons main UI")]
             public ButtonBackpackSuper ButtonBackpackSuper;
             public ButtonEquipToggle ButtonEquipToggle;
+            public ButtonBack ButtonBack;
 
             [Header("Buttons inside BackpackSuper")]
             public ButtonInstrumentSelect ButtonInstrumentSuper;
@@ -114,7 +115,7 @@ namespace UnityCore
             {
                 if (PageExists(pageType) == false)
                 {
-                    Debug.Log("You are trying to detect if a page is on [" + pageType + "], but it has not been registered");
+                    //Debug.Log("You are trying to detect if a page is on [" + pageType + "], but it has not been registered");
                     return false;
                 }
 
@@ -181,6 +182,8 @@ namespace UnityCore
                     ButtonBackpackSuper.NotificationObject.SetActive(true);
                 }
             }
+
+
             public void OpenBagImage(bool state)
             {
                 //BackpackImage0.SetActive(!state);
@@ -190,6 +193,15 @@ namespace UnityCore
             {
                 //ClosetImage0.SetActive(!state);
                 //ClosetImage1.SetActive(state);
+            }
+
+
+            public void ShowGameplayHUD(bool state)
+            {
+                ButtonBackpackSuper.gameObject.SetActive(state);
+                ButtonEquipToggle.gameObject.SetActive(state);
+
+                ButtonBack.gameObject.SetActive(!state);
             }
 
 

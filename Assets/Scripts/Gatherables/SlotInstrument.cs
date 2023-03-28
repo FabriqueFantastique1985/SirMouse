@@ -38,6 +38,7 @@ public class SlotInstrument : ButtonBaseNew
         // turn off the current pages (maybe not this ?)
         PageController.Instance.TurnPageOff(PageType.BackpackInstruments);
         PageController.Instance.TurnPageOff(PageType.BackpackButtons);
+        PageController.Instance.ShowGameplayHUD(true);
     }
 
     public void UnlockThisSlot()
