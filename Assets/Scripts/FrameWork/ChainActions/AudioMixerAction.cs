@@ -20,5 +20,7 @@ public class AudioMixerAction : ChainActionMonoBehaviour
     {
         yield return new WaitForSeconds(_transitionTime);
         _audioMixerSnapshots.TransitionTo(_transitionTime);
+        yield return new WaitForSeconds(_transitionTime);
+        _maxTime = -1;
     }
 }

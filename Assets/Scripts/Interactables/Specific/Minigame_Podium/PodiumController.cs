@@ -59,7 +59,7 @@ public class PodiumController : MiniGame
         foreach(var button in _buttonsPodium)
         {
             button.OnButtonClicked += ButtonClicked;
-            button.gameObject.SetActive(false);
+            //button.gameObject.SetActive(false);
         }
 
         _animator = GameManager.Instance.Player.Character.AnimatorRM;
@@ -140,6 +140,10 @@ public class PodiumController : MiniGame
         // Turn off current camera
         GameManager.Instance.CurrentCamera.gameObject.SetActive(false);
 
+        // Set player rig
+        SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
+        SetPlayerReference(_cutscene03, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
+
         // Move player into position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
@@ -147,9 +151,6 @@ public class PodiumController : MiniGame
             _playerObject.transform.GetChild(i).position = _playerLocation.position;
         }
 
-        // Set player rig
-        SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
-        SetPlayerReference(_cutscene03, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
 
         GameManager.Instance.EnterMiniGameSystem();
     }
