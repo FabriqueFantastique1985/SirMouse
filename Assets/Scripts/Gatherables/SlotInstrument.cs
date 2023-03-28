@@ -10,8 +10,8 @@ public class SlotInstrument : ButtonBaseNew
     private Collider _buttonCollider;
 
     [Header("Instrument related")]
-    public Type_Instrument InstrumentType;
-    public bool Unlocked;
+    public Type_Instrument InstrumentType; // Save
+    public bool Unlocked; // Save
     public bool IsActive;
 
     [Header("Button Component")]

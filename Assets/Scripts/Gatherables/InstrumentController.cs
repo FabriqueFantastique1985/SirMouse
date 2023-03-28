@@ -83,7 +83,7 @@ public class InstrumentController : MonoBehaviour
     }
 
 
-    // called when button is pressed on gameplay UI
+    // called when the player state InstrumentEquipState is pushed
     public void EquipInstrument(Type_Instrument instrumentToEquip)
     {
         // always unequip first
@@ -100,10 +100,9 @@ public class InstrumentController : MonoBehaviour
                 ActiveInstrumentPiece = instrumentOfInterest;
                 //ActiveInstrumentPiece.gameObject.SetActive(true);
 
-                EquipedInstrument = instrumentToEquip;
-                
+                EquipedInstrument = instrumentToEquip;           
                 EquipedInstrumentPiece = GameManager.Instance.Player.Character.InstrumentsOnMe[i];
-                //Debug.Log(EquipedInstrumentPiece.gameObject.name + " to be equiped instrument");
+
                 EquipedInstrumentPiece.gameObject.SetActive(true);
 
                 break;
