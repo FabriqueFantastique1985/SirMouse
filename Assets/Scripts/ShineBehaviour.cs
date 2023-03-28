@@ -23,7 +23,11 @@ public class ShineBehaviour : MonoBehaviour
         {
             if (renderer.flipX)
             {
-                renderer.material.SetInt("_isFlipped", 1);
+                renderer.material.SetInt("_IsFlippedX", 1);
+            }
+            if (renderer.flipY)
+            {
+                renderer.material.SetInt("_IsFlippedY", 1);
             }
         }
     }
