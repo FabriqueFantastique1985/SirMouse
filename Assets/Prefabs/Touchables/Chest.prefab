@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4577493513691824593}
   m_LocalRotation: {x: 0.23399237, y: 0.110611595, z: -0.4128082, w: 0.8732709}
-  m_LocalPosition: {x: -0.07999992, y: 11.5458975, z: -20.94}
+  m_LocalPosition: {x: -0.07999992, y: -6.96, z: 10.99}
   m_LocalScale: {x: 6.5356116, y: 5.6268444, z: 5.0069804}
   m_Children: []
   m_Father: {fileID: 5569935723476428275}
@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 5569935723476428275}
   - component: {fileID: 5569935723476428274}
   - component: {fileID: 5569935723476428173}
+  - component: {fileID: 2472833285436244351}
   m_Layer: 22
   m_Name: Chest
   m_TagString: Untagged
@@ -178,6 +179,19 @@ MonoBehaviour:
   _gradient: {fileID: 4577493513691824593}
   _skinsToReward:
   - {fileID: 3440387225157397733}
+--- !u!65 &2472833285436244351
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5569935723476428273}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.06, y: 1.96, z: 2.58}
+  m_Center: {x: 0, y: -0.16, z: -0.36}
 --- !u!1 &5569935724251977091
 GameObject:
   m_ObjectHideFlags: 0
