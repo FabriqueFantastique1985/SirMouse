@@ -202,7 +202,7 @@ public class PodiumController : MiniGame
         // Set canvas and player animator controller
         foreach (var button in _buttonsPodium)
         {
-            button.gameObject.SetActive(true);
+            //button.gameObject.SetActive(true);
         }
 
         _playerController = _animator.runtimeAnimatorController;

@@ -10,8 +10,6 @@ public class PlaySoundAction : ChainActionMonoBehaviour
     public override void Execute()
     {
         base.Execute();
-
-        _audioSource.Play();
-        
+        _audioSource.Play();        
     }
 }
