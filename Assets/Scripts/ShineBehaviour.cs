@@ -57,7 +57,9 @@ public class ShineBehaviour : MonoBehaviour
         SetParameters();
 
         // Delay shine at game start
-        float showTime = 1f / renderer.material.GetFloat("_ScrollSpeed");
+        float scrollSpeed = renderer.material.GetFloat("_ScrollSpeed");
+        Assert.IsFalse(scrollSpeed == 0, "Shine material was not correctly set in object:" + gameObject.name);
+        float showTime = 1f / scrollSpeed;
 
         yield return new WaitForSeconds(_shineDelay);
 
