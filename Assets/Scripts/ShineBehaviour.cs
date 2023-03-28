@@ -19,6 +19,13 @@ public class ShineBehaviour : MonoBehaviour
     {
         IsShineActive = _isShineActive;
         _shineDelay = Random.Range(_shineDelayMin, _shineDelayMax);
+        foreach (var renderer in _spriteRenderers)
+        {
+            if (renderer.flipX)
+            {
+                renderer.material.SetInt("_isFlipped", 1);
+            }
+        }
     }
 
     private void OnEnable()
