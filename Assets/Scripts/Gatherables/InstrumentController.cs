@@ -7,6 +7,7 @@ public class InstrumentController : MonoBehaviour
 {
     public static InstrumentController Instance { get; private set; }
 
+    public InstrumentPiece EquipedInstrumentPiece;
     public Type_Instrument EquipedInstrument;
 
     [Header("Instrument Buttons")]
@@ -97,8 +98,13 @@ public class InstrumentController : MonoBehaviour
             {
                 InstrumentPiece instrumentOfInterest = GameManager.Instance.Player.Character.InstrumentsOnMe[i];
                 ActiveInstrumentPiece = instrumentOfInterest;
-                ActiveInstrumentPiece.gameObject.SetActive(true);
+                //ActiveInstrumentPiece.gameObject.SetActive(true);
+
                 EquipedInstrument = instrumentToEquip;
+                
+                EquipedInstrumentPiece = GameManager.Instance.Player.Character.InstrumentsOnMe[i];
+                Debug.Log(EquipedInstrumentPiece.gameObject.name + " to be equiped instrument");
+                EquipedInstrumentPiece.gameObject.SetActive(true);
 
                 break;
             }
@@ -108,10 +114,14 @@ public class InstrumentController : MonoBehaviour
     }
     public void UnEquipInstrument()
     {
-        ActiveInstrumentPiece.gameObject.SetActive(false);
-        //ActiveInstrumentPiece = null;
+        Debug.Log("Active piece is " + ActiveInstrumentPiece.gameObject.name);
+        //ActiveInstrumentPiece.gameObject.SetActive(false);
+
         EquipedInstrument = Type_Instrument.None;
 
+        EquipedInstrumentPiece.gameObject.SetActive(false);
+        EquipedInstrumentPiece = null;
+        
         SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
     }
 }
