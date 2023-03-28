@@ -103,14 +103,19 @@ public class Touch_Ingredient : Touch_Physics
 
     protected override IEnumerator StopPhysicsUpdate(float timeActive, Rigidbody rigidSpawnedobject, Collider collSpawnedObject)
     {
-        StartCoroutine(base.StopPhysicsUpdate(timeActive, rigidSpawnedobject, collSpawnedObject));
+        float currentTime = 0f;
+        SortingGroup sortingGroup = rigidSpawnedobject.gameObject.GetComponent<SortingGroup>();
 
+        // Wait until time active has passed or velocity is 0
         do
         {
             yield return null;
-        } while (Mathf.Abs(rigidSpawnedobject.velocity.y) > 0f);
+            currentTime += Time.deltaTime;
+        } while ( currentTime < timeActive && rigidSpawnedobject && Mathf.Abs(rigidSpawnedobject.velocity.y) > 0f);
         
-        rigidSpawnedobject.gameObject.GetComponent<SortingGroup>().sortingOrder = 0;
+        // Stop physics update and set sorting layer
+        StartCoroutine(base.StopPhysicsUpdate(0f, rigidSpawnedobject, collSpawnedObject));
+        sortingGroup.sortingOrder = 0;
     }
 
 }
