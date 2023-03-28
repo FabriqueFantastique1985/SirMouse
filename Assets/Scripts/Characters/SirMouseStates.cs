@@ -297,7 +297,7 @@ public class InstrumentEquipState : SirMouseState
         player.Character.InteractionDoneEvent += OnInteractionDone;
         player.Character.EnteredIdleEvent += OnIdleEntered;
 
-        Debug.Log("Entered Equiping State");
+        //Debug.Log("Entered Equiping State");
     }
 
 
@@ -353,7 +353,7 @@ public class InstrumentUnequipState : SirMouseState
 
         player.Character.SetAnimatorTrigger(Character.States.InstrumentUnequip, IsMirrored);
 
-        Debug.Log("Entered Unequiping State");
+        //Debug.Log("Entered Unequiping State");
     }
 
     public override void OnExit(Player player)
