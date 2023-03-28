@@ -55,7 +55,13 @@ public class CountScore : MonoBehaviour
 
     private void OnPoseTaken()
     {
-        _poseScore = (int)((float)_podiumController.AmountOfPosesTaken / (float)_podiumController.AmountOfPosesRequired * (100f - (float)_outfitPercentage));
+        // Calculate the amount of points 1 pose gives depending on the amount of poses requried
+        float poseScore = _podiumController.AmountOfPosesTaken / (float)_podiumController.AmountOfPosesRequired;
+        float posePercentage = 100f - _outfitPercentage;
+
+        _poseScore = (int)(poseScore * posePercentage);
+
+        // Display score
         StartCoroutine(DisplayScore(_outfitScore + _poseScore));
     }
 
@@ -76,10 +82,14 @@ public class CountScore : MonoBehaviour
     private void CountOutfitScore()
     {
         _outfitScore = SkinsMouseController.Instance.ScoreTotal;
-        float outfitAmount = (float)System.Enum.GetValues(typeof(Type_Body)).Length - 1f;
-        if (outfitAmount != 0)
+        float totalOutfitAmount = System.Enum.GetValues(typeof(Type_Body)).Length - 1f;
+        if (totalOutfitAmount != 0)
         {
-            _outfitScore = (int)((float)_outfitScore / (outfitAmount * _maxScoreValue) * (float)_outfitPercentage);
+            // Calculate total score based on amount of outfits equipable
+            float maxScore = totalOutfitAmount * _maxScoreValue;
+            float outfitPieceScore = _outfitScore / maxScore;
+
+            _outfitScore = (int)(outfitPieceScore * _outfitPercentage);
         }
     }
 
@@ -92,6 +102,7 @@ public class CountScore : MonoBehaviour
         float target = scoreAmount / 100f;
         while (_slider.value < target)
         {
+            // Move slider based on speed, target score and slider speed
             float speed = _curve.Evaluate(_slider.value / target);
             _slider.value += speed * target * Time.deltaTime * _sliderSpeed / 2f;
             yield return null;

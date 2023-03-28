@@ -84,13 +84,17 @@ public class PodiumController : MiniGame
 
     private void ButtonClicked(ButtonPodium button)
     {
+        // Only register button click when no animation is playing
         if (_isPlayingAnimation)
         {
             return;
         }
         _isPlayingAnimation = true;
 
+        // Play animation
         button.PlayAnimation();
+
+        // Keep track of button pressed amount
         ++_buttonClickedAmount;
         _buttonClickedAmount = Mathf.Clamp(_buttonClickedAmount, 0, _amountOfPosesRequired);
 
@@ -101,6 +105,7 @@ public class PodiumController : MiniGame
     {
         yield return new WaitForSeconds(_poseTimer);
 
+        // Only end minigame after last animation is played
         while (_isPlayingAnimation)
         {
             yield return null;
@@ -150,7 +155,6 @@ public class PodiumController : MiniGame
             _playerChildTransforms.Add(_playerObject.transform.GetChild(i).position);
             _playerObject.transform.GetChild(i).position = _playerLocation.position;
         }
-
 
         GameManager.Instance.EnterMiniGameSystem();
     }
