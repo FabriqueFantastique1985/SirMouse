@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -14,6 +15,7 @@ public class PodiumController : MiniGame
 
     #region Fields
     [SerializeField] List<ButtonPodium> _buttonsPodium = new List<ButtonPodium>();
+
 
     [SerializeField] private float _poseTimer;
     [SerializeField] private int _amountOfPosesRequired = 4;
@@ -41,6 +43,13 @@ public class PodiumController : MiniGame
 
     private bool _isMinigameActive = false;
     private bool _isPlayingAnimation = false;
+
+    [Header("Audience reaction audio")]
+    [SerializeField] private AudioElement _audianceReactionAudioElement;
+    [SerializeField] private List<AudioClip> _audienceReactionClips = new List<AudioClip>();
+    private int _previousClipIndex = -1;
+
+    private string BUTTONS_ACTIVATED = "ButtonsActivated";
     #endregion
 
     #region Properites
@@ -59,11 +68,15 @@ public class PodiumController : MiniGame
         foreach(var button in _buttonsPodium)
         {
             button.OnButtonClicked += ButtonClicked;
-            //button.gameObject.SetActive(false);
         }
 
         _animator = GameManager.Instance.Player.Character.AnimatorRM;
         _playerObject = GameManager.Instance.Player.gameObject;
+
+        for (int i = 0; i < _playerObject.transform.childCount; i++)
+        {
+            _playerChildTransforms.Add(Vector3.zero);
+        }
 
         // Set button information
         foreach (var button in _buttonsPodium)
@@ -79,6 +92,9 @@ public class PodiumController : MiniGame
         if (_isPlayingAnimation)
         {
             _isPlayingAnimation = false;
+
+            // Move buttons on of screen
+            _canvas.GetComponent<Animator>().SetBool(BUTTONS_ACTIVATED, true);
         }
     }
 
@@ -99,6 +115,22 @@ public class PodiumController : MiniGame
         _buttonClickedAmount = Mathf.Clamp(_buttonClickedAmount, 0, _amountOfPosesRequired);
 
         OnPoseTaken?.Invoke();
+
+        // Play random audience reaction sound
+        int randomClipIndex = Random.Range(0, _audienceReactionClips.Count);
+
+        while (randomClipIndex == _previousClipIndex)
+        {
+            randomClipIndex = Random.Range(0, _audienceReactionClips.Count);
+        }
+
+        _previousClipIndex = randomClipIndex;
+
+        _audianceReactionAudioElement.Clip = _audienceReactionClips[randomClipIndex];
+        AudioController.Instance.PlayAudio(_audianceReactionAudioElement);
+
+        // Move buttons out of screen
+        _canvas.GetComponent<Animator>().SetBool(BUTTONS_ACTIVATED, false);
     }
 
     private IEnumerator ClickTimer()
@@ -123,12 +155,7 @@ public class PodiumController : MiniGame
         _isMinigameActive = false;
 
         base.EndMiniGame(true);
-
-        // Hide canvas and reset player animator
-        foreach (var button in _buttonsPodium)
-        {
-            button.gameObject.SetActive(false);
-        }
+        
         _animator.runtimeAnimatorController = _playerController;
 
         // Reset variables for next run
@@ -152,7 +179,7 @@ public class PodiumController : MiniGame
         // Move player into position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
-            _playerChildTransforms.Add(_playerObject.transform.GetChild(i).position);
+            _playerChildTransforms[i] = _playerObject.transform.GetChild(i).position;
             _playerObject.transform.GetChild(i).position = _playerLocation.position;
         }
 
@@ -202,12 +229,6 @@ public class PodiumController : MiniGame
         _isMinigameActive = true;
 
         base.StartMiniGame();
-
-        // Set canvas and player animator controller
-        foreach (var button in _buttonsPodium)
-        {
-            //button.gameObject.SetActive(true);
-        }
 
         _playerController = _animator.runtimeAnimatorController;
         _animator.runtimeAnimatorController = _podiumAnimator;
