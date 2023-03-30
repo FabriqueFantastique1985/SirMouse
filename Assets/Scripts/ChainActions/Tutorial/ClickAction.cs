@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.UI;
 
-public class MoveAction : ChainActionMonoBehaviour
+public class ClickAction : ChainActionMonoBehaviour
 {
     [SerializeField] private RectTransform _focusMask;
-    [SerializeField] private bool _keepFocusCentered;
-    [SerializeField] private Transform _focus;
+    [SerializeField] private LayerMask _layerToClickOn;
 
     private TutorialSystem _tutorialSystem;
 
@@ -32,34 +30,17 @@ public class MoveAction : ChainActionMonoBehaviour
     private void OnClick(LayerMask layer, Vector3 mousePos, Vector3 hitPoint)
     {
         var posInImage = mousePos - _focusMask.transform.position;
-        
+
         // Check if mousepos is inside of mask
         if (posInImage.x >= -(_focusMask.rect.width / 2f) && posInImage.x < _focusMask.rect.width / 2f &&
             posInImage.y >= -(_focusMask.rect.height / 2f) && posInImage.y < _focusMask.rect.height / 2f)
         {
-            // Check layer and move player when clicking on ground
-            var player = GameManager.Instance.Player;
-            if (layer == LayerMask.NameToLayer("Ground"))
+            // Check layer bitflag for correct layer clicked
+            if (((1 << layer) & _layerToClickOn) != 0)
             {
-                player.SetState(new WalkingState(player, hitPoint));
-                GameManager.Instance.BlockInput = true;
-                StartCoroutine(HasArrived());
+                _maxTime = -1f;
             }
         }
-    }
-
-    private IEnumerator HasArrived()
-    {
-        var player = GameManager.Instance.Player;
-        while (player.transform.position != player.Agent.destination)
-        {
-            if (_keepFocusCentered)
-            {
-                _focusMask.anchoredPosition = Camera.allCameras[0].WorldToScreenPoint(_focus.transform.position);
-            }
-            yield return null;
-        }
-        _maxTime = -1f;
     }
 
     public override void Execute()
@@ -70,13 +51,5 @@ public class MoveAction : ChainActionMonoBehaviour
     public override void OnExit()
     {
         base.OnExit();
-        GameManager.Instance.BlockInput = false;
-
-        // Unsubscribe from click event
-        if (_tutorialSystem != null)
-        {
-            _tutorialSystem.OnClick -= OnClick;
-        }
     }
-
 }
