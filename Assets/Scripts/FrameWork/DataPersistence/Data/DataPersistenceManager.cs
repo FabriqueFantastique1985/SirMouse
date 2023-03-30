@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,8 +34,20 @@ public class DataPersistenceManager : MonoBehaviour
         
         _dataHandler = new FileDataHandler(Path.Combine(Application.persistentDataPath, "Scenes"), SceneManager.GetActiveScene().name + "_" + fileName);
         _dataPersistenceObjects = FindAllDataPersistenceObjects();
+    }
+
+    private void Start()
+    {
+        string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
+        foreach (string SOName in assetNames)
+        {
+            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+            var character = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
+            _dataPersistenceObjects.Add(character as IDataPersistence);
+        }
         LoadGame();
     }
+
     public void NewGame()
     {
         _gameData = new GameData();
