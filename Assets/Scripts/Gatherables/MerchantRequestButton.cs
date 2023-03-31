@@ -20,6 +20,7 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
     private GameObject _notificationObject;
 
 
+    // * button collider should be DISABLED unless the transparent sprite is hovering
     // * enable the animation component of the sprite visual when the players has it available
     // * pulse transparent sprites if Players has them in backpack
 
