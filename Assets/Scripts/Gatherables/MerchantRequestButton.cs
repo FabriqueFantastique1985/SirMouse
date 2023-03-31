@@ -22,9 +22,12 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
     // * enable the animation component of the sprite visual when the players has it available
     // * pulse transparent sprites if Players has them in backpack
+
+
     public void Click(Player player)
     {
         throw new System.NotImplementedException();
+
     }
 
 
