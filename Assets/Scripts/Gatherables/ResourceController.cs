@@ -13,10 +13,6 @@ public class ResourceController : MonoBehaviour
     private List<SlotResource> _slotsResources = new List<SlotResource>();
     private List<SlotResource> _slotsResourcesTaken = new List<SlotResource>();
 
-    [Header("Prefabs for UI visuals")]
-    [SerializeField]
-    private List<GameObject> _prefabsUI = new List<GameObject>();
-
     [Header("Number sprites")]
     [SerializeField]
     private List<Sprite> _spritesNumbers = new List<Sprite>();
@@ -74,7 +70,7 @@ public class ResourceController : MonoBehaviour
                 slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Amount - 1];
 
                 // create the sprite visual
-                Instantiate(_prefabsUI[((int)resourceToAdd) - 1], slotOfInterest.ParentInstantiatedPrefab.transform);
+                Instantiate(UIFlyingToBackpackController.Instance.PrefabsResourcesUI[((int)resourceToAdd) - 1], slotOfInterest.ParentInstantiatedPrefab.transform);
 
                 break;
             }
