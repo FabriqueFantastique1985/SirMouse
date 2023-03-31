@@ -8,11 +8,11 @@ public class StepTracker : MonoBehaviour
     public delegate void StepTrackerDelegate();
     public event StepTrackerDelegate OnStepsCompleted;
 
-    [SerializeField] private Step[] _steps;
+    [SerializeField] private List<Step> _steps = new List<Step>();
     private bool _hasBeenCompleted = false;
     private int _currentStepIndex = 0;
 
-    protected bool IsCurrentStepIndexInRange => _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
+    protected bool IsCurrentStepIndexInRange => _currentStepIndex < _steps.Count && 0 < _steps.Count && 0 <= _currentStepIndex;
 
     private void OnEnable()
     {
@@ -60,7 +60,7 @@ public class StepTracker : MonoBehaviour
             _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
         }
 
-        for (int i = 0; i < _steps.Length; i++)
+        for (int i = 0; i < _steps.Count; i++)
         {
             if (newStep == _steps[i])
             {
@@ -72,5 +72,18 @@ public class StepTracker : MonoBehaviour
         }
 
         Debug.LogError(newStep.name + " was not found in the list of steps of this MiniGame!");
+    }
+
+    public void AddStep(Step step)
+    {
+        _steps.Add(step);
+    }
+
+    public void AddStep(List<Step> steps)
+    {
+        foreach (var step in steps)
+        {
+            _steps.Add(step);
+        }
     }
 }
