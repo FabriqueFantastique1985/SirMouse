@@ -112,4 +112,30 @@ public class ResourceController : MonoBehaviour
     }
 
 
+    public List<DeliverableResource> CheckAquiredResources(List<DeliverableResource> deliverableResourcesIWant)
+    {
+        List<DeliverableResource> resourcesToPulse = new List<DeliverableResource>();
+
+        for (int i = 0; i < deliverableResourcesIWant.Count; i ++)
+        {
+            // if I have not been delivered yet...
+            if (deliverableResourcesIWant[i].Delivered == false)
+            {
+                // check in player resources for similar type
+                for (int j = 0; j < _slotsResourcesTaken.Count; j++)
+                {
+                    if (deliverableResourcesIWant[i].ResourceType == _slotsResourcesTaken[j].ResourceType)
+                    {
+                        // found a type that is similar
+                        // --> pulse the transparent sprites
+                        resourcesToPulse.Add(deliverableResourcesIWant[i]);
+                    }
+                }
+            }
+        }
+
+        return resourcesToPulse;
+    }
+
+
 }
