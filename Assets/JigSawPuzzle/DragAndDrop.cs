@@ -47,12 +47,12 @@ public class DragAndDrop : MonoBehaviour
         // hide the buttons for the closet and backpack
         GameManager.Instance.PanelUIButtonsClosetAndBackpack.SetActive(false);
 
+        // disable the camera component which follows the player
+        GameManager.Instance.CurrentCamera.enabled = false;
+
         // enable the update on this script
         this.enabled = true;
         gameObject.SetActive(true);
-
-        // disable the camera component which follows the player
-        GameManager.Instance.CurrentCamera.enabled = false;
 
         // hide sirMouse rig
         SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(false);

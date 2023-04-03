@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonBaseNew : MonoBehaviour, IClickable
 {
+    [Header("Animation stuff")]
     [SerializeField]
-    private Animation _animationComponent;
+    protected Animation _animationComponent;
     [SerializeField]
     protected string _animationName;
 
+    [Header("Audio")]
     [SerializeField]
     protected AudioElement _soundEffect;
     protected AudioController _audioInstance;
@@ -30,6 +33,13 @@ public class ButtonBaseNew : MonoBehaviour, IClickable
         if (_soundEffect != null)
         {
             _audioInstance.PlayAudio(_soundEffect);
+        }
+    }
+    protected virtual void PlaySoundEffectMultiple(AudioElement audioElement)
+    {
+        if (audioElement != null)
+        {
+            _audioInstance.PlayAudio(audioElement);
         }
     }
 

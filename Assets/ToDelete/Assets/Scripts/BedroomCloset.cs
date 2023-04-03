@@ -14,9 +14,7 @@ public class BedroomCloset : MonoBehaviour
 
     public Sprite[] shields = new Sprite[4];
 
-#pragma warning disable IDE0052 // Remove unread private members
-    private bool playerInLocation = false;
-#pragma warning restore IDE0052 // Remove unread private members
+    //private bool playerInLocation = false;
     public int spriteIndex = 0;
 
     public AudioClip OpenDoor;
@@ -118,7 +116,7 @@ public class BedroomCloset : MonoBehaviour
     {
         if(collider.tag == "Player")
         {
-            playerInLocation = true;
+            //playerInLocation = true;
         }        
     }
 
@@ -126,7 +124,7 @@ public class BedroomCloset : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            playerInLocation = false;
+            //playerInLocation = false;
         }
     }
 

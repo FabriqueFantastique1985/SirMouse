@@ -1,6 +1,4 @@
-﻿//#define USE_CONVERT_TEXTURE
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -21,6 +19,17 @@ public class ShineBehaviour : MonoBehaviour
     {
         IsShineActive = _isShineActive;
         _shineDelay = Random.Range(_shineDelayMin, _shineDelayMax);
+        foreach (var renderer in _spriteRenderers)
+        {
+            if (renderer.flipX)
+            {
+                renderer.material.SetInt("_IsFlippedX", 1);
+            }
+            if (renderer.flipY)
+            {
+                renderer.material.SetInt("_IsFlippedY", 1);
+            }
+        }
     }
 
     private void OnEnable()
@@ -49,7 +58,8 @@ public class ShineBehaviour : MonoBehaviour
             // Set texture parameters
             Texture2D texture = GetSlicedSpriteTexture(renderer.sprite);
             Rect rect = new Rect(0, 0, texture.width, texture.height);
-            renderer.sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f));
+            var sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f), 100, 5);
+            renderer.sprite = sprite;
         }
     }
 
@@ -58,7 +68,9 @@ public class ShineBehaviour : MonoBehaviour
         SetParameters();
 
         // Delay shine at game start
-        float showTime = 1f / renderer.material.GetFloat("_ScrollSpeed");
+        float scrollSpeed = renderer.material.GetFloat("_ScrollSpeed");
+        Assert.IsFalse(scrollSpeed == 0, "Shine material was not correctly set in object:" + gameObject.name);
+        float showTime = 1f / scrollSpeed;
 
         yield return new WaitForSeconds(_shineDelay);
 
@@ -109,25 +121,11 @@ public class ShineBehaviour : MonoBehaviour
         Rect rect = sprite.rect;
         Texture2D slicedTex = new Texture2D((int)rect.width, (int)rect.height);
         slicedTex.filterMode = sprite.texture.filterMode;
-
-#if USE_CONVERT_TEXTURE
-        // Converts the imgage only if it has been crunch compressed
-        Texture2D originalTex;
-        switch (sprite.texture.format)
-        {
-            case TextureFormat.DXT1Crunched:
-            case TextureFormat.DXT5Crunched:
-            case TextureFormat.ETC_RGB4Crunched:
-            case TextureFormat.ETC2_RGBA8Crunched:
-                originalTex = Convert(sprite.texture);
-                break;
-            default:
-                originalTex = sprite.texture;
-                break;
-        }
-        slicedTex.SetPixels(0, 0, (int)rect.width, (int)rect.height, originalTex.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height));
+#if UNITY_IOS
+        Color[] colors = GetPixelsInRect(sprite.texture, (int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+        slicedTex.SetPixels(0, 0, (int) rect.width, (int) rect.height, colors);
 #else
-        Color[] colors;
+    Color[] colors;
         switch (sprite.texture.format)
         {
             case TextureFormat.DXT1Crunched:

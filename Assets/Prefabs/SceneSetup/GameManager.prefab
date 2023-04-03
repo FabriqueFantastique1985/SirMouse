@@ -75,7 +75,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 10, y: 8}
+  m_Size: {x: 20, y: 20}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
@@ -526,10 +526,10 @@ MonoBehaviour:
   CurrentSceneSetup: {fileID: 0}
   LayersMainGameSystemWillIgnore:
     serializedVersion: 2
-    m_Bits: 27140
+    m_Bits: 2124292
   LayersMiniGameSystemWillIgnore:
     serializedVersion: 2
-    m_Bits: 27396
+    m_Bits: 2124548
 --- !u!1 &2383446140884378214
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,49 +577,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AudioElementals:
   - Clip: {fileID: 8300000, guid: f436e7cee1849334a87dd767710cd164, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   - Clip: {fileID: 8300000, guid: 1731f2a8050051646beeeb51b9a3c57c, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   AudioOST:
   - Clip: {fileID: 8300000, guid: de581cf35d476294894fd250286c1b08, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 1
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   - Clip: {fileID: 8300000, guid: 8497fb7206cd16d469b8842c249993b3, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 1
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   AudioUI:
   - Clip: {fileID: 8300000, guid: 5f415353cc9122e43a78faaa9c5e7b6a, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 2
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   - Clip: {fileID: 8300000, guid: 7d573405a00bff5418d554e6c25f59fd, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 2
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
 --- !u!114 &1678140582472475876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,7 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bee68b48aadb542829862d9f5539f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 4775276091027925668}
+  AudioSource: {fileID: 4775276091027925668}
   _soundtracks:
   - {fileID: 8300000, guid: f2ee38f9a9351a64eaebdeaa498d3493, type: 3}
   - {fileID: 8300000, guid: 96d3a784a2d2b8744b331ce556ead9f3, type: 3}
@@ -1269,12 +1299,12 @@ PrefabInstance:
     - target: {fileID: 2753335377566611621, guid: 19ad83a7f3ac81a429015275d334b015,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2753335377566611621, guid: 19ad83a7f3ac81a429015275d334b015,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2776013526310217219, guid: 19ad83a7f3ac81a429015275d334b015,
         type: 3}
@@ -1556,6 +1586,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 24.699997
       objectReference: {fileID: 0}
+    - target: {fileID: 5054011085777659447, guid: 19ad83a7f3ac81a429015275d334b015,
+        type: 3}
+      propertyPath: _backpackSuperRef
+      value: 
+      objectReference: {fileID: 7628915380845705478}
+    - target: {fileID: 5054011085777659447, guid: 19ad83a7f3ac81a429015275d334b015,
+        type: 3}
+      propertyPath: _panelInstantiatedUI
+      value: 
+      objectReference: {fileID: 334178701295866238}
     - target: {fileID: 5200185248843462710, guid: 19ad83a7f3ac81a429015275d334b015,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -5259,51 +5299,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1385039494480847312}
     m_Modifications:
-    - target: {fileID: 479251841697119519, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 479251841697119519, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 479251841697119519, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 479251841697119519, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3218066304584212045, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3218066304584212045, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3218066304584212045, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3218066304584212045, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986301036267167713, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6630168719513129663, guid: f81ec3b32ed177644b706eb46afc6b61,
         type: 3}
       propertyPath: m_Name
@@ -5413,11 +5408,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8232775425180304518, guid: f81ec3b32ed177644b706eb46afc6b61,
-        type: 3}
-      propertyPath: m_Name
-      value: Panel_Throwing_Pickups
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f81ec3b32ed177644b706eb46afc6b61, type: 3}

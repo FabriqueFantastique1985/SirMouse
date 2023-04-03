@@ -11,8 +11,10 @@ namespace UnityCore
             Loading = 1,
             Menu = 2,
 
-            Backpack = 3,
-            Closet = 8,
+            BackpackButtons = 16,
+            BackpackResources = 3,
+            BackpackInstruments = 7,
+            BackpackCloset = 8,
                              
             ClosetHats = 9,
             ClosetHeads = 10,
@@ -24,10 +26,7 @@ namespace UnityCore
             ClosetSwords = 4,
             ClosetShields = 5,
        
-            RewardScreen = 6,
-
-            // re-use the below ones when possible 
-            ClosetOLDArms = 7,
+            RewardScreen = 6
         }
     }
 }
