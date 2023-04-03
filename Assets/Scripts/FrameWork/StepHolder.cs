@@ -9,7 +9,7 @@ public class StepHolder : MonoBehaviour
     {
         get 
         { 
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             return _steps; 
         }
     }

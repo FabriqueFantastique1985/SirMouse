@@ -3,24 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEditor.Timeline;
-using UnityEngine.Assertions;
+using System;
 
 public class FocusAction : ChainActionMonoBehaviour
 {
     [SerializeField] private PlayableDirector _timeline;
-    [SerializeField] private RectTransform _focusMask;
+    [SerializeField] private TutorialFocusMask _focusMask;
     [SerializeField] private Transform _focus;
 
-    //public RectTransform FocusMask
-    //{
-    //    set
-    //    {
-    //        if (!_focusMask)
-    //        {
-    //            _focusMask = value;
-    //        }
-    //    }
-    //}
+    private const string _tutorialFocusTag = "TutorialFocus";
 
     private void Start()
     {
@@ -31,29 +22,27 @@ public class FocusAction : ChainActionMonoBehaviour
     {
         base.OnEnter();
         GameManager.Instance.BlockInput = true;
-        if (!_focusMask)
-        {
-            var go = GameObject.FindGameObjectWithTag("TutorialFocus");
-            if (go.TryGetComponent(out RectTransform transform))
-            {
-                _focusMask = transform;
-            }
-            Assert.IsNotNull(_focusMask, "Could not find object with tag tutorial focus");
-        }
 
-        _focusMask.anchoredPosition = Camera.allCameras[0].WorldToScreenPoint(_focus.transform.position);
+        _focusMask.Initialize();
+
+        _focusMask.Mask.anchoredPosition = Camera.allCameras[0].WorldToScreenPoint(_focus.transform.position);
+    }
+
+    private void SearchFocusMask()
+    {
+        var go = GameObject.FindGameObjectWithTag(_tutorialFocusTag);
+        RectTransform transform = go.GetComponent<RectTransform>();
+        if (transform == null)
+            throw new MissingComponentException();
+        _focusMask.Mask = transform;
     }
 
     public override void Execute()
     {
         base.Execute();
         _timeline.Play();
-        StartCoroutine(Delay());
-    }
 
-    private IEnumerator Delay()
-    {
-        yield return null;
+        // If timeline is not setup correctly, will instantly stop this action
         if (_timeline.state == PlayState.Playing)
         {
             _timeline.stopped += TimelineEnd;

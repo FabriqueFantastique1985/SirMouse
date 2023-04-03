@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class MoveAction : ChainActionMonoBehaviour
 {
-    [SerializeField] private RectTransform _focusMask;
+    [SerializeField] private TutorialFocusMask _focusMask;
     [SerializeField] private bool _keepFocusCentered;
     [SerializeField] private Transform _focus;
 
@@ -21,6 +23,8 @@ public class MoveAction : ChainActionMonoBehaviour
     {
         base.OnEnter();
 
+        _focusMask.Initialize();
+
         // Subscribe to click event
         _tutorialSystem = GameManager.Instance.CurrentGameSystem as TutorialSystem;
         if (_tutorialSystem != null)
@@ -29,19 +33,19 @@ public class MoveAction : ChainActionMonoBehaviour
         }
     }
 
-    private void OnClick(LayerMask layer, Vector3 mousePos, Vector3 hitPoint)
+    private void OnClick(RaycastHit hit, Vector3 mousePos)
     {
-        var posInImage = mousePos - _focusMask.transform.position;
+        var posInImage = mousePos - _focusMask.Mask.transform.position;
         
         // Check if mousepos is inside of mask
-        if (posInImage.x >= -(_focusMask.rect.width / 2f) && posInImage.x < _focusMask.rect.width / 2f &&
-            posInImage.y >= -(_focusMask.rect.height / 2f) && posInImage.y < _focusMask.rect.height / 2f)
+        if (posInImage.x >= -(_focusMask.Mask.rect.width / 2f) && posInImage.x < _focusMask.Mask.rect.width / 2f &&
+            posInImage.y >= -(_focusMask.Mask.rect.height / 2f) && posInImage.y < _focusMask.Mask.rect.height / 2f)
         {
             // Check layer and move player when clicking on ground
             var player = GameManager.Instance.Player;
-            if (layer == LayerMask.NameToLayer("Ground"))
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                player.SetState(new WalkingState(player, hitPoint));
+                player.SetState(new WalkingState(player, hit.point));
                 GameManager.Instance.BlockInput = true;
                 StartCoroutine(HasArrived());
             }
@@ -55,7 +59,7 @@ public class MoveAction : ChainActionMonoBehaviour
         {
             if (_keepFocusCentered)
             {
-                _focusMask.anchoredPosition = Camera.allCameras[0].WorldToScreenPoint(_focus.transform.position);
+                _focusMask.Mask.anchoredPosition = Camera.allCameras[0].WorldToScreenPoint(_focus.transform.position);
             }
             yield return null;
         }
@@ -78,5 +82,4 @@ public class MoveAction : ChainActionMonoBehaviour
             _tutorialSystem.OnClick -= OnClick;
         }
     }
-
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialFocus : MonoBehaviour
+public class TutorialFocusObject : MonoBehaviour
 {
     public delegate void TutorialFocalDelegate();
     public event TutorialFocalDelegate OnTutorialStarted;
@@ -24,7 +24,7 @@ public class TutorialFocus : MonoBehaviour
             _isTutorialPlaying = true;
 
             // Instantiate object with steps to go through tutorial
-            var obj = Instantiate(_tutorialData.TutorialObject, gameObject.transform);
+            var obj = Instantiate(_tutorialData.TutorialObject, gameObject.transform.position, Quaternion.identity);
 
             // Get step tracker and listen to event
             _stepTracker = obj.GetComponent<StepTracker>();

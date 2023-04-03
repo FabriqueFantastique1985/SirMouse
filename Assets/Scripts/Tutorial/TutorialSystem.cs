@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TutorialSystem : GameSystem
 {
-    public delegate void TutorialSystemDelegate(LayerMask layerHit, Vector3 mousePos, Vector3 hitPoint);
+    public delegate void TutorialSystemDelegate(RaycastHit hit, Vector3 mousePos);
     public event TutorialSystemDelegate OnClick;
 
     public TutorialSystem(Player player, LayerMask layerMask) : base(player, layerMask)
@@ -24,7 +24,7 @@ public class TutorialSystem : GameSystem
             {
                 Debug.DrawLine(Camera.allCameras[0].transform.position, hit.point);
 
-                OnClick?.Invoke(hit.collider.gameObject.layer, Input.mousePosition, hit.point);
+                OnClick?.Invoke(hit, currentTarget);
             }
         }
     }
