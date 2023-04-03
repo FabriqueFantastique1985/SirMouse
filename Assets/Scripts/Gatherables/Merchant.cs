@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class Merchant : MonoBehaviour
 {
+    [Header("Merchant of Interest child")]
+    [SerializeField]
+    private MerchantOfInterest _merchantOfInterest;
+
     [Header("Merchant Request Children")]
     [SerializeField]
     private List<MerchantRequest> _merchantRequests = new List<MerchantRequest>();
-    private MerchantRequest _currentRequest;
+
+    [HideInInspector]
+    public MerchantRequest CurrentRequest;
 
     [Header("Balloon Delivery prefabs")]
     public List<GameObject> BalloonDeliveryPrefabs = new List<GameObject>();
@@ -28,7 +34,11 @@ public class Merchant : MonoBehaviour
     // called when completing a request
     public void ShowNewRequest()
     {
+        // hide the current one
+        CurrentRequest.HideRequest();
+        // find the new request
         DecideCurrentRequest();
+        // show the new request
         ShowCorrectRequest();
     }
 
@@ -36,26 +46,36 @@ public class Merchant : MonoBehaviour
     // called in merchantOfInterest
     public void ShowCorrectRequest()
     {
-        _currentRequest.ShowRequest();
+        if (CurrentRequest != null)
+        {
+            CurrentRequest.ShowRequest();
+        }      
     }
     public void HideCurrentRequest()
     {
-        if (_currentRequest != null)
+        if (CurrentRequest != null)
         {
-            _currentRequest.HideRequest();
+            CurrentRequest.HideRequest();
         }   
     }
 
 
     private void DecideCurrentRequest()
     {
+        CurrentRequest = null;
         for (int i = 0; i < _merchantRequests.Count; i++)
         {
             if (_merchantRequests[i].CompletedRequest == false)
             {
-                _currentRequest = _merchantRequests[i];
+                CurrentRequest = _merchantRequests[i];
                 break;
             }
+        }
+
+        if (CurrentRequest == null)
+        {
+            _merchantOfInterest.CompletedMe = true;
+            _merchantOfInterest.HideIconPermanently();
         }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class DeliverableResource 
 {
     public Type_Resource ResourceType;
+
     [HideInInspector]
     public bool Delivered;
 }
