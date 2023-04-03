@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class SkinsMouseController : MonoBehaviour, IDataPersistence
@@ -96,8 +92,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     public int ScoreTotal;
 
     #endregion
-
-
+    
     private void Awake()
     {
         // Singleton 
@@ -118,10 +113,10 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         // Initializing the Equiped Skins Dictionary
         EquipedSkins.Add(Type_Body.Head, Type_Skin.Pyjama);
         EquipedSkins.Add(Type_Body.Chest, Type_Skin.Pyjama);
-        EquipedSkins.Add(Type_Body.ArmLeft, Type_Skin.Pyjama);
-        EquipedSkins.Add(Type_Body.ArmRight, Type_Skin.Pyjama);
-        EquipedSkins.Add(Type_Body.LegLeft, Type_Skin.Pyjama);
-        EquipedSkins.Add(Type_Body.LegRight, Type_Skin.Pyjama);
+        EquipedSkins.Add(Type_Body.ArmLeftUpper, Type_Skin.Pyjama);
+        EquipedSkins.Add(Type_Body.ArmRightUpper, Type_Skin.Pyjama);
+        EquipedSkins.Add(Type_Body.LegLeftUpper, Type_Skin.Pyjama);
+        EquipedSkins.Add(Type_Body.LegRightUpper, Type_Skin.Pyjama);
         EquipedSkins.Add(Type_Body.FootRight, Type_Skin.Pyjama);
         EquipedSkins.Add(Type_Body.FootLeft, Type_Skin.Pyjama);
         EquipedSkins.Add(Type_Body.Hat, Type_Skin.Pyjama);
@@ -153,12 +148,12 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     {
         EquipedSkins[Type_Body.Head] = skinType;
         EquipedSkins[Type_Body.Chest] = skinType;
-        EquipedSkins[Type_Body.ArmLeft] = skinType;
-        EquipedSkins[Type_Body.ArmRight] = skinType;
+        EquipedSkins[Type_Body.ArmLeftUpper] = skinType;
+        EquipedSkins[Type_Body.ArmRightUpper] = skinType;
         EquipedSkins[Type_Body.FootRight] = skinType;
         EquipedSkins[Type_Body.FootLeft] = skinType;
-        EquipedSkins[Type_Body.LegLeft] = skinType;
-        EquipedSkins[Type_Body.LegRight] = skinType;
+        EquipedSkins[Type_Body.LegLeftUpper] = skinType;
+        EquipedSkins[Type_Body.LegRightUpper] = skinType;
 
         if (unequipAccessories)
         {
@@ -205,16 +200,16 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             case Type_Body.Chest:
                 skinPieceForBodyX = SkinPiecesButtonChest;
                 break;
-            case Type_Body.ArmLeft:
+            case Type_Body.ArmLeftUpper:
                 skinPieceForBodyX = SkinPiecesButtonArmLeft;
                 break;
-            case Type_Body.ArmRight:
+            case Type_Body.ArmRightUpper:
                 skinPieceForBodyX = SkinPiecesButtonArmRight;
                 break;
-            case Type_Body.LegLeft:
+            case Type_Body.LegLeftUpper:
                 skinPieceForBodyX = SkinPiecesButtonLegLeft;
                 break;
-            case Type_Body.LegRight:
+            case Type_Body.LegRightUpper:
                 skinPieceForBodyX = SkinPiecesButtonLegRight;
                 break;
             case Type_Body.FootLeft:
@@ -274,19 +269,19 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPieceForBodyX = SkinPiecesChest;
                 skinPieceForBodyUIX = SkinPiecesUIChest;
                 break;
-            case Type_Body.ArmLeft:
+            case Type_Body.ArmLeftUpper:
                 skinPieceForBodyX = SkinPiecesArmLeft;
                 skinPieceForBodyUIX = SkinPiecesUIArmLeft;
                 break;
-            case Type_Body.ArmRight:
+            case Type_Body.ArmRightUpper:
                 skinPieceForBodyX = SkinPiecesArmRight;
                 skinPieceForBodyUIX = SkinPiecesUIArmRight;
                 break;
-            case Type_Body.LegLeft:
+            case Type_Body.LegLeftUpper:
                 skinPieceForBodyX = SkinPiecesLegLeft;
                 skinPieceForBodyUIX = SkinPiecesUILegLeft;
                 break;
-            case Type_Body.LegRight:
+            case Type_Body.LegRightUpper:
                 skinPieceForBodyX = SkinPiecesLegRight;
                 skinPieceForBodyUIX = SkinPiecesUILegRight;
                 break;
@@ -338,19 +333,19 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPieceForBodyX = SkinPiecesChest;
                 skinPieceForBodyUIX = SkinPiecesUIChest;
                 break;
-            case Type_Body.ArmLeft:
+            case Type_Body.ArmLeftUpper:
                 skinPieceForBodyX = SkinPiecesArmLeft;
                 skinPieceForBodyUIX = SkinPiecesUIArmLeft;
                 break;
-            case Type_Body.ArmRight:
+            case Type_Body.ArmRightUpper:
                 skinPieceForBodyX = SkinPiecesArmRight;
                 skinPieceForBodyUIX = SkinPiecesUIArmRight;
                 break;
-            case Type_Body.LegLeft:
+            case Type_Body.LegLeftUpper:
                 skinPieceForBodyX = SkinPiecesLegLeft;
                 skinPieceForBodyUIX = SkinPiecesUILegLeft;
                 break;
-            case Type_Body.LegRight:
+            case Type_Body.LegRightUpper:
                 skinPieceForBodyX = SkinPiecesLegRight;
                 skinPieceForBodyUIX = SkinPiecesUILegRight;
                 break;
@@ -485,8 +480,22 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 // link the score that was set on the Closet
                 // skinPiecesForBodyX.MySkinPieces[i].Data.ScoreValue = skinPieceElement.Data.ScoreValue; 
                 // skinPiecesForBodyUIX.MySkinPieces[i].Data.ScoreValue = skinPieceElement.Data.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
+                
+                // this logic is what applies the skins on the player character
+                tempSkinPiece.gameObject.SetActive(true);
 
-                break;
+                // this logic is what applies the skins on the Closet mouse
+                tempSkinPieceUI.gameObject.SetActive(true);
+            
+                // add to list of equiped skinpieces
+                EquipedSkinPieces.Add(tempSkinPiece);
+                EquipedSkinPiecesUI.Add(tempSkinPieceUI);
+        
+                // de-activate old geo if Hide == true
+                SetSirMouseGeometryState(bodyType, !tempSkinPiece.Data.HidesSirMouseGeometry);
+            
+                Debug.Log("Equiping piece " + tempSkinPiece);
+                DebugConsoleScore();
             }
         }
 
@@ -494,24 +503,6 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         if (tempSkinPiece == null)
         {
             SetSirMouseGeometryState(bodyType, true);
-        }
-        else
-        {
-            // this logic is what applies the skins on the player character
-            tempSkinPiece.gameObject.SetActive(true);
-
-            // this logic is what applies the skins on the Closet mouse
-            tempSkinPieceUI.gameObject.SetActive(true);
-            
-            // add to list of equiped skinpieces
-            EquipedSkinPieces.Add(tempSkinPiece);
-            EquipedSkinPiecesUI.Add(tempSkinPieceUI);
-        
-            // de-activate old geo if Hide == true
-            SetSirMouseGeometryState(bodyType, !tempSkinPiece.Data.HidesSirMouseGeometry);
-            
-            Debug.Log("Equiping piece " + tempSkinPiece);
-            DebugConsoleScore();
         }
     }
 
@@ -539,9 +530,6 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             EquipedSkinPieces.Remove(tempListToClear[i]);
             EquipedSkinPiecesUI.Remove(tempListToClearUI[i]);
         }
-
-        tempListToClear.Clear();
-        tempListToClearUI.Clear();
     }
 
     // makes old geometry visible/invisible
@@ -570,7 +558,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.Chest.gameObject.SetActive(state);
                 characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
                 break;
-            case Type_Body.ArmLeft:
+            case Type_Body.ArmLeftUpper:
                 characterGeoReferences.ArmUpL.gameObject.SetActive(state);
                 characterGeoReferences.HandL.gameObject.SetActive(state);
                 characterGeoReferences.ElbowL.gameObject.SetActive(state);
@@ -581,7 +569,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
                 characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
                 break;
-            case Type_Body.ArmRight:
+            case Type_Body.ArmRightUpper:
                 characterGeoReferences.ArmUpR.gameObject.SetActive(state);
                 characterGeoReferences.HandR.gameObject.SetActive(state);
                 characterGeoReferences.ElbowR.gameObject.SetActive(state);
@@ -592,7 +580,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
                 characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
                 break;
-            case Type_Body.LegLeft:
+            case Type_Body.LegLeftUpper:
                 characterGeoReferences.LegUpL.gameObject.SetActive(state);
                 characterGeoReferences.KneeL.gameObject.SetActive(state);
                 characterGeoReferences.LegLowL.gameObject.SetActive(state);
@@ -601,7 +589,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
                 characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
                 break;
-            case Type_Body.LegRight:
+            case Type_Body.LegRightUpper:
                 characterGeoReferences.LegUpR.gameObject.SetActive(state);
                 characterGeoReferences.KneeR.gameObject.SetActive(state);
                 characterGeoReferences.LegLowR.gameObject.SetActive(state);
