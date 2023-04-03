@@ -92,8 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameChainAction: MoveAction
   ActionType: 0
-  _focusMask:
-    _focusMask: {fileID: 1950490292142443454}
+  _focusMask: {fileID: 1950490292142443454}
   _keepFocusCentered: 1
   _focus: {fileID: 3522469930221488228}
 --- !u!1 &4387735002817482521
@@ -143,8 +142,7 @@ MonoBehaviour:
   _nameChainAction: FocusAction
   ActionType: 0
   _timeline: {fileID: 7869468327636694499}
-  _focusMask:
-    _focusMask: {fileID: 1950490292142443454}
+  _focusMask: {fileID: 1950490292142443454}
   _focus: {fileID: 3522469930221488228}
 --- !u!320 &7869468327636694499
 PlayableDirector:
@@ -214,6 +212,20 @@ MonoBehaviour:
   _onEnterChainActions:
   - {fileID: 4515013815850358350}
   _autoSave: 0
+--- !u!114 &8302758144200604789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932251615021228945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e233ce4d0a2d04793c4767c1e37e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stepTracker: {fileID: 175842916744662067}
+  _tag: TutorialResource
 --- !u!1001 &7436620037170827958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -319,6 +331,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7436620037170827958}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &175842916744662067 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7297123007389703813, guid: 882032dcff5ded24a987be5ef9cd385b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7436620037170827958}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393f01989f488bf43ab58dd520c0a372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9002102823034206478 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2006857585514261432, guid: 882032dcff5ded24a987be5ef9cd385b,
@@ -328,6 +352,12 @@ GameObject:
 --- !u!224 &1950490292142443454 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8945738839501117704, guid: 882032dcff5ded24a987be5ef9cd385b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7436620037170827958}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &932251615021228945 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7765379358734250279, guid: 882032dcff5ded24a987be5ef9cd385b,
     type: 3}
   m_PrefabInstance: {fileID: 7436620037170827958}
   m_PrefabAsset: {fileID: 0}

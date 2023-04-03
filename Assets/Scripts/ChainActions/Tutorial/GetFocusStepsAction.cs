@@ -6,13 +6,13 @@ public class GetFocusStepsAction : MonoBehaviour
 {
     [SerializeField] private StepTracker _stepTracker;
     [SerializeField] private string _tag;
-    [SerializeField] private RectTransform _focusMask;
     private void Start()
     {
         var taggedObj = GameObject.FindGameObjectWithTag(_tag);
-        if (taggedObj.TryGetComponent(out StepHolder stepHolder))
+        StepHolder stepholder = taggedObj?.GetComponentInChildren<StepHolder>();
+        if (stepholder)
         {
-            _stepTracker.AddStep(stepHolder.Steps);
+            _stepTracker.AddStep(stepholder.Steps);
         }
     }
 }

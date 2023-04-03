@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class StepHolder : MonoBehaviour
 {
-    [SerializeField] private List<Step> _steps = new List<Step>();
+    private List<Step> _steps = new List<Step>();
     public List<Step> Steps
     {
-        get 
-        { 
-            //gameObject.SetActive(false);
+        get
+        {
+            if (_steps.Count == 0)
+            {
+                GetSteps();
+            }
             return _steps; 
         }
+    }
+
+    private void GetSteps()
+    {
+        _steps.AddRange(GetComponentsInChildren<Step>());
     }
 }

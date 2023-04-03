@@ -159,7 +159,7 @@ public class PodiumController : MiniGame
         GameManager.Instance.EnterMiniGameSystem();
     }
 
-    public void SetPlayerReference(PlayableDirector director, Animator animator, string trackName)
+    private void SetPlayerReference(PlayableDirector director, Animator animator, string trackName)
     {
         // Reference:
         // https://forum.unity.com/threads/need-to-set-bindings-at-runtime.851503/

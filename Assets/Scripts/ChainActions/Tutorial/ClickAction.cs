@@ -6,21 +6,23 @@ using UnityEngine.Playables;
 
 public class ClickAction : ChainActionMonoBehaviour
 {
-    [SerializeField] private TutorialFocusMask _focusMask;
+    [SerializeField] private RectTransform _focusMask;
     [SerializeField] private LayerMask _layerToClickOn;
 
     private TutorialSystem _tutorialSystem;
+    private TutorialFocusMask _tutorialFocus;
 
     private void Start()
     {
         _startMaxTime = Mathf.Infinity;
+        _tutorialFocus = new TutorialFocusMask();
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
 
-        _focusMask.Initialize();
+        _tutorialFocus.Initialize(ref _focusMask);
 
         // Subscribe to click event
         _tutorialSystem = GameManager.Instance.CurrentGameSystem as TutorialSystem;
@@ -32,11 +34,11 @@ public class ClickAction : ChainActionMonoBehaviour
 
     private void OnClick(RaycastHit hit, Vector3 mousePos)
     {
-        var posInImage = mousePos - _focusMask.Mask.transform.position;
+        var posInImage = mousePos - _focusMask.transform.position;
 
         // Check if mousepos is inside of mask
-        if (posInImage.x >= -(_focusMask.Mask.rect.width / 2f) && posInImage.x < _focusMask.Mask.rect.width / 2f &&
-            posInImage.y >= -(_focusMask.Mask.rect.height / 2f) && posInImage.y < _focusMask.Mask.rect.height / 2f)
+        if (posInImage.x >= -(_focusMask.rect.width / 2f) && posInImage.x < _focusMask.rect.width / 2f &&
+            posInImage.y >= -(_focusMask.rect.height / 2f) && posInImage.y < _focusMask.rect.height / 2f)
         {
             // Check layer bitflag for correct layer clicked
             if (((1 << hit.collider.gameObject.layer) & _layerToClickOn) != 0)

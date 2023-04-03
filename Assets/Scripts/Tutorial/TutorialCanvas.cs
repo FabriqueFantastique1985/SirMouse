@@ -2,10 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
-[Serializable]
-public class TutorialFocusMask
+public class TutorialCanvas
 {
     private const string _tutorialFocusTag = "TutorialFocus";
 
@@ -13,13 +11,13 @@ public class TutorialFocusMask
     /// Will initialize focusmask in case it has not been set in inspecor. 
     /// Will look for an object with tag "tutorial focus" which has a RectTransform component
     /// </summary>
-    public void Initialize(ref RectTransform focusMask)
+    public void Initialize(ref Canvas canvas)
     {
-        if (!focusMask)
+        if (!canvas)
         {
             try
             {
-                SearchFocusMask(ref focusMask);
+                SearchFocusMask(ref canvas);
             }
             catch (NullReferenceException e)
             {
@@ -32,12 +30,12 @@ public class TutorialFocusMask
         }
     }
 
-    private void SearchFocusMask(ref RectTransform focusMask)
+    private void SearchFocusMask(ref Canvas canvas)
     {
         var go = GameObject.FindGameObjectWithTag(_tutorialFocusTag);
-        RectTransform transform = go.GetComponent<RectTransform>();
-        if (transform == null)
+        Canvas foundCanvas = go.GetComponentInParent<Canvas>();
+        if (foundCanvas == null)
             throw new MissingComponentException();
-        focusMask = transform;
+        canvas = foundCanvas;
     }
 }
