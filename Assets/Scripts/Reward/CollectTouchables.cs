@@ -2,17 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityCore.Audio;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 public class CollectTouchables : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer _insideSpriteRenderer;
-    [SerializeField] private SpriteRenderer _topSpriteRenderer;
-    [SerializeField] private Sprite _topOpen;
-    [SerializeField] private Sprite _topClosed;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Material _baseMaterial;
     [SerializeField] private Material _outlineMaterial;
 
@@ -28,10 +24,6 @@ public class CollectTouchables : MonoBehaviour
 
     bool _hasCollectedEverything = false;
 
-    [SerializeField] private AudioElement _openSound;
-    [SerializeField] private AudioElement _closeSound;
-    [SerializeField] private AudioElement _DropInSound;
-
     private void Start()
     {
         var moveObjects = FindObjectsOfType<Touch_Move>();
@@ -42,7 +34,7 @@ public class CollectTouchables : MonoBehaviour
         }
         _toCollectAmount = moveObjects.Count();
 
-        _insideSpriteRenderer.material = _baseMaterial;
+        _spriteRenderer.material = _baseMaterial;
         _gradient.SetActive(false);
     }
 
@@ -59,20 +51,15 @@ public class CollectTouchables : MonoBehaviour
     private void OnPickup(Touch_Move obj)
     {
         // hightlight box
-        _insideSpriteRenderer.material = _outlineMaterial;
+        _spriteRenderer.material = _outlineMaterial;
         _gradient.SetActive(true);
-        _topSpriteRenderer.sprite = _topOpen;
-        AudioController.Instance.PlayAudio(_openSound);
     }
 
     private void OnDrop(Touch_Move obj)
     {
         // remove hightlight box
-        _insideSpriteRenderer.material = _baseMaterial;
+        _spriteRenderer.material = _baseMaterial;
         _gradient.SetActive(false);
-        _topSpriteRenderer.sprite = _topClosed;
-        AudioController.Instance.PlayAudio(_closeSound);
-
 
         // Raycast to check if mouse is above chest
         Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
@@ -85,7 +72,6 @@ public class CollectTouchables : MonoBehaviour
             if (hit.collider.gameObject == gameObject)
             {
                 ++_collectedAmount;
-                AudioController.Instance.PlayAudio(_DropInSound);
 
                 if (!_hasCollectedEverything && _collectedAmount >= _toCollectAmount && _skinsToReward.Count > 0) 
                 {
