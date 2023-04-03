@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class SoundtrackPlayer : MonoBehaviour
 {
-    [SerializeField]
-    private AudioSource _audioSource;
+    public static SoundtrackPlayer Instance;
+
+    public AudioSource AudioSource;
     [SerializeField]
     private AudioClip[] _soundtracks;
     [SerializeField]
@@ -18,7 +20,12 @@ public class SoundtrackPlayer : MonoBehaviour
 
     private void Awake()
     {
-        _audioSource.loop = false;     
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        AudioSource.loop = false;     
         _soundtrackIndex = _soundtracks.Length;
     }
 
@@ -31,7 +38,7 @@ public class SoundtrackPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (!_audioSource.isPlaying)
+        if (!AudioSource.isPlaying)
         {
             if (_timer < _breakSeconds)
             {
@@ -70,9 +77,9 @@ public class SoundtrackPlayer : MonoBehaviour
             }
         }
         
-        _audioSource.clip = _soundtracks[_soundtrackIndex];
+        AudioSource.clip = _soundtracks[_soundtrackIndex];
         
-        _audioSource.Play();
+        AudioSource.Play();
 
     }
 }

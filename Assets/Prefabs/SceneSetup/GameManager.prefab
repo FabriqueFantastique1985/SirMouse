@@ -577,49 +577,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AudioElementals:
   - Clip: {fileID: 8300000, guid: f436e7cee1849334a87dd767710cd164, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   - Clip: {fileID: 8300000, guid: 1731f2a8050051646beeeb51b9a3c57c, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   AudioOST:
   - Clip: {fileID: 8300000, guid: de581cf35d476294894fd250286c1b08, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 1
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   - Clip: {fileID: 8300000, guid: 8497fb7206cd16d469b8842c249993b3, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 1
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   AudioUI:
   - Clip: {fileID: 8300000, guid: 5f415353cc9122e43a78faaa9c5e7b6a, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 2
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   - Clip: {fileID: 8300000, guid: 7d573405a00bff5418d554e6c25f59fd, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 2
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
 --- !u!114 &1678140582472475876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,7 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46bee68b48aadb542829862d9f5539f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 4775276091027925668}
+  AudioSource: {fileID: 4775276091027925668}
   _soundtracks:
   - {fileID: 8300000, guid: f2ee38f9a9351a64eaebdeaa498d3493, type: 3}
   - {fileID: 8300000, guid: 96d3a784a2d2b8744b331ce556ead9f3, type: 3}
