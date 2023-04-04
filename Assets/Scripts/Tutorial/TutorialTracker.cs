@@ -33,6 +33,7 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     {
         if (_isTutorialComplete.ContainsKey(tutorial))
         {
+            DataPersistenceManager.Instance.SaveGame();
             _isTutorialComplete[tutorial] = true;
             return;
         }
@@ -43,10 +44,12 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     public void LoadData(GameData data)
     {
         // For each tutorial scriptable object, save the IsTutorialFinished boolean
+        _isTutorialComplete = data.IsTutorialComplete;
     }
 
     public void SaveData(ref GameData data)
     {
         // For each tutorial scriptable object, load the IsTutorialFinished boolean
+        data.IsTutorialComplete = _isTutorialComplete;
     }
 }

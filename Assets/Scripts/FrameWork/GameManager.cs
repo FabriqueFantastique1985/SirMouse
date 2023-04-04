@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         _previousSystem = _currentGameSystem;
         _currentGameSystem = new TutorialSystem(Player, LayersTutorialSystemWillIgnore);
-        
+
         // make sleeping illegal
         Player.Character.SetBoolSleeping(true);
     }

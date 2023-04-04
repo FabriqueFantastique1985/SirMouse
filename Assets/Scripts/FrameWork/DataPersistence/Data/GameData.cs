@@ -10,7 +10,7 @@ public class GameData
 
     public int MiniGameStepIndex = 0;
 
-    public Dictionary<TutorialData, bool> _isTutorialComplete = new Dictionary<TutorialData, bool>(); 
+    public Dictionary<TutorialData, bool> IsTutorialComplete = new Dictionary<TutorialData, bool>(); 
 
     // These should be initial values to start with 
     public GameData()
