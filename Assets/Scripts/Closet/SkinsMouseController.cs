@@ -441,10 +441,9 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 tempListUI.Add(skinPiecesForBodyUIX.MySkinPieces[i]);
 
                 // link the score that was set on the Closet
-                skinPiecesForBodyX.MySkinPieces[i].Data.ScoreValue = skinPieceElement.Data.ScoreValue;
-                skinPiecesForBodyUIX.MySkinPieces[i].Data.ScoreValue =
-                    skinPieceElement.Data
-                        .ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
+                skinPiecesForBodyX.MySkinPieces[i].ScoreValue = skinPieceElement.ScoreValue;
+                skinPiecesForBodyUIX.MySkinPieces[i].ScoreValue =
+                    skinPieceElement.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
 
                 break;
             }
@@ -471,7 +470,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             EquipedSkinPiecesUI.Add(tempListUI[i]);
 
             // de-activate old geo if Hide == true
-            if (tempList[i].Data.HidesSirMouseGeometry == true)
+            if (tempList[i].HidesSirMouseGeometry == true)
             {
                 SetSirMouseGeometryState(skinPieceElement.Data.MyBodyType, false);
             }
@@ -500,8 +499,8 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
                 // TODO: do this once and in the editor 28/03/23
                 // link the score that was set on the Closet
-                 skinPiecesForBodyX.MySkinPieces[i].Data.ScoreValue = tempSkinPiece.Data.ScoreValue; 
-                 skinPiecesForBodyUIX.MySkinPieces[i].Data.ScoreValue = tempSkinPiece.Data.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
+                 skinPiecesForBodyX.MySkinPieces[i].ScoreValue = tempSkinPiece.ScoreValue; 
+                 skinPiecesForBodyUIX.MySkinPieces[i].ScoreValue = tempSkinPiece.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
 
                 // this logic is what applies the skins on the player character
                 tempSkinPiece.gameObject.SetActive(true);
@@ -514,7 +513,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 EquipedSkinPiecesUI.Add(tempSkinPieceUI);
 
                 // de-activate old geo if Hide == true
-                SetSirMouseGeometryState(bodyType, !tempSkinPiece.Data.HidesSirMouseGeometry);
+                SetSirMouseGeometryState(bodyType, !tempSkinPiece.HidesSirMouseGeometry);
 
                 Debug.Log("Equiping piece " + tempSkinPiece);
                 DebugConsoleScore();
@@ -656,7 +655,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         // Set correct score for each body part in dictionary
         for (int i = 0; i < EquipedSkinPieces.Count; i++)
         {
-            _bodyPiecesScore[EquipedSkinPieces[i].Data.MyBodyType] = EquipedSkinPieces[i].Data.ScoreValue;
+            _bodyPiecesScore[EquipedSkinPieces[i].Data.MyBodyType] = EquipedSkinPieces[i].ScoreValue;
         }
 
         // Loop over dictionary and add to total score

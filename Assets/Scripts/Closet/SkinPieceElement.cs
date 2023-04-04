@@ -9,6 +9,11 @@ public class SkinPieceElement : MonoBehaviour
 {
     public SkinPieceElementData Data;
     
+    public bool HidesSirMouseGeometry;
+
+    [Header("To Assign only in Closet Buttons")]
+    public int ScoreValue;
+    
     #region SetScoreValue
     private static int _maxScore = 0;
     public static int MaxScore
@@ -26,7 +31,7 @@ public class SkinPieceElement : MonoBehaviour
     {
         if (_maxScore > 0)
         {
-            Data.ScoreValue = Mathf.Clamp(Data.ScoreValue, 0, _maxScore);
+            ScoreValue = Mathf.Clamp(ScoreValue, 0, _maxScore);
         }
     }
     #endregion
@@ -37,9 +42,4 @@ public class SkinPieceElementData
 {
     public Type_Body MyBodyType;
     public Type_Skin MySkinType;
-
-    public bool HidesSirMouseGeometry;
-
-    [Header("To Assign only in Closet Buttons")]
-    public int ScoreValue;
 }

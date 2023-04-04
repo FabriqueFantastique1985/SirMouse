@@ -138,8 +138,8 @@ public class ClosetController : MonoBehaviour
 
         CurrentlyHeldSkinPiece.Data.MyBodyType = skinPieceElement.Data.MyBodyType;  // null ref
         CurrentlyHeldSkinPiece.Data.MySkinType = skinPieceElement.Data.MySkinType;
-        CurrentlyHeldSkinPiece.Data.HidesSirMouseGeometry = skinPieceElement.Data.HidesSirMouseGeometry;
-        CurrentlyHeldSkinPiece.Data.ScoreValue = skinPieceElement.Data.ScoreValue;
+        CurrentlyHeldSkinPiece.HidesSirMouseGeometry = skinPieceElement.HidesSirMouseGeometry;
+        CurrentlyHeldSkinPiece.ScoreValue = skinPieceElement.ScoreValue;
 
         //        AudioController.Instance.PlayAudio(AudioElements[0]);
 
