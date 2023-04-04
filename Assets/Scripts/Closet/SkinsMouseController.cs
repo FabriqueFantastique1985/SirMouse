@@ -403,7 +403,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         List<SkinPieceElement> tempList = new List<SkinPieceElement>();
         for (int i = 0; i < EquipedSkinPieces.Count; i++)
         {
-            if (EquipedSkinPieces[i].MyBodyType == Type_Body.Sword || EquipedSkinPieces[i].MyBodyType == Type_Body.Shield)
+            if (EquipedSkinPieces[i].Data.MyBodyType == Type_Body.Sword || EquipedSkinPieces[i].Data.MyBodyType == Type_Body.Shield)
             {
                 tempList.Add(EquipedSkinPieces[i]);
             }
@@ -418,7 +418,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         }
         else if (tempList.Count > 0)
         {
-            if (tempList[0].MyBodyType == Type_Body.Sword)
+            if (tempList[0].Data.MyBodyType == Type_Body.Sword)
             {
                 // show the sword skin
                 tempList[0].gameObject.SetActive(showMe);
@@ -507,7 +507,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
             Debug.Log("Equiping piece " + tempList[i]);
             
-            if (tempListToClear[i].MyBodyType == Type_Body.Sword || tempListToClear[i].MyBodyType == Type_Body.Shield)
+            if (tempList[i].Data.MyBodyType == Type_Body.Sword || tempList[i].Data.MyBodyType == Type_Body.Shield)
             {
                 // if i have equipment out...
                 var hasInstrumentEquiped = InstrumentController.Instance.EquipedInstrument != Type_Instrument.None;
