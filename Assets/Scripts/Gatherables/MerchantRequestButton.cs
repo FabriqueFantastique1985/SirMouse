@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class MerchantRequestButton : MonoBehaviour, IClickable
@@ -36,6 +37,8 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
         _myMerchant.CurrentRequest.ClickedButtonOfResourceX(ResourceToDeliver.ResourceType);
 
         _myMerchant.CurrentRequest.CheckRequestFinished();
+
+        AudioController.Instance.PlayAudio(_myMerchant.AudioMerchantButtonClicked);
     }
 
 

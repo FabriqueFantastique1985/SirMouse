@@ -51,13 +51,11 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
     public void DeliverResource(Type_Resource resourceType)
     {
         // find non-delivered resource to give
-        bool foundResourceToFill = false;
         for (int i = 0; i < _requestedResources.Count; i++)
         {
             if (_requestedResources[i].ResourceType == resourceType && _requestedResources[i].Delivered == false)
             {
-                _requestedResources[i].Delivered = true;
-                foundResourceToFill = true;                
+                _requestedResources[i].Delivered = true;              
                 break;
             }
         }
