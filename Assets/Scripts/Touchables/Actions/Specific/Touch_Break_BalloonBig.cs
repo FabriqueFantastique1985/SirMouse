@@ -29,11 +29,18 @@ public class Touch_Break_BalloonBig : Touch_Action
             randomBalloon.SpriteParent.SetActive(false);
 
             // check if this was the last balloon
-            if (_balloonChildren.Count < 0)
-            {
-                this.gameObject.SetActive(false);
+            if (_balloonChildren.Count <= 0)
+            {               
+                StartCoroutine(DisableBalloon());
             }
         }
 
+    }
+
+    private IEnumerator DisableBalloon()
+    {
+        yield return new WaitForSeconds(1f);
+
+        this.gameObject.SetActive(false);
     }
 }

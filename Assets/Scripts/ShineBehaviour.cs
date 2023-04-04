@@ -19,6 +19,17 @@ public class ShineBehaviour : MonoBehaviour
     {
         IsShineActive = _isShineActive;
         _shineDelay = Random.Range(_shineDelayMin, _shineDelayMax);
+        foreach (var renderer in _spriteRenderers)
+        {
+            if (renderer.flipX)
+            {
+                renderer.material.SetInt("_IsFlippedX", 1);
+            }
+            if (renderer.flipY)
+            {
+                renderer.material.SetInt("_IsFlippedY", 1);
+            }
+        }
     }
 
     private void OnEnable()
@@ -57,7 +68,9 @@ public class ShineBehaviour : MonoBehaviour
         SetParameters();
 
         // Delay shine at game start
-        float showTime = 1f / renderer.material.GetFloat("_ScrollSpeed");
+        float scrollSpeed = renderer.material.GetFloat("_ScrollSpeed");
+        Assert.IsFalse(scrollSpeed == 0, "Shine material was not correctly set in object:" + gameObject.name);
+        float showTime = 1f / scrollSpeed;
 
         yield return new WaitForSeconds(_shineDelay);
 

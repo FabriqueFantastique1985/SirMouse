@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -265,5 +266,113 @@ public class BackpackExtractionState : SirMouseState
 
         // 2) put new pickup into hands (player.equip) 
         _player.Equip(_interactableToExtract, true);
+    }
+}
+
+
+public class InstrumentEquipState : SirMouseState
+{
+    private Type_Instrument _instrumentType;
+    private bool _isTwoHanded = false;
+
+
+    public InstrumentEquipState(Player player, Type_Instrument typeInstrument, bool isTwoHandPickup = false)
+        : base(player, true)
+    {
+        _instrumentType = typeInstrument;
+        _isTwoHanded = isTwoHandPickup;
+    }
+
+    public override void OnEnter(Player player)
+    {
+        base.OnEnter(player);
+
+        player.Character.SetAnimatorTrigger(Character.States.InstrumentEquip, IsMirrored);
+
+        // reset the layer weights so the animation on body plays as intended
+        player.Character.GetComponent<Animator>().SetLayerWeight(2, 0);
+        player.Character.GetComponent<Animator>().SetLayerWeight(3, 0); // always 2 handed animation...
+
+        player.Character.AnimationDoneEvent += OnAnimationDone;
+        player.Character.InteractionDoneEvent += OnInteractionDone;
+        player.Character.EnteredIdleEvent += OnIdleEntered;
+
+        //Debug.Log("Entered Equiping State");
+    }
+
+
+    public override void OnExit(Player player)
+    {
+        base.OnExit(player);
+
+        player.Character.AnimationDoneEvent -= OnAnimationDone;
+        player.Character.InteractionDoneEvent -= OnInteractionDone;
+        player.Character.EnteredIdleEvent -= OnIdleEntered;
+    }
+
+    private void OnAnimationDone(Character.States state)
+    {
+        // 3) set layer weights depending on the interactable specifics
+        if (_isTwoHanded == true)
+        {
+            _player.Character.GetComponent<Animator>().SetLayerWeight(3, 1);
+        }
+        else
+        {
+            _player.Character.GetComponent<Animator>().SetLayerWeight(3, 0);
+            _player.Character.GetComponent<Animator>().SetLayerWeight(2, 1);
+        }
+
+
+        _player.SetState(new IdleState(_player));
+    }
+
+    private void OnIdleEntered(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
+    }
+
+    private void OnInteractionDone(Character.States state)
+    {
+        InstrumentController.Instance.EquipInstrument(_instrumentType);
+    }
+}
+
+
+public class InstrumentUnequipState : SirMouseState
+{
+    public InstrumentUnequipState(Player player) : base(player, true)
+    {
+        player.Character.InteractionDoneEvent += OnInteractionDone;
+        player.Character.EnteredIdleEvent += OnEnteredIdle;
+    }
+
+    public override void OnEnter(Player player)
+    {
+        base.OnEnter(player);
+
+        player.Character.SetAnimatorTrigger(Character.States.InstrumentUnequip, IsMirrored);
+
+        //Debug.Log("Entered Unequiping State");
+    }
+
+    public override void OnExit(Player player)
+    {
+        base.OnExit(player);
+
+        player.Character.InteractionDoneEvent -= OnInteractionDone;
+        player.Character.EnteredIdleEvent -= OnEnteredIdle;
+
+
+    }
+
+    private void OnInteractionDone(Character.States state)
+    {
+        InstrumentController.Instance.UnEquipInstrument();
+    }
+
+    private void OnEnteredIdle(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
     }
 }

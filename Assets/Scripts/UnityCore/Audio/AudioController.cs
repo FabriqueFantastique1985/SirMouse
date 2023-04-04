@@ -44,6 +44,8 @@ namespace UnityCore
                 public AudioJob(AudioElement audioEM, AudioAction action, bool fade, float delay)
                 {
                     AudioEM.Clip = audioEM.Clip;
+                    AudioEM.Clips = audioEM.Clips;
+                    AudioEM.RandomizeClips = audioEM.RandomizeClips;
                     AudioEM.Type = audioEM.Type;
                     AudioEM.Volume = audioEM.Volume;
                     AudioEM.Pitch = audioEM.Pitch;
@@ -223,6 +225,7 @@ namespace UnityCore
 
             private void AddJobClip(AudioJob job)
             {
+                
                 IEnumerator jobRunner = null;
 
                 if (job.AudioEM.Clip == null)
@@ -259,15 +262,27 @@ namespace UnityCore
 
                 // adjust pitch slightly if bool was checked
                 if (job.AudioEM.RandomizePitchSlightly == true)
-                {
+                {   
                     float bottomLimit = pitchToUse - job.AudioEM.PitchLowerLimitAddition;
                     float upperLimit = pitchToUse + job.AudioEM.PitchUpperLimitAddition;
 
                     float randomPitch = Random.Range(bottomLimit, upperLimit);
 
+                    if (job.AudioEM.RangeLimit == true && randomPitch > job.AudioEM.PitchUpperLimitRange && randomPitch < job.AudioEM.PitchLowerLimitRange)
+                    {
+                        randomPitch = 1;
+                    }
+
                     pitchToUse = randomPitch;
                 }
 
+                // ramdom track from list
+                if (job.AudioEM.RandomizeClips == true )
+                {
+                    int randomIndex = Random.Range(0, job.AudioEM.Clips.Count);
+                    Debug.Log("Random index: " + randomIndex);
+                    job.AudioEM.Clip = job.AudioEM.Clips[randomIndex];
+                }
 
                 if (trackToUse != null)
                 {
