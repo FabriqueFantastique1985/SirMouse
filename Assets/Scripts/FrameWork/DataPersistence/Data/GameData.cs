@@ -7,12 +7,10 @@ using UnityEngine.Serialization;
 [Serializable]
 public class GameData
 {
-
-    public int MiniGameStepIndex = 0;
-
+    /// <summary>
+    /// Indices for every minigame. 
+    /// </summary>
     public Dictionary<string, int> MinigamesIndices = new Dictionary<string, int>();
-    public Dictionary<string, bool> ResourcesPickedUp = new Dictionary<string, bool>();
-    public Dictionary<string, bool> InstrumentsPickedUp = new Dictionary<string, bool>();
 
     /// <summary>
     /// Equiped skin pieces RM is wearing. 
@@ -20,10 +18,13 @@ public class GameData
     public List<SkinPieceElementData> EquipedSkinPiecesData = new List<SkinPieceElementData>();
     public List<ButtonSkinPieceData> ButtonsSkinPieceData = new List<ButtonSkinPieceData>();
 
-    public Dictionary<int, MerchantData> MerchantData = new Dictionary<int, MerchantData>(); 
+    public Dictionary<int, MerchantData> MerchantData = new Dictionary<int, MerchantData>();
 
-    public Dictionary<TutorialData, bool> IsTutorialComplete = new Dictionary<TutorialData, bool>(); 
-
+    /// <summary>
+    /// string is the id of the gatherable and bool is if it has been gathered or not.
+    /// </summary>
+    public Dictionary<string, bool> GatherableData = new Dictionary<string, bool>();
+    
     // These should be initial values to start with 
     public GameData()
     {

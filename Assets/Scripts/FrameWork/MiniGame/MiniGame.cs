@@ -22,6 +22,9 @@ public class MiniGame : MonoBehaviour, IDataPersistence
 
     #region EditorFields
 
+    [SerializeField]
+    private string _id;
+
     /// <summary>
     /// Reference to the game object that is used to quit the minigame.
     /// </summary>
@@ -53,10 +56,17 @@ public class MiniGame : MonoBehaviour, IDataPersistence
     
     private void Awake()
     {
+        if (_id == string.Empty) GenerateGuid();
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        _id = System.Guid.NewGuid().ToString();
+    }
+    
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         if (_hasBeenCompleted == false && IsCurrentStepIndexInRange)
@@ -132,11 +142,11 @@ public class MiniGame : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        _currentStepIndex = data.MiniGameStepIndex;
+        _currentStepIndex =  data.MinigamesIndices[_id];
     }
 
     public void SaveData(ref GameData data)
     {
-        data.MiniGameStepIndex = _currentStepIndex;
+        data.MinigamesIndices[_id] = _currentStepIndex;
     }
 }

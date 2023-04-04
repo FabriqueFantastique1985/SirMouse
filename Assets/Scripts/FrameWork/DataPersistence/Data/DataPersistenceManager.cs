@@ -32,7 +32,7 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
     private void Awake()
     {
         base.Awake();
-        _dataHandler = new FileDataHandler(Path.Combine(Application.persistentDataPath, "Scenes"), SceneManager.GetActiveScene().name + "_" + fileName);
+        _dataHandler = new FileDataHandler(Path.Combine(Application.persistentDataPath), fileName);
     }
 
     private void OnEnable()
