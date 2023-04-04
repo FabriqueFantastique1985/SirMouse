@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
 
-public class Merchant : MonoBehaviour
+public class MerchantData
 {
+    public int CurrentRequestIndex;
+    public List<bool> DeliverableResourcesFound;
+}
+
+
+public class Merchant : MonoBehaviour, IDataPersistence
+{
+    
+
     [Header("Merchant of Interest child")]
     [SerializeField]
     private MerchantOfInterest _merchantOfInterest;
@@ -86,4 +95,21 @@ public class Merchant : MonoBehaviour
             _merchantOfInterest.HideIconPermanently();
         }
     }
+
+    public void LoadData(GameData data)
+    {
+        var merchantData = data.MerchantData[gameObject.GetInstanceID()];
+        //_merchantRequests
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        MerchantData merchantData = new MerchantData();
+        // fill in merchant data
+        //merchantData.
+
+        data.MerchantData[gameObject.GetInstanceID()] = merchantData;
+    }
 }
+
+
