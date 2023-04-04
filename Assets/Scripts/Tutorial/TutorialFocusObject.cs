@@ -24,32 +24,30 @@ public class TutorialFocusObject : MonoBehaviour
 
     private void Update()
     {
+        // Disable update if this tutorial is completed
+        if (_tutorialData.IsTutorialFinished)
+        {
+            enabled = false;
+            return;
+        }
+
+        // Do not start tutorial if another tutorial is playing
+        if (_isTutorialPlaying)
+        {
+            return;
+        }
+
+        // Check if object is within borders of screen
         Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
         bool onScreen = screenPoint.x > _screenBorder && screenPoint.x < 1f - _screenBorder && screenPoint.y > _screenBorder && screenPoint.y < 1f - _screenBorder;
         if (onScreen && _spriteRenderer.isVisible)
         {
-            if (!_tutorialData.IsTutorialFinished)
-            {
-                StartCoroutine(WaitForTutorial());
-            }
+            PlayTutorial();
         }
     }
 
-    private IEnumerator WaitForTutorial()
+    private void PlayTutorial()
     {
-        // Wait for other tutorials to finish
-        while (_isTutorialPlaying)
-        {
-            yield return null;
-        }
-
-        // Check if completed tutorial is not this tutorial
-        if (_tutorialData.IsTutorialFinished)
-        {
-            _stepTracker.gameObject.SetActive(false);
-            yield break;
-        }
-
         _isTutorialPlaying = true;
 
         // Instantiate object with steps to go through tutorial
