@@ -17,7 +17,7 @@ public class TutorialFocusObject : MonoBehaviour
     private void Update()
     {
         // Disable update if this tutorial is completed
-        if (_tutorialData.IsTutorialFinished)
+        if (TutorialTracker.Instance.IsTutorialComplete(_tutorialData))
         {
             enabled = false;
             return;
@@ -64,7 +64,7 @@ public class TutorialFocusObject : MonoBehaviour
         _stepTracker.OnStepsCompleted -= OnTutorialFinished;
 
         // Update tutorial data
-        _tutorialData.IsTutorialFinished = true;
+        TutorialTracker.Instance.CompletedTutorial(_tutorialData);
         _isTutorialPlaying = false;
 
         // Deactivate step tracker

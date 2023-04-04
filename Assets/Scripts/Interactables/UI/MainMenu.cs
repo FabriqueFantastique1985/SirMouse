@@ -31,6 +31,5 @@ public class MainMenu : MonoBehaviour
     {
         await Task.Run(DataPersistenceManager.Instance.ClearGame);
         Loader.Instance.LoadScene(_toLoadScene);
-        TutorialTracker.Instance.ResetTutorialStates();
     }
 }

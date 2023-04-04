@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>
+public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPersistence
 {
-    private List<TutorialData> _tutorialData = new List<TutorialData>();
+    private Dictionary<TutorialData, bool> _isTutorialComplete = new Dictionary<TutorialData, bool>();
 
     protected override void Awake()
     {
@@ -14,15 +14,39 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
             var data = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
-            _tutorialData.Add(data);
+            _isTutorialComplete.Add(data, false);
         }
     }
 
-    public void ResetTutorialStates()
+    public bool IsTutorialComplete(TutorialData tutorial)
     {
-        foreach (var tutorial in _tutorialData)
+        if (_isTutorialComplete.ContainsKey(tutorial))
         {
-            tutorial.IsTutorialFinished = false;
+            return _isTutorialComplete[tutorial];
         }
+
+        Debug.Log("TutorialData object could not be found in dictionary, is it located in the correct folder?");
+        return false;
+    }
+
+    public void CompletedTutorial(TutorialData tutorial)
+    {
+        if (_isTutorialComplete.ContainsKey(tutorial))
+        {
+            _isTutorialComplete[tutorial] = true;
+            return;
+        }
+
+        Debug.Log("TutorialData object could not be found in dictionary, is it located in the correct folder?");
+    }
+
+    public void LoadData(GameData data)
+    {
+        // For each tutorial scriptable object, save the IsTutorialFinished boolean
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        // For each tutorial scriptable object, load the IsTutorialFinished boolean
     }
 }
