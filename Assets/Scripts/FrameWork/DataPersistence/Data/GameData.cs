@@ -17,8 +17,8 @@ public class GameData
     /// <summary>
     /// Equiped skin pieces RM is wearing. 
     /// </summary>
-    [FormerlySerializedAs("EquipedSkinPieces")] public List<SkinPieceElementData> EquipedSkinPiecesData = new List<SkinPieceElementData>();
-    public List<SkinPiecesForThisBodyTypeButton> ListsOfButtons = new List<SkinPiecesForThisBodyTypeButton>();
+    public List<SkinPieceElementData> EquipedSkinPiecesData = new List<SkinPieceElementData>();
+    public List<ButtonSkinPieceData> ButtonsSkinPieceData = new List<ButtonSkinPieceData>();
 
    // public Dictionary<string, List<ObjectData>> InteractablesPerScene = new Dictionary<string, List<ObjectData>>();
 
