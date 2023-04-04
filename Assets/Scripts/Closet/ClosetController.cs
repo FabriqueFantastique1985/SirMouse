@@ -9,15 +9,15 @@ public class ClosetController : MonoBehaviour
 {
     public static ClosetController Instance { get; private set; }
 
-    public LayerMask LayersToCastOn;
-    public GameObject PanelToInstantiateClosetImagesOn;
-
+    [Header("Closet References")]
     public List<Page> PagesWithinCloset = new List<Page>();
-
-    public ButtonClosetNew ButtonCloset;
     public List<ButtonClosetOpenSpecificPieces> ButtonsClosetPagers = new List<ButtonClosetOpenSpecificPieces>();
-    public SkinPieceElement CurrentlyHeldSkinPiece;
+    public ButtonClosetSelect ButtonCloset;
 
+    public LayerMask LayersToCastOn;
+
+    [HideInInspector]
+    public SkinPieceElement CurrentlyHeldSkinPiece;
     [HideInInspector]
     public PageType PageTypeOpenedInClosetLastTime;
     [HideInInspector]
@@ -25,6 +25,7 @@ public class ClosetController : MonoBehaviour
     [HideInInspector]
     public Animation AnimationSpawnedObject;
 
+    [Header("Notification stuff")]
     //[HideInInspector]
     public List<ButtonSkinPiece> ButtonsWithNotifications = new List<ButtonSkinPiece>();
     //[HideInInspector]
@@ -42,11 +43,13 @@ public class ClosetController : MonoBehaviour
     private RaycastHit _hit;
 
     // below is for chugging things in the closet ...(am i sure bout this?)
+    [Header("Refs for throwing objects on UI page")]
+    public GameObject PanelToInstantiateClosetImagesOn;
+    [SerializeField]
+    private GameObject _panelInstantiatedUI;
     [SerializeField]
     private GameObject _emptyGameObject;
 
-    [SerializeField]
-    private GameObject _panelInstantiatedUI;
 
     float _speed;
     float _arcHeight;
@@ -188,16 +191,13 @@ public class ClosetController : MonoBehaviour
         // turn on the UI player things
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
         PageController.Instance.CameraUI_Backpack_Closet.enabled = true;
-
-        // sleeping ILLEGAL
-        GameManager.Instance.Player.Character.SetBoolSleeping(true);
     }
     public void CloseCloset()
     {
         //AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
 
         // close closet page
-        PageController.Instance.TurnPageOff(PageType.Closet);
+        PageController.Instance.TurnPageOff(PageType.BackpackCloset);
 
         // update ui images
         PageController.Instance.OpenClosetImage(false);
@@ -206,22 +206,27 @@ public class ClosetController : MonoBehaviour
         // this still needed ?
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(false);
         PageController.Instance.CameraUI_Backpack_Closet.enabled = false;
-
-        // sleeping allowed
-        GameManager.Instance.Player.Character.SetBoolSleeping(false);
     }
 
     // called on GiveReward() in RewardController
     public void AddNotificationToList(ButtonSkinPiece buttonSkinPiece)
-    {       
+    {
+        bool foundNotification = false;
         // found will always be true, so cannot use it here...
         if (ButtonsWithNotifications.Contains(buttonSkinPiece) == false)
         {
             if (buttonSkinPiece.HasBeenNotified == false)
             {
                 ButtonsWithNotifications.Add(buttonSkinPiece);
+                foundNotification = true;
             }          
-        }      
+        }
+
+        if (foundNotification == true)
+        {
+            PageController.Instance.ButtonBackpackSuper.IhaveNotificationsLeftCloset = true;
+            PageController.Instance.NotifyBackpackSuper();
+        }
     }
     public void NotificationActivater()
     {
@@ -327,53 +332,15 @@ public class ClosetController : MonoBehaviour
             {
                 ButtonCloset.IhaveNotificationsReadyInTheCloset = false;
                 ButtonCloset.NotificationObject.SetActive(false);
+
+                PageController.Instance.ButtonBackpackSuper.IhaveNotificationsLeftCloset = false;
+                PageController.Instance.NotifyBackpackSuper();
             }
         }
     }
 
 
 
-
-    // duplicate logic from BackpackController
-    /*
-    public IEnumerator ForceObjectInCloset(InteractionClosetAdd interactCloset, float scaleForImage = 1)
-    {
-        // get the world to screen pos of the interactible
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(interactCloset.transform.position);
-        Sprite interactableSprite = interactCloset.SkinSpriteRenderer.sprite;
-
-        var uiImageForCloset = Instantiate(_emptyGameObject, _panelInstantiatedUI.transform);
-        var uiImageComponent = uiImageForCloset.AddComponent<Image>();
-        uiImageComponent.sprite = interactableSprite;
-
-        // fix size of sprite
-        uiImageComponent.SetNativeSize();
-
-        uiImageForCloset.transform.localScale = new Vector3(scaleForImage, scaleForImage, scaleForImage);
-        uiImageForCloset.SetActive(true);
-
-        // the position of the bag
-        var targetPosition = ButtonCloset.transform.position;
-        // Calculate distance to target
-        float target_Distance = Vector2.Distance(targetPosition, screenPosition);
-
-        _speed = 400f;
-        _arcHeight = 0.5f;
-        _stepScale = 0f;
-        _progress = 0f;
-        _stepScale = _speed / target_Distance;
-        _arcHeight = _arcHeight * target_Distance;
-
-        _startPos = screenPosition;
-        _endPos = targetPosition;
-        _objectToMove = uiImageForCloset;
-
-
-        StartCoroutine(ChugObjectIntoBag(_objectToMove));
-
-        yield return null;
-    }
-    */
     public IEnumerator SetObjectToFalseAfterDelay(GameObject interactable, GameObject spriteParent)
     {
         yield return new WaitForSeconds(0.25f);
@@ -381,43 +348,5 @@ public class ClosetController : MonoBehaviour
         interactable.SetActive(false);
         spriteParent.SetActive(true);
         interactable.GetComponent<Interactable>().HideBalloonBackpack();
-    }
-
-
-
-
-
-
-    // duplicate logic from BackpackController
-    private void ImageArrivedInCloset(GameObject objectChugged)
-    {
-        // activates animation bag
-        ButtonCloset.PlayAnimationPress();
-
-        // destroy the UI image
-        Destroy(objectChugged);
-    }
-    private IEnumerator ChugObjectIntoBag(GameObject objectChugged)
-    {
-        float progress = 0;
-        float arcHeight = _arcHeight;
-
-        while (progress < 1.0f)
-        {
-            // Increment our progress from 0 at the start, to 1 when we arrive.
-            progress = Mathf.Min(progress + Time.deltaTime * _stepScale, 1.0f);
-            // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
-            float parabola = 1.0f - 4.0f * (progress - 0.5f) * (progress - 0.5f);
-            // Travel in a straight line from our start position to the target.        
-            Vector3 nextPos = Vector3.Lerp(_startPos, _endPos, progress);
-            // Then add a vertical arc in excess of this.
-            nextPos.y += parabola * arcHeight;
-            // Continue as before.                            
-            objectChugged.transform.position = nextPos;
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        ImageArrivedInCloset(objectChugged);
     }
 }

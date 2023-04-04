@@ -58,7 +58,7 @@ public class MiniGameSystem : GameSystem
             Ray ray = Camera.allCameras[0].ScreenPointToRay(currentTarget);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask))
             {
                 Debug.DrawLine(Camera.allCameras[0].transform.position, hit.point);
 

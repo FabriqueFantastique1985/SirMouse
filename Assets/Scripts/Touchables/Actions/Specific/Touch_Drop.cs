@@ -9,10 +9,13 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     [SerializeField] private Animator _animatorDrop;
     private bool _hasFallen = false;
 
+    private ShineBehaviour _shineBehaviour;
+
     protected override void Start()
     {
         base.Start();
         _droppedInteractable.SetActive(false);
+        _shineBehaviour = GetComponent<ShineBehaviour>();
     }
 
     public override void Act()
@@ -25,6 +28,9 @@ public class Touch_Drop : Touch_Action, IDataPersistence
             _animatorDrop.SetTrigger("Activate");
             //DataPersistenceManager.Instance.SaveGame();
             _hasFallen = true;
+
+            if(_shineBehaviour)
+                _shineBehaviour.IsShineActive = false;
         }
     }
 

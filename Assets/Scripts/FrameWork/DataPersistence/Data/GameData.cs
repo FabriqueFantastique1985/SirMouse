@@ -20,30 +20,11 @@ public class GameData
     public List<SkinPieceElementData> EquipedSkinPiecesData = new List<SkinPieceElementData>();
     public List<ButtonSkinPieceData> ButtonsSkinPieceData = new List<ButtonSkinPieceData>();
 
-   // public Dictionary<string, List<ObjectData>> InteractablesPerScene = new Dictionary<string, List<ObjectData>>();
+    public Dictionary<int, MerchantData> MerchantData = new Dictionary<int, MerchantData>(); 
 
     // These should be initial values to start with 
     public GameData()
     {
         
     }
-}
-
-/*public class ObjectData
-{
-    public Interactable;
-    public Vector3 Position;
-    public bool IsActive;
-    
-}*/
-
-public class SceneData
-{
-    public Dictionary<string, int> _miniGameStartIndices = new Dictionary<string, int>();
-    public List<Interactable> _interactables = new List<Interactable>();
-}
-
-public class GlobalGameData
-{
-    // contains data regarding clothing pieces equipped, clothing pieces unlocked
 }

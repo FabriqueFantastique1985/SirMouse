@@ -17,8 +17,19 @@ namespace UnityCore
 
             private Hashtable m_Pages;
 
-            public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
+            [Header("Buttons main UI")]
+            public ButtonBackpackSuper ButtonBackpackSuper;
+            public ButtonEquipToggle ButtonEquipToggle;
+            public ButtonBack ButtonBack;
 
+            [Header("Buttons inside BackpackSuper")]
+            public ButtonInstrumentSelect ButtonInstrumentSuper;
+            public ButtonClosetSelect ButtonClosetSuper;
+            public ButtonResourceSelect ButtonResourceSuper;
+
+
+            //public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
+            [Header("Camera extra for UI ??")]
             public Camera CameraUI_Backpack_Closet;
 
             #region Unity Functions
@@ -104,7 +115,7 @@ namespace UnityCore
             {
                 if (PageExists(pageType) == false)
                 {
-                    Debug.Log("You are trying to detect if a page is on [" + pageType + "], but it has not been registered");
+                    //Debug.Log("You are trying to detect if a page is on [" + pageType + "], but it has not been registered");
                     return false;
                 }
 
@@ -159,15 +170,38 @@ namespace UnityCore
             }
 
 
+
+            public void NotifyBackpackSuper()
+            {
+                if (ButtonBackpackSuper.IhaveNotificationsLeftCloset == false && ButtonBackpackSuper.IhaveNotificationsLeftInstruments == false)
+                {
+                    ButtonBackpackSuper.NotificationObject.SetActive(false);
+                }
+                else
+                {
+                    ButtonBackpackSuper.NotificationObject.SetActive(true);
+                }
+            }
+
+
             public void OpenBagImage(bool state)
             {
-                BackpackImage0.SetActive(!state);
-                BackpackImage1.SetActive(state);
+                //BackpackImage0.SetActive(!state);
+                //BackpackImage1.SetActive(state);
             }
             public void OpenClosetImage(bool state)
             {
-                ClosetImage0.SetActive(!state);
-                ClosetImage1.SetActive(state);
+                //ClosetImage0.SetActive(!state);
+                //ClosetImage1.SetActive(state);
+            }
+
+
+            public void ShowGameplayHUD(bool state)
+            {
+                ButtonBackpackSuper.gameObject.SetActive(state);
+                ButtonEquipToggle.gameObject.SetActive(state);
+
+                ButtonBack.gameObject.SetActive(!state);
             }
 
 

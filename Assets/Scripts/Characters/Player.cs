@@ -144,7 +144,6 @@ public class Player : MonoBehaviour, IClickable
         }
 
     }
-
     public void Drop()
     {
         if (_equippedItem != null)
@@ -165,6 +164,8 @@ public class Player : MonoBehaviour, IClickable
         _equippedItem = null;
         _equippedPickupType = Type_Pickup.None;
     }
+
+
 
     public void Click(Player player)
     {
