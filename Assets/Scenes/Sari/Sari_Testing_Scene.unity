@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.json
+  _initializeDataIfNull: 0
 --- !u!4 &13746018
 Transform:
   m_ObjectHideFlags: 0
@@ -393,7 +394,7 @@ Transform:
   - {fileID: 1751149707}
   - {fileID: 485843242}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &20490268
 GameObject:
@@ -10651,6 +10652,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5556641748133760770, guid: 6f864e9ad2a9b24479bd26e8f248df7a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f864e9ad2a9b24479bd26e8f248df7a, type: 3}
 --- !u!1 &1520667187
@@ -10737,6 +10743,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 480270562852503133, guid: fe8a7ecb60d23c047b40eb3cdc7afa0b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3094282487747526897, guid: fe8a7ecb60d23c047b40eb3cdc7afa0b,
         type: 3}
       propertyPath: m_RootOrder
@@ -15716,6 +15727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+  _allowRespawnInteractable: 1
   InteractionBalloon: {fileID: 0}
   _swapBalloon: {fileID: 1095346994}
   MyPickupType: 0
@@ -16468,7 +16480,7 @@ PrefabInstance:
     - target: {fileID: 1385039494480847312, guid: 1a7e1fd78891646479842348046f2fcd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1385039494480847312, guid: 1a7e1fd78891646479842348046f2fcd,
         type: 3}
