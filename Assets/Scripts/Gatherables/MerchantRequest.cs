@@ -16,7 +16,7 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
 
     [Header("Reward")]
     [SerializeField]
-    private List<SkinPieceElement> _skinRewards = new List<SkinPieceElement>();
+    private RewardList _rewards;
 
     [Header("Assign object in which the deliver balloon gets instantiated")]
     [SerializeField]
@@ -55,7 +55,9 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
         {
             if (_requestedResources[i].ResourceType == resourceType && _requestedResources[i].Delivered == false)
             {
-                _requestedResources[i].Delivered = true;              
+                _requestedResources[i].Delivered = true;     
+                
+
                 break;
             }
         }
@@ -69,13 +71,45 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
             CompletedRequest = true;
 
             // give rewards
-            RewardController.Instance.GiveReward(_skinRewards);
+            RewardController.Instance.GiveReward(_rewards.Rewards);
 
             // show other request
             _merchant.ShowNewRequest();
         }
     }
+    public void ClickedButtonOfResourceX(Type_Resource resourceType)
+    {
+        // check the buttons of the same resourceType...
+        // if there's more than 0, check if their resource is still something the player has...
+        // if not, disable the pulsing and the collider
 
+
+        // create temp list of buttons with a same type as the one clicked...
+        List<MerchantRequestButton> buttonsToDisablePulsing = new List<MerchantRequestButton>();
+        for (int i = 0; i < _myBalloon.MerchantRequestButtons.Count; i++)
+        {
+            var chosenButton = _myBalloon.MerchantRequestButtons[i];
+            if (chosenButton.ResourceToDeliver.Delivered == false)
+            {
+                if (chosenButton.ResourceToDeliver.ResourceType == resourceType)
+                {
+                    buttonsToDisablePulsing.Add(chosenButton);
+                }
+            }
+        }
+        // if I do not have any of this resource left -> disable the similar buttons
+        if (ResourceController.Instance.CheckIfIStillHaveMoreOfThisResource(resourceType) == false)
+        {
+            if (buttonsToDisablePulsing.Count > 0)
+            {
+                for (int i = 0; i < buttonsToDisablePulsing.Count; i++)
+                {
+                    buttonsToDisablePulsing[i].ActivatePulsing(false);
+                    buttonsToDisablePulsing[i].ActivateCollider(false);
+                }
+            }
+        }
+    }
 
 
 
@@ -114,42 +148,6 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
             buttonsToPulse[i].ActivateCollider(true);
         }
     }
-    public void ClickedButtonOfResourceX(Type_Resource resourceType)
-    {
-        // check the buttons of the same resourceType...
-        // if there's more than 0, check if their resource is still something the player has...
-        // if not, disable the pulsing and the collider
-
-
-        // create temp list of buttons with a same type as the one clicked...
-        List<MerchantRequestButton> buttonsToDisablePulsing = new List<MerchantRequestButton>();
-        for (int i = 0; i < _myBalloon.MerchantRequestButtons.Count; i++)
-        {
-            var chosenButton = _myBalloon.MerchantRequestButtons[i];
-            if (chosenButton.ResourceToDeliver.Delivered == false )
-            {
-                if (chosenButton.ResourceToDeliver.ResourceType == resourceType)
-                {
-                    buttonsToDisablePulsing.Add(chosenButton);
-                }
-            }
-        }
-        // if I do not have any of this resource left -> disable the similar buttons
-        if (ResourceController.Instance.CheckIfIStillHaveMoreOfThisResource(resourceType) == false)
-        {
-            if (buttonsToDisablePulsing.Count > 0)
-            {
-                for (int i = 0; i < buttonsToDisablePulsing.Count; i++)
-                {
-                    buttonsToDisablePulsing[i].ActivatePulsing(false);
-                    buttonsToDisablePulsing[i].ActivateCollider(false);
-                }
-            }
-        }
-    }
-
-
-
     private void CreatDeliveryBalloon()
     {
         GameObject createdBalloon = Instantiate(_merchant.BalloonDeliveryPrefabs[_requestedResources.Count - 1], BalloonDeliveryParent.transform);

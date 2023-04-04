@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 210642309805475938}
+  - component: {fileID: 653531482411573080}
   - component: {fileID: 5631375745959669953}
   m_Layer: 0
   m_Name: Rewards
@@ -31,6 +32,20 @@ Transform:
   m_Father: {fileID: 4141174114665076666}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &653531482411573080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335824730486390834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d298f7c81248c404ebbe6439577a548c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rewards:
+  - {fileID: 5631375745959669953}
 --- !u!114 &5631375745959669953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,8 +115,7 @@ MonoBehaviour:
     Delivered: 0
   - ResourceType: 1
     Delivered: 0
-  _skinRewards:
-  - {fileID: 5631375745959669953}
+  _rewards: {fileID: 653531482411573080}
   BalloonDeliveryParent: {fileID: 4141174115508960640}
   CompletedRequest: 0
   ShowingRequest: 0

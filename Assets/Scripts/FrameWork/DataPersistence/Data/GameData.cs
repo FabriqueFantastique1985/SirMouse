@@ -10,6 +10,8 @@ public class GameData
 
     public int MiniGameStepIndex = 0;
 
+    public Dictionary<int, MerchantData> MerchantData = new Dictionary<int, MerchantData>(); 
+
     // These should be initial values to start with 
     public GameData()
     {

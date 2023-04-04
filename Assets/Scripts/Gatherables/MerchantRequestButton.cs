@@ -31,6 +31,7 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
     public void Click(Player player)
     {
         ResourceController.Instance.RemoveResource(ResourceToDeliver.ResourceType);
+
         CompletedThisButton(_spriteFullParent);
 
         _myMerchant.CurrentRequest.DeliverResource(ResourceToDeliver.ResourceType);
@@ -50,6 +51,8 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
         SetMerchantRequestButtonSprites(merchant, deliverableResource);
     }
 
+
+
     public void ActivatePulsing(bool state)
     {
         _spriteTransparentParentAnimation.enabled = state;
@@ -58,6 +61,7 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
     {
         _buttonCollider.enabled = state;
     }
+
 
 
     private void SetMerchantRequestButtonValues(DeliverableResource deliverableResource)
