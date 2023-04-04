@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class Merchant : MonoBehaviour
@@ -11,6 +12,10 @@ public class Merchant : MonoBehaviour
     [Header("Merchant Request Children")]
     [SerializeField]
     private List<MerchantRequest> _merchantRequests = new List<MerchantRequest>();
+
+    [Header("Audio")]
+    public AudioElement AudioMerchantBalloonPop;
+    public AudioElement AudioMerchantButtonClicked;
 
     [HideInInspector]
     public MerchantRequest CurrentRequest;
@@ -49,6 +54,9 @@ public class Merchant : MonoBehaviour
         if (CurrentRequest != null)
         {
             CurrentRequest.ShowRequest();
+
+            // play sound effect
+            AudioController.Instance.PlayAudio(AudioMerchantBalloonPop);
         }      
     }
     public void HideCurrentRequest()
