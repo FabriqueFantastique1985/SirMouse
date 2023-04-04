@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class InstrumentController : MonoBehaviour
 {
+    public delegate void InstrumentControllerDelegate(SlotInstrument instrument);
+    public event InstrumentControllerDelegate OnInstrumentUnlocked;
+
     public static InstrumentController Instance { get; private set; }
 
     public InstrumentPiece EquipedInstrumentPiece;
@@ -41,6 +44,8 @@ public class InstrumentController : MonoBehaviour
                 SlotInstrument slotInstrumentOfInterest = _slotsInstruments[i];
 
                 slotInstrumentOfInterest.UnlockThisSlot();
+
+                OnInstrumentUnlocked?.Invoke(slotInstrumentOfInterest);
 
                 PageController.Instance.ButtonInstrumentSuper.NotificationObject.SetActive(true);
                 PageController.Instance.ButtonBackpackSuper.IhaveNotificationsLeftInstruments = true;

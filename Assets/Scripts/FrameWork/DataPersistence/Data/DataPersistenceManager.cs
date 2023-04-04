@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -49,6 +50,7 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         _dataPersistenceObjects = FindAllDataPersistenceObjects();
+        
         LoadGame();
     }
 

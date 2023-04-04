@@ -42,6 +42,5 @@ public class InteractionClosetAdd : Interaction
         {
             RewardController.Instance.GiveReward(_mySkinPieceElements); 
         }
-        
     }
 }

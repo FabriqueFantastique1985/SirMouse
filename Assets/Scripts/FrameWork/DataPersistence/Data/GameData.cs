@@ -22,6 +22,8 @@ public class GameData
 
     public Dictionary<int, MerchantData> MerchantData = new Dictionary<int, MerchantData>(); 
 
+    public Dictionary<TutorialData, bool> IsTutorialComplete = new Dictionary<TutorialData, bool>(); 
+
     // These should be initial values to start with 
     public GameData()
     {
