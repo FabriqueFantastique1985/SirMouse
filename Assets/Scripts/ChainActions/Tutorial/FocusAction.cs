@@ -13,7 +13,13 @@ public class FocusAction : ChainActionMonoBehaviour
 
     private TutorialFocusMask _tutorialFocus;
 
-    private void Start()
+    protected Transform Focus
+    {
+        get { return _focus; }
+        set { _focus = value; }
+    }
+
+    protected virtual void Start()
     {
         _startMaxTime = Mathf.Infinity;
         _tutorialFocus = new TutorialFocusMask();
@@ -24,7 +30,7 @@ public class FocusAction : ChainActionMonoBehaviour
         base.OnEnter();
         GameManager.Instance.BlockInput = true;
 
-        _tutorialFocus.Initialize(ref _focusMask);
+        _tutorialFocus?.Initialize(ref _focusMask);
 
         _focusMask.anchoredPosition = Camera.allCameras[0].WorldToScreenPoint(_focus.transform.position);
     }

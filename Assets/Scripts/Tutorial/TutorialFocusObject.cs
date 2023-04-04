@@ -12,15 +12,7 @@ public class TutorialFocusObject : MonoBehaviour
     [SerializeField] private TutorialData _tutorialData;
     private StepTracker _stepTracker;
 
-    private SpriteRenderer _spriteRenderer;
-
     private float _screenBorder = .2f;
-
-    private void Awake()
-    {
-        _tutorialData.IsTutorialFinished = false;
-        _spriteRenderer = GetComponent<SpriteRenderer>();   
-    }
 
     private void Update()
     {
@@ -39,8 +31,8 @@ public class TutorialFocusObject : MonoBehaviour
 
         // Check if object is within borders of screen
         Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
-        bool onScreen = screenPoint.x > _screenBorder && screenPoint.x < 1f - _screenBorder && screenPoint.y > _screenBorder && screenPoint.y < 1f - _screenBorder;
-        if (onScreen && _spriteRenderer.isVisible)
+        bool isOnScreen = screenPoint.x > _screenBorder && screenPoint.x < 1f - _screenBorder && screenPoint.y > _screenBorder && screenPoint.y < 1f - _screenBorder;
+        if (isOnScreen)
         {
             PlayTutorial();
         }

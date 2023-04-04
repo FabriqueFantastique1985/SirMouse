@@ -34,17 +34,7 @@ public class DataPersistenceManager : MonoBehaviour
         
         _dataHandler = new FileDataHandler(Path.Combine(Application.persistentDataPath, "Scenes"), SceneManager.GetActiveScene().name + "_" + fileName);
         _dataPersistenceObjects = FindAllDataPersistenceObjects();
-    }
-
-    private void Start()
-    {
-        string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
-        foreach (string SOName in assetNames)
-        {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var character = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
-            _dataPersistenceObjects.Add(character as IDataPersistence);
-        }
+        
         LoadGame();
     }
 
