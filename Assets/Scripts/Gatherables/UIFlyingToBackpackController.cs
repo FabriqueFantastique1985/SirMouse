@@ -18,8 +18,7 @@ public class UIFlyingToBackpackController : MonoBehaviour
     private ButtonBaseNew _buttonBackpackSuper;
 
     [Header("prefabs-UI of Resources - SAME STRUCTURE AS ENUM !")]
-    [SerializeField]
-    private List<GameObject> _prefabsResourcesUI = new List<GameObject>();
+    public List<GameObject> PrefabsResourcesUI = new List<GameObject>();
     [Header("prefabs-UI of Instruments - SAME STRUCTURE AS ENUM !")]
     [SerializeField]
     private List<GameObject> _prefabsInstrumentsUI = new List<GameObject>();
@@ -56,7 +55,7 @@ public class UIFlyingToBackpackController : MonoBehaviour
 
         if (resourceType != Type_Resource.None)
         {
-            var gameObjectToUse = _prefabsResourcesUI[((int)resourceType) - 1];
+            var gameObjectToUse = PrefabsResourcesUI[((int)resourceType) - 1];
             // throwing into UI element and enabling some children after delay
             StartCoroutine(SetupThrowIntoBag(gatherableObject, gameObjectToUse));
             //StartCoroutine(DeactivateInteractableAfterDelay(interactableComp, interactableObj, spriteParent, 0.25f));

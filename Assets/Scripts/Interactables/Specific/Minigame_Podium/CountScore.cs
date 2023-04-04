@@ -28,6 +28,10 @@ public class CountScore : MonoBehaviour
 
     private int _poseScore;
     private int _outfitScore;
+
+    [SerializeField] 
+    private AudioSource _backgroundCheering;
+
     public int OutfitScore
     {
         get { return _outfitScore; }
@@ -50,7 +54,7 @@ public class CountScore : MonoBehaviour
         _podiumController.OnMiniGameEnd += OnMiniGameEnded;
 
         _slider.gameObject.SetActive(false);
-        _slider.value = 0f;
+        _slider.value = 0f;       
     }
 
     private void OnPoseTaken()
@@ -70,6 +74,8 @@ public class CountScore : MonoBehaviour
         _slider.gameObject.SetActive(false);
         StopAllCoroutines();
         _slider.value = 0f;
+        _backgroundCheering.volume = 0f;
+        _backgroundCheering.Stop();
     }
 
     public void OnShowSlider()
@@ -77,6 +83,7 @@ public class CountScore : MonoBehaviour
         CountOutfitScore();
         StartCoroutine(DisplayScore(_outfitScore, 0.6f));
         _slider.gameObject.SetActive(true);
+        _backgroundCheering.Play();
     }
 
     private void CountOutfitScore()
@@ -105,6 +112,7 @@ public class CountScore : MonoBehaviour
             // Move slider based on speed, target score and slider speed
             float speed = _curve.Evaluate(_slider.value / target);
             _slider.value += speed * target * Time.deltaTime * _sliderSpeed / 2f;
+            _backgroundCheering.volume = Mathf.Lerp(.2f, .8f, _slider.value);
             yield return null;
         }
     }
