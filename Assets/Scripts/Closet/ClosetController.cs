@@ -101,8 +101,8 @@ public class ClosetController : MonoBehaviour
 
         // remove the object 
         Destroy(CurrentlyHeldObject);
-        CurrentlyHeldSkinPiece.MyBodyType = Type_Body.None;
-        CurrentlyHeldSkinPiece.MySkinType = Type_Skin.None;
+        CurrentlyHeldSkinPiece.Data.MyBodyType = Type_Body.None;
+        CurrentlyHeldSkinPiece.Data.MySkinType = Type_Skin.None;
 
         this.enabled = false;
     }
@@ -139,8 +139,8 @@ public class ClosetController : MonoBehaviour
         CurrentlyHeldObject = Instantiate(objectToSpawn, PanelToInstantiateClosetImagesOn.transform);
         CurrentlyHeldObject.transform.position = spawnPosition;
 
-        CurrentlyHeldSkinPiece.MyBodyType = skinPieceElement.MyBodyType;  // null ref
-        CurrentlyHeldSkinPiece.MySkinType = skinPieceElement.MySkinType;
+        CurrentlyHeldSkinPiece.Data.MyBodyType = skinPieceElement.Data.MyBodyType;  // null ref
+        CurrentlyHeldSkinPiece.Data.MySkinType = skinPieceElement.Data.MySkinType;
         CurrentlyHeldSkinPiece.HidesSirMouseGeometry = skinPieceElement.HidesSirMouseGeometry;
         CurrentlyHeldSkinPiece.ScoreValue = skinPieceElement.ScoreValue;
 
@@ -242,7 +242,7 @@ public class ClosetController : MonoBehaviour
                 // figure out what pager has a similar BodyType to the ButtonWithNotif...
                 for (int j = 0; j < ButtonsClosetPagers.Count; j++)
                 {
-                    if (ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == ButtonsClosetPagers[j].BodyType)
+                    if (ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == ButtonsClosetPagers[j].BodyType)
                     {
                         // activate notif on found button
                         ButtonsClosetPagers[j].NotificationObject.SetActive(true);
@@ -256,9 +256,9 @@ public class ClosetController : MonoBehaviour
                         ButtonsClosetPagers[j].ButtonsWithNotifsOnOnMyPage.Add(ButtonsWithNotifications[i]); // this is not adding both arms right now                    
                         break;
                     }
-                    else if ((ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == Type_Body.FootRight && ButtonsClosetPagers[j].BodyType == Type_Body.FootLeft) ||
-                         (ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == Type_Body.LegRight && ButtonsClosetPagers[j].BodyType == Type_Body.LegLeft) ||
-                         (ButtonsWithNotifications[i].MySkinPieceElement.MyBodyType == Type_Body.ArmRight && ButtonsClosetPagers[j].BodyType == Type_Body.ArmLeft))
+                    else if ((ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.FootRight && ButtonsClosetPagers[j].BodyType == Type_Body.FootLeft) ||
+                         (ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.LegRightUpper && ButtonsClosetPagers[j].BodyType == Type_Body.LegLeftUpper) ||
+                         (ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.ArmRightUpper && ButtonsClosetPagers[j].BodyType == Type_Body.ArmLeftUpper))
                     {
                         // activate notif on found button
                         ButtonsClosetPagers[j].NotificationObject.SetActive(true);
@@ -300,14 +300,14 @@ public class ClosetController : MonoBehaviour
             for (int i = 0; i < ButtonsClosetPagerWithNotifs.Count; i++)
             {
                 // prior IF will not be true if clicking a "Right" limb, hence the extra ELSE IF
-                if (buttonSkinPiece.MySkinPieceElement.MyBodyType == ButtonsClosetPagerWithNotifs[i].BodyType)
+                if (buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == ButtonsClosetPagerWithNotifs[i].BodyType)
                 {
                     CascadeNotificationLogic(buttonSkinPiece, i);
                     break;
                 }
-                else if ((buttonSkinPiece.MySkinPieceElement.MyBodyType == Type_Body.FootRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.FootLeft) ||
-                         (buttonSkinPiece.MySkinPieceElement.MyBodyType == Type_Body.LegRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.LegLeft) ||
-                         (buttonSkinPiece.MySkinPieceElement.MyBodyType == Type_Body.ArmRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.ArmLeft))
+                else if ((buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.FootRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.FootLeft) ||
+                         (buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.LegRightUpper && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.LegLeftUpper) ||
+                         (buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.ArmRightUpper && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.ArmLeftUpper))
                 {
                     CascadeNotificationLogic(buttonSkinPiece, i);
                     break;

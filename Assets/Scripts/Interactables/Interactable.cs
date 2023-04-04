@@ -18,6 +18,9 @@ public class Interactable : MonoBehaviour, IDataPersistence
     [SerializeField]
     private string id;
 
+    [SerializeField] 
+    private bool _allowRespawnInteractable = true;
+    
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
@@ -96,6 +99,8 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
         OnInteracted?.Invoke();
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
+        
+        DataPersistenceManager.Instance.SaveGame();
     }
     
     protected virtual void OnInteractSwapBalloonClicked(Balloon sender, Player player)
@@ -183,10 +188,11 @@ public class Interactable : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        
+      //  gameObject.SetActive(data.InteractablesSpawn[name]);
     }
 
     public void SaveData(ref GameData data)
     {
+       // data.InteractablesSpawn.Add(this.name, _allowRespawnInteractable);
     }
 }

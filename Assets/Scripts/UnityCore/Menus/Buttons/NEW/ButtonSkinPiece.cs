@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ButtonSkinPiece : ButtonBaseNew
 {
@@ -9,18 +11,31 @@ public class ButtonSkinPiece : ButtonBaseNew
     public GameObject MySpriteToActivateWhenFound;
     public GameObject MySpriteToDuplicateAndMove;
 
+    [FormerlySerializedAs("_data")]
     [Header("Status-es")]
-    public bool Found; // set -> GiveReward()
+
+    [HideInInspector]
+    public ButtonSkinPieceData Data;
+    
     public bool TriedThisOut; // set -> when clicking the button
     public bool HasBeenNotified; // set -> GiveReward() (but later on)
 
+    public bool Found 
+    {
+        get { return Data.Found; }
+        set
+        {
+            Data.Found = value;
+        }
+    }
+    
     public GameObject NotificationObject;
 
 
     public override void ClickedButton()
     {
         // if this is a skinPiece I have found...
-        if (Found == true)  
+        if (Data.Found == true)  
         {
             // change notification status
             ClosetController.Instance.NotificationRemover(this);
@@ -41,4 +56,10 @@ public class ButtonSkinPiece : ButtonBaseNew
     {
         base.Click(player);
     }
+}
+
+[Serializable]
+public class ButtonSkinPieceData
+{
+    public bool Found;
 }
