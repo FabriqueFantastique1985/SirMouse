@@ -11,6 +11,6 @@ public class RewardAction : ChainActionMonoBehaviour
     {
         base.Execute();
         RewardController.Instance.GiveReward(_skinsToReward);
-
+        _maxTime = -1f;
     }
 }
