@@ -42,14 +42,15 @@ public class TutorialFocusObject : MonoBehaviour
     {
         _isTutorialPlaying = true;
 
+        OnTutorialStarted?.Invoke();
+
         // Instantiate object with steps to go through tutorial
-        var obj = Instantiate(_tutorialData.TutorialObject, gameObject.transform.position, Quaternion.identity);
+        var obj = Instantiate(_tutorialData.TutorialObject, Camera.allCameras[0].transform.position, Camera.allCameras[0].transform.rotation, Camera.allCameras[0].transform);
 
         // Get step tracker and listen to event
         _stepTracker = obj.GetComponent<StepTracker>();
         _stepTracker.OnStepsCompleted += OnTutorialFinished;
 
-        OnTutorialStarted?.Invoke();
 
         // Stop player movement when entering tutorial
         GameManager.Instance.Player.Agent.SetDestination(GameManager.Instance.Player.gameObject.transform.position);

@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPersistence
 {
+    [SerializeField] private List<TutorialData> _scriptableObjects = new List<TutorialData>();
     private Dictionary<TutorialData, bool> _isTutorialComplete = new Dictionary<TutorialData, bool>();
 
     protected override void Awake()
     {
         base.Awake();
 
-        string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
-        foreach (string SOName in assetNames)
+        foreach (var scriptableObject in _scriptableObjects)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var data = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
-            _isTutorialComplete.Add(data, false);
+            _isTutorialComplete[scriptableObject] = false;
         }
     }
 
