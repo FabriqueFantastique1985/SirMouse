@@ -208,16 +208,16 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             case Type_Body.Chest:
                 skinPieceForBodyX = SkinPiecesButtonChest;
                 break;
-            case Type_Body.ArmLeftUpper:
+            case Type_Body.ArmLeftLower:
                 skinPieceForBodyX = SkinPiecesButtonArmLeft;
                 break;
-            case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 skinPieceForBodyX = SkinPiecesButtonArmRight;
                 break;
-            case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 skinPieceForBodyX = SkinPiecesButtonLegLeft;
                 break;
-            case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 skinPieceForBodyX = SkinPiecesButtonLegRight;
                 break;
             case Type_Body.FootLeft:
@@ -282,20 +282,20 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPieceForBodyX = SkinPiecesArmLeft;
                 skinPieceForBodyUIX = SkinPiecesUIArmLeft;
                 break;
-            case Type_Body.ArmRightLower:
             case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 skinPieceForBodyX = SkinPiecesArmRight;
                 skinPieceForBodyUIX = SkinPiecesUIArmRight;
                 break;
             case Type_Body.KneeLeft:
-            case Type_Body.LegLeftLower:
             case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 skinPieceForBodyX = SkinPiecesLegLeft;
                 skinPieceForBodyUIX = SkinPiecesUILegLeft;
                 break;
             case Type_Body.KneeRight:
-            case Type_Body.LegRightLower:
             case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 skinPieceForBodyX = SkinPiecesLegRight;
                 skinPieceForBodyUIX = SkinPiecesUILegRight;
                 break;
@@ -352,20 +352,20 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPieceForBodyX = SkinPiecesArmLeft;
                 skinPieceForBodyUIX = SkinPiecesUIArmLeft;
                 break;
-            case Type_Body.ArmRightLower:
             case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 skinPieceForBodyX = SkinPiecesArmRight;
                 skinPieceForBodyUIX = SkinPiecesUIArmRight;
                 break;
             case Type_Body.KneeLeft:
-            case Type_Body.LegLeftLower:
             case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 skinPieceForBodyX = SkinPiecesLegLeft;
                 skinPieceForBodyUIX = SkinPiecesUILegLeft;
                 break;
             case Type_Body.KneeRight:
-            case Type_Body.LegRightLower:
             case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 skinPieceForBodyX = SkinPiecesLegRight;
                 skinPieceForBodyUIX = SkinPiecesUILegRight;
                 break;
@@ -635,7 +635,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.Chest.gameObject.SetActive(state);
                 characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
                 break;
-            case Type_Body.ArmLeftUpper:
+            case Type_Body.ArmLeftLower:
                 characterGeoReferences.ArmUpL.gameObject.SetActive(state);
                 characterGeoReferences.HandL.gameObject.SetActive(state);
                 characterGeoReferences.ElbowL.gameObject.SetActive(state);
@@ -646,7 +646,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
                 characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
                 break;
-            case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 characterGeoReferences.ArmUpR.gameObject.SetActive(state);
                 characterGeoReferences.HandR.gameObject.SetActive(state);
                 characterGeoReferences.ElbowR.gameObject.SetActive(state);
@@ -657,7 +657,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
                 characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
                 break;
-            case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 characterGeoReferences.LegUpL.gameObject.SetActive(state);
                 characterGeoReferences.KneeL.gameObject.SetActive(state);
                 characterGeoReferences.LegLowL.gameObject.SetActive(state);
@@ -666,7 +666,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
                 characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
                 break;
-            case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 characterGeoReferences.LegUpR.gameObject.SetActive(state);
                 characterGeoReferences.KneeR.gameObject.SetActive(state);
                 characterGeoReferences.LegLowR.gameObject.SetActive(state);
