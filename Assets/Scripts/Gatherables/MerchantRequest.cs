@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MerchantRequest : MonoBehaviour, IDataPersistence
+public class MerchantRequest : MonoBehaviour
 {
     [Header("Merchant parent")]
     [SerializeField]
@@ -11,6 +11,7 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
     [Header("Appoint resources here")]
     [SerializeField]
     private List<DeliverableResource> _requestedResources = new List<DeliverableResource>(); // save this
+    public List<DeliverableResource> RequestedResources => _requestedResources;
 
     private MerchantRequestBalloon _myBalloon;
 
@@ -26,20 +27,21 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
     public bool CompletedRequest; 
     public bool ShowingRequest;
 
-    /// <summary>
-    /// THIS START NEEDS TO HAPPEN BEFORE THE OTHER STARTS related to the merchant !!!
-    /// </summary>
+
     protected virtual void Start()
     {
-        // save data first
-
-
-
-        CompletedRequest = CheckRequestCompletion();
-        if (CompletedRequest == false)
-        {
+        //CompletedRequest = CheckRequestCompletion();
+        //if (CompletedRequest == false)
+        //{
             // instantiate the balloon, assign values
             CreatDeliveryBalloon();
+        //}
+
+        CompletedRequest = CheckRequestCompletion();
+        if (CompletedRequest == true)
+        {
+            // perma hide the icon/triggers
+            _merchant.FinishedMerchant();
         }
     }
 
@@ -48,19 +50,22 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
 
 
     // called on the button press of the resource
-    public void DeliverResource(Type_Resource resourceType)
+    public void DeliverResource(Type_Resource resourceType, MerchantRequestButton buttonPressed)
     {
         // find non-delivered resource to give
         for (int i = 0; i < _requestedResources.Count; i++)
         {
             if (_requestedResources[i].ResourceType == resourceType && _requestedResources[i].Delivered == false)
             {
-                _requestedResources[i].Delivered = true;     
-                
+                _requestedResources[i].Delivered = true;
+               // _myBalloon.MerchantRequestButtons[i].ResourceToDeliver.Delivered = true;
+                buttonPressed.ResourceToDeliver.Delivered = true;
+
 
                 break;
             }
         }
+
     }
     public void CheckRequestFinished()
     {
@@ -69,6 +74,9 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
         {
             // set bool
             CompletedRequest = true;
+
+            // increase index of merchantRequests on Merchant
+            _merchant.CurrentRequestIndex += 1;
 
             // give rewards
             RewardController.Instance.GiveReward(_rewards.Rewards);
@@ -85,7 +93,7 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
 
 
         // create temp list of buttons with a same type as the one clicked...
-        List<MerchantRequestButton> buttonsToDisablePulsing = new List<MerchantRequestButton>();
+        List<MerchantRequestButton> buttonsToCheckDisablePulsing = new List<MerchantRequestButton>();
         for (int i = 0; i < _myBalloon.MerchantRequestButtons.Count; i++)
         {
             var chosenButton = _myBalloon.MerchantRequestButtons[i];
@@ -93,19 +101,20 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
             {
                 if (chosenButton.ResourceToDeliver.ResourceType == resourceType)
                 {
-                    buttonsToDisablePulsing.Add(chosenButton);
+                    Debug.Log(chosenButton.gameObject.name + " button selected to disable pulse");
+                    buttonsToCheckDisablePulsing.Add(chosenButton);
                 }
             }
         }
         // if I do not have any of this resource left -> disable the similar buttons
         if (ResourceController.Instance.CheckIfIStillHaveMoreOfThisResource(resourceType) == false)
         {
-            if (buttonsToDisablePulsing.Count > 0)
+            if (buttonsToCheckDisablePulsing.Count > 0)
             {
-                for (int i = 0; i < buttonsToDisablePulsing.Count; i++)
+                for (int i = 0; i < buttonsToCheckDisablePulsing.Count; i++)
                 {
-                    buttonsToDisablePulsing[i].ActivatePulsing(false);
-                    buttonsToDisablePulsing[i].ActivateCollider(false);
+                    buttonsToCheckDisablePulsing[i].ActivatePulsing(false);
+                    buttonsToCheckDisablePulsing[i].ActivateCollider(false);
                 }
             }
         }
@@ -116,16 +125,25 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
     // called on Merchant
     public void ShowRequest()
     {
-        BalloonDeliveryParent.SetActive(true);
+        if (ShowingRequest == false)
+        {
+            BalloonDeliveryParent.SetActive(true);
 
-        CheckWhetherPlayerHasResourcesOfInterest();
+            CheckWhetherPlayerHasResourcesOfInterest();
 
-        ShowingRequest = true;
+            ShowingRequest = true;
+        }
     }
     public void HideRequest()
     {
         BalloonDeliveryParent.SetActive(false);
         ShowingRequest = false;
+
+        // extra nullcheck
+        if (_myBalloon == null)
+        {
+            _myBalloon = BalloonDeliveryParent.GetComponentInChildren<MerchantRequestBalloon>(true);
+        }
 
         for (int i =0; i < _myBalloon.MerchantRequestButtons.Count; i++)
         {
@@ -154,6 +172,8 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
         MerchantRequestBalloon merchantBalloon = createdBalloon.GetComponent<MerchantRequestBalloon>();
         _myBalloon = merchantBalloon;
 
+        //Debug.Log("CREATED BALLOON FOR + " + _merchant.name);
+
         for (int i = 0; i < _requestedResources.Count; i++)
         {
             merchantBalloon.SetButtonValues(_merchant, _requestedResources[i], i);
@@ -170,16 +190,5 @@ public class MerchantRequest : MonoBehaviour, IDataPersistence
             }
         }
         return true;
-    }
-
-
-
-    public void LoadData(GameData data)
-    {
-
-    }
-    public void SaveData(ref GameData data)
-    {
-
     }
 }
