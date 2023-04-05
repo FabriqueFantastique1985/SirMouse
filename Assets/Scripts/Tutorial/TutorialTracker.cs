@@ -44,12 +44,27 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     public void LoadData(GameData data)
     {
         // For each tutorial scriptable object, save the IsTutorialFinished boolean
-        _isTutorialComplete = data.IsTutorialComplete;
+        foreach (var tutorialData in data.IsTutorialComplete)
+        {
+            foreach (var tutorial in _isTutorialComplete)
+            {
+                if (tutorialData.Key == tutorial.Key.name)
+                {
+                    _isTutorialComplete[tutorial.Key] = tutorialData.Value;
+                    break;
+                }
+            }
+        }
     }
 
     public void SaveData(ref GameData data)
     {
         // For each tutorial scriptable object, load the IsTutorialFinished boolean
-        data.IsTutorialComplete = _isTutorialComplete;
+        data.IsTutorialComplete.Clear();
+
+        foreach (var tutorial in _isTutorialComplete)
+        {
+            data.IsTutorialComplete[tutorial.Key.name] = tutorial.Value;
+        }
     }
 }
