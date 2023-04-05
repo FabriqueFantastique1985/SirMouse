@@ -9,6 +9,8 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
 
     protected override void Awake()
     {
+        base.Awake();
+
         string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
         foreach (string SOName in assetNames)
         {
@@ -33,8 +35,8 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     {
         if (_isTutorialComplete.ContainsKey(tutorial))
         {
-            DataPersistenceManager.Instance.SaveGame();
             _isTutorialComplete[tutorial] = true;
+            DataPersistenceManager.Instance.SaveGame();
             return;
         }
 
