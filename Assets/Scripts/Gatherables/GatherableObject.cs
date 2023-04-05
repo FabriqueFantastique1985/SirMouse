@@ -17,7 +17,16 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
             Debug.LogError("No id yet made! Please generate one!");            
         }
     }
-    
+
+    private void Start()
+    {
+        // If the object is already gathered, destroy it.
+        if (_isGathered)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
@@ -39,6 +48,12 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
+        if (_id == string.Empty)
+        {
+            Debug.LogWarning("No id yet made! Please generate one!");
+            return;
+        }
+
         data.GatherableData[_id] = _isGathered;
     }
 }

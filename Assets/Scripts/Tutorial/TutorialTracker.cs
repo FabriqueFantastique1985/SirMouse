@@ -9,13 +9,13 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
 
     protected override void Awake()
     {
-        string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
-        foreach (string SOName in assetNames)
-        {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var data = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
-            _isTutorialComplete.Add(data, false);
-        }
+  //      string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
+  //      foreach (string SOName in assetNames)
+  //      {
+  //          var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+  //          var data = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
+  //          _isTutorialComplete.Add(data, false);
+  //      }
     }
 
     public bool IsTutorialComplete(TutorialData tutorial)
@@ -44,12 +44,12 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     public void LoadData(GameData data)
     {
         // For each tutorial scriptable object, save the IsTutorialFinished boolean
-        _isTutorialComplete = data.IsTutorialComplete;
+  //      _isTutorialComplete = data.IsTutorialComplete;
     }
 
     public void SaveData(ref GameData data)
     {
         // For each tutorial scriptable object, load the IsTutorialFinished boolean
-        data.IsTutorialComplete = _isTutorialComplete;
+   //     data.IsTutorialComplete = _isTutorialComplete;
     }
 }

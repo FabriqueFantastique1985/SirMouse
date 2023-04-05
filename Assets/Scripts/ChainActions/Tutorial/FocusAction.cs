@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEditor.Timeline;
 using System;
 
 public class FocusAction : ChainActionMonoBehaviour

@@ -8,6 +8,11 @@ using UnityEngine.Serialization;
 public class GameData
 {
     /// <summary>
+    /// The last scene the player was in.
+    /// </summary>
+    public string lastActiveScene = "";
+    
+    /// <summary>
     /// Indices for every minigame. 
     /// </summary>
     public Dictionary<string, int> MinigamesIndices = new Dictionary<string, int>();
@@ -24,6 +29,11 @@ public class GameData
     /// string is the id of the gatherable and bool is if it has been gathered or not.
     /// </summary>
     public Dictionary<string, bool> GatherableData = new Dictionary<string, bool>();
+    
+    /// <summary>
+    /// Type_Instrument is the type of instrument and bool is if it has been unlocked or not.
+    /// </summary>
+    public Dictionary<Type_Instrument, bool> InstrumentData = new Dictionary<Type_Instrument, bool>();
     
     // These should be initial values to start with 
     public GameData()

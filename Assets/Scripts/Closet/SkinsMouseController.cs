@@ -764,15 +764,26 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         }
 
         // Load the Unlocked Pieces 
+        // calculate all elements in 2d list
+        int totalElements = 0;
+        for (int i = 0; i < _listsOfButtons.Count; i++) totalElements += _listsOfButtons[i].MySkinPiecesButtons.Count;
+        if (data.ButtonsSkinPieceData.Count != totalElements)
+        {
+            Debug.LogWarning(data.ButtonsSkinPieceData.ToString() + " Data is not correct");
+            return;
+        }
+        
+        int index = 0;
         for (int i = 0; i < _listsOfButtons.Count; i++)
         {
             for (int j = 0; j < _listsOfButtons[i].MySkinPiecesButtons.Count; j++)
             {
-                _listsOfButtons[i].MySkinPiecesButtons[j].Data = data.ButtonsSkinPieceData[i + j];
+                _listsOfButtons[i].MySkinPiecesButtons[j].Data = data.ButtonsSkinPieceData[index];
                 if (data.ButtonsSkinPieceData[i + j].Found)
                 {
                     UnlockSkinPiece(_listsOfButtons[i].MySkinPiecesButtons[j].MySkinPieceElement);
                 }
+                index++;
             }
         }
     }
