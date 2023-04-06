@@ -487,7 +487,10 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPiecesForBodyUIX.MySkinPieces[i].ScoreValue =
                     skinPieceElement.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
 
-                break;
+                //break; // this break BREAKS equiping pieces (explained below)
+
+                // with break -> If I find Ostrick Knee, I will not equip Ostrich LegUpper, LegLower !
+                // Ideally, skinpieces like |kneeLeft, LegLeftLower, LegLeftUpper| should all use the same Type_Body (cleaner code, more performant)
             }
         }
 
@@ -591,10 +594,55 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
         for (int i = 0; i < EquipedSkinPieces.Count; i++)
         {
-            if (EquipedSkinPieces[i].Data.MyBodyType == bodyTypeToCheck)
+            var dataOfInterest = EquipedSkinPieces[i].Data;
+            // if my type is any part of a leg or arm -> take all those pieces
+
+            // if (bodyTypeToCheck == ArmRLower || ArmRUpper)...
+            // if (bodyTypeToCheck == LegRLower || LegRUpper || KneeRLeft)
+            // --> tempList.add(ArmRLower)
+            // --> tempList.add(ArmRUpper)
+
+            // first check all the kegs and arms...
+            if (bodyTypeToCheck == Type_Body.ArmLeftLower || bodyTypeToCheck == Type_Body.ArmLeftUpper)
             {
-                tempListToClear.Add(EquipedSkinPieces[i]);
-                tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                if (dataOfInterest.MyBodyType == Type_Body.ArmLeftLower || dataOfInterest.MyBodyType == Type_Body.ArmLeftUpper)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+
+            }
+            else if (bodyTypeToCheck == Type_Body.ArmRightLower || bodyTypeToCheck == Type_Body.ArmRightUpper)
+            {
+                if (dataOfInterest.MyBodyType == Type_Body.ArmRightLower || dataOfInterest.MyBodyType == Type_Body.ArmRightUpper)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+            }
+            else if (bodyTypeToCheck == Type_Body.LegLeftLower || bodyTypeToCheck == Type_Body.LegLeftUpper || bodyTypeToCheck == Type_Body.KneeLeft)
+            {
+                if (dataOfInterest.MyBodyType == Type_Body.LegLeftLower || dataOfInterest.MyBodyType == Type_Body.LegLeftUpper || dataOfInterest.MyBodyType == Type_Body.KneeLeft)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+            }
+            else if (bodyTypeToCheck == Type_Body.LegRightLower || bodyTypeToCheck == Type_Body.LegRightUpper || bodyTypeToCheck == Type_Body.KneeRight)
+            {
+                if (dataOfInterest.MyBodyType == Type_Body.LegRightLower || dataOfInterest.MyBodyType == Type_Body.LegRightUpper || dataOfInterest.MyBodyType == Type_Body.KneeRight)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+            }
+            else // then the rest...(Should be the only behavior in polish --> knee, legUpper,legLower all have TypeBody.Leg !)
+            {
+                if (EquipedSkinPieces[i].Data.MyBodyType == bodyTypeToCheck)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
             }
         }
 
