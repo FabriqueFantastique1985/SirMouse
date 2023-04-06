@@ -17,7 +17,7 @@ public class PlaceOfInterest : MonoBehaviour
     private Collider _triggerToExitToSeeIcon;
 
     [Header("Status")]
-    public bool CompletedMe = false; // save this (for merchants, should be cascaded from start in MerchantRequest)
+    public bool CompletedMe = false; 
 
 
     protected virtual void Start()

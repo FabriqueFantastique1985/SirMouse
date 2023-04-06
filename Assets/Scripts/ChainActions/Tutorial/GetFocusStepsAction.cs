@@ -8,11 +8,24 @@ public class GetFocusStepsAction : MonoBehaviour
     [SerializeField] private string _tag;
     private void Start()
     {
-        var taggedObj = GameObject.FindGameObjectWithTag(_tag);
-        StepHolder stepholder = taggedObj?.GetComponentInChildren<StepHolder>();
-        if (stepholder)
+        var taggedObj = GameObject.FindGameObjectsWithTag(_tag);
+
+        // Get list of stepholders
+        List<StepHolder> stepHolders = new List<StepHolder>();
+        foreach (var obj in taggedObj)
         {
-            _stepTracker.AddStep(stepholder.Steps);
+            StepHolder stepholder = obj?.GetComponentInChildren<StepHolder>();
+            if (stepholder)
+            {
+                stepHolders.Add(stepholder);
+            }
+        }
+
+        // Sort list of stepholders so lowest initiative comes first
+        stepHolders.Sort((sh1, sh2) => sh1.Initiative.CompareTo(sh2.Initiative));
+        foreach (var stepHolder in stepHolders) 
+        { 
+            _stepTracker.AddStep(stepHolder.Steps);
         }
     }
 }
