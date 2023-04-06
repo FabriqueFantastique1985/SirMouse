@@ -208,16 +208,16 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             case Type_Body.Chest:
                 skinPieceForBodyX = SkinPiecesButtonChest;
                 break;
-            case Type_Body.ArmLeftUpper:
+            case Type_Body.ArmLeftLower:
                 skinPieceForBodyX = SkinPiecesButtonArmLeft;
                 break;
-            case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 skinPieceForBodyX = SkinPiecesButtonArmRight;
                 break;
-            case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 skinPieceForBodyX = SkinPiecesButtonLegLeft;
                 break;
-            case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 skinPieceForBodyX = SkinPiecesButtonLegRight;
                 break;
             case Type_Body.FootLeft:
@@ -282,20 +282,20 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPieceForBodyX = SkinPiecesArmLeft;
                 skinPieceForBodyUIX = SkinPiecesUIArmLeft;
                 break;
-            case Type_Body.ArmRightLower:
             case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 skinPieceForBodyX = SkinPiecesArmRight;
                 skinPieceForBodyUIX = SkinPiecesUIArmRight;
                 break;
             case Type_Body.KneeLeft:
-            case Type_Body.LegLeftLower:
             case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 skinPieceForBodyX = SkinPiecesLegLeft;
                 skinPieceForBodyUIX = SkinPiecesUILegLeft;
                 break;
             case Type_Body.KneeRight:
-            case Type_Body.LegRightLower:
             case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 skinPieceForBodyX = SkinPiecesLegRight;
                 skinPieceForBodyUIX = SkinPiecesUILegRight;
                 break;
@@ -352,20 +352,20 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPieceForBodyX = SkinPiecesArmLeft;
                 skinPieceForBodyUIX = SkinPiecesUIArmLeft;
                 break;
-            case Type_Body.ArmRightLower:
             case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 skinPieceForBodyX = SkinPiecesArmRight;
                 skinPieceForBodyUIX = SkinPiecesUIArmRight;
                 break;
             case Type_Body.KneeLeft:
-            case Type_Body.LegLeftLower:
             case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 skinPieceForBodyX = SkinPiecesLegLeft;
                 skinPieceForBodyUIX = SkinPiecesUILegLeft;
                 break;
             case Type_Body.KneeRight:
-            case Type_Body.LegRightLower:
             case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 skinPieceForBodyX = SkinPiecesLegRight;
                 skinPieceForBodyUIX = SkinPiecesUILegRight;
                 break;
@@ -487,7 +487,10 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 skinPiecesForBodyUIX.MySkinPieces[i].ScoreValue =
                     skinPieceElement.ScoreValue; // 1 of these can be removed (as long as we check correct list for score)
 
-                break;
+                //break; // this break BREAKS equiping pieces (explained below)
+
+                // with break -> If I find Ostrick Knee, I will not equip Ostrich LegUpper, LegLower !
+                // Ideally, skinpieces like |kneeLeft, LegLeftLower, LegLeftUpper| should all use the same Type_Body (cleaner code, more performant)
             }
         }
 
@@ -591,10 +594,55 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
         for (int i = 0; i < EquipedSkinPieces.Count; i++)
         {
-            if (EquipedSkinPieces[i].Data.MyBodyType == bodyTypeToCheck)
+            var dataOfInterest = EquipedSkinPieces[i].Data;
+            // if my type is any part of a leg or arm -> take all those pieces
+
+            // if (bodyTypeToCheck == ArmRLower || ArmRUpper)...
+            // if (bodyTypeToCheck == LegRLower || LegRUpper || KneeRLeft)
+            // --> tempList.add(ArmRLower)
+            // --> tempList.add(ArmRUpper)
+
+            // first check all the kegs and arms...
+            if (bodyTypeToCheck == Type_Body.ArmLeftLower || bodyTypeToCheck == Type_Body.ArmLeftUpper)
             {
-                tempListToClear.Add(EquipedSkinPieces[i]);
-                tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                if (dataOfInterest.MyBodyType == Type_Body.ArmLeftLower || dataOfInterest.MyBodyType == Type_Body.ArmLeftUpper)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+
+            }
+            else if (bodyTypeToCheck == Type_Body.ArmRightLower || bodyTypeToCheck == Type_Body.ArmRightUpper)
+            {
+                if (dataOfInterest.MyBodyType == Type_Body.ArmRightLower || dataOfInterest.MyBodyType == Type_Body.ArmRightUpper)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+            }
+            else if (bodyTypeToCheck == Type_Body.LegLeftLower || bodyTypeToCheck == Type_Body.LegLeftUpper || bodyTypeToCheck == Type_Body.KneeLeft)
+            {
+                if (dataOfInterest.MyBodyType == Type_Body.LegLeftLower || dataOfInterest.MyBodyType == Type_Body.LegLeftUpper || dataOfInterest.MyBodyType == Type_Body.KneeLeft)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+            }
+            else if (bodyTypeToCheck == Type_Body.LegRightLower || bodyTypeToCheck == Type_Body.LegRightUpper || bodyTypeToCheck == Type_Body.KneeRight)
+            {
+                if (dataOfInterest.MyBodyType == Type_Body.LegRightLower || dataOfInterest.MyBodyType == Type_Body.LegRightUpper || dataOfInterest.MyBodyType == Type_Body.KneeRight)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
+            }
+            else // then the rest...(Should be the only behavior in polish --> knee, legUpper,legLower all have TypeBody.Leg !)
+            {
+                if (EquipedSkinPieces[i].Data.MyBodyType == bodyTypeToCheck)
+                {
+                    tempListToClear.Add(EquipedSkinPieces[i]);
+                    tempListToClearUI.Add(EquipedSkinPiecesUI[i]);
+                }
             }
         }
 
@@ -635,7 +683,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.Chest.gameObject.SetActive(state);
                 characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
                 break;
-            case Type_Body.ArmLeftUpper:
+            case Type_Body.ArmLeftLower:
                 characterGeoReferences.ArmUpL.gameObject.SetActive(state);
                 characterGeoReferences.HandL.gameObject.SetActive(state);
                 characterGeoReferences.ElbowL.gameObject.SetActive(state);
@@ -646,7 +694,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
                 characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
                 break;
-            case Type_Body.ArmRightUpper:
+            case Type_Body.ArmRightLower:
                 characterGeoReferences.ArmUpR.gameObject.SetActive(state);
                 characterGeoReferences.HandR.gameObject.SetActive(state);
                 characterGeoReferences.ElbowR.gameObject.SetActive(state);
@@ -657,7 +705,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
                 characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
                 break;
-            case Type_Body.LegLeftUpper:
+            case Type_Body.LegLeftLower:
                 characterGeoReferences.LegUpL.gameObject.SetActive(state);
                 characterGeoReferences.KneeL.gameObject.SetActive(state);
                 characterGeoReferences.LegLowL.gameObject.SetActive(state);
@@ -666,7 +714,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
                 characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
                 break;
-            case Type_Body.LegRightUpper:
+            case Type_Body.LegRightLower:
                 characterGeoReferences.LegUpR.gameObject.SetActive(state);
                 characterGeoReferences.KneeR.gameObject.SetActive(state);
                 characterGeoReferences.LegLowR.gameObject.SetActive(state);
