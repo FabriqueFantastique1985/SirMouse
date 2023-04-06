@@ -10,8 +10,8 @@ public class DisableCanvasAction : ChainActionMonoBehaviour
 
     protected virtual void Start()
     {
-        _startMaxTime = 0.1f;
-        _image.enabled = false;
+        _startMaxTime = .1f;
+        //_image.enabled = false;
         _canvas.gameObject.SetActive(true);
     }
 
@@ -29,7 +29,7 @@ public class DisableCanvasAction : ChainActionMonoBehaviour
     public override void OnExit()
     {
         base.OnExit();
-        _image.enabled = true;
+        //_image.enabled = true;
         GameManager.Instance.BlockInput = false;
     }
 }
