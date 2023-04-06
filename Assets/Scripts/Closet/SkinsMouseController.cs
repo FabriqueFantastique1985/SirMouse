@@ -196,8 +196,9 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         switch (skinPieceElement.Data.MyBodyType)
         {
             default:
-                Debug.LogWarning("No skin piece for this body type found! " + skinPieceElement.Data.MyBodyType + "unlocking hat instead.");
-                skinPieceForBodyX = SkinPiecesButtonHat;
+                //Debug.LogWarning("No skin piece for this body type found! " + skinPieceElement.Data.MyBodyType + "unlocking hat instead.");
+                Debug.LogWarning("No skin piece for this body type found! " + skinPieceElement.Data.MyBodyType + " --> unlocking NOTHING.");
+                //skinPieceForBodyX = SkinPiecesButtonHat;
                 break;
             case Type_Body.Hat:
                 skinPieceForBodyX = SkinPiecesButtonHat;
@@ -237,7 +238,14 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 break;
         }
 
-        return FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
+        if (skinPieceForBodyX == null)
+        {
+            return null;
+        }
+        else
+        {
+            return FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
+        }       
     }
 
     public ButtonSkinPiece UnlockAllSkins()

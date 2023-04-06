@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -128,6 +128,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 80055558052173301, guid: ad70a6647e5021b48a5de430bcee6e83,
+        type: 3}
+      propertyPath: Data.MyBodyType
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 80055558052173301, guid: ad70a6647e5021b48a5de430bcee6e83,
+        type: 3}
+      propertyPath: Data.MySkinType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6836073135601706216, guid: ad70a6647e5021b48a5de430bcee6e83,
         type: 3}
       propertyPath: m_Name
@@ -136,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 6836073135601706216, guid: ad70a6647e5021b48a5de430bcee6e83,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6836073135601706221, guid: ad70a6647e5021b48a5de430bcee6e83,
         type: 3}
@@ -1286,6 +1296,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Touchable_Breakable_MrWitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 3273291348181936447, guid: e12a810066a750b4090985a0ecf423be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264078328116402210, guid: e12a810066a750b4090985a0ecf423be,
+        type: 3}
+      propertyPath: Data.MyBodyType
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264078328116402210, guid: e12a810066a750b4090985a0ecf423be,
+        type: 3}
+      propertyPath: Data.MySkinType
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e12a810066a750b4090985a0ecf423be, type: 3}
@@ -4162,6 +4187,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1592967012, guid: 19caf404fadc0a6408dc2c7c7e1aa9ed, type: 3}
+      propertyPath: Data.MyBodyType
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592967012, guid: 19caf404fadc0a6408dc2c7c7e1aa9ed, type: 3}
+      propertyPath: Data.MySkinType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 203382465987030962, guid: 19caf404fadc0a6408dc2c7c7e1aa9ed,
         type: 3}
       propertyPath: m_RootOrder
@@ -4221,6 +4254,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Touchable_Template_Reward
+      objectReference: {fileID: 0}
+    - target: {fileID: 203382465987030967, guid: 19caf404fadc0a6408dc2c7c7e1aa9ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19caf404fadc0a6408dc2c7c7e1aa9ed, type: 3}
