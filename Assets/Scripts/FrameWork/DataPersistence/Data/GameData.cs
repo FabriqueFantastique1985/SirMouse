@@ -20,7 +20,7 @@ public class GameData
     public List<SkinPieceElementData> EquipedSkinPiecesData = new List<SkinPieceElementData>();
     public List<ButtonSkinPieceData> ButtonsSkinPieceData = new List<ButtonSkinPieceData>();
 
-    public Dictionary<int, MerchantData> MerchantData = new Dictionary<int, MerchantData>(); 
+    public Dictionary<string, MerchantData> MerchantSavedData = new Dictionary<string, MerchantData>();
 
     public Dictionary<string, bool> IsTutorialComplete = new Dictionary<string, bool>(); 
 
