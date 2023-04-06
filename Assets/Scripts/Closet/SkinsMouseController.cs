@@ -459,6 +459,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 
                 Debug.Log("Unlocked skin piece: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MySkinType 
                                                   + " for body type: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MyBodyType);
+
                 //return skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound;
                 return skinPiecesForBodyX.MySkinPiecesButtons[i];
             }

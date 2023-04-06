@@ -18,7 +18,7 @@ public class TutorialFocusObject : MonoBehaviour
     private void Start()
     {
         _activateEvent = GetComponent<TutorialActivateEvent>();
-        Assert.IsNotNull(_activateEvent);
+        Assert.IsNotNull(_activateEvent, "Event was null in " + gameObject.name);
         _activateEvent.OnTutorialActivate += PlayTutorial;
     }
 

@@ -16,7 +16,11 @@ public class FocusAction : ChainActionMonoBehaviour
     protected Transform Focus
     {
         get { return _focus; }
-        set { _focus = value; }
+        set 
+        {
+            if (!_focus)
+                _focus = value; 
+        }
     }
 
     protected virtual void Start()
@@ -28,7 +32,10 @@ public class FocusAction : ChainActionMonoBehaviour
 
     private void Update()
     {
-        _focusMask.position = _tutorialFocus.GetWorldPosToCameraPos(_focus.transform.position);
+        if (_focus)
+        {
+            _focusMask.position = _tutorialFocus.GetWorldPosToCameraPos(_focus.transform.position);
+        }
     }
 
     public override void OnEnter()
@@ -40,7 +47,6 @@ public class FocusAction : ChainActionMonoBehaviour
         GameManager.Instance.BlockInput = true;
 
         _tutorialFocus?.Initialize(ref _focusMask);
-        _focusMask.position = _tutorialFocus.GetWorldPosToCameraPos(_focus.transform.position);
     }
 
     public override void Execute()

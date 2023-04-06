@@ -24,7 +24,10 @@ public class MoveAction : ChainActionMonoBehaviour
 
     private void Update()
     {
-        _focusMask.position = _tutorialFocus.GetWorldPosToCameraPos(_focus.transform.position);
+        if (_focus)
+        {
+            _focusMask.position = _tutorialFocus.GetWorldPosToCameraPos(_focus.transform.position);
+        }
     }
 
     public override void OnEnter()
