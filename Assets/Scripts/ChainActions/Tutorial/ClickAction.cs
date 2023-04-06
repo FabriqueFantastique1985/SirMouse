@@ -16,7 +16,7 @@ public class ClickAction : ChainActionMonoBehaviour
     private void Start()
     {
         _startMaxTime = Mathf.Infinity;
-        _tutorialFocus = new TutorialFocusMask();
+        _tutorialFocus =  new TutorialFocusMask();  
         enabled = false;
     }
 
