@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class RewardController : MonoBehaviour
 {
+    public delegate void RewardControllerDelegate(SkinPieceElement reward);
+    public event RewardControllerDelegate OnRewardGiven;
+
     public static RewardController Instance { get; private set; }
 
     [SerializeField]
@@ -85,6 +88,9 @@ public class RewardController : MonoBehaviour
                     objectToAdd.SetActive(false);
                     // add to list
                     instantiatedObjects.Add(objectToAdd);
+
+                    // Invoke event
+                    OnRewardGiven?.Invoke(skinPiecesToGive[i]);
                 }
             }
             else

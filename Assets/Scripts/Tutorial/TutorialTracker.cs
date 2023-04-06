@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPersistence
 {
+    [SerializeField] private List<TutorialData> _scriptableObjects = new List<TutorialData>();
     private Dictionary<TutorialData, bool> _isTutorialComplete = new Dictionary<TutorialData, bool>();
 
     protected override void Awake()
     {
-        string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
-        foreach (string SOName in assetNames)
+        base.Awake();
+
+        foreach (var scriptableObject in _scriptableObjects)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var data = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
-            _isTutorialComplete.Add(data, false);
+            _isTutorialComplete[scriptableObject] = false;
         }
     }
 
@@ -33,8 +33,8 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     {
         if (_isTutorialComplete.ContainsKey(tutorial))
         {
-            DataPersistenceManager.Instance.SaveGame();
             _isTutorialComplete[tutorial] = true;
+            DataPersistenceManager.Instance.SaveGame();
             return;
         }
 
