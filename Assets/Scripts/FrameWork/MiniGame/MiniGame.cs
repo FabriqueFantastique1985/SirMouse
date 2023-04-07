@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MiniGame : MonoBehaviour, IDataPersistence
+public class MiniGame : MonoBehaviour/*, IDataPersistence*/
 {
     #region Events
 
@@ -130,13 +130,13 @@ public class MiniGame : MonoBehaviour, IDataPersistence
         _exitGameObject.SetActive(true);
     }
 
-    public void LoadData(GameData data)
-    {
-        _currentStepIndex = data.MiniGameStepIndex;
-    }
+    //public void LoadData(GameData data)
+    //{
+    //    _currentStepIndex = data.MiniGameStepIndex;
+    //}
 
-    public void SaveData(ref GameData data)
-    {
-        data.MiniGameStepIndex = _currentStepIndex;
-    }
+    //public void SaveData(ref GameData data)
+    //{
+    //    data.MiniGameStepIndex = _currentStepIndex;
+    //}
 }
