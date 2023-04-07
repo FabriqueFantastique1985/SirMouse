@@ -15,6 +15,8 @@ public class MainGameSystem : GameSystem
     private float _cooldownTimer;
     private float _cooldownLimit = 0.15f;
 
+    private int _layerHit = -1;
+
     /*public MainGameSystem(Player player, int[] layersToIgnore, Collider[] newGroundColls = null) : base(player, layersToIgnore)
     {
         for (int i = 0; i < layersToIgnore.Length; i++)
@@ -57,13 +59,15 @@ public class MainGameSystem : GameSystem
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask))
             {
+
                 Debug.DrawLine(Camera.allCameras[0].transform.position /*Camera.main.transform.position*/, hit.point);
 
                 // Test if the raycats hit one of the ground colliders
                 for (int i = 0; i < _groundColliders.Length; i++)
                 {
-                    if (hit.collider == _groundColliders[i])
+                    if (hit.collider == _groundColliders[i] && (_layerHit == -1 || _layerHit == hit.collider.gameObject.layer))
                     {
+                        _layerHit = hit.collider.gameObject.layer;
                         if (_player.State is WalkingState currentState) currentState.SetTarget(_player, hit.point); 
                         else _player.SetState(new WalkingState(_player, hit.point));
                         return;
@@ -72,12 +76,17 @@ public class MainGameSystem : GameSystem
 
                 //Debug.Log("Hit " + hit.transform.name);
 
-                if (_player.State is WalkingState == false && hit.transform.TryGetComponent<IClickable>(out IClickable clickable))
+                if (hit.transform.TryGetComponent(out IClickable clickable) && (_layerHit == -1 || _layerHit == hit.collider.gameObject.layer))
                 {
+                    _layerHit = hit.collider.gameObject.layer;
                     clickable.Click(_player);
                     _onCooldown = true;
                 }
             }
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            _layerHit = -1;
         }
     }
 
