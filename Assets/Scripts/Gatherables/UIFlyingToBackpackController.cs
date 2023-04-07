@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIFlyingToBackpackController : MonoBehaviour
 {
     public static UIFlyingToBackpackController Instance { get; private set; }
+
+    [SerializeField]
+    private AudioElement _clipLandInBackpack;
 
     [Header("References UI-Overlay")]
     [SerializeField]
@@ -146,6 +150,9 @@ public class UIFlyingToBackpackController : MonoBehaviour
     {
         // activates animation bag
         _buttonBackpackSuper.PlayAnimationPress();
+
+        // play sound
+        AudioController.Instance.PlayAudio(_clipLandInBackpack);
 
         // destroy the UI image
         Destroy(imageObj);
