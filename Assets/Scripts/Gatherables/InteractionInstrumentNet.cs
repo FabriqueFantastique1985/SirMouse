@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class InteractionInstrumentNet : InteractionInstrument
 {
@@ -29,6 +30,16 @@ public class InteractionInstrumentNet : InteractionInstrument
 
         GameManager.Instance.Player.Agent.SetDestination(GameManager.Instance.Player.gameObject.transform.position);
         GameManager.Instance.BlockInput = true;
+
+        StartCoroutine(DisableBlockInput());
+    }
+
+    private IEnumerator DisableBlockInput()
+    {
+        float curentStateLength = GameManager.Instance.Player.Character.AnimatorRM.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(curentStateLength);
+
+        EnableJar(Character.States.Idle);
     }
 
     private void EnableJar(Character.States state)
