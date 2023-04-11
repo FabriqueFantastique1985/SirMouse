@@ -4,7 +4,7 @@ using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SlotInstrument : ButtonBaseNew
+public class SlotInstrument : ButtonBaseNew, IDataPersistence
 {
     [SerializeField]
     private Collider _buttonCollider;
@@ -43,9 +43,29 @@ public class SlotInstrument : ButtonBaseNew
 
     public void UnlockThisSlot()
     {
+        if (Unlocked) Debug.LogWarning("Trying to unlock an already unlocked slot");
         Unlocked = true;
         SpriteFull.SetActive(true);
         _buttonCollider.enabled = true;
         ButtonComponent.enabled = true;
+    }
+
+    public void LoadData(GameData data)
+    {
+        // if the instrument is unlocked, unlock the slot
+        if (data.InstrumentData.ContainsKey(InstrumentType) == false)
+        {
+            Debug.LogWarning("InstrumentData does not contain the key: " + InstrumentType);
+            return;
+        }
+        var isUnlocked = data.InstrumentData[InstrumentType];
+        if (isUnlocked)
+            UnlockThisSlot();
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        // save the instrument data
+        data.InstrumentData[InstrumentType] = Unlocked;
     }
 }
