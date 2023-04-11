@@ -22,6 +22,9 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
 
     #region EditorFields
 
+    [SerializeField]
+    private ID _id;
+
     /// <summary>
     /// Reference to the game object that is used to quit the minigame.
     /// </summary>
@@ -56,7 +59,7 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
-
+   
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         if (_hasBeenCompleted == false && IsCurrentStepIndexInRange)
