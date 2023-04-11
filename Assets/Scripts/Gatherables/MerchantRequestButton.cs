@@ -59,8 +59,29 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
     public void ActivatePulsing(bool state)
     {
-        Debug.Log("Activated pulsing with state = " + state + " for button " + this.gameObject.name);
+        //Debug.Log("Activated pulsing with state = " + state + " for button " + this.gameObject.name);
         _spriteTransparentParentAnimation.enabled = state;
+        if (_spriteTransparentParentAnimation.transform.GetChild(0).TryGetComponent(out Animation animationComponentColorPulse))
+        {
+            animationComponentColorPulse.enabled = state;
+        }
+
+        // reset alphas
+        if (state == false)
+        {
+            for (int i = 0; i < _spriteTransparentParentAnimation.transform.childCount; i++)
+            {
+                var chosenTransparentButton = _spriteTransparentParentAnimation.transform.GetChild(i);
+                // get all sprite render children
+                SpriteRenderer[] spriteChildren = chosenTransparentButton.GetComponentsInChildren<SpriteRenderer>();
+                for (int j = 0; j < spriteChildren.Length; j++)
+                {
+                    spriteChildren[j].color = new Color(255, 255, 255, 0.5f);
+                }
+
+            }
+        }
+        
     }
     public void ActivateCollider(bool state)
     {
