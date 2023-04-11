@@ -33,7 +33,11 @@ public class Gatherable : MonoBehaviour
 
 
         // set object to inactive
+        var collider = GetComponent<Collider>();
+        if (collider)
+            collider.enabled = false;
+        
         SpriteVisuals?.SetActive(false);
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 10f);
     }
 }
