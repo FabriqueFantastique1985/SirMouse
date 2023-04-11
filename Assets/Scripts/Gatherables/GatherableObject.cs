@@ -4,23 +4,24 @@ using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
 
+[RequireComponent(typeof(ID))]
 public class GatherableObject : MonoBehaviour, IDataPersistence
 {
     public AudioElement _clipPickup;
     
     [SerializeField]
-    private string _id;
+    private ID _id;
 
     private bool _isGathered = false;
     
     private void Awake()
     {
-        if (_id == string.Empty)
+        if (_id == null)
         {
-            Debug.LogError("No id yet made! Please generate one!");            
+            _id = GetComponent<ID>();            
         }
     }
-
+    
     private void Start()
     {
         // If the object is already gathered, destroy it.
@@ -29,13 +30,7 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
             Destroy(gameObject);
         }
     }
-
-    [ContextMenu("Generate guid for id")]
-    private void GenerateGuid()
-    {
-        _id = System.Guid.NewGuid().ToString();
-    }
-
+    
     public virtual void PickedUpGatherable()
     {
         _isGathered = true;
