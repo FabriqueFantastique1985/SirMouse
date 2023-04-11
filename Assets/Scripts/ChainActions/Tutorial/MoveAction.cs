@@ -15,6 +15,8 @@ public class MoveAction : ChainActionMonoBehaviour
     private TutorialSystem _tutorialSystem;
     private TutorialFocusMask _tutorialFocus;
 
+    private Vector3 _destination;
+
     private void Start()
     {
         _startMaxTime = Mathf.Infinity;
@@ -61,7 +63,8 @@ public class MoveAction : ChainActionMonoBehaviour
             var player = GameManager.Instance.Player;
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                player.SetState(new WalkingState(player, hit.point));
+                _destination = hit.point;
+                player.SetState(new WalkingState(player, _destination));
                 GameManager.Instance.BlockInput = true;
                 StartCoroutine(HasArrived());
             }
@@ -71,7 +74,7 @@ public class MoveAction : ChainActionMonoBehaviour
     private IEnumerator HasArrived()
     {
         var player = GameManager.Instance.Player;
-        while (player.transform.position != player.Agent.destination)
+        while (!Equals(player.transform.position.x, _destination.x) || !Equals(player.transform.position.z, _destination.z))
         {
             yield return null;
         }

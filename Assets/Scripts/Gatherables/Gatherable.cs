@@ -16,7 +16,6 @@ public class Gatherable : MonoBehaviour
     [SerializeField]
     private GameObject SpriteVisuals;
 
-
     protected virtual void OnTriggerEnter(Collider other)
     {
         GatherableSpecificComponent.PickedUpGatherable();
@@ -34,6 +33,7 @@ public class Gatherable : MonoBehaviour
 
 
         // set object to inactive
-        this.gameObject.SetActive(false);
+        SpriteVisuals?.SetActive(false);
+        Destroy(gameObject, 2f);
     }
 }
