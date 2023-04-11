@@ -55,7 +55,8 @@ public class FabriqueTools : EditorWindow
            ID[] ids = FindObjectsOfType<ID>();
            foreach (ID id in ids)
            {
-               id.GenerateGuid();
+                id.GenerateGuid();
+                EditorUtility.SetDirty(id);
            }
        }
     }

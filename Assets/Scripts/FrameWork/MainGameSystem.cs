@@ -51,7 +51,7 @@ public class MainGameSystem : GameSystem
 
     public override void HandleInput()
     {
-        if (Input.GetMouseButton(0) && _onCooldown == false)
+        if (Input.GetMouseButton(0) && _onCooldown == false )
         {
             Vector3 currentTarget = Input.mousePosition;
             Ray ray = Camera.allCameras[0].ScreenPointToRay(currentTarget);

@@ -176,6 +176,9 @@ public class PodiumController : MiniGame
         SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
         SetPlayerReference(_cutscene03, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
 
+        // Stop player from moving before centering on podium
+        GameManager.Instance.Player.Agent.SetDestination(_playerObject.transform.position);
+
         // Move player into position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
@@ -209,7 +212,7 @@ public class PodiumController : MiniGame
         // Move player back to original position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
-            _playerObject.transform.GetChild(i).position = _playerChildTransforms[i];
+            _playerObject.transform.GetChild(i).localPosition = _playerChildTransforms[i];
         }
 
         // Turn on player camera
