@@ -34,6 +34,7 @@ public class RecipeController : MiniGame
 
     // assign in inspector
     public IngredientEntranceTrigger EntranceIngredients;
+    public IngredientCauldronRaycast CauldronRaycast;
     public List<Recipe_Script> MyRecipes = new List<Recipe_Script>();
     public List<Sprite> PossibleSprites = new List<Sprite>();
     public List<float> SpriteScales = new List<float>();
