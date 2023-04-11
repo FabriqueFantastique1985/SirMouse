@@ -64,7 +64,7 @@ public class MiniGameSystem : GameSystem
 
                 Debug.Log("Hit " + hit.transform.name);
 
-                if (hit.transform.TryGetComponent<IClickable>(out IClickable clickable))
+                if (hit.transform.TryGetComponent(out IClickable clickable))
                 {
                     clickable.Click(_player);
                     _onCooldown = true;

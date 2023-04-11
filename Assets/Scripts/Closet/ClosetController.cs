@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class ClosetController : MonoBehaviour
 {
+    public delegate void ClosetControllerDelegate(ButtonClosetOpenSpecificPieces buttonSkinpieceType);
+    public event ClosetControllerDelegate OnSkinpieceUnlocked;
+
     public static ClosetController Instance { get; private set; }
 
     [Header("Closet References")]
@@ -254,6 +257,8 @@ public class ClosetController : MonoBehaviour
 
                         ButtonsClosetPagers[j].IHaveButtonsWithNotificationOn = true;
                         ButtonsClosetPagers[j].ButtonsWithNotifsOnOnMyPage.Add(ButtonsWithNotifications[i]); // this is not adding both arms right now                    
+
+                        OnSkinpieceUnlocked?.Invoke(ButtonsClosetPagers[j]);
                         break;
                     }
                     else if ((ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.FootRight && ButtonsClosetPagers[j].BodyType == Type_Body.FootLeft) ||

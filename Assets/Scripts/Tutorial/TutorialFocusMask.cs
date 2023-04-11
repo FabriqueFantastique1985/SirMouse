@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 [Serializable]
 public class TutorialFocusMask
@@ -23,10 +20,12 @@ public class TutorialFocusMask
             }
             catch (NullReferenceException e)
             {
+                Debug.LogError("Caught a null reference searching for the focus mask.");
                 Debug.LogException(e);
             }
             catch (MissingComponentException e)
             {
+                Debug.LogError("Caught a missing component searching for the focus mask.");
                 Debug.LogException(e);
             }
         }
@@ -39,5 +38,13 @@ public class TutorialFocusMask
         if (transform == null)
             throw new MissingComponentException();
         focusMask = transform;
+    }
+
+    public Vector3 GetWorldPosToCameraPos(Vector3 focusPosition)
+    {
+        //Ray ray = Camera.allCameras[0].ScreenPointToRay(Camera.allCameras[0].WorldToScreenPoint(focusPosition));
+        //return ray.GetPoint(1f);
+
+        return Camera.allCameras[0].WorldToScreenPoint(focusPosition);
     }
 }

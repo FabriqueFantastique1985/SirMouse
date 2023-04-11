@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundtrackPlayer : MonoBehaviour
 {
     public static SoundtrackPlayer Instance;
 
-    public AudioSource AudioSource;
+    [SerializeField]
+    private AudioSource AudioSource;
     [SerializeField]
     private AudioClip[] _soundtracks;
     [SerializeField]
     private bool _playRandomOrder;
     [SerializeField]
     private float _breakSeconds;
+
+    [SerializeField]
+    private AudioMixerSnapshot _defaultSnapshot;
+    [SerializeField]
+    private AudioMixerSnapshot _mutedSnapshot;
 
     private float _timer;
     private int _soundtrackIndex;
@@ -32,8 +39,6 @@ public class SoundtrackPlayer : MonoBehaviour
     private void Start()
     {
         PlaySoundtrack();
-
-        //add myself to the list of ytacks in the audio controller
     }
 
     private void Update()
@@ -81,5 +86,19 @@ public class SoundtrackPlayer : MonoBehaviour
         
         AudioSource.Play();
 
+    }
+
+    public void ChangeTheSoundtrack(AudioClip audioClip, float transitionSeconds)
+    {
+        StartCoroutine(TransitionDelay(audioClip, transitionSeconds));
+    }
+
+    IEnumerator TransitionDelay(AudioClip audioClip, float transitionSeconds)
+    {
+        _mutedSnapshot.TransitionTo(transitionSeconds / 2);
+        yield return new WaitForSeconds(transitionSeconds / 2);
+        AudioSource.clip = audioClip;
+        AudioSource.Play();
+        _defaultSnapshot.TransitionTo(transitionSeconds / 2);
     }
 }

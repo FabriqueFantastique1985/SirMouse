@@ -27,14 +27,18 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
     // * enable the animation component of the sprite visual when the players has it available 
     // * pulse transparent sprites if Players has them in backpack * DONE
 
-
     public void Click(Player player)
+    {
+        ClickNew(player, this);
+    }
+    public void ClickNew(Player player, MerchantRequestButton buttonClicked)
     {
         ResourceController.Instance.RemoveResource(ResourceToDeliver.ResourceType);
 
         CompletedThisButton(_spriteFullParent);
 
-        _myMerchant.CurrentRequest.DeliverResource(ResourceToDeliver.ResourceType);
+        _myMerchant.CurrentRequest.DeliverResource(ResourceToDeliver.ResourceType, buttonClicked);
+
         _myMerchant.CurrentRequest.ClickedButtonOfResourceX(ResourceToDeliver.ResourceType);
 
         _myMerchant.CurrentRequest.CheckRequestFinished();
@@ -55,6 +59,7 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
     public void ActivatePulsing(bool state)
     {
+        Debug.Log("Activated pulsing with state = " + state + " for button " + this.gameObject.name);
         _spriteTransparentParentAnimation.enabled = state;
     }
     public void ActivateCollider(bool state)
@@ -66,7 +71,9 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
     private void SetMerchantRequestButtonValues(DeliverableResource deliverableResource)
     {
-        ResourceToDeliver = deliverableResource; // does this work ?
+        //ResourceToDeliver = deliverableResource; // does this work ?
+        ResourceToDeliver.ResourceType = deliverableResource.ResourceType;
+        ResourceToDeliver.Delivered = deliverableResource.Delivered;
     }
     private void SetMerchantRequestButtonSprites(Merchant merchant, DeliverableResource deliverableResource)
     {
@@ -80,7 +87,7 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
         if (ResourceToDeliver.Delivered == true)
         {
-            Debug.Log("finished delivering " + deliverableResource + ", cuzz my resource is set on -> " + ResourceToDeliver.ResourceType + " --- " + ResourceToDeliver.Delivered);
+            Debug.Log("finished delivering on button " +  this.gameObject.name + ", cuzz my resource is set on -> " + ResourceToDeliver.ResourceType + " --- " + ResourceToDeliver.Delivered);
             CompletedThisButton(spriteFullObj);
         }
     }
@@ -104,7 +111,6 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
         _spriteFullParent.SetActive(true);       
         spriteFull.SetActive(true);
     }
-
 
 
 }

@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPersistence
 {
+    [SerializeField] private List<TutorialData> _scriptableObjects = new List<TutorialData>();
     private Dictionary<TutorialData, bool> _isTutorialComplete = new Dictionary<TutorialData, bool>();
 
     protected override void Awake()
     {
-  //      string[] assetNames = AssetDatabase.FindAssets("TutorialData", new[] { "Assets/ScriptableObjects/Tutorial" });
-  //      foreach (string SOName in assetNames)
-  //      {
-  //          var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-  //          var data = AssetDatabase.LoadAssetAtPath<TutorialData>(SOpath);
-  //          _isTutorialComplete.Add(data, false);
-  //      }
+        base.Awake();
+
+        foreach (var scriptableObject in _scriptableObjects)
+        {
+            _isTutorialComplete[scriptableObject] = false;
+        }
     }
 
     public bool IsTutorialComplete(TutorialData tutorial)
@@ -33,8 +33,8 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     {
         if (_isTutorialComplete.ContainsKey(tutorial))
         {
-            DataPersistenceManager.Instance.SaveGame();
             _isTutorialComplete[tutorial] = true;
+            DataPersistenceManager.Instance.SaveGame();
             return;
         }
 
@@ -44,12 +44,27 @@ public class TutorialTracker : MonoBehaviourSingleton<TutorialTracker>, IDataPer
     public void LoadData(GameData data)
     {
         // For each tutorial scriptable object, save the IsTutorialFinished boolean
-  //      _isTutorialComplete = data.IsTutorialComplete;
+        foreach (var tutorialData in data.IsTutorialComplete)
+        {
+            foreach (var tutorial in _isTutorialComplete)
+            {
+                if (tutorialData.Key == tutorial.Key.name)
+                {
+                    _isTutorialComplete[tutorial.Key] = tutorialData.Value;
+                    break;
+                }
+            }
+        }
     }
 
     public void SaveData(ref GameData data)
     {
         // For each tutorial scriptable object, load the IsTutorialFinished boolean
-   //     data.IsTutorialComplete = _isTutorialComplete;
+        data.IsTutorialComplete.Clear();
+
+        foreach (var tutorial in _isTutorialComplete)
+        {
+            data.IsTutorialComplete[tutorial.Key.name] = tutorial.Value;
+        }
     }
 }

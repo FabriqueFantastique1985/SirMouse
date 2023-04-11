@@ -19,11 +19,22 @@ public class MoveAction : ChainActionMonoBehaviour
     {
         _startMaxTime = Mathf.Infinity;
         _tutorialFocus = new TutorialFocusMask();
+        enabled = false;
+    }
+
+    private void Update()
+    {
+        if (_focus)
+        {
+            _focusMask.position = _tutorialFocus.GetWorldPosToCameraPos(_focus.transform.position);
+        }
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
+
+        enabled = true;
 
         _tutorialFocus.Initialize(ref _focusMask);
 
@@ -43,6 +54,7 @@ public class MoveAction : ChainActionMonoBehaviour
     private void OnClick(RaycastHit hit, Vector3 mousePos)
     {
         // Check if mousepos is inside of mask
+        //if (IsInTargetArea(mousePos, Camera.allCameras[0].WorldToScreenPoint(_focusMask.transform.position), _focusMask.rect))
         if (IsInTargetArea(mousePos, _focusMask.transform.position, _focusMask.rect))
         {
             // Check layer and move player when clicking on ground
@@ -61,7 +73,6 @@ public class MoveAction : ChainActionMonoBehaviour
         var player = GameManager.Instance.Player;
         while (player.transform.position != player.Agent.destination)
         {
-            _focusMask.anchoredPosition = Camera.allCameras[0].WorldToScreenPoint(_focus.transform.position);
             yield return null;
         }
         _maxTime = -1f;
@@ -84,6 +95,8 @@ public class MoveAction : ChainActionMonoBehaviour
     public override void OnExit()
     {
         base.OnExit();
+        
+        enabled = false;
 
         // Unsubscribe from click event
         if (_tutorialSystem != null)

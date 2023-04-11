@@ -9,7 +9,7 @@ public class TimelineAction : ChainActionMonoBehaviour
 
     private void Start()
     {
-        _startMaxTime = Mathf.Infinity;
+        _startMaxTime = (float)_timeline.duration;
     }
 
     public override void OnEnter()

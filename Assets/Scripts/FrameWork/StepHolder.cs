@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class StepHolder : MonoBehaviour
 {
+    [SerializeField] private int _initiative = 0;
+
+    public int Initiative => _initiative;
+
     private List<Step> _steps = new List<Step>();
     public List<Step> Steps
     {

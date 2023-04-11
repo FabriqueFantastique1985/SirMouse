@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class GatherableObject : MonoBehaviour, IDataPersistence
 {
+    public AudioElement _clipPickup;
+    
     [SerializeField]
     private string _id;
 

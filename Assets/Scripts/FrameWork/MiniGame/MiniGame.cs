@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MiniGame : MonoBehaviour, IDataPersistence
+public class MiniGame : MonoBehaviour/*, IDataPersistence*/
 {
     #region Events
 
