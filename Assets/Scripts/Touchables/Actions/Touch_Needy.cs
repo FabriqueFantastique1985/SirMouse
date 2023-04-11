@@ -8,6 +8,10 @@ public class Touch_Needy : Touch_Action
     [SerializeField]
     private InteractableNeedyTouchables _interactableOfInterest;
 
+    [Header("Sprite Parent")]
+    public GameObject MySpriteParent;
+
+
 
     public override void Act()
     {
@@ -19,6 +23,14 @@ public class Touch_Needy : Touch_Action
         // add to list
         _interactableOfInterest.UpdateMyList(_touchableScript);
 
-        //this.gameObject.SetActive(false); // this breaks something .....???
+        // particle
+        if (_interactableOfInterest.ParticlePoofTapped != null)
+        {
+            Instantiate(_interactableOfInterest.ParticlePoofTapped, this.transform.position, Quaternion.identity);
+        }
+
+        // makee invisible
+        MySpriteParent.SetActive(false);
+        _touchableScript.Collider.enabled = false;
     }
 }
