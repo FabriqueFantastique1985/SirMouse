@@ -20,6 +20,8 @@ public class MainMenu : MonoBehaviour
     {
         _newGameButton.onClick.AddListener(StartNewGame);
         _continueButton.onClick.AddListener(ContinueGame);
+        
+        _continueButton.interactable = DataPersistenceManager.Instance.HasGameData;
     }
 
     private void ContinueGame()
@@ -30,6 +32,7 @@ public class MainMenu : MonoBehaviour
     private async void StartNewGame()
     {
         await Task.Run(DataPersistenceManager.Instance.ClearGame);
+        DataPersistenceManager.Instance.NewGame();
         Loader.Instance.LoadScene(_toLoadScene);
     }
 }

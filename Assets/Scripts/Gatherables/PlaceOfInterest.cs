@@ -7,6 +7,8 @@ public class PlaceOfInterest : MonoBehaviour
     [Header("Icon Visual")]
     [SerializeField]
     private GameObject _icon;
+    [SerializeField]
+    private GameObject _iconSpriteParentAnimator;
 
     [Header("Colliders")]
     [SerializeField]
@@ -15,7 +17,7 @@ public class PlaceOfInterest : MonoBehaviour
     private Collider _triggerToExitToSeeIcon;
 
     [Header("Status")]
-    public bool CompletedMe = false; // save this
+    public bool CompletedMe = false; 
 
 
     protected virtual void Start()
@@ -37,10 +39,16 @@ public class PlaceOfInterest : MonoBehaviour
     public virtual void ShowIcon()
     {
         _icon.SetActive(true);
+
+        _triggerToEnterToSeeRequest.enabled = true;
+        _triggerToExitToSeeIcon.enabled = false;
     }
     public virtual void HideIcon()
     {
         _icon.SetActive(false);
+
+        _triggerToEnterToSeeRequest.enabled = false;
+        _triggerToExitToSeeIcon.enabled = true;
     }
     public virtual void HideIconPermanently()
     {

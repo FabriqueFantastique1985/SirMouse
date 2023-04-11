@@ -7,6 +7,6 @@ public class DeliverableResource
 {
     public Type_Resource ResourceType;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool Delivered;
 }

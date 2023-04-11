@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class RewardController : MonoBehaviour
 {
+    public delegate void RewardControllerDelegate(SkinPieceElement reward);
+    public event RewardControllerDelegate OnRewardGiven;
+
     public static RewardController Instance { get; private set; }
 
     [SerializeField]
@@ -72,9 +75,9 @@ public class RewardController : MonoBehaviour
                 ClosetController.Instance.AddNotificationToList(buttonOfinterest);
 
                 // instantiate it (only 1 of feet,arms,legs)
-                if (skinPiecesToGive[i].MyBodyType == Type_Body.ArmRight ||
-                    skinPiecesToGive[i].MyBodyType == Type_Body.LegRight ||
-                    skinPiecesToGive[i].MyBodyType == Type_Body.FootRight)
+                if (skinPiecesToGive[i].Data.MyBodyType == Type_Body.ArmRightUpper ||
+                    skinPiecesToGive[i].Data.MyBodyType == Type_Body.LegRightUpper ||
+                    skinPiecesToGive[i].Data.MyBodyType == Type_Body.FootRight)
                 {
                     // do nothing
                 }
@@ -85,6 +88,9 @@ public class RewardController : MonoBehaviour
                     objectToAdd.SetActive(false);
                     // add to list
                     instantiatedObjects.Add(objectToAdd);
+
+                    // Invoke event
+                    OnRewardGiven?.Invoke(skinPiecesToGive[i]);
                 }
             }
             else

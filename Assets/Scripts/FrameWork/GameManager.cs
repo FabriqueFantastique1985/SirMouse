@@ -24,8 +24,11 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     public LayerMask LayersMainGameSystemWillIgnore;
     public LayerMask LayersMiniGameSystemWillIgnore;
+    public LayerMask LayersTutorialSystemWillIgnore;
 
     //public PlayerReferences PlayerRefs;
+
+    private GameSystem _previousSystem = null; 
 
     #region Fields
 
@@ -46,6 +49,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     public Chain Chain => _chain;
     public ChainMono ChainMono => _chainMono;
+    public GameSystem CurrentGameSystem => _currentGameSystem; 
 
     #endregion
 
@@ -126,11 +130,32 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         Player.Character.SetBoolSleeping(true);
     }
 
+    public void EnterTutorialSystem()
+    {
+        _previousSystem = _currentGameSystem;
+        _currentGameSystem = new TutorialSystem(Player, LayersTutorialSystemWillIgnore);
+
+        // make sleeping illegal
+        Player.Character.SetBoolSleeping(true);
+    }
+
+    public void ExitTutorialSystem()
+    {
+        if (_previousSystem != null)
+        {
+            _currentGameSystem = _previousSystem;
+            _previousSystem = null;
+        }
+        else
+        {
+            _currentGameSystem = new MainGameSystem(Player, LayersMainGameSystemWillIgnore);
+        }
+    }
+
     private void Update()
     {
-        //Debug.Log(_blockInput + " block bool");
-
-        if (_blockInput == false) _currentGameSystem.HandleInput();
+        if (_blockInput == false) 
+            _currentGameSystem.HandleInput();
         _currentGameSystem.Update();
 
         _chain.UpdateChain(Time.deltaTime);

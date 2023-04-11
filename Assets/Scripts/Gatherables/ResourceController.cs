@@ -67,6 +67,7 @@ public class ResourceController : MonoBehaviour
                     _slotsResourcesTaken.Add(slotOfInterest);
 
                     // change the sprite number
+                    slotOfInterest.ImageAmount.gameObject.SetActive(true);
                     slotOfInterest.ImageAmount.enabled = true;
                     slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Amount - 1];
 
@@ -98,6 +99,7 @@ public class ResourceController : MonoBehaviour
                 else
                 {
                     // remove the visual of the number
+                    slotOfInterest.ImageAmount.gameObject.SetActive(false);
                 }
                 
 

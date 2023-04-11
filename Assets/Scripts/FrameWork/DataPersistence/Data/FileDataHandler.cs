@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class FileDataHandler
@@ -35,7 +36,7 @@ public class FileDataHandler
                 }
                 
                 // deserialize data from json into C# object
-                loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+                loadedData = JsonConvert.DeserializeObject<GameData>(dataToLoad);// JsonUtility.FromJson<GameData>(dataToLoad);
             }
             catch (Exception e)
             {
@@ -56,7 +57,12 @@ public class FileDataHandler
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
             // serialize data to json
-            string dataToStore = JsonUtility.ToJson(data, true);
+            string dataToStore = JsonConvert.SerializeObject(data, Formatting.Indented, 
+                new JsonSerializerSettings 
+                { 
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+                });// JsonUtility.ToJson(data, true);
             
             // write the serialized data to the file
             using (FileStream stream = new FileStream(fullPath, FileMode.Create))

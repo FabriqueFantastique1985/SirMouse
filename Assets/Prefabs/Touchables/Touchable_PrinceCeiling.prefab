@@ -561,28 +561,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pickup:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Drop:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Disappear:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   _droppedInteractable: {fileID: 5073434346119380032}
   _animatorDrop: {fileID: 5073434345807352943}
 --- !u!1 &6656762685519450510
@@ -1023,6 +1038,16 @@ PrefabInstance:
     - target: {fileID: 3342751961518332251, guid: b31f9ecc04f982240b41a2191059bc5a,
         type: 3}
       propertyPath: MySkinType
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3342751961518332251, guid: b31f9ecc04f982240b41a2191059bc5a,
+        type: 3}
+      propertyPath: Data.MyBodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3342751961518332251, guid: b31f9ecc04f982240b41a2191059bc5a,
+        type: 3}
+      propertyPath: Data.MySkinType
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6467396278861592399, guid: b31f9ecc04f982240b41a2191059bc5a,
