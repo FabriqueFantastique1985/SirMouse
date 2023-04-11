@@ -34,6 +34,6 @@ public class Gatherable : MonoBehaviour
 
         // set object to inactive
         SpriteVisuals?.SetActive(false);
-        Destroy(gameObject, .5f);
+        Destroy(gameObject, 2f);
     }
 }
