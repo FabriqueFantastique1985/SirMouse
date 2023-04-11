@@ -75,7 +75,7 @@ public class PodiumController : MiniGame
 
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
-            _playerChildTransforms.Add(Vector3.zero);
+            _playerChildTransforms.Add(_playerObject.transform.GetChild(i).position);
         }
 
         // Set button information
@@ -179,7 +179,6 @@ public class PodiumController : MiniGame
         // Move player into position
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
-            _playerChildTransforms[i] = _playerObject.transform.GetChild(i).position;
             _playerObject.transform.GetChild(i).position = _playerLocation.position;
         }
 
