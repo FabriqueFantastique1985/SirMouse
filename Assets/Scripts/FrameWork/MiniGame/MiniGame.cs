@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(ID))]
 public class MiniGame : MonoBehaviour/*, IDataPersistence*/
 {
     #region Events
@@ -56,9 +57,9 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     
     private void Awake()
     {
-        if (_id == string.Empty)
+        if (_id == null)
         {
-            Debug.LogError("No id yet made! Please generate one!");
+            _id = GetComponent<ID>();
         }
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
