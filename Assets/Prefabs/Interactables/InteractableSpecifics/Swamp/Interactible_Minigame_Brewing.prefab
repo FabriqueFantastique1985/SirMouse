@@ -6525,6 +6525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2968076236740871904}
   - component: {fileID: 7826051418475360767}
+  - component: {fileID: 570328905999428566}
   m_Layer: 13
   m_Name: Cast_Ingredients_On_This (1)
   m_TagString: Untagged
@@ -6559,6 +6560,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.2098074, y: 2.5687046, z: 0.4805773}
   m_Center: {x: -0.060334682, y: -0.784352, z: -0.30225962}
+--- !u!114 &570328905999428566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593403710436577584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d258c5deba06634b885be2ca77c0b39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1796869395463869871
 GameObject:
   m_ObjectHideFlags: 0
@@ -41016,6 +41029,7 @@ MonoBehaviour:
     RangeLimit: 0
     PitchLowerLimitRange: 1
     PitchUpperLimitRange: 1
+  CurrentlyDroppedIngredient: {fileID: 0}
 --- !u!1 &7152090675540513383
 GameObject:
   m_ObjectHideFlags: 0
@@ -65192,10 +65206,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: 757839bb24e3d1848a5ff7346b3d6831,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: 757839bb24e3d1848a5ff7346b3d6831,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: 757839bb24e3d1848a5ff7346b3d6831,
         type: 3}
@@ -65736,10 +65755,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: d2ad728e931290347a3e0dbe31115087,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: d2ad728e931290347a3e0dbe31115087,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: d2ad728e931290347a3e0dbe31115087,
         type: 3}
@@ -65833,10 +65857,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: 9e86407b4aefb1c4a9d1ff7672bae77f,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: 9e86407b4aefb1c4a9d1ff7672bae77f,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: 9e86407b4aefb1c4a9d1ff7672bae77f,
         type: 3}
@@ -65930,10 +65959,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: ce35c969a1e95824e89c9ab78afca810,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: ce35c969a1e95824e89c9ab78afca810,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: ce35c969a1e95824e89c9ab78afca810,
         type: 3}
@@ -66027,10 +66061,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: 3f270aecfc9c5054db8c261e38a21f5e,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: 3f270aecfc9c5054db8c261e38a21f5e,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: 3f270aecfc9c5054db8c261e38a21f5e,
         type: 3}
@@ -66124,10 +66163,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: c1d4c01ce2027224ab1b889501570204,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: c1d4c01ce2027224ab1b889501570204,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: c1d4c01ce2027224ab1b889501570204,
         type: 3}
@@ -66221,10 +66265,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: 4c4cf38d9167fd540a4b9cf348b1fbd6,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: 4c4cf38d9167fd540a4b9cf348b1fbd6,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: 4c4cf38d9167fd540a4b9cf348b1fbd6,
         type: 3}
@@ -66388,6 +66437,11 @@ PrefabInstance:
       propertyPath: ParticleSplash
       value: 
       objectReference: {fileID: 6302563866512264849}
+    - target: {fileID: 5071068947695893692, guid: 850a649126b70e647a79ec784a6148ec,
+        type: 3}
+      propertyPath: CauldronRaycast
+      value: 
+      objectReference: {fileID: 570328905999428566}
     - target: {fileID: 5071068947695893692, guid: 850a649126b70e647a79ec784a6148ec,
         type: 3}
       propertyPath: NewCameraTarget
@@ -66685,10 +66739,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: 6805fec5885eb5147b0489b89e1b20dc,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: 6805fec5885eb5147b0489b89e1b20dc,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: 6805fec5885eb5147b0489b89e1b20dc,
         type: 3}
@@ -66782,10 +66841,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1227701454735053983}
     m_Modifications:
+    - target: {fileID: 104485456592497139, guid: cb362978c569c3142b9b48ac4a68eb5e,
+        type: 3}
+      propertyPath: _recipeController
+      value: 
+      objectReference: {fileID: 3190461176604182698}
     - target: {fileID: 2201232720144254809, guid: cb362978c569c3142b9b48ac4a68eb5e,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3500934503644440907, guid: cb362978c569c3142b9b48ac4a68eb5e,
         type: 3}
