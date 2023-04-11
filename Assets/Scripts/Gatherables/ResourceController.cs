@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ResourceController : MonoBehaviour
 {
+    public delegate void ResourceControllerDelegate();
+    public event ResourceControllerDelegate ResourceCollected;
+
     public static ResourceController Instance { get; private set; }
 
 
@@ -28,9 +31,6 @@ public class ResourceController : MonoBehaviour
         }
         Instance = this;
     }
-
-
-
 
     public void AddResource(Type_Resource resourceToAdd)
     {
@@ -78,6 +78,9 @@ public class ResourceController : MonoBehaviour
                 }
             }
         }
+
+        // Call event on resource collected
+        ResourceCollected?.Invoke();
     }
 
 

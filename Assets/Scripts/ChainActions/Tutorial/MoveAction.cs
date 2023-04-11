@@ -17,14 +17,14 @@ public class MoveAction : ChainActionMonoBehaviour
 
     private Vector3 _destination;
 
-    private void Start()
+    protected virtual void Start()
     {
         _startMaxTime = Mathf.Infinity;
         _tutorialFocus = new TutorialFocusMask();
         enabled = false;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (_focus)
         {
@@ -78,7 +78,16 @@ public class MoveAction : ChainActionMonoBehaviour
         {
             yield return null;
         }
-        _maxTime = -1f;
+
+        if (HasCompletedObjective())
+        {
+            _maxTime = -1f;
+        }
+    }
+
+    protected virtual bool HasCompletedObjective()
+    {
+        return true;
     }
 
     private bool IsInTargetArea(Vector3 myPos, Vector3 targetPos, Rect targetRect)
