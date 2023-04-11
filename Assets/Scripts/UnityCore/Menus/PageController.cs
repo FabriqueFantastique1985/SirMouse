@@ -42,6 +42,7 @@ namespace UnityCore
                     m_Pages = new Hashtable();
                     RegisterAllPages();
 
+                    TurnAllPagesOffExcept(PageType.None);
                     if (EntryPage != PageType.None)
                     {
                         TurnPageOn(EntryPage);

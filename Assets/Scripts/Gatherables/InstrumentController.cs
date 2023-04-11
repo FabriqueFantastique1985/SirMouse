@@ -19,8 +19,7 @@ public class InstrumentController : MonoBehaviour
 
     public SlotInstrument ActiveInstrumentSlot;
     public InstrumentPiece ActiveInstrumentPiece;
-
-
+    
     private void Awake()
     {
         // Singleton 
@@ -75,6 +74,8 @@ public class InstrumentController : MonoBehaviour
             }
         }
     }
+    
+    // called on buttons in Backpack
     public void DeactivateInstrument()
     {
         if (ActiveInstrumentSlot != null)
@@ -116,6 +117,7 @@ public class InstrumentController : MonoBehaviour
 
         SkinsMouseController.Instance.HideOrShowSwordAndShield(false);
     }
+    
     public void UnEquipInstrument()
     {
         //Debug.Log("Active piece is " + ActiveInstrumentPiece.gameObject.name);
