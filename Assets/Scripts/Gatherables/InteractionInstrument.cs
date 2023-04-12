@@ -10,4 +10,11 @@ public class InteractionInstrument : Interaction
 
         Debug.Log("INTERACTED WOOHOO");
     }
+
+
+    // method to hide any objects that shouldn't be there anymore (like a chest)
+    public virtual void HideInteraction()
+    {
+
+    }
 }
