@@ -27,7 +27,6 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     protected override void Start()
     {
         base.Start();
-        _droppedInteractable.SetActive(false);
         foreach (var gatherable in _gatherablesToSpawn)
         {
             gatherable.Gatherable.SetActive(false);
