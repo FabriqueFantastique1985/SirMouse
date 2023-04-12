@@ -49,9 +49,19 @@ public class MainGameSystem : GameSystem
         }
     }
 
-    public override void HandleInput()
+    public override void HandleInput(bool isInputBlocked)
     {
-        if (Input.GetMouseButton(0) && _onCooldown == false )
+        if (Input.GetMouseButtonUp(0))
+        {
+            _layerHit = -1;
+        }
+
+        if (isInputBlocked)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButton(0) && _onCooldown == false)
         {
             Vector3 currentTarget = Input.mousePosition;
             Ray ray = Camera.allCameras[0].ScreenPointToRay(currentTarget);
@@ -83,10 +93,6 @@ public class MainGameSystem : GameSystem
                     _onCooldown = true;
                 }
             }
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            _layerHit = -1;
         }
     }
 
