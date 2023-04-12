@@ -523,7 +523,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             {
                 // if i have equipment out...
                 var hasInstrumentEquiped = InstrumentController.Instance.EquipedInstrument != Type_Instrument.None;
-                tempList[i].gameObject.SetActive(hasInstrumentEquiped);
+                tempList[i].gameObject.SetActive(!hasInstrumentEquiped);
             }
             else
             {
@@ -548,7 +548,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             }
         }
 
-        DebugConsoleScore();
+        CountTotalScore();
     }
 
     private void FindCorrectSkinPieceRig(SkinPiecesForThisBodyType skinPiecesForBodyX,
@@ -584,7 +584,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 SetSirMouseGeometryState(bodyType, !tempSkinPiece.HidesSirMouseGeometry, tempSkinPiece.ShowUpper, tempSkinPiece.ShowLower);
 
                 Debug.Log("Equiping piece " + tempSkinPiece);
-                DebugConsoleScore();
+                CountTotalScore();
             }
         }
 
@@ -800,7 +800,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     }
 
 
-    private void DebugConsoleScore()
+    private void CountTotalScore()
     {
         int totalScore = 0;
 

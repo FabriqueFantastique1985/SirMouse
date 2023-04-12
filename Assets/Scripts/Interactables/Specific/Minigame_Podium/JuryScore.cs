@@ -49,8 +49,10 @@ public class JuryScore : MonoBehaviour
             }
 
             // Calculate how many stars the jury will display
-            int score = Mathf.Max((int)((float)(_score + offset) / 100f * _starMaximum));
-            score = Mathf.Max(_starMinimum, score);
+            float scoreWithOffset = _score + offset;
+            int score = (int)(scoreWithOffset / 100f * _starMaximum);
+            score += _starMinimum;
+            score = Mathf.Min(score, _starMaximum);
 
             if (score - 1  < _juryBoardScores[i].transform.childCount)
             {
