@@ -7,6 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(ID))]
 public class GatherableObject : MonoBehaviour, IDataPersistence
 {
+    public delegate void GatherableObjectDelegate(GatherableObject thisGatherable);
+    public event GatherableObjectDelegate ObjectGathered;
+
     public AudioElement _clipPickup;
     
     [SerializeField]
@@ -33,6 +36,7 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
     
     public virtual void PickedUpGatherable()
     {
+        ObjectGathered?.Invoke(this);
         _isGathered = true;
     }
 

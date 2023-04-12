@@ -1,20 +1,37 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 
+[Serializable]
+struct SpawnedGatherable
+{
+    public GameObject Gatherable;
+    public Animator GatherableAnimator;
+}
+
 public class Touch_Drop : Touch_Action, IDataPersistence
 {
-    [SerializeField] private GameObject _droppedInteractable;
-    [SerializeField] private Animator _animatorDrop;
-    private bool _hasFallen = false;
+    [SerializeField] private List<SpawnedGatherable> _gatherablesToSpawn = new List<SpawnedGatherable>();
+
+    [SerializeField] private ID _id;
+
+    private int _gatherablesSpawnedIndex = 0;
+    private int _gatherablesCollectedIndex = 0;
 
     private ShineBehaviour _shineBehaviour;
+
+    private bool _isCompleted = false;
 
     protected override void Start()
     {
         base.Start();
         _droppedInteractable.SetActive(false);
+        foreach (var gatherable in _gatherablesToSpawn)
+        {
+            gatherable.Gatherable.SetActive(false);
+        }
         _shineBehaviour = GetComponent<ShineBehaviour>();
     }
 
@@ -22,32 +39,71 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     {
         base.Act();
 
-        if (!_hasFallen)
+        if (_isCompleted)
         {
-            _droppedInteractable.SetActive(true);
-            _animatorDrop.SetTrigger("Activate");
-            //DataPersistenceManager.Instance.SaveGame();
-            _hasFallen = true;
+            return;
+        }
 
-            if(_shineBehaviour)
+        // Only spawn gatherables according to max amount and amount already collected
+        int maxCount = _gatherablesToSpawn.Count;
+        if (_gatherablesSpawnedIndex < maxCount - _gatherablesCollectedIndex)
+        {
+            // Spawn new gatherable and play animation
+            var nextGatherable = _gatherablesToSpawn[_gatherablesSpawnedIndex];
+            nextGatherable.Gatherable.SetActive(true);
+            nextGatherable.GatherableAnimator?.SetTrigger("Activate");
+            ++_gatherablesSpawnedIndex;
+
+            var gatherableObject = nextGatherable.Gatherable.GetComponent<GatherableObject>();
+            if(gatherableObject)
+                gatherableObject.ObjectGathered += CollectedGatherable;
+
+        }
+
+        // Check if completed
+        if (_gatherablesSpawnedIndex == _gatherablesToSpawn.Count)
+        {
+            _isCompleted = true;
+            if (_shineBehaviour)
                 _shineBehaviour.IsShineActive = false;
         }
     }
 
+    private void OnDisable()
+    {
+        if (_isCompleted)
+            return;
+
+        foreach (var gatherable in _gatherablesToSpawn)
+        {
+            var gatherableObject = gatherable.Gatherable.GetComponent<GatherableObject>();
+            if (gatherableObject)
+                gatherableObject.ObjectGathered -= CollectedGatherable;
+        }
+    }
+
+    public void CollectedGatherable(GatherableObject gatheredObject)
+    {
+        ++_gatherablesCollectedIndex;
+        gatheredObject.ObjectGathered -= CollectedGatherable;
+    }
+
     public void LoadData(GameData data)
     {
-        // TODO: Implement Load Data
-
-        // if _hasFallen == false
-        // if player is holding apple
-        // OR has apple in backpack
-        // OR if player dropped off apple
-        // _hasFallen = true;
-        // else _hasFallen = false;
+        if (data.DroppedGatherable.ContainsKey(_id))
+        {
+            _gatherablesCollectedIndex = data.DroppedGatherable[_id];
+        }
     }
 
     public void SaveData(ref GameData data)
     {
-        //data.HasAppleFallen = _hasFallen;
+        if (_id == string.Empty)
+        {
+            Debug.LogWarning("No id yet made! Please generate one!");
+            return;
+        }
+
+        data.DroppedGatherable[_id] = _gatherablesCollectedIndex;
     }
 }

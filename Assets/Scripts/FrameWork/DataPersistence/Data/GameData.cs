@@ -43,6 +43,8 @@ public class GameData
     /// </summary>
     public bool HasRecievedMirrorReward = false;
 
+    public Dictionary<string, int> DroppedGatherable = new Dictionary<string, int>();
+
     // These should be initial values to start with 
     public GameData()
     {
