@@ -13,7 +13,11 @@ public class FocusOutfitUnlockAction : FocusAction
 
     private void SetFocus(ButtonClosetOpenSpecificPieces buttonSkinpieceType)
     {
-        ClosetController.Instance.OnSkinpieceUnlocked -= SetFocus;
         Focus = buttonSkinpieceType.transform;
+    }
+
+    private void OnDestroy()
+    {
+        ClosetController.Instance.OnSkinpieceUnlocked -= SetFocus;        
     }
 }

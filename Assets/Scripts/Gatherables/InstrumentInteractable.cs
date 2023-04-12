@@ -70,6 +70,7 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         if (Finished == true)
         {
             _placeOfInterest.HideIconPermanently();
+            _instrumentInteraction.HideInteraction();
         }
     }
 
@@ -85,6 +86,8 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         _interactionBalloonAnimator.Play("Clicked");
         // hide the icon
         _placeOfInterest.HideIconPermanently();
+        // set finished bool
+        Finished = true;
 
         OnInteracted?.Invoke();
         Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);

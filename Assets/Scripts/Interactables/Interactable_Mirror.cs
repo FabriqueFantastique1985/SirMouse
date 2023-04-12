@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable_Mirror : Interactable
+public class Interactable_Mirror : Interactable, IDataPersistence
 {
     [SerializeField] private List<SpriteRenderer> _mirrorImages = new List<SpriteRenderer>();
+    [SerializeField] Type_Skin _requiredSkinType = Type_Skin.None;
     [SerializeField] private float _steps = 0.01f;
+
+    private InteractionGetReward _getReward;
+    private bool _hasRecievedReward = false;
 
     private void Awake()
     {
@@ -13,13 +17,35 @@ public class Interactable_Mirror : Interactable
         {
             image.color = new Color(1f, 1f, 1f, 0f);
         }
+
+        _getReward = GetComponent<InteractionGetReward>();
+        if (_getReward)
+        {
+            _getReward.GetReward += OnGetReward;
+        }
+    }
+
+    private void OnGetReward()
+    {
+        _getReward.GetReward -= OnGetReward;
+        _hasRecievedReward = true;
+        var shineBehavior = GetComponent<ShineBehaviour>();
+        if (shineBehavior)
+        {
+            shineBehavior.IsShineActive = false;
+        }
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
+        if (_hasRecievedReward)
+        {
+            return;
+        }
+
         foreach(var skinPiece in SkinsMouseController.Instance.EquipedSkinPieces) 
         { 
-            if (skinPiece.Data.MyBodyType == Type_Body.Hat && skinPiece.Data.MySkinType == Type_Skin.Ostrich)
+            if (skinPiece.Data.MyBodyType == Type_Body.Hat && skinPiece.Data.MySkinType == _requiredSkinType)
             {
                 base.OnTriggerEnter(other);
                 break;
@@ -56,5 +82,21 @@ public class Interactable_Mirror : Interactable
             }
             yield return null;
         }
+    }
+
+    public new void LoadData(GameData data)
+    {
+        base.LoadData(data);
+        _hasRecievedReward = data.HasRecievedMirrorReward;
+        if (_hasRecievedReward)
+        {
+            OnGetReward();
+        }
+    }
+
+    public new void SaveData(ref GameData data)
+    {
+        base.SaveData(ref data);
+        data.HasRecievedMirrorReward = _hasRecievedReward;
     }
 }
