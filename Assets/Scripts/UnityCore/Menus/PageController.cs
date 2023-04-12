@@ -200,8 +200,12 @@ namespace UnityCore
             public void ShowGameplayHUD(bool state)
             {
                 ButtonBackpackSuper.gameObject.SetActive(state);
-                ButtonEquipToggle.gameObject.SetActive(state);
 
+                if (InstrumentController.Instance.CheckIfFoundInstrument() == true)
+                {
+                    ButtonEquipToggle.gameObject.SetActive(state);
+                }
+                
                 ButtonBack.gameObject.SetActive(!state);
             }
 
