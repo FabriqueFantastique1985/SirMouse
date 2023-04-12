@@ -13,6 +13,16 @@ public class InteractionInstrumentShears : InteractionInstrument
     [SerializeField]
     private List<GameObject> _flowersToSpawn = new List<GameObject>();
 
+
+    private void Start()
+    {
+        for (int i = 0; i < _flowersToSpawn.Count; i++)
+        {
+            _flowersToSpawn[i].SetActive(false);
+        }
+    }
+
+
     protected override void SpecificAction(Player player)
     {
         base.SpecificAction(player);

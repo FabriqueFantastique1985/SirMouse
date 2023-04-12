@@ -26,20 +26,26 @@ public class SlotInstrument : ButtonBaseNew, IDataPersistence
     {
         base.ClickedButton();
 
-        // de-activate other ones
-        InstrumentController.Instance.DeactivateInstrument();
-
-        // activate this one
-        InstrumentController.Instance.ActivateInstrument(this);
-
-
-        // unequip me
+        // if I click this button whilst I have this out...
         if (InstrumentController.Instance.EquipedInstrument == InstrumentType)
         {
-            GameManager.Instance.Player.PushState(new InstrumentUnequipState(GameManager.Instance.Player));
+            // unequip me
+            if (InstrumentController.Instance.EquipedInstrument == InstrumentType)
+            {
+                GameManager.Instance.Player.PushState(new InstrumentUnequipState(GameManager.Instance.Player));
+            }
         }
-        // equip this one
-        GameManager.Instance.Player.PushState(new InstrumentEquipState(GameManager.Instance.Player, InstrumentType));
+        else
+        {
+            // de-activate other ones
+            InstrumentController.Instance.DeactivateInstrument();
+
+            // activate this one
+            InstrumentController.Instance.ActivateInstrument(this);
+
+            // equip this one
+            GameManager.Instance.Player.PushState(new InstrumentEquipState(GameManager.Instance.Player, InstrumentType));
+        }
 
 
         // turn off the current pages (maybe not this ?)
