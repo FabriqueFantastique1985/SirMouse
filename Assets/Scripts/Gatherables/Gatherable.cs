@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class Gatherable : MonoBehaviour
@@ -15,7 +16,6 @@ public class Gatherable : MonoBehaviour
     [SerializeField]
     private GameObject SpriteVisuals;
 
-
     protected virtual void OnTriggerEnter(Collider other)
     {
         GatherableSpecificComponent.PickedUpGatherable();
@@ -26,6 +26,18 @@ public class Gatherable : MonoBehaviour
 
     protected virtual void VisualEventProc()
     {
+        // play sound
+        AudioController.Instance.PlayAudio(GatherableSpecificComponent._clipPickup);
 
+        // play particle
+
+
+        // set object to inactive
+        var collider = GetComponent<Collider>();
+        if (collider)
+            collider.enabled = false;
+        
+        SpriteVisuals?.SetActive(false);
+        Destroy(gameObject, 10f);
     }
 }

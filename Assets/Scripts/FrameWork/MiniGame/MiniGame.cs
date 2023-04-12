@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(ID))]
 public class MiniGame : MonoBehaviour/*, IDataPersistence*/
 {
     #region Events
@@ -21,6 +22,9 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     #endregion
 
     #region EditorFields
+
+    [SerializeField]
+    private ID _id;
 
     /// <summary>
     /// Reference to the game object that is used to quit the minigame.
@@ -53,10 +57,14 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     
     private void Awake()
     {
+        if (_id == null)
+        {
+            _id = GetComponent<ID>();
+        }
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
-
+   
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         if (_hasBeenCompleted == false && IsCurrentStepIndexInRange)
@@ -130,13 +138,18 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
         _exitGameObject.SetActive(true);
     }
 
-    //public void LoadData(GameData data)
-    //{
-    //    _currentStepIndex = data.MiniGameStepIndex;
-    //}
+    public void LoadData(GameData data)
+    {
+        if (_id == string.Empty)
+        {
+            Debug.LogWarning("No id yet made! Please generate one!");
+            return;
+        }
+        _currentStepIndex =  data.MinigamesIndices[_id];
+    }
 
-    //public void SaveData(ref GameData data)
-    //{
-    //    data.MiniGameStepIndex = _currentStepIndex;
-    //}
+    public void SaveData(ref GameData data)
+    {
+        data.MinigamesIndices[_id] = _currentStepIndex;
+    }
 }

@@ -49,6 +49,16 @@ public class FabriqueTools : EditorWindow
         }
         
        if (AlignCameraInput()) AlignCamera();
+       
+       if (GUILayout.Button("Generate unique ID's for all ID's in scene"))
+       {
+           ID[] ids = FindObjectsOfType<ID>();
+           foreach (ID id in ids)
+           {
+                id.GenerateGuid();
+                EditorUtility.SetDirty(id);
+           }
+       }
     }
 
    

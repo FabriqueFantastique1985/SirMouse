@@ -262,8 +262,8 @@ public class ClosetController : MonoBehaviour
                         break;
                     }
                     else if ((ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.FootRight && ButtonsClosetPagers[j].BodyType == Type_Body.FootLeft) ||
-                         (ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.LegRightUpper && ButtonsClosetPagers[j].BodyType == Type_Body.LegLeftUpper) ||
-                         (ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.ArmRightUpper && ButtonsClosetPagers[j].BodyType == Type_Body.ArmLeftUpper))
+                         (ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.LegLeftLower && ButtonsClosetPagers[j].BodyType == Type_Body.LegLeftUpper) ||
+                         (ButtonsWithNotifications[i].MySkinPieceElement.Data.MyBodyType == Type_Body.ArmLeftLower && ButtonsClosetPagers[j].BodyType == Type_Body.ArmLeftUpper))
                     {
                         // activate notif on found button
                         ButtonsClosetPagers[j].NotificationObject.SetActive(true);
@@ -275,6 +275,8 @@ public class ClosetController : MonoBehaviour
 
                         ButtonsClosetPagers[j].IHaveButtonsWithNotificationOn = true;
                         ButtonsClosetPagers[j].ButtonsWithNotifsOnOnMyPage.Add(ButtonsWithNotifications[i]);
+
+                        OnSkinpieceUnlocked?.Invoke(ButtonsClosetPagers[j]);
                         break;
                     }
                 }
@@ -311,8 +313,8 @@ public class ClosetController : MonoBehaviour
                     break;
                 }
                 else if ((buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.FootRight && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.FootLeft) ||
-                         (buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.LegRightUpper && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.LegLeftUpper) ||
-                         (buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.ArmRightUpper && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.ArmLeftUpper))
+                         (buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.LegRightLower && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.LegLeftUpper) ||
+                         (buttonSkinPiece.MySkinPieceElement.Data.MyBodyType == Type_Body.ArmRightLower && ButtonsClosetPagerWithNotifs[i].BodyType == Type_Body.ArmLeftUpper))
                 {
                     CascadeNotificationLogic(buttonSkinPiece, i);
                     break;
