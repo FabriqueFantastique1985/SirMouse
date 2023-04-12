@@ -20,7 +20,7 @@ public abstract class GameSystem
         _layerMask = layerMask;
     }
 
-    public virtual void HandleInput()
+    public virtual void HandleInput(bool isInputBlocked)
     {
         
     }
