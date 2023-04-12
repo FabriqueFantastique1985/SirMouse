@@ -37,7 +37,12 @@ public class GameData
     /// Type_Instrument is the type of instrument and bool is if it has been unlocked or not.
     /// </summary>
     public Dictionary<Type_Instrument, bool> InstrumentData = new Dictionary<Type_Instrument, bool>();
-    
+
+    /// <summary>
+    /// Intended for only 1 mirror in the whole game
+    /// </summary>
+    public bool HasRecievedMirrorReward = false;
+
     // These should be initial values to start with 
     public GameData()
     {
