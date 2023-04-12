@@ -35,6 +35,8 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
     {
         ResourceController.Instance.RemoveResource(ResourceToDeliver.ResourceType);
 
+        UIFlyingToBackpackController.Instance.ThrowItemIntoMerchant(this, ResourceToDeliver.ResourceType);
+
         CompletedThisButton(_spriteFullParent);
 
         _myMerchant.CurrentRequest.DeliverResource(ResourceToDeliver.ResourceType, buttonClicked);

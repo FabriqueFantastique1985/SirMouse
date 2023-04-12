@@ -75,6 +75,19 @@ public class UIFlyingToBackpackController : MonoBehaviour
         }
 
     }
+    public void ThrowItemIntoMerchant(MerchantRequestButton merchantButton, Type_Resource resourceType = Type_Resource.None)
+    {
+        if (resourceType != Type_Resource.None)
+        {
+            var gameObjectToUse = PrefabsResourcesUI[((int)resourceType) - 1];
+            StartCoroutine(SetupThrowIntoMerchant(gameObjectToUse, merchantButton));
+        }
+        else
+        {
+            Debug.Log("Could not find the prefab I should instantiate due to enum error");
+        }
+
+    }
     private static GameObject DisableVisualsPickup(GameObject interactableObj, SpriteRenderer pickupSpriteRender)
     {
         interactableObj.GetComponent<Collider>().enabled = false; // turn this on again when dropping it (+ hide the balloon ?)
@@ -94,6 +107,8 @@ public class UIFlyingToBackpackController : MonoBehaviour
         spriteParent.SetActive(true);
         interactableComp.HideBalloonBackpack();
     }
+
+
     IEnumerator SetupThrowIntoBag(GatherableObject gatherablePickedUp, GameObject prefabToMove)
     {
         // get the world to screen pos of the interactible
@@ -108,11 +123,15 @@ public class UIFlyingToBackpackController : MonoBehaviour
         // Calculate distance to target
         float target_Distance = Vector2.Distance(targetPosition, screenPosition);
 
-        _speed = 400f;
-        _arcHeight = 0.5f;
-        _stepScale = 0f;
-        _stepScale = _speed / target_Distance;
-        _arcHeight = _arcHeight * target_Distance;
+
+        _speed = 1.5f;
+        _arcHeight = 50f;
+        // arc height should be dependant on screen height
+        _arcHeight = (float)Screen.height / 3f;
+
+        _stepScale = _speed;
+        //_stepScale = _speed / target_Distance;
+        //_arcHeight = _arcHeight * target_Distance;
 
         _startPos = screenPosition;
         _endPos = targetPosition;
@@ -121,6 +140,34 @@ public class UIFlyingToBackpackController : MonoBehaviour
 
         yield return null;
     }
+    IEnumerator SetupThrowIntoMerchant(GameObject prefabToMove, MerchantRequestButton merchantButton)
+    {
+        Vector2 screenStartPosition = _backpackSuperRef.transform.position;
+        // get the world to screen pos of the interactible
+        Vector2 targetPosition = GameManager.Instance.CurrentCamera.WorldToScreenPoint(merchantButton.transform.position); 
+                                                                                                                               
+        _objectToMove = Instantiate(prefabToMove, _panelInstantiatedUI.transform);
+        _objectToMove.transform.position = screenStartPosition;
+
+
+        _speed = 3f;
+        _arcHeight = 50f;
+        // arc height should be dependant on screen height
+        _arcHeight = (float)Screen.height / 5f;
+
+        _stepScale = _speed;
+        //_stepScale = _speed / target_Distance;
+        //_arcHeight = _arcHeight * target_Distance;
+
+        _startPos = screenStartPosition;
+        _endPos = targetPosition;
+
+        StartCoroutine(MoveThrownObjectToMerchant(_objectToMove, _startPos, _endPos));
+
+        yield return null;
+    }
+
+
     private IEnumerator MoveThrownObject(GameObject objectChugged, Vector2 startPos, Vector2 endPos)
     {
         float progress = 0;
@@ -146,11 +193,47 @@ public class UIFlyingToBackpackController : MonoBehaviour
 
         ImageArrivedInBag(objectChugged);
     }
+    private IEnumerator MoveThrownObjectToMerchant(GameObject objectChugged, Vector2 startPos, Vector2 endPos)
+    {
+        float progress = 0;
+        float arcHeight = _arcHeight;
+
+        while (progress < 1.0f)
+        {
+            // Increment our progress from 0 at the start, to 1 when we arrive.
+            progress = Mathf.Min(progress + Time.deltaTime * _stepScale, 1.0f);
+            // Turn this 0-1 value into a parabola that goes from 0 to 1, then back to 0.
+            float parabola = 1.0f - 4.0f * (progress - 0.5f) * (progress - 0.5f);
+            // Travel in a straight line from our start position to the target.        
+            Vector3 nextPos = Vector3.Lerp(startPos, endPos, progress);
+            // Then add a vertical arc in excess of this.
+            nextPos.y += parabola * arcHeight;
+
+            // Continue as before.                            
+            objectChugged.transform.position = nextPos;
+            //objectChugged.transform.localPosition = nextPos;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        ImageArrivedInMerchant(objectChugged);
+    }
+
+
+
     private void ImageArrivedInBag(GameObject imageObj)
     {
         // activates animation bag
         _buttonBackpackSuper.PlayAnimationPress();
 
+        // play sound
+        AudioController.Instance.PlayAudio(_clipLandInBackpack);
+
+        // destroy the UI image
+        Destroy(imageObj);
+    }
+    private void ImageArrivedInMerchant(GameObject imageObj)
+    {
         // play sound
         AudioController.Instance.PlayAudio(_clipLandInBackpack);
 
