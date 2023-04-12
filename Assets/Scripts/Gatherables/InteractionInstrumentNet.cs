@@ -7,7 +7,7 @@ public class InteractionInstrumentNet : InteractionInstrument
 {
     [Header("Gameobject references")]
     [SerializeField]
-    private GameObject ButterflyToSpawn;
+    private List<GameObject> _butterfliesToSpawn = new List<GameObject>();
 
     private Character _character;
     private bool _isCatchingButterflies = false;
@@ -15,7 +15,10 @@ public class InteractionInstrumentNet : InteractionInstrument
 
     private void Start()
     {
-        ButterflyToSpawn.SetActive(false);
+        for (int i = 0; i < _butterfliesToSpawn.Count; i++)
+        {
+            _butterfliesToSpawn[i].SetActive(false);
+        }
 
         _character = GameManager.Instance.Player.Character;
         _character.AnimationDoneEvent += EnableJar;
@@ -34,6 +37,13 @@ public class InteractionInstrumentNet : InteractionInstrument
         StartCoroutine(DisableBlockInput());
     }
 
+    public override void HideInteraction()
+    {
+        base.HideInteraction();
+
+        // maybe hide butterflies ?
+    }
+
     private IEnumerator DisableBlockInput()
     {
         float curentStateLength = GameManager.Instance.Player.Character.AnimatorRM.GetCurrentAnimatorStateInfo(0).length;
@@ -46,7 +56,11 @@ public class InteractionInstrumentNet : InteractionInstrument
     {
         if (_isCatchingButterflies)
         {
-            ButterflyToSpawn.SetActive(true);
+            for (int i = 0; i < _butterfliesToSpawn.Count; i++)
+            {
+                _butterfliesToSpawn[i].SetActive(true);
+            }
+
             _character.AnimationDoneEvent -= EnableJar;
             GameManager.Instance.BlockInput = false;
         }

@@ -18,8 +18,37 @@ public class ButtonEquipToggle : ButtonBaseNew
     public Collider ColliderComponent;
 
     [Header("Reference children")]
-    public GameObject ImageInsideButtonState0;
-    public GameObject ImageInsideButtonState1;
+    [SerializeField]
+    private GameObject _buttonState0;
+    [SerializeField]
+    private GameObject _buttonState1;
+    [SerializeField]
+    private List<GameObject> _instrumentsInButtonNormal = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> _instrumentsInButtonBlue = new List<GameObject>();
+
+
+    protected override void Start() // this start needs to happen after the InstrumentController start
+    {
+        base.Start();
+
+        // SAVE DATA !!!!
+
+
+        // if I have found an instrument -> show the button
+        if (InstrumentController.Instance.CheckIfFoundInstrument() == true)
+        {
+            this.gameObject.SetActive(true);
+
+            SetButtonState(true);
+            SetInstrumentSprite();
+        }
+        else
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
 
     public override void ClickedButton()
     {
@@ -42,8 +71,36 @@ public class ButtonEquipToggle : ButtonBaseNew
                 GameManager.Instance.Player.PushState(new InstrumentUnequipState(GameManager.Instance.Player));
                 PlaySoundEffectMultiple(_soundEffectDifferentState);
             }
+
+            SetInstrumentSprite();
         }
 
+    }
+
+    public void SetInstrumentSprite()
+    {
+        // disable instrument visual in button toggle
+        for (int i = 0; i < _instrumentsInButtonNormal.Count; i++)
+        {
+            _instrumentsInButtonNormal[i].SetActive(false);
+            _instrumentsInButtonBlue[i].SetActive(false);
+        }
+        // activate correct instrument visual
+        _instrumentsInButtonNormal[((int)InstrumentController.Instance.ActiveInstrumentPiece.InstrumentType) - 1].SetActive(true);
+        _instrumentsInButtonBlue[((int)InstrumentController.Instance.ActiveInstrumentPiece.InstrumentType) - 1].SetActive(true);
+    }
+    public void SetButtonState(bool showNormalButton)
+    {
+        if (showNormalButton == true)
+        {
+            _buttonState0.SetActive(true);
+            _buttonState1.SetActive(false);
+        }
+        else
+        {
+            _buttonState1.SetActive(true);
+            _buttonState0.SetActive(false);
+        }
     }
 
     private void OnEnable()

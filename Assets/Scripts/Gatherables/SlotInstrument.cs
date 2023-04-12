@@ -32,8 +32,15 @@ public class SlotInstrument : ButtonBaseNew, IDataPersistence
         // activate this one
         InstrumentController.Instance.ActivateInstrument(this);
 
+
+        // unequip me
+        if (InstrumentController.Instance.EquipedInstrument == InstrumentType)
+        {
+            GameManager.Instance.Player.PushState(new InstrumentUnequipState(GameManager.Instance.Player));
+        }
         // equip this one
         GameManager.Instance.Player.PushState(new InstrumentEquipState(GameManager.Instance.Player, InstrumentType));
+
 
         // turn off the current pages (maybe not this ?)
         PageController.Instance.TurnPageOff(PageType.BackpackInstruments);
