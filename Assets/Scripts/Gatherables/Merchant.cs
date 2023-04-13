@@ -111,92 +111,92 @@ public class Merchant : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        if (data.MerchantSavedData.ContainsKey(gameObject.name))
-        {
-            // get the correct key...
-            var merchantData = data.MerchantSavedData[gameObject.name];
+        //if (data.MerchantSavedData.ContainsKey(gameObject.name))
+        //{
+        //    // get the correct key...
+        //    var merchantData = data.MerchantSavedData[gameObject.name];
 
-            // get the value (MerchantData, assign the RequestIndex)
+        //    // get the value (MerchantData, assign the RequestIndex)
 
-            // if my index is within range (uncompleted)
-            if (merchantData.CurrentRequestIndex < _merchantRequests.Count)
-            {
-                CurrentRequestIndex = merchantData.CurrentRequestIndex;
+        //    // if my index is within range (uncompleted)
+        //    if (merchantData.CurrentRequestIndex < _merchantRequests.Count)
+        //    {
+        //        CurrentRequestIndex = merchantData.CurrentRequestIndex;
 
-                // get the value (MerchantData, assign the bools of the resources)
-                CurrentRequest = _merchantRequests[CurrentRequestIndex];
+        //        // get the value (MerchantData, assign the bools of the resources)
+        //        CurrentRequest = _merchantRequests[CurrentRequestIndex];
 
-                for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
-                {
-                    CurrentRequest.RequestedResources[i].Delivered = merchantData.DeliverableResourcesFound[i];
-                }
-            }
-            else // else if my index is out of range (completed)
-            {
-                CurrentRequestIndex = merchantData.CurrentRequestIndex -1;
+        //        for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
+        //        {
+        //            CurrentRequest.RequestedResources[i].Delivered = merchantData.DeliverableResourcesFound[i];
+        //        }
+        //    }
+        //    else // else if my index is out of range (completed)
+        //    {
+        //        CurrentRequestIndex = merchantData.CurrentRequestIndex -1;
 
-                // get the value (MerchantData, assign the bools of the resources)
-                CurrentRequest = _merchantRequests[CurrentRequestIndex];
+        //        // get the value (MerchantData, assign the bools of the resources)
+        //        CurrentRequest = _merchantRequests[CurrentRequestIndex];
 
-                for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
-                {
-                    CurrentRequest.RequestedResources[i].Delivered = merchantData.DeliverableResourcesFound[i];
-                }
-            }
+        //        for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
+        //        {
+        //            CurrentRequest.RequestedResources[i].Delivered = merchantData.DeliverableResourcesFound[i];
+        //        }
+        //    }
 
-        }
+        //}
     }
 
     public void SaveData(ref GameData data)
     {
-        MerchantData merchantData = new MerchantData();
+        //MerchantData merchantData = new MerchantData();
 
-        // fill in RequestIndex
-        merchantData.CurrentRequestIndex = CurrentRequestIndex;
+        //// fill in RequestIndex
+        //merchantData.CurrentRequestIndex = CurrentRequestIndex;
 
-        Debug.Log("current request index is " + CurrentRequestIndex  + ", on merchant" + this.name);
+        //Debug.Log("current request index is " + CurrentRequestIndex  + ", on merchant" + this.name);
 
-        // if my index is within range -> normal behavior
-        if (CurrentRequestIndex < _merchantRequests.Count)
-        {
-            CurrentRequest = _merchantRequests[CurrentRequestIndex];
+        //// if my index is within range -> normal behavior
+        //if (CurrentRequestIndex < _merchantRequests.Count)
+        //{
+        //    CurrentRequest = _merchantRequests[CurrentRequestIndex];
 
-            // fill in the bools
-            // step (0) clear the list 
-            merchantData.DeliverableResourcesFound.Clear();
-            for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
-            {
-                // first add to the list...
-                merchantData.DeliverableResourcesFound.Add(false);
+        //    // fill in the bools
+        //    // step (0) clear the list 
+        //    merchantData.DeliverableResourcesFound.Clear();
+        //    for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
+        //    {
+        //        // first add to the list...
+        //        merchantData.DeliverableResourcesFound.Add(false);
 
-                // then assign its value
-                merchantData.DeliverableResourcesFound[i] = CurrentRequest.RequestedResources[i].Delivered;
-            }
+        //        // then assign its value
+        //        merchantData.DeliverableResourcesFound[i] = CurrentRequest.RequestedResources[i].Delivered;
+        //    }
 
-            // update the data 
-            data.MerchantSavedData[gameObject.name] = merchantData;
-        }
-        else
-        {
-            // else if my index is out of range --> completed the previous' index request
+        //    // update the data 
+        //    data.MerchantSavedData[gameObject.name] = merchantData;
+        //}
+        //else
+        //{
+        //    // else if my index is out of range --> completed the previous' index request
 
-            CurrentRequest = _merchantRequests[CurrentRequestIndex-1];
+        //    CurrentRequest = _merchantRequests[CurrentRequestIndex-1];
 
-            // fill in the bools
-            // step (0) clear the list 
-            merchantData.DeliverableResourcesFound.Clear();
-            for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
-            {
-                // first add to the list...
-                merchantData.DeliverableResourcesFound.Add(false);
+        //    // fill in the bools
+        //    // step (0) clear the list 
+        //    merchantData.DeliverableResourcesFound.Clear();
+        //    for (int i = 0; i < CurrentRequest.RequestedResources.Count; i++)
+        //    {
+        //        // first add to the list...
+        //        merchantData.DeliverableResourcesFound.Add(false);
 
-                // then assign its value
-                merchantData.DeliverableResourcesFound[i] = CurrentRequest.RequestedResources[i].Delivered;
-            }
+        //        // then assign its value
+        //        merchantData.DeliverableResourcesFound[i] = CurrentRequest.RequestedResources[i].Delivered;
+        //    }
 
-            // update the data 
-            data.MerchantSavedData[gameObject.name] = merchantData;
-        }
+        //    // update the data 
+        //    data.MerchantSavedData[gameObject.name] = merchantData;
+        //}
 
 
     }

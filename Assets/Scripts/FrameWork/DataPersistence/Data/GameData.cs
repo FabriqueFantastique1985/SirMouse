@@ -21,6 +21,7 @@ public class GameData
     public List<ButtonSkinPieceData> ButtonsSkinPieceData = new List<ButtonSkinPieceData>();
 
     public Dictionary<string, MerchantData> MerchantSavedData = new Dictionary<string, MerchantData>();
+    public Dictionary<string, InstrumentInteractableData> InstrumentInteractionSavedData = new Dictionary<string, InstrumentInteractableData>();
 
     public Dictionary<string, bool> IsTutorialComplete = new Dictionary<string, bool>(); 
 

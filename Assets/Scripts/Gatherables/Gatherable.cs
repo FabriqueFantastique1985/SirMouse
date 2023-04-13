@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityCore.Audio;
 using UnityEngine;
 
 public class Gatherable : MonoBehaviour
@@ -26,6 +27,13 @@ public class Gatherable : MonoBehaviour
 
     protected virtual void VisualEventProc()
     {
+        // play sound
+        AudioController.Instance.PlayAudio(GatherableSpecificComponent._clipPickup);
 
+        // play particle
+
+
+        // set object to inactive
+        this.gameObject.SetActive(false);
     }
 }
