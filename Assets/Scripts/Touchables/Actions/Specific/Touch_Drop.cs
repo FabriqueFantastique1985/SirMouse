@@ -24,6 +24,12 @@ public class Touch_Drop : Touch_Action, IDataPersistence
 
     private bool _isCompleted = false;
 
+    private void Awake()
+    {
+        // Save shine behavior to turn off later
+        _shineBehaviour = GetComponentInChildren<ShineBehaviour>();        
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -33,9 +39,6 @@ public class Touch_Drop : Touch_Action, IDataPersistence
         {
             gatherable.Gatherable.SetActive(false);
         }
-
-        // Save shine behavior to turn off later
-        _shineBehaviour = GetComponent<ShineBehaviour>();
     }
 
     public override void Act()
@@ -64,6 +67,11 @@ public class Touch_Drop : Touch_Action, IDataPersistence
 
         }
 
+        OnCompleted();
+    }
+
+    private void OnCompleted()
+    {
         // Check if completed
         if (_gatherablesSpawnedIndex == _gatherablesToSpawn.Count)
         {
@@ -107,8 +115,10 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     {
         if (data.DroppedGatherable.ContainsKey(_id))
         {
-            _gatherablesCollectedIndex = data.DroppedGatherable[_id];
+            _gatherablesCollectedIndex = _gatherablesSpawnedIndex = data.DroppedGatherable[_id];
         }
+
+        OnCompleted();
     }
 
     public void SaveData(ref GameData data)
