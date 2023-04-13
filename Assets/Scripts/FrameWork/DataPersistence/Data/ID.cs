@@ -16,6 +16,11 @@ public class ID : MonoBehaviour
     
     public static implicit operator string(ID id)
     {
+        if (id == null)
+        {
+            return "";
+        }
+
         return id._idName;
     }
 }

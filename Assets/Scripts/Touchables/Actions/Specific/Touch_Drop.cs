@@ -27,10 +27,14 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     protected override void Start()
     {
         base.Start();
+
+        // Set all apples on inactive
         foreach (var gatherable in _gatherablesToSpawn)
         {
             gatherable.Gatherable.SetActive(false);
         }
+
+        // Save shine behavior to turn off later
         _shineBehaviour = GetComponent<ShineBehaviour>();
     }
 
@@ -53,6 +57,7 @@ public class Touch_Drop : Touch_Action, IDataPersistence
             nextGatherable.GatherableAnimator?.SetTrigger("Activate");
             ++_gatherablesSpawnedIndex;
 
+            // Subscribe to picked up event
             var gatherableObject = nextGatherable.Gatherable.GetComponent<GatherableObject>();
             if(gatherableObject)
                 gatherableObject.ObjectGathered += CollectedGatherable;
@@ -73,6 +78,7 @@ public class Touch_Drop : Touch_Action, IDataPersistence
         if (_isCompleted)
             return;
 
+        // Unsubscribe from remaining events
         foreach (var gatherable in _gatherablesToSpawn)
         {
             var gatherableObject = gatherable.Gatherable.GetComponent<GatherableObject>();
@@ -85,6 +91,16 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     {
         ++_gatherablesCollectedIndex;
         gatheredObject.ObjectGathered -= CollectedGatherable;
+
+        // Remove from list of gatherables so on destroy doesn't throw error while trying to unsubscribe
+        foreach (var gatherable in _gatherablesToSpawn)
+        {
+            if (gatherable.Gatherable == gatheredObject.gameObject)
+            {
+                _gatherablesToSpawn.Remove(gatherable);
+                break;
+            }
+        }
     }
 
     public void LoadData(GameData data)
