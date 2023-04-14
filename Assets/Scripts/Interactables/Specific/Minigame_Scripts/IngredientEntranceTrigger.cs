@@ -37,6 +37,9 @@ public class IngredientEntranceTrigger : MonoBehaviour
     // called when it falls into the cauldron OR raycast onto the kettle
     public void AbsorbIngredient(Touch_Physics_Object_Ingredient touchablePhysicsIngredient)
     {
+        // Disable collider to avoid double registering of ingredient 
+        touchablePhysicsIngredient.gameObject.GetComponent<Collider>().enabled = false;
+
         if (_recipeController.MinigameActive == true)
         {
             _recipeController.StartCoroutine(_recipeController.UpdateRecipeStatus(touchablePhysicsIngredient.TypeOfIngredient));
