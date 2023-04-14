@@ -16,9 +16,10 @@ public class ID : MonoBehaviour
     
     public static implicit operator string(ID id)
     {
-        // TODO throw error when ID is null
         if (id == null)
+        {
             return "";
+        }
 
         return id._idName;
     }
