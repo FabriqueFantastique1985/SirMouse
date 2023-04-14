@@ -43,7 +43,15 @@ public class GameData
     /// </summary>
     public bool HasRecievedMirrorReward = false;
 
+    /// <summary>
+    /// Saves all touchables that drop gatherables through their ID and the amount already collected by the player
+    /// </summary>
     public Dictionary<string, int> DroppedGatherable = new Dictionary<string, int>();
+
+    /// <summary>
+    /// Saves the type of resource the player has in their inventory and the amount of them
+    /// </summary>
+    public Dictionary<Type_Resource, int> ResourcesCollected = new Dictionary<Type_Resource, int>();
 
     // These should be initial values to start with 
     public GameData()

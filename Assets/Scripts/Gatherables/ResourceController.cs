@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityCore.Menus;
 using UnityEngine;
 
-public class ResourceController : MonoBehaviour
+public class ResourceController : MonoBehaviour, IDataPersistence
 {
     public delegate void ResourceControllerDelegate();
     public event ResourceControllerDelegate ResourceCollected;
@@ -174,5 +174,22 @@ public class ResourceController : MonoBehaviour
         return null;
     }
 
+    public void LoadData(GameData data)
+    {
+        foreach (var resource in data.ResourcesCollected)
+        {
+            for (int i = 0; i < resource.Value; i++)
+            {
+                AddResource(resource.Key);
+            }
+        }
+    }
 
+    public void SaveData(ref GameData data)
+    {
+        foreach (var resource in _slotsResourcesTaken)
+        {
+            data.ResourcesCollected.Add(resource.ResourceType, resource.Amount);
+        }
+    }
 }
