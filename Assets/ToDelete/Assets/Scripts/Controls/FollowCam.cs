@@ -50,6 +50,20 @@ public class FollowCam : MonoBehaviour
         }
     }
 
+    private bool IsCameraInsideBounds()
+    {
+        float cameraHalfHeight = 2f * Camera.main.orthographicSize;
+        float cameraHalfWidth = cameraHalfHeight * Camera.main.aspect / 2f;
+
+        Vector3 hitPoint;
+        if (!GetBounds(out hitPoint, Vector3.right) || hitPoint.x > (transform.position.x + cameraHalfWidth))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     private void SetCameraBounds()
     {
         // Change querry settings
