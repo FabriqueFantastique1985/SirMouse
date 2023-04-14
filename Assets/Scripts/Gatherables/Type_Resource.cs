@@ -23,5 +23,7 @@ public enum Type_Resource
 
     Butterfly1 = 13,
     Butterfly2 = 14,
-    Butterfly3 = 15
+    Butterfly3 = 15,
+    Butterfly4 = 16,
+    Butterfly5 = 17,
 }
