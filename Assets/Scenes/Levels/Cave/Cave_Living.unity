@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1431,6 +1431,56 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586912480}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &608537639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 608537640}
+  - component: {fileID: 608537641}
+  m_Layer: 0
+  m_Name: Reward_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &608537640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608537639}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1043910266}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &608537641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608537639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    MyBodyType: 14
+    MySkinType: 23
+  HidesSirMouseGeometry: 0
+  ShowUpper: 0
+  ShowLower: 0
+  ScoreValue: 0
 --- !u!1 &656853995
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,12 +2714,32 @@ PrefabInstance:
       propertyPath: m_Name
       value: InstrumentRequired_Candle
       objectReference: {fileID: 0}
+    - target: {fileID: 4250125378583731797, guid: e3e7566dad89cd54f857088f2707d3d5,
+        type: 3}
+      propertyPath: Data.MyBodyType
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4250125378583731797, guid: e3e7566dad89cd54f857088f2707d3d5,
+        type: 3}
+      propertyPath: Data.MySkinType
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 5206846267495671261, guid: e3e7566dad89cd54f857088f2707d3d5,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3b0b4cae9ff938c45ab51ce61c77f6e7,
         type: 3}
+    - target: {fileID: 6330279100182309359, guid: e3e7566dad89cd54f857088f2707d3d5,
+        type: 3}
+      propertyPath: Rewards.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330279100182309359, guid: e3e7566dad89cd54f857088f2707d3d5,
+        type: 3}
+      propertyPath: Rewards.Array.data[1]
+      value: 
+      objectReference: {fileID: 608537641}
     - target: {fileID: 7409931128386936393, guid: e3e7566dad89cd54f857088f2707d3d5,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2682,6 +2752,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3e7566dad89cd54f857088f2707d3d5, type: 3}
+--- !u!4 &1043910266 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5834580672380481184, guid: e3e7566dad89cd54f857088f2707d3d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1043910265}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1083032972
 GameObject:
   m_ObjectHideFlags: 0
