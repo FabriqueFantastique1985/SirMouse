@@ -583,7 +583,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 // de-activate old geo if Hide == true
                 SetSirMouseGeometryState(bodyType, !tempSkinPiece.HidesSirMouseGeometry, tempSkinPiece.ShowUpper, tempSkinPiece.ShowLower);
 
-                Debug.Log("Equiping piece " + tempSkinPiece);
+                //Debug.Log("Equiping piece " + tempSkinPiece);
                 CountTotalScore();
             }
         }

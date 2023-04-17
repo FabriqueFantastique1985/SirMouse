@@ -178,7 +178,7 @@ namespace UnityCore
                         // if the spawnvalues integer == the value on this script...
                         if (spawnScript.SpawnValue == _nextSceneSpawnLocationValue)
                         {
-                            Debug.Log("Spawning player at " + spawnScript.name);
+                            //Debug.Log("Spawning player at " + spawnScript.name);
 
                             // move the player over there
                             player.Agent.enabled = false;
