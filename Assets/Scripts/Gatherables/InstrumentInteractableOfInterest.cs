@@ -13,12 +13,14 @@ public class InstrumentInteractableOfInterest : PlaceOfInterest
     {
         base.HideIcon();
 
+        InstrumentController.Instance.InstrumentInteractableMouseIsIn = _instrumentInteractable;
         _instrumentInteractable.ShowInstrumentPopup();
     }
     public override void ShowIcon()
     {
         base.ShowIcon();
 
+        InstrumentController.Instance.InstrumentInteractableMouseIsIn = null;
         _instrumentInteractable.HideInstrumentPopup();
     }
 }

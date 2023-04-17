@@ -29,23 +29,25 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
     public void Click(Player player)
     {
-        ClickNew(player, this);
+        ResourceController.Instance.StartCoroutine(ClickNew(player, this));
     }
-    public void ClickNew(Player player, MerchantRequestButton buttonClicked)
+    private IEnumerator ClickNew(Player player, MerchantRequestButton buttonClicked)
     {
+        AudioController.Instance.PlayAudio(_myMerchant.AudioMerchantButtonClicked);
         ResourceController.Instance.RemoveResource(ResourceToDeliver.ResourceType);
 
         UIFlyingToBackpackController.Instance.ThrowItemIntoMerchant(this, ResourceToDeliver.ResourceType);
 
-        CompletedThisButton(_spriteFullParent);
-
         _myMerchant.CurrentRequest.DeliverResource(ResourceToDeliver.ResourceType, buttonClicked);
-
         _myMerchant.CurrentRequest.ClickedButtonOfResourceX(ResourceToDeliver.ResourceType);
 
-        _myMerchant.CurrentRequest.CheckRequestFinished();
+        DisableThisButtonCollider();
 
-        AudioController.Instance.PlayAudio(_myMerchant.AudioMerchantButtonClicked);
+        yield return new WaitForSeconds(0.2f); // wait time for object to arrive at merchant..
+    
+        CompletedThisButton(_spriteFullParent);
+
+        ResourceController.Instance.StartCoroutine(_myMerchant.CurrentRequest.CheckRequestFinished());        
     }
 
 
@@ -111,7 +113,7 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
         if (ResourceToDeliver.Delivered == true)
         {
             Debug.Log("finished delivering on button " +  this.gameObject.name + ", cuzz my resource is set on -> " + ResourceToDeliver.ResourceType + " --- " + ResourceToDeliver.Delivered);
-            CompletedThisButton(spriteFullObj);
+            CompletedThisButton(spriteFullObj, true);
         }
     }
 
@@ -119,10 +121,12 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
     {
         spriteTransparent.SetActive(true);
     }
-    private void CompletedThisButton(GameObject spriteFull)
+    private void CompletedThisButton(GameObject spriteFull, bool IAmCheckedOnLoad = false)
     {
-        // disable the collider   
-        _buttonCollider.enabled = false;
+        if (IAmCheckedOnLoad == true)
+        {
+            DisableThisButtonCollider();
+        }
 
         // enable the notif
         _notificationObject.SetActive(true);
@@ -133,6 +137,11 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
         // enable the sprite
         _spriteFullParent.SetActive(true);       
         spriteFull.SetActive(true);
+    }
+    private void DisableThisButtonCollider()
+    {
+        // disable the collider   
+        _buttonCollider.enabled = false;
     }
 
 
