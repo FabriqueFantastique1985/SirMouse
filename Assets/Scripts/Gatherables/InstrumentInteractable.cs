@@ -157,6 +157,13 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 
             // get the value 
             Finished = instrumentInteractionData.Finished;
+
+            // if Im finished, disable my colliders
+            if (Finished == true)
+            {
+                _placeOfInterest.HideIconPermanently();
+                _instrumentInteraction.HideInteraction();
+            }
         }
     }
 
