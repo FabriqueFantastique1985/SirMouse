@@ -56,10 +56,10 @@ public class FabriqueTools : EditorWindow
            foreach (ID id in ids)
            {
                id.GenerateGuid();
+               EditorUtility.SetDirty(id);
            }
        }
     }
-
    
     public static void OnSceneGUI(SceneView sceneview)
     {
