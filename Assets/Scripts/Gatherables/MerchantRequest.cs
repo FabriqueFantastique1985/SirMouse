@@ -67,7 +67,7 @@ public class MerchantRequest : MonoBehaviour
         }
 
     }
-    public void CheckRequestFinished()
+    public IEnumerator CheckRequestFinished()
     {
         // check for completion
         if (CheckRequestCompletion() == true)
@@ -80,6 +80,8 @@ public class MerchantRequest : MonoBehaviour
 
             // give rewards
             RewardController.Instance.GiveReward(_rewards.Rewards);
+
+            yield return new WaitForSeconds(2f);
 
             // show other request
             _merchant.ShowNewRequest();
