@@ -54,9 +54,9 @@ namespace UnityCore
                     Configure();
                     
                     if (gameObject.transform.parent)
-                        DontDestroyOnLoad(gameObject.transform.parent);
+                        DontDestroyOnLoadManager.DontDestroyOnLoad(gameObject.transform.parent.gameObject);
                     else
-                        DontDestroyOnLoad(gameObject);
+                        DontDestroyOnLoadManager.DontDestroyOnLoad(gameObject);
                 }
                 else
                 {

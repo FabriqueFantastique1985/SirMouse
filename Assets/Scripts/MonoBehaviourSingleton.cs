@@ -36,8 +36,9 @@ public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBe
         }
         
         _instance = GetComponent<T>();
-        
-        DontDestroyOnLoad(_instance.gameObject);
+
+        transform.parent = null;
+        DontDestroyOnLoadManager.DontDestroyOnLoad(_instance.gameObject);
     }
 
     protected virtual void Start()

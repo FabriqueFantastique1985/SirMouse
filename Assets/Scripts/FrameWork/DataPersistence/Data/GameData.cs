@@ -10,7 +10,7 @@ public class GameData
     /// <summary>
     /// The last scene the player was in.
     /// </summary>
-    public string lastActiveScene = "";
+    public string lastActiveScene;
     
     /// <summary>
     /// Indices for every minigame. 

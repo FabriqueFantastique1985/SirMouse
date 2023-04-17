@@ -61,9 +61,9 @@ public class BackpackController : MonoBehaviour
         BackpackInstance = this;
 
         if (gameObject.transform.parent)
-            DontDestroyOnLoad(BackpackInstance.transform.parent);
+            DontDestroyOnLoadManager.DontDestroyOnLoad(BackpackInstance.transform.parent.gameObject);
         else
-            DontDestroyOnLoad(BackpackInstance);
+            DontDestroyOnLoadManager.DontDestroyOnLoad(BackpackInstance.gameObject);
     }
 
     #endregion

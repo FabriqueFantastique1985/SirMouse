@@ -28,8 +28,8 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
     public bool HasGameData => _gameData != null;
 
     #endregion
-    
-    private void Awake()
+
+    protected override void Awake()
     {
         base.Awake();
         _dataHandler = new FileDataHandler(Path.Combine(Application.persistentDataPath), fileName);
@@ -50,8 +50,8 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         _dataPersistenceObjects = FindAllDataPersistenceObjects();
-        if (_gameData != null) _gameData.lastActiveScene = arg0.name;
         LoadGame();
+        if (_gameData != null) _gameData.lastActiveScene = arg0.name;
     }
 
     private void OnSceneUnloaded(Scene arg0)
@@ -112,42 +112,48 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
-       //IEnumerable<IDataPersistence> dataPersistenceObjects =
-       //   FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();//  FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
+       /*IEnumerable<IDataPersistence> dataPersistenceObjects =
+          FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();//  FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
 
-       // 
+       return new List<IDataPersistence>(dataPersistenceObjects);*/
+
+
 
        //get all root objects in the scene
-       var rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-       
-       List<IDataPersistence> dataPersistenceObjects = new List<IDataPersistence>();
-       for (int i = 0; i < rootObjects.Length; i++)
-       {
-           var dataPersistenceObject = rootObjects[i].GetComponentsInChildren<IDataPersistence>(true).ToList();
-           dataPersistenceObjects.AddRange(dataPersistenceObject);
-       }  
-       
-       //get all rootobjects in dont destroy on load
-       var go = new GameObject();
-       DontDestroyOnLoad(go);
-         var dontDestroyOnLoadRootObjects = go.scene.GetRootGameObjects();
-         for (int i = 0; i < dontDestroyOnLoadRootObjects.Length; i++)
-         {
-             var dataPersistenceObject = dontDestroyOnLoadRootObjects[i].GetComponentsInChildren<IDataPersistence>(true).ToList();
-             dataPersistenceObjects.AddRange(dataPersistenceObject);
-         }  
-
-       
-       
-       return dataPersistenceObjects;
-     //  Scene currentScene = SceneManager.GetActiveScene();
-     //  IEnumerable<IDataPersistence> dataPersistenceObjects =
-     //      currentScene.GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<IDataPersistence>(true));
-     //  return dataPersistenceObjects.ToList();
+            var rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+            
+            List<IDataPersistence> dataPersistenceObjects = new List<IDataPersistence>();
+            for (int i = 0; i < rootObjects.Length; i++)
+            {
+                var dataPersistenceObject = rootObjects[i].GetComponentsInChildren<IDataPersistence>(true).ToList();
+                dataPersistenceObjects.AddRange(dataPersistenceObject);
+            }  
+            
+            //get all rootobjects in dont destroy on load
+              var dontDestroyOnLoadRootObjects = DontDestroyOnLoadManager.DontDestroyOnLoadObjects;
+              for (int i = 0; i < dontDestroyOnLoadRootObjects.Count; i++)
+              {
+                  var dataPersistenceObject = dontDestroyOnLoadRootObjects[i].GetComponentsInChildren<IDataPersistence>(true).ToList();
+                  dataPersistenceObjects.AddRange(dataPersistenceObject);
+              }  
+              
+            return dataPersistenceObjects;
+       //  Scene currentScene = SceneManager.GetActiveScene();
+       //  IEnumerable<IDataPersistence> dataPersistenceObjects =
+       //      currentScene.GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<IDataPersistence>(true));
+       //  return dataPersistenceObjects.ToList();
     }
 
     private void OnApplicationQuit()
     {
         SaveGame();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            SaveGame();
+        }
     }
 }

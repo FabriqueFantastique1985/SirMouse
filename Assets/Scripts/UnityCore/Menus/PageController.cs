@@ -42,16 +42,12 @@ namespace UnityCore
                     m_Pages = new Hashtable();
                     RegisterAllPages();
 
-                    TurnAllPagesOffExcept(PageType.None);
-                    if (EntryPage != PageType.None)
-                    {
-                        TurnPageOn(EntryPage);
-                    }
+                    TurnAllPagesOffExcept(EntryPage);
 
                     if (gameObject.transform.parent)
-                        DontDestroyOnLoad(gameObject.transform.parent);
+                        DontDestroyOnLoadManager.DontDestroyOnLoad(gameObject.transform.parent.gameObject);
                     else
-                        DontDestroyOnLoad(gameObject);
+                        DontDestroyOnLoadManager.DontDestroyOnLoad(gameObject);
                 }
                 else
                 {
@@ -85,7 +81,7 @@ namespace UnityCore
             }
             public void TurnPageOff(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None, bool waitForExit = false)
             {
-                if (typeToTurnOff == PageType.None) return;
+                //if (typeToTurnOff == PageType.None) return;
                 if (PageExists(typeToTurnOff) == false)
                 {
                     Debug.Log("You're trying to turn a page off [" + typeToTurnOff + "] that has not been registered");
@@ -120,7 +116,8 @@ namespace UnityCore
                     return false;
                 }
 
-                return GetPage(pageType).isOn;
+                var page = GetPage(pageType);
+                return page.isOn || page.gameObject.activeSelf;
             }
             // custom methods below
             public void TurnAllPagesOffExcept(PageType turnOn)
