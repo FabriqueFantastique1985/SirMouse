@@ -109,30 +109,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pickup:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Drop:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Disappear:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
-  _droppedInteractable: {fileID: 4892682415306982327}
-  _animatorDrop: {fileID: 4892682415010966424}
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
+  _gatherablesToSpawn:
+  - Gatherable: {fileID: 6764055639201512922}
+    GatherableAnimator: {fileID: 4892682415010966424}
+  _id: {fileID: 0}
 --- !u!1001 &4892682413642152649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -233,6 +250,12 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b31f9ecc04f982240b41a2191059bc5a, type: 3}
+--- !u!1 &6764055639201512922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2177644899613378323, guid: b31f9ecc04f982240b41a2191059bc5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4892682413642152649}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6764055639201512925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2177644899613378324, guid: b31f9ecc04f982240b41a2191059bc5a,
@@ -245,7 +268,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 4892682413642152649}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6764055639201512922}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
