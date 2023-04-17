@@ -21,6 +21,9 @@ public class InstrumentController : MonoBehaviour
     public InstrumentPiece ActiveInstrumentPiece;
 
     public ButtonEquipToggle ButtonEquiping;
+
+    [HideInInspector]
+    public InstrumentInteractable InstrumentInteractableMouseIsIn;
     
 
     private void Awake()
@@ -146,6 +149,12 @@ public class InstrumentController : MonoBehaviour
             }
         }
 
+        // check if the player is within a trigger of a required instrument...
+        if (InstrumentInteractableMouseIsIn != null)
+        {
+            InstrumentInteractableMouseIsIn.ShowInstrumentPopup();
+        }
+
         // show alternate button
         ButtonEquiping.SetButtonState(false);
 
@@ -161,7 +170,13 @@ public class InstrumentController : MonoBehaviour
 
         EquipedInstrumentPiece.gameObject.SetActive(false);
         EquipedInstrumentPiece = null;
-        
+
+        // show the thinking balloon of any instrument interactable I am in
+        if (InstrumentInteractableMouseIsIn != null)
+        {
+            InstrumentInteractableMouseIsIn.ShowInstrumentThink();
+        }
+
         SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
 
         // show normal button

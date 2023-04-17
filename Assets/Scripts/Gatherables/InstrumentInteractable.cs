@@ -104,14 +104,12 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         if (InstrumentController.Instance.EquipedInstrument == InstrumentRequired)
         {
             // bubble click
-            _interactionBalloon.gameObject.SetActive(true);
-            _currentlyActiveBalloon = _interactionBalloon.gameObject;
+            ShowInstrumentClick();
         }
         else
         {
             // bubble transparent
-            _thinkingBalloon.SetActive(true);
-            _currentlyActiveBalloon = _thinkingBalloon;
+            ShowInstrumentThink();
         }
     }
     public void HideInstrumentPopup()
@@ -121,6 +119,18 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
             _currentlyActiveBalloon.SetActive(false);
         }     
         _currentlyActiveBalloon = null;
+    }
+    public void ShowInstrumentClick()
+    {
+        _thinkingBalloon.SetActive(false);
+        _interactionBalloon.gameObject.SetActive(true);
+        _currentlyActiveBalloon = _interactionBalloon.gameObject;
+    }
+    public void ShowInstrumentThink()
+    {
+        _interactionBalloon.gameObject.SetActive(false);
+        _thinkingBalloon.SetActive(true);
+        _currentlyActiveBalloon = _thinkingBalloon;
     }
 
 
