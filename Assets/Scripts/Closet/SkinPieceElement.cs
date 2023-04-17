@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class SkinPieceElement : MonoBehaviour
     public SkinPieceElementData Data;
     
     public bool HidesSirMouseGeometry;
+
+    public bool ShowUpper;
+    public bool ShowLower;
 
     [Header("To Assign only in Closet Buttons")]
     public int ScoreValue;
@@ -33,8 +37,26 @@ public class SkinPieceElement : MonoBehaviour
         {
             ScoreValue = Mathf.Clamp(ScoreValue, 0, _maxScore);
         }
+
+        //foreach (Type_Body bodyType in Enum.GetValues(typeof(Type_Body)))
+        //{
+        //    ShouldHideGeometry.Add(new HideGeometry(bodyType, true));
+        //}
     }
     #endregion
+}
+
+[Serializable]
+public class HideGeometry
+{
+    public HideGeometry(Type_Body bodyType, bool shouldBeHidden)
+    {
+        BodyType = bodyType;
+        ShouldBeHidden = shouldBeHidden;
+    }
+
+    public Type_Body BodyType;
+    public bool ShouldBeHidden = true;
 }
 
 [Serializable]

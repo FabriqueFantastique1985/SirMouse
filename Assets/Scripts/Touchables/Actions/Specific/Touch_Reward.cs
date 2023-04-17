@@ -12,6 +12,7 @@ public class Touch_Reward : Touch_Action
 
     public override void Act()
     {
+        base.Act();
         if (_hasCollected)
         {
             return;
@@ -22,5 +23,6 @@ public class Touch_Reward : Touch_Action
             RewardController.Instance.GiveReward(_skinsToReward);
             _hasCollected = true;
         }
+
     }
 }

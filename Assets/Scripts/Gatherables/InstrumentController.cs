@@ -20,6 +20,8 @@ public class InstrumentController : MonoBehaviour
     public SlotInstrument ActiveInstrumentSlot;
     public InstrumentPiece ActiveInstrumentPiece;
 
+    public ButtonEquipToggle ButtonEquiping;
+    
 
     private void Awake()
     {
@@ -30,6 +32,20 @@ public class InstrumentController : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+
+    private void Start()
+    {
+        for (int i = 0; i < _slotsInstruments.Count; i++)
+        {
+            if (_slotsInstruments[i].Unlocked == true)
+            {
+                ActivateInstrument(_slotsInstruments[i]);
+                break;
+            }
+        }
+
     }
 
 
@@ -55,6 +71,18 @@ public class InstrumentController : MonoBehaviour
         }
     }
 
+    public bool CheckIfFoundInstrument()
+    {
+        for (int i = 0; i < _slotsInstruments.Count; i++)
+        {
+            if (_slotsInstruments[i].Unlocked == true)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // called on buttons in Backpack 
     public void ActivateInstrument(SlotInstrument slotToActivate)
@@ -74,7 +102,11 @@ public class InstrumentController : MonoBehaviour
                 break;
             }
         }
+
+        ButtonEquiping.SetInstrumentSprite();
     }
+    
+    // called on buttons in Backpack
     public void DeactivateInstrument()
     {
         if (ActiveInstrumentSlot != null)
@@ -114,8 +146,12 @@ public class InstrumentController : MonoBehaviour
             }
         }
 
+        // show alternate button
+        ButtonEquiping.SetButtonState(false);
+
         SkinsMouseController.Instance.HideOrShowSwordAndShield(false);
     }
+    
     public void UnEquipInstrument()
     {
         //Debug.Log("Active piece is " + ActiveInstrumentPiece.gameObject.name);
@@ -127,5 +163,8 @@ public class InstrumentController : MonoBehaviour
         EquipedInstrumentPiece = null;
         
         SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
+
+        // show normal button
+        ButtonEquiping.SetButtonState(true);
     }
 }

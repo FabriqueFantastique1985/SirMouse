@@ -29,12 +29,18 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
         id = System.Guid.NewGuid().ToString();
     }
 
+    [SerializeField]
+    protected GameObject _spriteParent;
+    [SerializeField]
+    protected Collider _trigger;
+
     // Balloon used to execute an interaction.
     [Header("Balloon components")]
     public Balloon InteractionBalloon;
 
     // Balloon used to show what items I want.
     public BalloonNeedy NeedyBalloon;
+    public ThinkingBalloonNeedy ThinkingBalloon;
 
     private bool _gotAllPrerequisites;
 
@@ -97,18 +103,6 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
         if (NeedyBalloon != null)
         {
             NeedyBalloon.gameObject.SetActive(false);
-        }
-
-        var needyBalloons = NeedyBalloon.Needy_Sprites_Wrap.NeedyBalloons;
-        // also disable the full sprite(s) in the balloons needy !!!
-        for (int i = 0; i < needyBalloons.Count; i++)
-        {
-            // for each balloon, iterate over all the needy objects...
-            for (int j = 0; j < needyBalloons[i].NeedyObjects.Count; j++)
-            {
-                // disable the full one (SHOULD THIS DEPEND ON SAVE DATA ???)
-                needyBalloons[i].NeedyObjects[j].SpriteFull.SetActive(false);
-            }
         }
     }
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
@@ -199,10 +193,6 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
 
         InteractionBalloon.Show();
     }
-    protected void ShowNeedyBalloon()
-    {
-        NeedyBalloon.Show();
-    }
     protected void HideInteractionBalloon()
     {
         // Nothing to hide if there are no interactions to begin with
@@ -210,9 +200,17 @@ public class InteractableNeedy : MonoBehaviour, IDataPersistence
 
         InteractionBalloon.Hide();
     }
+
+
+    protected void ShowNeedyBalloon()
+    {
+        //NeedyBalloon.Show();
+        ThinkingBalloon.Show();
+    }
     protected void HideNeedyBalloon()
     {
-        NeedyBalloon.Hide();
+        //NeedyBalloon.Hide();
+        ThinkingBalloon.Hide();
     }
 
     #endregion

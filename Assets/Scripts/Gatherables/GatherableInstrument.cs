@@ -11,7 +11,6 @@ public class GatherableInstrument : GatherableObject
         base.PickedUpGatherable();
 
         InstrumentController.Instance.UnlockInstrument(InstrumentType);
-
         UIFlyingToBackpackController.Instance.ThrowItemIntoBackpack(this, Type_Resource.None, InstrumentType);
     }
 }

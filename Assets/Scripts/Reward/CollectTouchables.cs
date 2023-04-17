@@ -43,6 +43,7 @@ public class CollectTouchables : MonoBehaviour
         _toCollectAmount = moveObjects.Count();
 
         _insideSpriteRenderer.material = _baseMaterial;
+        _topSpriteRenderer.material = _baseMaterial;
         _gradient.SetActive(false);
     }
 
@@ -60,6 +61,7 @@ public class CollectTouchables : MonoBehaviour
     {
         // hightlight box
         _insideSpriteRenderer.material = _outlineMaterial;
+        _topSpriteRenderer.material = _outlineMaterial;
         _gradient.SetActive(true);
         _topSpriteRenderer.sprite = _topOpen;
         AudioController.Instance.PlayAudio(_openSound);
@@ -69,6 +71,7 @@ public class CollectTouchables : MonoBehaviour
     {
         // remove hightlight box
         _insideSpriteRenderer.material = _baseMaterial;
+        _topSpriteRenderer.material = _baseMaterial;
         _gradient.SetActive(false);
         _topSpriteRenderer.sprite = _topClosed;
         AudioController.Instance.PlayAudio(_closeSound);
