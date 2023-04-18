@@ -104,6 +104,8 @@ public class RewardController : MonoBehaviour
             // block input
             GameManager.Instance.BlockInput = true;
 
+            Debug.Log("Turned on reward screen !!");
+
             // turn on the correct page
             PageController.Instance.TurnAllPagesOffExcept(PageType.RewardScreen);
 
@@ -202,13 +204,12 @@ public class RewardController : MonoBehaviour
         instantiatedObjects.Clear();
 
 
-        yield return new WaitForSeconds(0.1f);
-
+        yield return new WaitForSeconds(0.25f);
 
         // un-block input
         GameManager.Instance.BlockInput = false;
         // turn off the page
-        PageController.Instance.TurnPageOff(PageType.RewardScreen);
+        PageController.Instance.TurnPageOff(PageType.RewardScreen); // creates a bug !? (bug caused by "use animation" bool on Page being on...
         // tone down audio of OST
         AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
     }
