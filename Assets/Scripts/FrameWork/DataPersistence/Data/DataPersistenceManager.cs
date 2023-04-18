@@ -117,8 +117,6 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
 
        return new List<IDataPersistence>(dataPersistenceObjects);*/
 
-
-
        //get all root objects in the scene
             var rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             

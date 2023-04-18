@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityCore.Menus;
 using UnityEngine;
 
-public class ResourceController : MonoBehaviour
+public class ResourceController : MonoBehaviour, IDataPersistence
 {
     public static ResourceController Instance { get; private set; }
 
@@ -16,8 +16,9 @@ public class ResourceController : MonoBehaviour
     [Header("Number sprites")]
     [SerializeField]
     private List<Sprite> _spritesNumbers = new List<Sprite>();
-
-
+    
+    private bool _isLoaded = false;
+    
     private void Awake()
     {
         // Singleton 
@@ -28,24 +29,28 @@ public class ResourceController : MonoBehaviour
         }
         Instance = this;
     }
-
-
-
-
-    public void AddResource(Type_Resource resourceToAdd)
+    
+    public void AddResource(Type_Resource resourceToAdd, int amount = 1)
     {
-        // first check for taken slots...
+        // check if we're adding nothing
+        if (resourceToAdd == Type_Resource.None)
+        {
+            Debug.LogError("Trying to add a resource of type None");
+            return;
+        }
+        
+        // then check for taken slots...
         SlotResource slotResourceToOccupy = CheckIfIStillHaveMoreOfThisResourceSlot(resourceToAdd);
         if (slotResourceToOccupy != null)
         {
-            slotResourceToOccupy.Amount += 1;
-            if (slotResourceToOccupy.Amount >= 9)
+            slotResourceToOccupy.Data.Amount += amount;
+            if (slotResourceToOccupy.Data.Amount >= 9)
             {
-                slotResourceToOccupy.Amount = 9;
+                slotResourceToOccupy.Data.Amount = 9;
             }
 
             // change the sprite number
-            slotResourceToOccupy.ImageAmount.sprite = _spritesNumbers[slotResourceToOccupy.Amount - 1];
+            slotResourceToOccupy.ImageAmount.sprite = _spritesNumbers[slotResourceToOccupy.Data.Amount - 1];
         }
         else
         {
@@ -53,15 +58,14 @@ public class ResourceController : MonoBehaviour
             for (int i = 0; i < _slotsResources.Count; i++)
             {
                 SlotResource slotOfInterest = _slotsResources[i];
-                if (slotOfInterest.SlotTaken == false)
+                if (slotOfInterest.Data.SlotTaken == false)
                 {
-                    slotOfInterest.ResourceType = resourceToAdd;
-                    slotOfInterest.SlotTaken = true;
+                    slotOfInterest.Data.ResourceType = resourceToAdd;
 
-                    slotOfInterest.Amount += 1;
-                    if (slotOfInterest.Amount >= 9)
+                    slotOfInterest.Data.Amount += amount;
+                    if (slotOfInterest.Data.Amount >= 9)
                     {
-                        slotOfInterest.Amount = 9;
+                        slotOfInterest.Data.Amount = 9;
                     }
 
                     _slotsResourcesTaken.Add(slotOfInterest);
@@ -69,7 +73,7 @@ public class ResourceController : MonoBehaviour
                     // change the sprite number
                     slotOfInterest.ImageAmount.gameObject.SetActive(true);
                     slotOfInterest.ImageAmount.enabled = true;
-                    slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Amount - 1];
+                    slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Data.Amount - 1];
 
                     // create the sprite visual
                     Instantiate(UIFlyingToBackpackController.Instance.PrefabsResourcesUI[((int)resourceToAdd) - 1], slotOfInterest.ParentInstantiatedPrefab.transform);
@@ -80,21 +84,20 @@ public class ResourceController : MonoBehaviour
         }
     }
 
-
     public void RemoveResource(Type_Resource resourceToRemove)
     {
         for (int i = 0; i < _slotsResourcesTaken.Count; i++)
         {
             SlotResource slotOfInterest = _slotsResourcesTaken[i];
 
-            if (slotOfInterest.ResourceType == resourceToRemove)
+            if (slotOfInterest.Data.ResourceType == resourceToRemove)
             {
-                slotOfInterest.Amount -= 1;
+                slotOfInterest.Data.Amount -= 1;
 
                 // change the sprite number
-                if (slotOfInterest.Amount > 0)
+                if (slotOfInterest.Data.Amount > 0)
                 {
-                    slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Amount - 1];
+                    slotOfInterest.ImageAmount.sprite = _spritesNumbers[slotOfInterest.Data.Amount - 1];
                 }
                 else
                 {
@@ -103,10 +106,9 @@ public class ResourceController : MonoBehaviour
                 }
                 
 
-                if (slotOfInterest.Amount <= 0)
+                if (slotOfInterest.Data.Amount <= 0)
                 {
-                    slotOfInterest.ResourceType = Type_Resource.None;
-                    slotOfInterest.SlotTaken = false;
+                    slotOfInterest.Data.ResourceType = Type_Resource.None;
 
                     // remove the sprite visual
                     Destroy(slotOfInterest.ParentInstantiatedPrefab.transform.GetChild(0).gameObject);
@@ -118,9 +120,7 @@ public class ResourceController : MonoBehaviour
             }
         }
     }
-
-
- 
+    
     public List<MerchantRequestButton> CheckAquiredResources(List<MerchantRequestButton> merchantButtons)
     {
         List<MerchantRequestButton> buttonsToPulse = new List<MerchantRequestButton>();
@@ -133,7 +133,7 @@ public class ResourceController : MonoBehaviour
                 // check in player resources for similar type...
                 for (int j = 0; j < _slotsResourcesTaken.Count; j++)
                 {
-                    if (merchantButtons[i].ResourceToDeliver.ResourceType == _slotsResourcesTaken[j].ResourceType)
+                    if (merchantButtons[i].ResourceToDeliver.ResourceType == _slotsResourcesTaken[j].Data.ResourceType)
                     {
                         // found a type that is similar...
                         buttonsToPulse.Add(merchantButtons[i]);
@@ -149,7 +149,7 @@ public class ResourceController : MonoBehaviour
     {
         for (int i = 0; i < _slotsResourcesTaken.Count; i++)
         {
-            if (_slotsResourcesTaken[i].ResourceType == resourceToCheck)
+            if (_slotsResourcesTaken[i].Data.ResourceType == resourceToCheck)
             {
                 //Debug.Log("I still have more of this resource -> " + _slotsResourcesTaken[i].ResourceType + ", so let them PULSE");
                 return true;
@@ -163,13 +163,33 @@ public class ResourceController : MonoBehaviour
     {
         for (int i = 0; i < _slotsResourcesTaken.Count; i++)
         {
-            if (_slotsResourcesTaken[i].ResourceType == resourceToCheck)
+            if (_slotsResourcesTaken[i].Data.ResourceType == resourceToCheck)
             {
                 return _slotsResourcesTaken[i];
             }
         }
         return null;
     }
+    
+    public void LoadData(GameData data)
+    {
+        if (_isLoaded) return;
+        _slotsResourcesTaken.Clear();
+        foreach (var slot in _slotsResources)
+        {
+            if (data.SlotResourceDatas.ContainsKey(slot.ID) == false) continue;
+            
+            var slotData = data.SlotResourceDatas[slot.ID];
+            if (slotData.SlotTaken == false) continue;
+            
+            AddResource(slotData.ResourceType, slotData.Amount);
+        }
+        
+        _isLoaded = true;
+    }
 
-
+    public void SaveData(ref GameData data)
+    {
+        // SlotData gets saved via the slots themselves.
+    }
 }

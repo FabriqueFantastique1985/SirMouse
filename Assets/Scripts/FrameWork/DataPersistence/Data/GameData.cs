@@ -37,7 +37,8 @@ public class GameData
     /// Type_Instrument is the type of instrument and bool is if it has been unlocked or not.
     /// </summary>
     public Dictionary<Type_Instrument, bool> InstrumentData = new Dictionary<Type_Instrument, bool>();
-    
+    public Dictionary<string, SlotResource.SlotResourceData> SlotResourceDatas = new Dictionary<string, SlotResource.SlotResourceData>();
+
     // These should be initial values to start with 
     public GameData()
     {

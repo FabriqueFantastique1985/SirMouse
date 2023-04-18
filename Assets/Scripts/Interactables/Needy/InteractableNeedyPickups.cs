@@ -25,7 +25,7 @@ public class InteractableNeedyPickups : InteractableNeedy
             for (int i = 0; i < WantedPickups.Count; i++)
             {
                 // if The player has any pickups on them (or in their inventory)...
-                if (BackpackController.BackpackInstance.PlayerHasItemOfInterest(WantedPickups[i]) == true)
+                if (BackpackController.Instance.PlayerHasItemOfInterest(WantedPickups[i]) == true)
                 {
                     hasItemOfInterest = true;
                     break;

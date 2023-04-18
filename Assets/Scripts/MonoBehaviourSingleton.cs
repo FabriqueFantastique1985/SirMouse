@@ -8,6 +8,7 @@ public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBe
 {
     private static T _instance;
     private static bool _isApplicationQuitting = false;
+    private static readonly object _lock = new object();
     
     public static T Instance
     {
@@ -18,12 +19,16 @@ public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBe
                 Debug.LogWarning($"Trying to access the singleton of type: {typeof(T).Name} when the application is shutting down, this is not recommended.");
                 return null;
             }
-            if (_instance == null)
+
+            lock (_lock)
             {
-                GameObject newSingletonObject = new GameObject(typeof(T).Name);
-                _instance = newSingletonObject.AddComponent<T>();
+                if (_instance == null)
+                {
+                    GameObject newSingletonObject = new GameObject(typeof(T).Name);
+                    _instance = newSingletonObject.AddComponent<T>();
+                }
+                return _instance;
             }
-            return _instance;
         }
     }
 
@@ -37,7 +42,7 @@ public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBe
         
         _instance = GetComponent<T>();
 
-        transform.parent = null;
+        _instance.transform.SetParent(null);
         DontDestroyOnLoadManager.DontDestroyOnLoad(_instance.gameObject);
     }
 

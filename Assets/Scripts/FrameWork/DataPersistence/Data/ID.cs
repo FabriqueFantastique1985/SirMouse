@@ -14,7 +14,7 @@ public class ID : MonoBehaviour
 
     private void Awake()
     {
-        if (string.IsNullOrEmpty(_idName))
+        if (string.IsNullOrEmpty(_idName) && Application.isPlaying)
         {
             GenerateGuid();
         }
