@@ -44,7 +44,7 @@ public class PlaceOfInterest : MonoBehaviour
         _triggerToExitToSeeIcon.enabled = false;
     }
     public virtual void HideIcon()
-    {
+    {        
         _icon.SetActive(false);
 
         _triggerToEnterToSeeRequest.enabled = false;
@@ -52,6 +52,8 @@ public class PlaceOfInterest : MonoBehaviour
     }
     public virtual void HideIconPermanently()
     {
+        CompletedMe = true;
+
         _icon.SetActive(false);
 
         _triggerToEnterToSeeRequest.enabled = false;
