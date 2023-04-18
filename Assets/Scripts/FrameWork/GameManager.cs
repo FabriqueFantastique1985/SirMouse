@@ -154,8 +154,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     private void Update()
     {
-        if (_blockInput == false) 
-            _currentGameSystem.HandleInput();
+        _currentGameSystem.HandleInput(_blockInput);
         _currentGameSystem.Update();
 
         _chain.UpdateChain(Time.deltaTime);

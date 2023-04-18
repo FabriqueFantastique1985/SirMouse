@@ -12,8 +12,13 @@ public class TutorialSystem : GameSystem
         _layerMask = ~layerMask;
     }
 
-    public override void HandleInput()
+    public override void HandleInput(bool isInputBlocked)
     {
+        if (isInputBlocked)
+        {
+            return;
+        }
+
         if (Input.GetMouseButton(0))
         {
             Vector3 currentTarget = Input.mousePosition;

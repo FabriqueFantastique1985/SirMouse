@@ -8,7 +8,9 @@ public enum Type_Instrument
 
     ButterflyNet = 1,
 
-    Mothballs = 2,
+    Shears = 2,
 
     Candle = 3,
+
+    Key = 4
 }

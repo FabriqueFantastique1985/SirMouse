@@ -523,7 +523,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             {
                 // if i have equipment out...
                 var hasInstrumentEquiped = InstrumentController.Instance.EquipedInstrument != Type_Instrument.None;
-                tempList[i].gameObject.SetActive(hasInstrumentEquiped);
+                tempList[i].gameObject.SetActive(!hasInstrumentEquiped);
             }
             else
             {
@@ -540,7 +540,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             // de-activate old geo if Hide == true
             if (tempList[i].HidesSirMouseGeometry == true)
             {
-                SetSirMouseGeometryState(skinPieceElement.Data.MyBodyType, false);
+                SetSirMouseGeometryState(skinPieceElement.Data.MyBodyType, false, tempList[i].ShowUpper, tempList[i].ShowLower);
             }
             else
             {
@@ -548,7 +548,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             }
         }
 
-        DebugConsoleScore();
+        CountTotalScore();
     }
 
     private void FindCorrectSkinPieceRig(SkinPiecesForThisBodyType skinPiecesForBodyX,
@@ -581,10 +581,10 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 EquipedSkinPiecesUI.Add(tempSkinPieceUI);
 
                 // de-activate old geo if Hide == true
-                SetSirMouseGeometryState(bodyType, !tempSkinPiece.HidesSirMouseGeometry);
+                SetSirMouseGeometryState(bodyType, !tempSkinPiece.HidesSirMouseGeometry, tempSkinPiece.ShowUpper, tempSkinPiece.ShowLower);
 
-                Debug.Log("Equiping piece " + tempSkinPiece);
-                DebugConsoleScore();
+                //Debug.Log("Equiping piece " + tempSkinPiece);
+                CountTotalScore();
             }
         }
 
@@ -667,8 +667,15 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     }
 
     // makes old geometry visible/invisible
-    private void SetSirMouseGeometryState(Type_Body bodyType, bool state) // false = invisible
+    private void SetSirMouseGeometryState(Type_Body bodyType, bool state, bool shouldShowUpper = false, bool shouldShowLower = false) // false = invisible
     {
+        // If state == true => show bodypieces so also show upper and lower bodypieces
+        if (state)
+        {
+            shouldShowUpper = state;
+            shouldShowLower = state;
+        }
+
         switch (bodyType)
         {
             case Type_Body.None:
@@ -693,44 +700,48 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 characterGeoReferencesUI.Skirt.gameObject.SetActive(state);
                 break;
             case Type_Body.ArmLeftLower:
-                characterGeoReferences.ArmUpL.gameObject.SetActive(state);
-                characterGeoReferences.HandL.gameObject.SetActive(state);
                 characterGeoReferences.ElbowL.gameObject.SetActive(state);
-                characterGeoReferences.ShoulderL.gameObject.SetActive(state);
+
+                characterGeoReferences.ShoulderL.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferences.ArmUpL.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferences.HandL.gameObject.SetActive(shouldShowLower);
                 // ui
-                characterGeoReferencesUI.ArmUpL.gameObject.SetActive(state);
-                characterGeoReferencesUI.HandL.gameObject.SetActive(state);
                 characterGeoReferencesUI.ElbowL.gameObject.SetActive(state);
-                characterGeoReferencesUI.ShoulderL.gameObject.SetActive(state);
+
+                characterGeoReferencesUI.ShoulderL.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferencesUI.ArmUpL.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferencesUI.HandL.gameObject.SetActive(shouldShowLower);
                 break;
             case Type_Body.ArmRightLower:
-                characterGeoReferences.ArmUpR.gameObject.SetActive(state);
-                characterGeoReferences.HandR.gameObject.SetActive(state);
                 characterGeoReferences.ElbowR.gameObject.SetActive(state);
-                characterGeoReferences.ShoulderR.gameObject.SetActive(state);
 
-                characterGeoReferencesUI.ArmUpR.gameObject.SetActive(state);
-                characterGeoReferencesUI.HandR.gameObject.SetActive(state);
+                characterGeoReferences.ShoulderR.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferences.ArmUpR.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferences.HandR.gameObject.SetActive(shouldShowLower);
+
                 characterGeoReferencesUI.ElbowR.gameObject.SetActive(state);
-                characterGeoReferencesUI.ShoulderR.gameObject.SetActive(state);
+
+                characterGeoReferencesUI.ShoulderR.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferencesUI.ArmUpR.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferencesUI.HandR.gameObject.SetActive(shouldShowLower);
                 break;
             case Type_Body.LegLeftLower:
-                characterGeoReferences.LegUpL.gameObject.SetActive(state);
                 characterGeoReferences.KneeL.gameObject.SetActive(state);
-                characterGeoReferences.LegLowL.gameObject.SetActive(state);
+                characterGeoReferences.LegUpL.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferences.LegLowL.gameObject.SetActive(shouldShowLower);
 
-                characterGeoReferencesUI.LegUpL.gameObject.SetActive(state);
                 characterGeoReferencesUI.KneeL.gameObject.SetActive(state);
-                characterGeoReferencesUI.LegLowL.gameObject.SetActive(state);
+                characterGeoReferencesUI.LegUpL.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferencesUI.LegLowL.gameObject.SetActive(shouldShowLower);
                 break;
             case Type_Body.LegRightLower:
-                characterGeoReferences.LegUpR.gameObject.SetActive(state);
                 characterGeoReferences.KneeR.gameObject.SetActive(state);
-                characterGeoReferences.LegLowR.gameObject.SetActive(state);
+                characterGeoReferences.LegUpR.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferences.LegLowR.gameObject.SetActive(shouldShowLower);
 
-                characterGeoReferencesUI.LegUpR.gameObject.SetActive(state);
                 characterGeoReferencesUI.KneeR.gameObject.SetActive(state);
-                characterGeoReferencesUI.LegLowR.gameObject.SetActive(state);
+                characterGeoReferencesUI.LegUpR.gameObject.SetActive(shouldShowUpper);
+                characterGeoReferencesUI.LegLowR.gameObject.SetActive(shouldShowLower);
                 break;
             case Type_Body.FootLeft:
                 characterGeoReferences.FootL.gameObject.SetActive(state);
@@ -789,7 +800,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     }
 
 
-    private void DebugConsoleScore()
+    private void CountTotalScore()
     {
         int totalScore = 0;
 

@@ -19,7 +19,13 @@ public class InstrumentController : MonoBehaviour
 
     public SlotInstrument ActiveInstrumentSlot;
     public InstrumentPiece ActiveInstrumentPiece;
+
+    public ButtonEquipToggle ButtonEquiping;
+
+    [HideInInspector]
+    public InstrumentInteractable InstrumentInteractableMouseIsIn;
     
+
     private void Awake()
     {
         // Singleton 
@@ -29,6 +35,20 @@ public class InstrumentController : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+
+    private void Start()
+    {
+        for (int i = 0; i < _slotsInstruments.Count; i++)
+        {
+            if (_slotsInstruments[i].Unlocked == true)
+            {
+                ActivateInstrument(_slotsInstruments[i]);
+                break;
+            }
+        }
+
     }
 
 
@@ -54,6 +74,18 @@ public class InstrumentController : MonoBehaviour
         }
     }
 
+    public bool CheckIfFoundInstrument()
+    {
+        for (int i = 0; i < _slotsInstruments.Count; i++)
+        {
+            if (_slotsInstruments[i].Unlocked == true)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // called on buttons in Backpack 
     public void ActivateInstrument(SlotInstrument slotToActivate)
@@ -73,6 +105,8 @@ public class InstrumentController : MonoBehaviour
                 break;
             }
         }
+
+        ButtonEquiping.SetInstrumentSprite();
     }
     
     // called on buttons in Backpack
@@ -115,6 +149,15 @@ public class InstrumentController : MonoBehaviour
             }
         }
 
+        // check if the player is within a trigger of a required instrument...
+        if (InstrumentInteractableMouseIsIn != null)
+        {
+            InstrumentInteractableMouseIsIn.ShowInstrumentPopup();
+        }
+
+        // show alternate button
+        ButtonEquiping.SetButtonState(false);
+
         SkinsMouseController.Instance.HideOrShowSwordAndShield(false);
     }
     
@@ -127,7 +170,16 @@ public class InstrumentController : MonoBehaviour
 
         EquipedInstrumentPiece.gameObject.SetActive(false);
         EquipedInstrumentPiece = null;
-        
+
+        // show the thinking balloon of any instrument interactable I am in
+        if (InstrumentInteractableMouseIsIn != null)
+        {
+            InstrumentInteractableMouseIsIn.ShowInstrumentThink();
+        }
+
         SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
+
+        // show normal button
+        ButtonEquiping.SetButtonState(true);
     }
 }

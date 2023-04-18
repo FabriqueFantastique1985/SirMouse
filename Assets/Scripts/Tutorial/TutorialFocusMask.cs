@@ -12,22 +12,19 @@ public class TutorialFocusMask
     /// </summary>
     public void Initialize(ref RectTransform focusMask)
     {
-        if (!focusMask)
+        try
         {
-            try
-            {
-                SearchFocusMask(ref focusMask);
-            }
-            catch (NullReferenceException e)
-            {
-                Debug.LogError("Caught a null reference searching for the focus mask.");
-                Debug.LogException(e);
-            }
-            catch (MissingComponentException e)
-            {
-                Debug.LogError("Caught a missing component searching for the focus mask.");
-                Debug.LogException(e);
-            }
+            SearchFocusMask(ref focusMask);
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError("Caught a null reference searching for the focus mask.");
+            Debug.LogException(e);
+        }
+        catch (MissingComponentException e)
+        {
+            Debug.LogError("Caught a missing component searching for the focus mask.");
+            Debug.LogException(e);
         }
     }
 

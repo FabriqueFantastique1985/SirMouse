@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ResourceController : MonoBehaviour, IDataPersistence
 {
+    public delegate void ResourceControllerDelegate();
+    public event ResourceControllerDelegate ResourceCollected;
+
     public static ResourceController Instance { get; private set; }
 
 
@@ -82,6 +85,9 @@ public class ResourceController : MonoBehaviour, IDataPersistence
                 }
             }
         }
+
+        // Call event on resource collected
+        ResourceCollected?.Invoke();
     }
 
     public void RemoveResource(Type_Resource resourceToRemove)

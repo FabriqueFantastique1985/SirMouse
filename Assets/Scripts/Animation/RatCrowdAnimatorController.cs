@@ -23,4 +23,12 @@ public class RatCrowdAnimatorController : MonoBehaviour
             _ratAnimatorControllers[i].PlayCheerAnimation(.8f);
         }
     }
+
+    public void PlayAngryAnimations()
+    {
+        for (int i = 0; i < _ratAnimatorControllers.Count; i++)
+        {
+            _ratAnimatorControllers[i].PlayAngryAnimation(.8f);
+        }
+    }
 }
