@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -93,14 +94,22 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
         {
             Debug.LogWarning("GameData is null. A New Game needs to be started before data can be loaded");
             return;
+
         }
-        foreach (var dataPersistenceObj in _dataPersistenceObjects)
+
+        foreach (var datapersistenceobj in _dataPersistenceObjects)
         {
-            dataPersistenceObj.SaveData(ref _gameData);
+            datapersistenceobj.SaveData(ref _gameData);
         }
 
         _dataHandler.Save(_gameData);
     }
+
+    public void RemovePersistentObject(IDataPersistence obj)
+    {
+        _dataPersistenceObjects.Remove(obj);
+    }
+
 
     /// <summary>
     /// Temporary method to clear all save files

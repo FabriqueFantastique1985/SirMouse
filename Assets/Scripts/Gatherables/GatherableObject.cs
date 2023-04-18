@@ -31,9 +31,10 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
         if (_isGathered)
         {
             Destroy(gameObject);
+            DataPersistenceManager.Instance.RemovePersistentObject(this);
         }
     }
-    
+
     public virtual void PickedUpGatherable()
     {
         ObjectGathered?.Invoke(this);
@@ -50,7 +51,7 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        if (_id == string.Empty)
+        if (string.IsNullOrEmpty(_id))
         {
             Debug.LogWarning("No id yet made! Please generate one!");
             return;
