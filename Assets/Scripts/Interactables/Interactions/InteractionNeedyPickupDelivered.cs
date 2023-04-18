@@ -105,7 +105,7 @@ public class InteractionNeedyPickupDelivered : Interaction
                         _myInteractable.NeedyBalloon.UpdateOneRequiredNeedyPickup(BackpackController.ItemButtonsInBackpack[j].MyPickupType);
 
                         // remove the Button from the Backpack (this destroys the ButtonPickupBackpack.... making the above if pointless ?? )
-                        BackpackController.BackpackInstance.RemoveSingularItemFromBackpack(buttonOfInterest); // (PROBLEM, I ALSO ITERATE OVER THIS LIST ABOVE)
+                        BackpackController.Instance.RemoveSingularItemFromBackpack(buttonOfInterest); // (PROBLEM, I ALSO ITERATE OVER THIS LIST ABOVE)
 
                         break;
                     }
@@ -134,7 +134,7 @@ public class InteractionNeedyPickupDelivered : Interaction
                 _myInteractable.NeedyBalloon.UpdateOneRequiredNeedyPickup(GameManager.Instance.Player.EquippedPickupType);
 
                 // delete it from your hands
-                BackpackController.BackpackInstance.RemoveSingularItemFromHands();
+                BackpackController.Instance.RemoveSingularItemFromHands();
                 break;
             }
         }

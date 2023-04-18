@@ -49,7 +49,7 @@ public class SceneSetup : MonoBehaviour
     {
         if (_startedInThisScene == true)
         {
-            SceneController.SceneControllerInstance.SpawnPlayerOnCorrectPosition();
+            SceneController.Instance.SpawnPlayerOnCorrectPosition();
         }
 
         //GameManager.Instance.Player.transform.SetPositionAndRotation(_playerStart.transform.position, _playerStart.transform.rotation);
