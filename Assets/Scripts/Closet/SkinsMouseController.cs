@@ -847,7 +847,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             for (int j = 0; j < _listsOfButtons[i].MySkinPiecesButtons.Count; j++)
             {
                 _listsOfButtons[i].MySkinPiecesButtons[j].Data = data.ButtonsSkinPieceData[index];
-                if (data.ButtonsSkinPieceData[i + j].Found)
+                if (data.ButtonsSkinPieceData[index].Found)
                 {
                     UnlockSkinPiece(_listsOfButtons[i].MySkinPiecesButtons[j].MySkinPieceElement);
                 }
