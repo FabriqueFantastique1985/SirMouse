@@ -31,7 +31,6 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
         if (_isGathered)
         {
             Destroy(gameObject);
-            DataPersistenceManager.Instance.RemovePersistentObject(this);
         }
     }
 
