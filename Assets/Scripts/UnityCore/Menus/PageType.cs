@@ -9,7 +9,7 @@ namespace UnityCore
             None = 0,
 
             Loading = 1,
-            Menu = 2,
+            Pause = 2,
 
             BackpackButtons = 16,
             BackpackResources = 3,
