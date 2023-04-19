@@ -10,7 +10,7 @@ namespace UnityCore
         public enum SceneType 
         {
             None = 0,
-            Koen_Playground_Menu = 1,
+            MainMenu = 1,
             Koen_Testing_All_Start = 2,
             Koen_Testing_All = 3,
             Koen_Playground_Game_2 = 4,

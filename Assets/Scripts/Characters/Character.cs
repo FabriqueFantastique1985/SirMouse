@@ -117,7 +117,6 @@ public class Character : MonoBehaviour
     public void SetAnimatorTrigger(States state, bool mirror = false)
     {
         ResetAllTriggers();
-        SetCharacterMirrored(mirror);
 
         string animationString = _idleName;
 
@@ -154,6 +153,7 @@ public class Character : MonoBehaviour
         }
         
         _animatorRM.SetTrigger(animationString);
+        SetCharacterMirrored(mirror);
     }
     public void SetAnimatorBool(States state, bool setValue)
     {
