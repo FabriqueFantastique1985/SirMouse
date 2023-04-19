@@ -127,18 +127,28 @@ namespace UnityCore
                     }
                 }
 
-
-                // updating the playfield and colliders I can cast on // TWEAK THIS
-                GameManager.Instance.PlayField = FindObjectOfType<PlayField>();
-
-                GameManager.Instance.AdjustGameSystem(GameManager.Instance.PlayField.GroundColliders);
-
-                // remove audiotracks where source is null
+                // remove audio tracks where source is null
                 AudioController.Instance.VerifyAudioTracks();
 
+                // only do these things if the loaded scene is a gameplay scene //
+                if (m_TargetScene != SceneType.MainMenu)
+                {
+                    PageController.Instance.FullyHideUIButtons(false);
+                    PageController.Instance.ShowGameplayHUD(true);
 
-                // setting the player at the correct position
-                SpawnPlayerOnCorrectPosition();
+                    // updating the playfield and colliders I can cast on // TWEAK THIS
+                    GameManager.Instance.PlayField = FindObjectOfType<PlayField>();
+                    GameManager.Instance.AdjustGameSystem(GameManager.Instance.PlayField.GroundColliders);
+                    // setting the player at the correct position
+                    SpawnPlayerOnCorrectPosition();
+                }
+                else
+                {
+                    Debug.Log("loaded main menu, should have UI hidden");
+                }
+
+
+
 
                 if (m_LoadingPage != PageType.None)
                 {
@@ -237,7 +247,7 @@ namespace UnityCore
                 switch (scene)
                 {
                     case SceneType.Koen_Testing_All_Start: return "Koen_Testing_All_Start";
-                    case SceneType.Koen_Playground_Menu: return "Koen_Playground_Menu";
+                    case SceneType.MainMenu: return "MainMenu";
                     case SceneType.Koen_Testing_All: return "Koen_Testing_All";
                     case SceneType.Koen_Playground_Game_2: return "Koen_Playground_Game_2";
                     case SceneType.Castle_Basement_Center: return "Castle_Basement_Center";
@@ -269,7 +279,7 @@ namespace UnityCore
                 switch (scene)
                 {
                     case "Koen_Testing_All_Start": return SceneType.Koen_Testing_All_Start;
-                    case "Koen_Playground_Menu": return SceneType.Koen_Playground_Menu;
+                    case "MainMenu": return SceneType.MainMenu;
                     case "Koen_Testing_All": return SceneType.Koen_Testing_All;
                     case "Koen_Playground_Game_2": return SceneType.Koen_Playground_Game_2;
                     case "Castle_Basement_Center": return SceneType.Castle_Basement_Center;

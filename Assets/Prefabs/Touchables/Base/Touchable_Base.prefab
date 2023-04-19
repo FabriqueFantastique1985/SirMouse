@@ -75,28 +75,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pickup:
     Clip: {fileID: 8300000, guid: 46938a3f0ecb5a54ea40657e3cab0d2e, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 0.1
     Pitch: 1
     RandomizePitchSlightly: 1
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Drop:
     Clip: {fileID: 8300000, guid: 8e6a0d94ac69326429ebe0863979051d, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 0.2
     Pitch: 1
     RandomizePitchSlightly: 1
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Disappear:
     Clip: {fileID: 8300000, guid: 358c6394577d3644c93f4267935371e4, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 0.2
     Pitch: 1
     RandomizePitchSlightly: 1
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
 --- !u!135 &8040466910476417319
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -121,7 +136,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 2732e159a2795884b97eb578ec5ffad9, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
