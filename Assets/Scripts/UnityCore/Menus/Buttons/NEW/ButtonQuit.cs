@@ -15,12 +15,12 @@ public class ButtonQuit : ButtonBaseNew
         PageController.Instance.FullyHideUIButtons(true);
 
         // use scene controller to load main menu
-        SceneController.SceneControllerInstance.StartCoroutine(LoadMainMenu());
+        SceneController.Instance.StartCoroutine(LoadMainMenu());
     }
 
     IEnumerator LoadMainMenu()
     {
         yield return new WaitForSeconds(0.2f);
-        SceneController.SceneControllerInstance.Load(SceneType.MainMenu);
+        SceneController.Instance.Load(SceneType.MainMenu);
     }
 }
