@@ -47,12 +47,12 @@ namespace UnityCore
 
                 if (Input.GetKeyUp(KeyCode.H))
                 {
-                    PageControllerScript.TurnPageOff(PageType.Loading, PageType.Menu);
+                    PageControllerScript.TurnPageOff(PageType.Loading, PageType.Pause);
                 }
 
                 if (Input.GetKeyUp(KeyCode.J))
                 {
-                    PageControllerScript.TurnPageOff(PageType.Loading, PageType.Menu, true);
+                    PageControllerScript.TurnPageOff(PageType.Loading, PageType.Pause, true);
                 }
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace UnityCore
 {
@@ -17,6 +18,19 @@ namespace UnityCore
             public List<AudioTrack> TracksUI;
             public List<AudioTrack> TracksSirMouse;
             public List<AudioTrack> TracksWorld;
+
+            [Header("Mixer snapshots")]
+            [SerializeField]
+            private AudioMixerSnapshot _snapshotNormal;
+            [SerializeField]
+            private AudioMixerSnapshot _snapshotOSTMuted;
+            [SerializeField]
+            private AudioMixerSnapshot _snapshotFXMuted;
+            [SerializeField]
+            private AudioMixerSnapshot _snapshotALLMuted;
+
+            private bool _mutedOST, _mutedFX;
+            public bool MutedOst => _mutedOST;
 
             private List<float> _targetVolumesQuiet = new List<float>();
             private List<float> _targetVolumesNormal = new List<float>();
@@ -106,6 +120,7 @@ namespace UnityCore
                 AddJobClip(new AudioJob(type, AudioAction.RESTART, fade, delay));
             }
 
+            // older ones (to remove)
             public void TurnDownVolumeFor(AudioType typeAudio = AudioType.OST , bool iwantToBeQuieter = true)
             {
                 // make sure to only do this when the coroutine is null
@@ -207,6 +222,55 @@ namespace UnityCore
 
                 StartCoroutine(MuteVolumeOnSources(sourcesToInfluence, muteMe)); ;
             }
+
+            // newer version for mixing
+            public void InfluenceVolumeOST(bool muteMe)
+            {
+                if (muteMe == true)
+                {
+                    _mutedOST = true;
+                }
+                else
+                {
+                    _mutedOST = false;
+                }
+
+                MixerAdjustment();
+            }
+            public void InfluenceVolumeFX(bool muteMe)
+            {
+                if (muteMe == true)
+                {
+                    _mutedFX = true;
+                }
+                else
+                {
+                    _mutedFX = false;
+                }
+
+                MixerAdjustment();
+            }
+            private void MixerAdjustment()
+            {
+                if (_mutedFX == true && _mutedOST == true)
+                {
+                    _snapshotALLMuted.TransitionTo(0.1f);
+                }
+                else if (_mutedFX == false && _mutedOST == false)
+                {
+                    _snapshotNormal.TransitionTo(0.1f);
+                }
+                else if (_mutedFX == false && _mutedOST == true)
+                {
+                    _snapshotOSTMuted.TransitionTo(0.1f);
+                }
+                else if (_mutedFX == true && _mutedOST == false)
+                {
+                    _snapshotFXMuted.TransitionTo(0.1f);
+                }
+            }
+
+
             public void VerifyAudioTracks()
             {
                 List<AudioTrack> tracksToRemove = new List<AudioTrack>();
@@ -219,7 +283,6 @@ namespace UnityCore
             #endregion
 
 
-
             #region Private Functions
 
 
@@ -228,17 +291,20 @@ namespace UnityCore
                 
                 IEnumerator jobRunner = null;
 
-                if (job.AudioEM.Clip == null)
+                if (job.AudioEM.Clip == null && _lastViableJob != null)
                 {
                     job.AudioEM.Clip = _lastViableJob.AudioEM.Clip;
                     job.AudioEM.Clip = _lastViableJob.AudioEM.Clip;                   
                 }
 
                 // start job
-                jobRunner = RunAudioJobClip(job);
-                _lastViableJob = job;
-                
-                StartCoroutine(jobRunner);
+                if (job.AudioEM.Clip != null)
+                {
+                    jobRunner = RunAudioJobClip(job);
+                    _lastViableJob = job;
+
+                    StartCoroutine(jobRunner);
+                }
             }
             private IEnumerator RunAudioJobClip(AudioJob job)
             {
