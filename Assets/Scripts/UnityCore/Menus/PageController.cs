@@ -27,6 +27,12 @@ namespace UnityCore
             public ButtonClosetSelect ButtonClosetSuper;
             public ButtonResourceSelect ButtonResourceSuper;
 
+            [Header("gameObjects to hide when pausing")]
+            [SerializeField]
+            private GameObject _buttonsBottomLeft;
+            [SerializeField]
+            private GameObject _buttonsTopRight;
+
 
             //public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
             [Header("Camera extra for UI ??")]
@@ -205,8 +211,27 @@ namespace UnityCore
                 {
                     ButtonEquipToggle.gameObject.SetActive(state);
                 }
-                
+
+                _buttonsTopRight.SetActive(state);
+
                 ButtonBack.gameObject.SetActive(!state);
+            }
+            public void ShowBottomLeftButtons(bool state)
+            {
+                _buttonsBottomLeft.SetActive(state);
+            }
+            public void FullyHideUIButtons(bool hideMe)
+            {
+                if (hideMe == true)
+                {
+                    _buttonsBottomLeft.SetActive(false);
+                    _buttonsTopRight.SetActive(false);
+                }
+                else
+                {
+                    _buttonsBottomLeft.SetActive(true);
+                    _buttonsTopRight.SetActive(true);
+                }
             }
 
 

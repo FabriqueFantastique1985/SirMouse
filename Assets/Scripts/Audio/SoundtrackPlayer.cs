@@ -90,15 +90,31 @@ public class SoundtrackPlayer : MonoBehaviour
 
     public void ChangeTheSoundtrack(AudioClip audioClip, float transitionSeconds)
     {
-        StartCoroutine(TransitionDelay(audioClip, transitionSeconds));
+        AudioController.Instance.StartCoroutine(TransitionMusic(audioClip, transitionSeconds));
+        AudioController.Instance.StartCoroutine(TransitionFade(transitionSeconds));
     }
 
-    IEnumerator TransitionDelay(AudioClip audioClip, float transitionSeconds)
+    IEnumerator TransitionFade(float transitionTime)
     {
-        _mutedSnapshot.TransitionTo(transitionSeconds / 2);
-        yield return new WaitForSeconds(transitionSeconds / 2);
+        if (AudioController.Instance.MutedOst == false)
+        {
+            _mutedSnapshot.TransitionTo(1.5f);
+        }
+        
+        //yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(1.5f);
+
+        if (AudioController.Instance.MutedOst == false)
+        {
+            _defaultSnapshot.TransitionTo(1.5f);
+        }    
+    }
+    IEnumerator TransitionMusic(AudioClip audioClip, float transitionTime)
+    {
+        //yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(1.5f);
+
         AudioSource.clip = audioClip;
         AudioSource.Play();
-        _defaultSnapshot.TransitionTo(transitionSeconds / 2);
     }
 }
