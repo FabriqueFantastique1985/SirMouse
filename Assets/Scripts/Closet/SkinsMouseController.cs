@@ -518,8 +518,8 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 // enable the sprite over the sillhouette on the button
                 skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound.SetActive(true);
                 
-                Debug.Log("Unlocked skin piece: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MySkinType 
-                                                  + " for body type: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MyBodyType);
+                //Debug.Log("Unlocked skin piece: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MySkinType 
+                //                                  + " for body type: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MyBodyType);
 
                 //return skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound;
                 return skinPiecesForBodyX.MySkinPiecesButtons[i];
@@ -570,7 +570,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             // this logic is what applies the skins on the Closet mouse
             tempListUI[i].gameObject.SetActive(true);
 
-            Debug.Log("Equiping piece " + tempList[i]);
+            //Debug.Log("Equiping piece " + tempList[i]);
             
             if (tempList[i].Data.MyBodyType == Type_Body.Sword || tempList[i].Data.MyBodyType == Type_Body.Shield)
             {
@@ -883,7 +883,10 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         {
             //EquipSkinPiece(skinPieceData.MyBodyType, skinPieceData.MySkinType);
             var skinPiece = FindSkinpiece(skinPieceData.MyBodyType, skinPieceData.MySkinType);
-            EquipSkinPiece(skinPiece);
+            if (skinPiece)
+            {
+                EquipSkinPiece(skinPiece);
+            }
         }
 
         // Load the Unlocked Pieces 
