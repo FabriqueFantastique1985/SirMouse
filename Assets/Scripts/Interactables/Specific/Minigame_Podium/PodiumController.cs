@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -75,7 +76,7 @@ public class PodiumController : MiniGame
 
         for (int i = 0; i < _playerObject.transform.childCount; i++)
         {
-            _playerChildTransforms.Add(_playerObject.transform.GetChild(i).position);
+            _playerChildTransforms.Add(_playerObject.transform.GetChild(i).localPosition);
         }
 
         // Set button information
@@ -232,6 +233,7 @@ public class PodiumController : MiniGame
 
         base.StartMiniGame();
 
+        Assert.IsNotNull(_animator, "[PodiumController] Player animator reference is null");
         _playerController = _animator.runtimeAnimatorController;
         _animator.runtimeAnimatorController = _podiumAnimator;
 

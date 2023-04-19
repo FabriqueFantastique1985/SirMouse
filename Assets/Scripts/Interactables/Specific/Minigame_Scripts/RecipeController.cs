@@ -203,6 +203,8 @@ public class RecipeController : MiniGame
         // empty out required ingredients (in case of failure)
         CurrentRequiredIngredients.Clear();
 
+        // Go back to the main Game System to control mouse
+        GameManager.Instance.EnterMainGameSystem();
 
         yield return new WaitForSeconds(0.3f);
         // animate the scroll up
@@ -230,9 +232,6 @@ public class RecipeController : MiniGame
 
         GameManager.Instance.FollowCamera.target = GameManager.Instance.Player.transform;
         GameManager.Instance.ZoomCamera.ResetZoom();
-
-        // Go back to the main Game System to control mouse
-        GameManager.Instance.EnterMainGameSystem();
     }
 
     public override void EndMiniGame(bool completeSuccesfully)

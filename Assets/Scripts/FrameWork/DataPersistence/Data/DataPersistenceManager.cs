@@ -97,6 +97,8 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
 
         }
 
+        _dataPersistenceObjects.RemoveAll(x => !(x as UnityEngine.Object));
+
         foreach (var datapersistenceobj in _dataPersistenceObjects)
         {
             datapersistenceobj.SaveData(ref _gameData);
@@ -104,12 +106,6 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
 
         _dataHandler.Save(_gameData);
     }
-
-    public void RemovePersistentObject(IDataPersistence obj)
-    {
-        _dataPersistenceObjects.Remove(obj);
-    }
-
 
     /// <summary>
     /// Temporary method to clear all save files
