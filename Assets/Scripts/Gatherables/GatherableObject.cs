@@ -43,7 +43,7 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        if (data.GatherableData.ContainsKey(_id))
+        if (_id != null && data.GatherableData.ContainsKey(_id))
         {
             _isGathered = data.GatherableData[_id];
         }
@@ -51,7 +51,7 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        if (string.IsNullOrEmpty(_id))
+        if (_id == null || string.IsNullOrEmpty(_id.IDName))
         {
             Debug.LogWarning("No id yet made! Please generate one!");
             return;

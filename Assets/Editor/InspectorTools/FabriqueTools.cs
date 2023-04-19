@@ -55,12 +55,11 @@ public class FabriqueTools : EditorWindow
            ID[] ids = FindObjectsOfType<ID>();
            foreach (ID id in ids)
            {
-                id.GenerateGuid();
-                EditorUtility.SetDirty(id);
+               id.GenerateGuid();
+               EditorUtility.SetDirty(id);
            }
        }
     }
-
    
     public static void OnSceneGUI(SceneView sceneview)
     {

@@ -10,7 +10,7 @@ public class GameData
     /// <summary>
     /// The last scene the player was in.
     /// </summary>
-    public string lastActiveScene = "";
+    public string lastActiveScene;
     
     /// <summary>
     /// Indices for every minigame. 
@@ -37,6 +37,7 @@ public class GameData
     /// Type_Instrument is the type of instrument and bool is if it has been unlocked or not.
     /// </summary>
     public Dictionary<Type_Instrument, bool> InstrumentData = new Dictionary<Type_Instrument, bool>();
+    public Dictionary<string, SlotResource.SlotResourceData> SlotResourceDatas = new Dictionary<string, SlotResource.SlotResourceData>();
 
     /// <summary>
     /// Intended for only 1 mirror in the whole game
@@ -44,7 +45,7 @@ public class GameData
     public bool HasRecievedMirrorReward = false;
 
     public Dictionary<string, int> DroppedGatherable = new Dictionary<string, int>();
-
+	
     // These should be initial values to start with 
     public GameData()
     {

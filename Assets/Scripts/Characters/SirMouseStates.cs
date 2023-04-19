@@ -255,7 +255,7 @@ public class BackpackExtractionState : SirMouseState
     private void OnInteractionDone(Character.States state)
     {
         // 1) put equiped item in backpack 
-        var backPack = BackpackController.BackpackInstance;
+        var backPack = BackpackController.Instance;
         var player = GameManager.Instance.Player;       
         if (player.EquippedItem != null)
         {
