@@ -45,7 +45,7 @@ namespace Utilities
                     if (sceneAsset.objectReferenceValue != null)
                     {
                         var scenePath = AssetDatabase.GetAssetPath(sceneAsset.objectReferenceValue);
-                        var assetsIndex = scenePath.IndexOf("Assets", StringComparison.Ordinal) + 7;
+                        var assetsIndex = scenePath.IndexOf("Assets/Scenes", StringComparison.Ordinal) + 14;
                         var extensionIndex = scenePath.LastIndexOf(".unity", StringComparison.Ordinal);
                         scenePath = scenePath.Substring(assetsIndex, extensionIndex - assetsIndex);
                         sceneName.stringValue = scenePath;

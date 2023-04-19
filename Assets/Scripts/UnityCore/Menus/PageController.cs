@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,10 +7,8 @@ namespace UnityCore
 {
     namespace Menus
     {
-        public class PageController : MonoBehaviour
+        public class PageController : MonoBehaviourSingleton<PageController>
         {
-            public static PageController Instance;
-
             public PageType EntryPage;
             public Page[] PagesScene;
 
@@ -19,11 +16,13 @@ namespace UnityCore
 
             [Header("Buttons main UI")]
             public ButtonBackpackSuper ButtonBackpackSuper;
+
             public ButtonEquipToggle ButtonEquipToggle;
             public ButtonBack ButtonBack;
 
             [Header("Buttons inside BackpackSuper")]
             public ButtonInstrumentSelect ButtonInstrumentSuper;
+
             public ButtonClosetSelect ButtonClosetSuper;
             public ButtonResourceSelect ButtonResourceSuper;
 
@@ -40,33 +39,15 @@ namespace UnityCore
 
             #region Unity Functions
 
-            private void Awake()
+            protected override void Awake()
             {
-                if (Instance == null)
-                {
-                    Instance = this;
-                    m_Pages = new Hashtable();
-                    RegisterAllPages();
-
-                    TurnAllPagesOffExcept(PageType.None);
-                    if (EntryPage != PageType.None)
-                    {
-                        TurnPageOn(EntryPage);
-                    }
-
-                    if (gameObject.transform.parent)
-                        DontDestroyOnLoad(gameObject.transform.parent);
-                    else
-                        DontDestroyOnLoad(gameObject);
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
+                base.Awake();
+                m_Pages = new Hashtable();
+                RegisterAllPages();
+                TurnAllPagesOffExcept(EntryPage);
             }
 
             #endregion
-
 
 
             #region Public Functions
@@ -87,11 +68,12 @@ namespace UnityCore
                 Page page = GetPage(typeToTurnOn);
                 page.gameObject.SetActive(true);
                 page.Animate(true);
-
             }
-            public void TurnPageOff(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None, bool waitForExit = false)
+
+            public void TurnPageOff(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None,
+                bool waitForExit = false)
             {
-                if (typeToTurnOff == PageType.None) return;
+                //if (typeToTurnOff == PageType.None) return;
                 if (PageExists(typeToTurnOff) == false)
                 {
                     Debug.Log("You're trying to turn a page off [" + typeToTurnOff + "] that has not been registered");
@@ -118,6 +100,7 @@ namespace UnityCore
                     }
                 }
             }
+
             public bool PageIsOn(PageType pageType)
             {
                 if (PageExists(pageType) == false)
@@ -126,8 +109,10 @@ namespace UnityCore
                     return false;
                 }
 
-                return GetPage(pageType).isOn;
+                var page = GetPage(pageType);
+                return page.isOn || page.gameObject.activeSelf;
             }
+
             // custom methods below
             public void TurnAllPagesOffExcept(PageType turnOn)
             {
@@ -138,9 +123,12 @@ namespace UnityCore
                         TurnPageOff(PagesScene[i].Type);
                     }
                 }
+
                 TurnPageOn(turnOn);
             }
-            public IEnumerator TurnPageOffDelay(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None, bool waitForExit = false, float delayTime = 0.25f)
+
+            public IEnumerator TurnPageOffDelay(PageType typeToTurnOff, PageType typeToTurnOn = PageType.None,
+                bool waitForExit = false, float delayTime = 0.25f)
             {
                 yield return new WaitForSeconds(delayTime);
 
@@ -148,6 +136,7 @@ namespace UnityCore
                 {
                     Debug.Log("You're trying to turn Nothing off");
                 }
+
                 if (PageExists(typeToTurnOff) == false)
                 {
                     Debug.Log("You're trying to turn a page off [" + typeToTurnOff + "] that has not been registered");
@@ -173,14 +162,14 @@ namespace UnityCore
                     }
                 }
 
-                BackpackController.BackpackInstance.enabled = false;
+                BackpackController.Instance.enabled = false;
             }
-
 
 
             public void NotifyBackpackSuper()
             {
-                if (ButtonBackpackSuper.IhaveNotificationsLeftCloset == false && ButtonBackpackSuper.IhaveNotificationsLeftInstruments == false)
+                if (ButtonBackpackSuper.IhaveNotificationsLeftCloset == false &&
+                    ButtonBackpackSuper.IhaveNotificationsLeftInstruments == false)
                 {
                     ButtonBackpackSuper.NotificationObject.SetActive(false);
                 }
@@ -196,6 +185,7 @@ namespace UnityCore
                 //BackpackImage0.SetActive(!state);
                 //BackpackImage1.SetActive(state);
             }
+
             public void OpenClosetImage(bool state)
             {
                 //ClosetImage0.SetActive(!state);
@@ -234,9 +224,7 @@ namespace UnityCore
                 }
             }
 
-
             #endregion
-
 
 
             #region Private Functions
@@ -250,23 +238,27 @@ namespace UnityCore
 
                 TurnPageOn(on.Type);
             }
+
             private void RegisterAllPages()
             {
-                for (int i = 0; i <  PagesScene.Length; i++)
+                for (int i = 0; i < PagesScene.Length; i++)
                 {
                     RegisterPage(PagesScene[i]);
                 }
             }
+
             private void RegisterPage(Page page)
             {
                 if (PageExists(page.Type))
                 {
-                    Debug.Log("You are trying to register a page [" + page.Type + "] that has already been registered : " + page.gameObject.name);
+                    Debug.Log("You are trying to register a page [" + page.Type +
+                              "] that has already been registered : " + page.gameObject.name);
                     return;
                 }
 
                 m_Pages.Add(page.Type, page);
             }
+
             private Page GetPage(PageType type)
             {
                 if (PageExists(type) == false)
@@ -277,6 +269,7 @@ namespace UnityCore
 
                 return (Page)m_Pages[type];
             }
+
             private bool PageExists(PageType type)
             {
                 return m_Pages.ContainsKey(type);
@@ -286,4 +279,3 @@ namespace UnityCore
         }
     }
 }
-

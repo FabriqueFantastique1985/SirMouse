@@ -16,6 +16,6 @@ public class LoadSceneAction : ChainActionMonoBehaviour
     {
         base.Execute();
         Debug.Log(_scene.ToString());
-        SceneController.SceneControllerInstance.Load(_scene, null, false, PageType.Loading, spawnvalue);
+        SceneController.Instance.Load(_scene, null, false, PageType.Loading, spawnvalue);
     }
 }

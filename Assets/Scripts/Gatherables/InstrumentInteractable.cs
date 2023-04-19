@@ -8,7 +8,7 @@ public class InstrumentInteractableData
     public bool Finished;
 }
 
-
+[RequireComponent(typeof(ID))]
 public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 {
     public delegate void InteractableDelegate();
@@ -54,7 +54,8 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
     [SerializeField]
     private List<GameObject> _prefabsToSpawnInBalloonsInteraction = new List<GameObject>();
 
-
+    [SerializeField]
+    private ID _id;
 
     private void Start()
     {
@@ -159,24 +160,37 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        if (data.InstrumentInteractionSavedData.ContainsKey(gameObject.name))
+        if (data.InstrumentInteractionSavedData.ContainsKey(_id))
         {
             // get the correct key...
-            var instrumentInteractionData = data.InstrumentInteractionSavedData[gameObject.name];
+            var instrumentInteractionData = data.InstrumentInteractionSavedData[_id];
 
             // get the value 
             Finished = instrumentInteractionData.Finished;
+
+            // if Im finished, disable my colliders
+            if (Finished == true)
+            {
+                _placeOfInterest.HideIconPermanently();
+                _instrumentInteraction.HideInteraction();
+            }
         }
     }
 
     public void SaveData(ref GameData data)
     {
+        if (_id == string.Empty)
+        {
+            Debug.LogWarning("No id yet made! Please generate one!");
+            return;
+        }
+
         InstrumentInteractableData instrumentInteractionData = new InstrumentInteractableData();
 
         // assign current bool, to the data bool
         instrumentInteractionData.Finished = Finished;
         
         // update the data using correct key
-        data.InstrumentInteractionSavedData[gameObject.name] = instrumentInteractionData;
+        data.InstrumentInteractionSavedData[_id] = instrumentInteractionData;
     }
 }

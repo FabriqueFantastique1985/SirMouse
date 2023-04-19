@@ -17,7 +17,7 @@ public class TutorialActivateEventVisible : TutorialActivateEvent
     private void Update()
     {
         // Check if object is within borders of screen
-        Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 screenPoint = Camera.allCameras[0].WorldToViewportPoint(transform.position);
         bool isOnScreen = screenPoint.x > _screenBorder && screenPoint.x < 1f - _screenBorder && screenPoint.y > _screenBorder && screenPoint.y < 1f - _screenBorder;
 
         // Check if any of the sprites in the spriteRenderer array are visible to a camera

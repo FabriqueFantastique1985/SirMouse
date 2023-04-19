@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityCore.Audio;
@@ -11,23 +10,23 @@ namespace UnityCore
 {
     namespace Scene
     {
-        public class SceneController : MonoBehaviour
+        public class SceneController : MonoBehaviourSingleton<SceneController>
         {
             public delegate void SceneLoadDelegate(SceneType scene);
 
-            public static SceneController SceneControllerInstance;
-
-
             private PageController m_Menu;
+
             private PageController _menu
             {
                 get
                 {
                     var instance = PageController.Instance;
-                    if (instance == null) Debug.Log("You are trying to access the Pagecontroller, but no instance was found.");
+                    if (instance == null)
+                        Debug.Log("You are trying to access the Pagecontroller, but no instance was found.");
                     return instance;
                 }
             }
+
             private SceneType m_TargetScene;
             private PageType m_LoadingPage;
             private SceneLoadDelegate m_SceneLoadDelegate;
@@ -35,34 +34,20 @@ namespace UnityCore
 
             private string CurrentSceneName
             {
-                get
-                {
-                    return SceneManager.GetActiveScene().name;
-                }
+                get { return SceneManager.GetActiveScene().name; }
             }
 
             private int _nextSceneSpawnLocationValue;
 
 
-
             #region Unity Functions
 
-            private void Awake()
+            protected override void Awake()
             {
-                if (SceneControllerInstance == null)
-                {
-                    Configure();
-                    
-                    if (gameObject.transform.parent)
-                        DontDestroyOnLoad(gameObject.transform.parent);
-                    else
-                        DontDestroyOnLoad(gameObject);
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
+                base.Awake();
+                Configure();
             }
+
             private void OnDisable()
             {
                 Dispose();
@@ -74,10 +59,10 @@ namespace UnityCore
             #region Public Functions
 
             public void Load(SceneType scene,
-                             SceneLoadDelegate sceneLoadDelegate = null,
-                             bool reload = false,
-                             PageType loadingPage = PageType.None,
-                             int spawnLocationValue = 0)
+                SceneLoadDelegate sceneLoadDelegate = null,
+                bool reload = false,
+                PageType loadingPage = PageType.None,
+                int spawnLocationValue = 0)
             {
                 if (loadingPage != PageType.None && _menu == null)
                 {
@@ -108,9 +93,9 @@ namespace UnityCore
 
             private void Configure()
             {
-                SceneControllerInstance = this;
                 SceneManager.sceneLoaded += OnSceneLoaded;
             }
+
             private void Dispose()
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -167,8 +152,8 @@ namespace UnityCore
 
                 if (m_LoadingPage != PageType.None)
                 {
-                    await Task.Delay(1000); 
-                    _menu.TurnPageOff(m_LoadingPage); 
+                    await Task.Delay(1000);
+                    _menu.TurnPageOff(m_LoadingPage);
                 }
 
                 m_SceneIsLoading = false;
@@ -188,7 +173,7 @@ namespace UnityCore
                         // if the spawnvalues integer == the value on this script...
                         if (spawnScript.SpawnValue == _nextSceneSpawnLocationValue)
                         {
-                            Debug.Log("Spawning player at " + spawnScript.name);
+                            //Debug.Log("Spawning player at " + spawnScript.name);
 
                             // move the player over there
                             player.Agent.enabled = false;
@@ -231,6 +216,7 @@ namespace UnityCore
                 string targetSceneName = SceneTypeToString(m_TargetScene);
                 SceneManager.LoadScene(targetSceneName);
             }
+
             private bool SceneCanBeLoaded(SceneType scene, bool reload)
             {
                 string targetSceneName = SceneTypeToString(scene);
@@ -247,7 +233,8 @@ namespace UnityCore
                 }
                 else if (m_SceneIsLoading == true)
                 {
-                    Debug.Log("Unable to load scene [" + scene + "]. Another scene [" + m_TargetScene + "] is already loading.");
+                    Debug.Log("Unable to load scene [" + scene + "]. Another scene [" + m_TargetScene +
+                              "] is already loading.");
                     return false;
                 }
 
@@ -286,6 +273,7 @@ namespace UnityCore
                         return string.Empty;
                 }
             }
+
             private SceneType StringToSceneType(string scene)
             {
                 switch (scene)
@@ -322,4 +310,3 @@ namespace UnityCore
         }
     }
 }
-

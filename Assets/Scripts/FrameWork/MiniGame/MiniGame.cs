@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(ID))]
-public class MiniGame : MonoBehaviour/*, IDataPersistence*/
+public class MiniGame : MonoBehaviour, IDataPersistence
 {
     #region Events
 
@@ -18,7 +18,7 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     {
         public bool SuccessfullyCompleted;
     }
-    
+
     #endregion
 
     #region EditorFields
@@ -31,40 +31,42 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     /// </summary>
     [SerializeField]
     private GameObject _exitGameObject;
-    
-    [SerializeField] 
+
+    [SerializeField]
     protected bool _hasBeenCompleted = false;
 
-    [SerializeField] 
+    [SerializeField]
     private Step[] _steps;
 
     [SerializeField]
     private bool _isLooping = false;
 
     #endregion
-   
+
     #region Fields
-    
+
     protected int _currentStepIndex = 0;
 
     #endregion
 
     #region Properties
 
-    protected bool IsCurrentStepIndexInRange => _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
+    protected bool IsCurrentStepIndexInRange =>
+        _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
 
     #endregion
-    
+
     private void Awake()
     {
         if (_id == null)
         {
             _id = GetComponent<ID>();
         }
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
-   
+
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         if (_hasBeenCompleted == false && IsCurrentStepIndexInRange)
@@ -78,15 +80,15 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     {
         if (IsCurrentStepIndexInRange) _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
     }
-    
+
     private void OnStepCompleted(bool autoSave)
     {
         _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
         _currentStepIndex++;
-        
+
         // Saves current index
         if (autoSave) DataPersistenceManager.Instance.SaveGame();
-        
+
         if (IsCurrentStepIndexInRange == false)
         {
             if (_isLooping)
@@ -95,8 +97,10 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
                 _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
                 _steps[_currentStepIndex].OnEnter();
             }
+
             return;
         }
+
         _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
         _steps[_currentStepIndex].OnEnter();
     }
@@ -118,7 +122,7 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
             if (forceEndStep) _steps[_currentStepIndex].ForceEnd();
             _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
         }
-        
+
         for (int i = 0; i < _steps.Length; i++)
         {
             if (newStep == _steps[i])
@@ -129,7 +133,7 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
                 return;
             }
         }
-        
+
         Debug.LogError(newStep.name + " was not found in the list of steps of this MiniGame!");
     }
 
@@ -140,12 +144,16 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
 
     public void LoadData(GameData data)
     {
-        if (_id == string.Empty)
+        if (_id == string.Empty || data.MinigamesIndices.ContainsKey(_id) == false)
         {
             Debug.LogWarning("No id yet made! Please generate one!");
             return;
         }
-        _currentStepIndex =  data.MinigamesIndices[_id];
+
+        if (data.MinigamesIndices.ContainsKey(_id))
+        {
+            _currentStepIndex = data.MinigamesIndices[_id];
+        }
     }
 
     public void SaveData(ref GameData data)

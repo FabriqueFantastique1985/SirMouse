@@ -16,6 +16,7 @@ public class InteractionLevelChange : Interaction
     {
         base.SpecificAction(player);
 
-        SceneController.SceneControllerInstance.Load(_sceneToTeleportTo, null, false, PageType.Loading, SpawnValue);
+        player.SetState(new IdleState(player));
+        SceneController.Instance.Load(_sceneToTeleportTo, null, false, PageType.Loading, SpawnValue);
     }
 }

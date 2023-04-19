@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public GameSystem CurrentGameSystem => _currentGameSystem; 
 
     #endregion
-
-    private new void Awake()
+    
+    protected override void Awake()
     {
         base.Awake();
 
