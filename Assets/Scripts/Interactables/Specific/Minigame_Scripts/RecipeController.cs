@@ -87,7 +87,7 @@ public class RecipeController : MiniGame
     public string TriggerCauldronEnd = "Cauldron_End";
 
     private int _currentHealth = 1;
-
+    private Coroutine _refreshScrollRoutine;
 
     // below values could be adjusted in inspector for reproduction purposes
 
@@ -239,18 +239,18 @@ public class RecipeController : MiniGame
         base.EndMiniGame(completeSuccesfully);
         _darkBackground.FadeOut();
 
-        StopAllCoroutines();
+        if (_refreshScrollRoutine != null) StopCoroutine(_refreshScrollRoutine);
         StartCoroutine(EndMiniGameCoroutine());
     }
 
     public void FirstScroll()
     {
-        StartCoroutine(SequenceScrollRefresh(true));
+       _refreshScrollRoutine = StartCoroutine(SequenceScrollRefresh(true));
     }
 
     public void RefreshScroll()
     {
-        StartCoroutine(SequenceScrollRefresh(false));
+        _refreshScrollRoutine = StartCoroutine(SequenceScrollRefresh(false));
     }
 
 
