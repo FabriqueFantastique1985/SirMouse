@@ -24,9 +24,11 @@ public class IngredientEntranceTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Touch_Physics_Object_Ingredient touchablePhysicsIngredient))
+        // Get thouch physics object and rigidbody
+        if (other.TryGetComponent(out Touch_Physics_Object_Ingredient touchablePhysicsIngredient) && other.TryGetComponent(out Rigidbody rigidbody))
         {
-            if (touchablePhysicsIngredient.LetGo == true)
+            // Check if let go and if object is falling
+            if (touchablePhysicsIngredient.LetGo == true && rigidbody.velocity.y < 0.1f)
             {
                 AbsorbIngredient(touchablePhysicsIngredient);
             }
