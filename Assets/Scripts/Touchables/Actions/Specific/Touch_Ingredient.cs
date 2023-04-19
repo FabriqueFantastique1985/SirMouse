@@ -39,6 +39,7 @@ public class Touch_Ingredient : Touch_Physics
 
     private void OnDropping(Touch_Physics_Object_Ingredient obj)
     {
+        // Unsubscribe so ingredient doesn't get absorbed twice
         OnDrop -= OnDropping;
 
         // Raycast to check if mouse is above chest
