@@ -80,11 +80,16 @@ public class Touch_Physics : Touch_Action
     // logic for having object follow the mouse
     protected virtual void FollowMouseLogic()
     {
+        if (!_activatedFollowMouse)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonUp(0))
         {        
             LetGoOfMouse();            
         }
-        else if (_activatedFollowMouse == true)
+        else
         {
             FollowMouseCalculations();
         }

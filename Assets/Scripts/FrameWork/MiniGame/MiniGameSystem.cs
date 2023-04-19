@@ -67,7 +67,7 @@ public class MiniGameSystem : GameSystem
             {
                 Debug.DrawLine(Camera.allCameras[0].transform.position, hit.point);
 
-                Debug.Log("Hit " + hit.transform.name);
+                //Debug.Log("Hit " + hit.transform.name);
 
                 if (hit.transform.TryGetComponent(out IClickable clickable))
                 {

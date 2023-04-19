@@ -39,6 +39,8 @@ public class Touch_Ingredient : Touch_Physics
 
     private void OnDropping(Touch_Physics_Object_Ingredient obj)
     {
+        OnDrop -= OnDropping;
+
         // Raycast to check if mouse is above chest
         Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
