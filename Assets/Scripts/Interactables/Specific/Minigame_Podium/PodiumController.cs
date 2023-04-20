@@ -64,6 +64,12 @@ public class PodiumController : MiniGame
     }
     #endregion
 
+    protected override void Awake()
+    {
+        base.Awake();
+        _shouldSaveData = false;
+    }
+
     private void Start()
     {
         foreach(var button in _buttonsPodium)
@@ -176,6 +182,9 @@ public class PodiumController : MiniGame
         // Set player rig
         SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
         SetPlayerReference(_cutscene03, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
+
+        //SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
+        InstrumentController.Instance.UnEquipInstrument();
 
         // Stop player from moving before centering on podium
         GameManager.Instance.Player.Agent.SetDestination(_playerObject.transform.position);

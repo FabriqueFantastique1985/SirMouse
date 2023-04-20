@@ -64,8 +64,6 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 
         // create the correct visual in the bubbles
         CreateVisualInBalloons();
-        // disable balloons on start
-        DisableBalloonsOnStart();
 
         // if Im finished, disable my colliders
         if (Finished == true)
@@ -73,6 +71,9 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
             _placeOfInterest.HideIconPermanently();
             _instrumentInteraction.HideInteraction();
         }
+
+        // disable balloons on start
+        DisableBalloonsOnStart();
     }
 
 
