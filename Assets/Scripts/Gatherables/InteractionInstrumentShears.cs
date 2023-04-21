@@ -13,15 +13,30 @@ public class InteractionInstrumentShears : InteractionInstrument
     [SerializeField]
     private List<GameObject> _flowersToSpawn = new List<GameObject>();
 
+    private int _gatheredObjectCounter = 0;
 
     private void Start()
     {
         for (int i = 0; i < _flowersToSpawn.Count; i++)
         {
             _flowersToSpawn[i].SetActive(false);
+            if (_flowersToSpawn[i].TryGetComponent(out GatherableObject gatherable))
+            {
+                gatherable.ObjectGathered += GatheredObject;
+            }
         }
     }
 
+    private void GatheredObject(GatherableObject thisGatherable)
+    {
+        thisGatherable.ObjectGathered -= GatheredObject;
+
+        ++_gatheredObjectCounter;
+        if (_gatheredObjectCounter == _flowersToSpawn.Count)
+        {
+            IsCompleted = true;
+        }
+    }
 
     protected override void SpecificAction(Player player)
     {
@@ -35,7 +50,6 @@ public class InteractionInstrumentShears : InteractionInstrument
 
         StartCoroutine(SpawnObjectAndEnableInput());
     }
-
 
     public override void HideInteraction()
     {
@@ -63,6 +77,4 @@ public class InteractionInstrumentShears : InteractionInstrument
 
         HideInteraction();
     }
-
-
 }

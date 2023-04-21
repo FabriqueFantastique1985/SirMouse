@@ -13,11 +13,28 @@ public class InteractionInstrumentKey_Gatherable : InteractionInstrument
     [SerializeField]
     private List<GameObject> _objectsToSpawn = new List<GameObject>();
 
+    private int _gatheredObjectCounter = 0;
+
     private void Start()
     {
         for (int i = 0; i < _objectsToSpawn.Count; i++)
         {
             _objectsToSpawn[i].SetActive(false);
+            if (_objectsToSpawn[i].TryGetComponent(out GatherableObject gatherable))
+            {
+                gatherable.ObjectGathered += GatheredObject;
+            }
+        }
+    }
+
+    private void GatheredObject(GatherableObject thisGatherable)
+    {
+        thisGatherable.ObjectGathered -= GatheredObject;
+
+        ++_gatheredObjectCounter;
+        if (_gatheredObjectCounter == _objectsToSpawn.Count)
+        {
+            IsCompleted = true;
         }
     }
 

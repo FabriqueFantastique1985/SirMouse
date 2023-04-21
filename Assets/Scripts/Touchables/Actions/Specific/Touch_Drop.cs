@@ -52,12 +52,12 @@ public class Touch_Drop : Touch_Action, IDataPersistence
 
         // Only spawn gatherables according to max amount and amount already collected
         int maxCount = _gatherablesToSpawn.Count;
-        if (_gatherablesSpawnedIndex < maxCount - _gatherablesCollectedIndex)
+        if (_gatherablesSpawnedIndex < maxCount/* - _gatherablesCollectedIndex*/)
         {
             // Spawn new gatherable and play animation
             var nextGatherable = _gatherablesToSpawn[_gatherablesSpawnedIndex];
             nextGatherable.Gatherable.SetActive(true);
-            nextGatherable.GatherableAnimator?.SetTrigger("Activate");
+            //nextGatherable.GatherableAnimator?.SetTrigger("Activate");
             ++_gatherablesSpawnedIndex;
 
             // Subscribe to picked up event
@@ -86,6 +86,8 @@ public class Touch_Drop : Touch_Action, IDataPersistence
         if (_isCompleted)
             return;
 
+        _gatherablesToSpawn.RemoveAll(g => g.Gatherable == null);
+
         // Unsubscribe from remaining events
         foreach (var gatherable in _gatherablesToSpawn)
         {
@@ -99,16 +101,6 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     {
         ++_gatherablesCollectedIndex;
         gatheredObject.ObjectGathered -= CollectedGatherable;
-
-        // Remove from list of gatherables so on destroy doesn't throw error while trying to unsubscribe
-        foreach (var gatherable in _gatherablesToSpawn)
-        {
-            if (gatherable.Gatherable == gatheredObject.gameObject)
-            {
-                _gatherablesToSpawn.Remove(gatherable);
-                break;
-            }
-        }
     }
 
     public void LoadData(GameData data)
