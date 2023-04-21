@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class InteractionInstrument : Interaction
 {
+    private bool _isCompleted = false;
+
+    public bool IsCompleted
+    {
+        get { return _isCompleted; }
+        protected set { _isCompleted = value; }
+    }
+
     protected override void SpecificAction(Player player)
     {
         base.SpecificAction(player);

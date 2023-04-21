@@ -23,6 +23,7 @@ public class InteractionInstrumentKey : InteractionInstrument
 
         GameManager.Instance.Player.Agent.SetDestination(GameManager.Instance.Player.gameObject.transform.position);
         GameManager.Instance.BlockInput = true;
+        IsCompleted = true;
 
         StartCoroutine(GiveRewardAndEnableInput());
     }

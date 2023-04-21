@@ -195,7 +195,7 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         InstrumentInteractableData instrumentInteractionData = new InstrumentInteractableData();
 
         // assign current bool, to the data bool
-        instrumentInteractionData.Finished = Finished;
+        instrumentInteractionData.Finished = Finished && _instrumentInteraction.IsCompleted;
         
         // update the data using correct key
         data.InstrumentInteractionSavedData[_id] = instrumentInteractionData;

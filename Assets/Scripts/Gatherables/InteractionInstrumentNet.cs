@@ -12,16 +12,32 @@ public class InteractionInstrumentNet : InteractionInstrument
     private Character _character;
     private bool _isCatchingButterflies = false;
 
+    private int _gatheredObjectCounter = 0;
 
     private void Start()
     {
         for (int i = 0; i < _butterfliesToSpawn.Count; i++)
         {
             _butterfliesToSpawn[i].SetActive(false);
+            if (_butterfliesToSpawn[i].TryGetComponent(out GatherableObject gatherable))
+            {
+                gatherable.ObjectGathered += GatheredObject;
+            }
         }
 
         _character = GameManager.Instance.Player.Character;
         _character.AnimationDoneEvent += EnableJar;
+    }
+
+    private void GatheredObject(GatherableObject thisGatherable)
+    {
+        thisGatherable.ObjectGathered -= GatheredObject;
+
+        ++_gatheredObjectCounter;
+        if (_gatheredObjectCounter == _butterfliesToSpawn.Count)
+        {
+            IsCompleted = true;
+        }
     }
 
     protected override void SpecificAction(Player player)
