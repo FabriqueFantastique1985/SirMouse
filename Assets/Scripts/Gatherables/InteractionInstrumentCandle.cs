@@ -11,8 +11,6 @@ public class InteractionInstrumentCandle : InteractionInstrument
     [SerializeField]
     private RewardList _rewardList;
 
-
-
     protected override void SpecificAction(Player player)
     {
         base.SpecificAction(player);
@@ -22,6 +20,7 @@ public class InteractionInstrumentCandle : InteractionInstrument
 
         GameManager.Instance.Player.Agent.SetDestination(GameManager.Instance.Player.gameObject.transform.position);
         GameManager.Instance.BlockInput = true;
+        IsCompleted = true;
 
         StartCoroutine(GiveRewardAndEnableInput());
     }
