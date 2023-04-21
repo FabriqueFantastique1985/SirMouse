@@ -76,7 +76,6 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         DisableBalloonsOnStart();
     }
 
-
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
         if (_instrumentInteraction != null)
@@ -92,12 +91,10 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         Finished = true;
 
         OnInteracted?.Invoke();
-        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
+        //Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
 
         DataPersistenceManager.Instance.SaveGame();
     }
-
-
 
     // called in InstrumentInteractionOfInterest
     public void ShowInstrumentPopup()
@@ -114,6 +111,7 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
             ShowInstrumentThink();
         }
     }
+
     public void HideInstrumentPopup()
     {
         if (_currentlyActiveBalloon != null)
@@ -122,20 +120,30 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         }     
         _currentlyActiveBalloon = null;
     }
+
     public void ShowInstrumentClick()
     {
+        if (Finished)
+        {
+            return;
+        }
+
         _thinkingBalloon.SetActive(false);
         _interactionBalloon.gameObject.SetActive(true);
         _currentlyActiveBalloon = _interactionBalloon.gameObject;
     }
+
     public void ShowInstrumentThink()
     {
+        if (Finished)
+        {
+            return;
+        }
+
         _interactionBalloon.gameObject.SetActive(false);
         _thinkingBalloon.SetActive(true);
         _currentlyActiveBalloon = _thinkingBalloon;
     }
-
-
 
     private void CreateVisualInBalloons()
     {
@@ -148,6 +156,7 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
             Instantiate(chosenInstrumentInteraction, _spriteInteractionToSpawnInstrumentIn.transform);
         }
     }
+    
     private void DisableBalloonsOnStart()
     {
         _thinkingBalloon.SetActive(false);
@@ -155,9 +164,6 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 
         _currentlyActiveBalloon = null;
     }
-
-
-
 
     public void LoadData(GameData data)
     {
