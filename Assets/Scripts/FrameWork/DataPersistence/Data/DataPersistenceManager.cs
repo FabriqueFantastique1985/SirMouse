@@ -50,6 +50,20 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
+        if (arg0.name == "MainMenu")
+        {
+            for (int i = DontDestroyOnLoadManager.DontDestroyOnLoadObjects.Count - 1; i >= 0; i--)
+            {
+                var dontDestroyOnLoadObject = DontDestroyOnLoadManager.DontDestroyOnLoadObjects[i];
+                
+                // Dont destroy the data persistence manager
+                if (dontDestroyOnLoadObject == this.gameObject) continue;
+                
+                Destroy(dontDestroyOnLoadObject);
+                DontDestroyOnLoadManager.DontDestroyOnLoadObjects.RemoveAt(i);
+            }
+        }
+        
         _dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
         if (_gameData != null) _gameData.lastActiveScene = arg0.name;
@@ -62,6 +76,7 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
 
     public void NewGame()
     {
+        DeleteGameData();
         _gameData = new GameData();
     }
 
@@ -158,5 +173,11 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
         {
             SaveGame();
         }
+    }
+
+    private void DeleteGameData()
+    {
+        _dataHandler.ClearSaveFiles();
+        _dataPersistenceObjects.Clear();
     }
 }

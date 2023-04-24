@@ -106,7 +106,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         Instance = this;
 
         Initialize();
-        EquipFullOutfit(Type_Skin.Pyjama);
+        EquipFullOutfit(Type_Skin.Pyjama, true);
     }
 
     private void Initialize()
@@ -115,22 +115,23 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         EquipedSkinPieces = new List<SkinPieceElement>();
 
         // Initializing the Equiped Skins Dictionary
-        _equipedSkins.Add(Type_Body.Head, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.Chest, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.ArmLeftLower, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.ArmRightLower, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.LegLeftLower, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.LegRightLower, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.FootRight, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.FootLeft, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.Hat, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.Shield, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.Sword, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.Tail, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.KneeLeft, Type_Skin.Pyjama);
-        _equipedSkins.Add(Type_Body.KneeRight, Type_Skin.Pyjama);
+        _equipedSkins[Type_Body.Head] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.Chest] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.ArmLeftLower] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.ArmRightLower] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.LegLeftLower] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.LegRightLower] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.FootRight] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.FootLeft] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.Hat] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.Shield] = Type_Skin.Sword_01;
+        _equipedSkins[Type_Body.Sword] = Type_Skin.Shield_01;
+        _equipedSkins[Type_Body.Tail] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.KneeLeft] = Type_Skin.Pyjama;
+        _equipedSkins[Type_Body.KneeRight] = Type_Skin.Pyjama;
 
         // adds all the buttons of the closer UI to the overall list of buttons 
+        _listsOfButtons.Clear();
         _listsOfButtons.Add(SkinPiecesButtonHat);
         _listsOfButtons.Add(SkinPiecesButtonHead);
         _listsOfButtons.Add(SkinPiecesButtonChest);
@@ -143,6 +144,9 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         _listsOfButtons.Add(SkinPiecesButtonTail);
         _listsOfButtons.Add(SkinPiecesButtonSword);
         _listsOfButtons.Add(SkinPiecesButtonShield);
+        
+        // temporary putting this here, no idea where else to put it for now. Sorry.
+      //  InstrumentController.Instance.Initialize();
     }
 
     /// <summary>
@@ -169,8 +173,8 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             _equipedSkins[Type_Body.Head] = Type_Skin.Pyjama;
             _equipedSkins[Type_Body.FootRight] = Type_Skin.Pyjama;
             _equipedSkins[Type_Body.FootLeft] = Type_Skin.Pyjama;
-            _equipedSkins[Type_Body.Shield] = Type_Skin.Pyjama;
-            _equipedSkins[Type_Body.Sword] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.Shield] = Type_Skin.Shield_01;
+            _equipedSkins[Type_Body.Sword] = Type_Skin.Sword_01;
             _equipedSkins[Type_Body.Tail] = Type_Skin.Pyjama;
         }
 

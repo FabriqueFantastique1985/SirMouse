@@ -9,7 +9,7 @@ public class Interactable_Mirror : Interactable, IDataPersistence
     [SerializeField] private float _steps = 0.01f;
 
     private InteractionGetReward _getReward;
-    private bool _hasRecievedReward = false;
+    private bool _hasReceivedReward = false;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class Interactable_Mirror : Interactable, IDataPersistence
     private void OnGetReward()
     {
         _getReward.GetReward -= OnGetReward;
-        _hasRecievedReward = true;
+        _hasReceivedReward = true;
         var shineBehavior = GetComponent<ShineBehaviour>();
         if (shineBehavior)
         {
@@ -38,7 +38,7 @@ public class Interactable_Mirror : Interactable, IDataPersistence
 
     protected override void OnTriggerEnter(Collider other)
     {
-        if (_hasRecievedReward)
+        if (_hasReceivedReward)
         {
             return;
         }
@@ -87,8 +87,8 @@ public class Interactable_Mirror : Interactable, IDataPersistence
     public new void LoadData(GameData data)
     {
         base.LoadData(data);
-        _hasRecievedReward = data.HasRecievedMirrorReward;
-        if (_hasRecievedReward)
+        _hasReceivedReward = data.HasRecievedMirrorReward;
+        if (_hasReceivedReward)
         {
             OnGetReward();
         }
@@ -97,6 +97,8 @@ public class Interactable_Mirror : Interactable, IDataPersistence
     public new void SaveData(ref GameData data)
     {
         base.SaveData(ref data);
-        data.HasRecievedMirrorReward = _hasRecievedReward;
+        data.HasRecievedMirrorReward = _hasReceivedReward;
+    }
+    
     }
 }
