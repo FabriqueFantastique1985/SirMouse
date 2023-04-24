@@ -57,9 +57,12 @@ public class ShineBehaviour : MonoBehaviour
 
             // Set texture parameters
             Texture2D texture = GetSlicedSpriteTexture(renderer.sprite);
-            Rect rect = new Rect(0, 0, texture.width, texture.height);
-            var sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f), 100, 5);
-            renderer.sprite = sprite;
+            if (texture)
+            {
+                Rect rect = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f), 100, 5);
+                renderer.sprite = sprite;
+            }
         }
     }
 
@@ -116,6 +119,11 @@ public class ShineBehaviour : MonoBehaviour
     /// <returns></returns>
     Texture2D GetSlicedSpriteTexture(Sprite sprite)
     {
+        if (!sprite)
+        {
+            return null;
+        }
+
         // Reference:
         // https://forum.unity.com/threads/c-get-texture-from-sprite-slice-for-animating-mesh-texture.801315/
         Rect rect = sprite.rect;
