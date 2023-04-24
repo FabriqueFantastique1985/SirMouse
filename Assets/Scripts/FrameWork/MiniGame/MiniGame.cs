@@ -46,7 +46,7 @@ public class MiniGame : MonoBehaviour, IDataPersistence
     #region Fields
 
     protected int _currentStepIndex = 0;
-
+    protected bool _shouldSaveData = true;
     #endregion
 
     #region Properties
@@ -56,7 +56,7 @@ public class MiniGame : MonoBehaviour, IDataPersistence
 
     #endregion
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (_id == null)
         {
@@ -144,6 +144,11 @@ public class MiniGame : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (!_shouldSaveData)
+        {
+            return;
+        }
+        
         if (_id == string.Empty || data.MinigamesIndices.ContainsKey(_id) == false)
         {
             Debug.LogWarning("No id yet made! Please generate one!");
@@ -158,6 +163,11 @@ public class MiniGame : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
+        if (!_shouldSaveData)
+        {
+            return;
+        }
+
         data.MinigamesIndices[_id] = _currentStepIndex;
     }
 }

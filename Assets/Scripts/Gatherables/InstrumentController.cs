@@ -163,6 +163,11 @@ public class InstrumentController : MonoBehaviour
     
     public void UnEquipInstrument()
     {
+        if (!EquipedInstrumentPiece)
+        {
+            return;
+        }
+
         //Debug.Log("Active piece is " + ActiveInstrumentPiece.gameObject.name);
         //ActiveInstrumentPiece.gameObject.SetActive(false);
 

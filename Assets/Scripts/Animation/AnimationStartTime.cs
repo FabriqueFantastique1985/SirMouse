@@ -11,14 +11,24 @@ public class AnimationStartTime : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
+    [SerializeField]
+    private bool _testingBool = false;
+
     void Start()
     {
         float randomOffset = Random.Range(0.0f, _ramdomOffsetUpperLimit);
 
         if (_animation != null)
         {
-            _animation.enabled = false;
-            StartCoroutine(ActivateAnimation(randomOffset));
+            if (_testingBool)
+            {
+                _animation["Fish_SwimAround"].time = randomOffset;
+            }
+            else
+            {
+                _animation.enabled = false;
+                StartCoroutine(ActivateAnimation(randomOffset));
+            }
         }
 
         if (_animator != null)
@@ -31,7 +41,6 @@ public class AnimationStartTime : MonoBehaviour
     private IEnumerator ActivateAnimation(float randomTime)
     {
         yield return new WaitForSeconds(randomTime);
-
         _animation.enabled = true;
         _animation.Play();
     }

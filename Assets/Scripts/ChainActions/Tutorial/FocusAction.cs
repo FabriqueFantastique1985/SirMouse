@@ -12,6 +12,12 @@ public class FocusAction : ChainActionMonoBehaviour
 
     private TutorialFocusMask _tutorialFocus;
 
+    protected PlayableDirector Timeline
+    {
+        get { return _timeline; }
+        set { _timeline = value; }
+    }
+
     protected Transform Focus
     {
         get { return _focus; }

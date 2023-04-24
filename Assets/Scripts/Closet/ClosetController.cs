@@ -193,6 +193,8 @@ public class ClosetController : MonoBehaviour
 
         // turn on the UI player things
         SkinsMouseController.Instance.ClosetWrapInsideCamera.gameObject.SetActive(true);
+
+        // activate other camera with overlay rig
         PageController.Instance.CameraUI_Backpack_Closet.enabled = true;
     }
     public void CloseCloset()

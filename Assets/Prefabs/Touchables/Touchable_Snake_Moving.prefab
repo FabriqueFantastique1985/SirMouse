@@ -72,13 +72,13 @@ SpriteMask:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: db35e5f56a83e17409ebe22ec48e1187, type: 3}
   m_MaskAlphaCutoff: 0.2
-  m_FrontSortingLayerID: 0
-  m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 0
-  m_BackSortingLayer: 0
-  m_FrontSortingOrder: 0
-  m_BackSortingOrder: 0
-  m_IsCustomRangeActive: 0
+  m_FrontSortingLayerID: 1225818785
+  m_BackSortingLayerID: 1225818785
+  m_FrontSortingLayer: 2
+  m_BackSortingLayer: 2
+  m_FrontSortingOrder: 1
+  m_BackSortingOrder: -1
+  m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
 --- !u!1 &2127805754
 GameObject:
@@ -152,13 +152,13 @@ SpriteMask:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: db35e5f56a83e17409ebe22ec48e1187, type: 3}
   m_MaskAlphaCutoff: 0.2
-  m_FrontSortingLayerID: 0
-  m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 0
-  m_BackSortingLayer: 0
-  m_FrontSortingOrder: 0
-  m_BackSortingOrder: 0
-  m_IsCustomRangeActive: 0
+  m_FrontSortingLayerID: 1225818785
+  m_BackSortingLayerID: 1225818785
+  m_FrontSortingLayer: 2
+  m_BackSortingLayer: 2
+  m_FrontSortingOrder: 1
+  m_BackSortingOrder: -1
+  m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
 --- !u!1 &834936404662522102
 GameObject:
@@ -443,28 +443,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pickup:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Drop:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Disappear:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   _base: {fileID: 1203834333571381682}
   _baseCollider: {fileID: 3228909770361932968}
   _second: {fileID: 3228909771454905315}
@@ -1521,6 +1536,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2620609370010752800}
     m_Modifications:
+    - target: {fileID: 5733802765952421766, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_BackSortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802765952421766, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_BackSortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802765952421766, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_FrontSortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802765952421766, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_FrontSortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802765952421766, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_BackSortingLayerID
+      value: 1225818785
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802765952421766, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_FrontSortingLayerID
+      value: 1225818785
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802765952421766, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_IsCustomRangeActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5733802765952421767, guid: 7f69d8077393b6644afffcc194dbaa99,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1595,6 +1645,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802767307662105, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_BackSortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802767307662105, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_BackSortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802767307662105, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_FrontSortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802767307662105, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_FrontSortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802767307662105, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_BackSortingLayerID
+      value: 1225818785
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802767307662105, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_FrontSortingLayerID
+      value: 1225818785
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733802767307662105, guid: 7f69d8077393b6644afffcc194dbaa99,
+        type: 3}
+      propertyPath: m_IsCustomRangeActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5733802767307662110, guid: 7f69d8077393b6644afffcc194dbaa99,
         type: 3}
