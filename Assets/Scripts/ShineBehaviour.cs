@@ -1,13 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEditor.VersionControl;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Profiling;
-using System.ComponentModel;
-using UnityEditor.Experimental.GraphView;
 
 public class ShineBehaviour : MonoBehaviour
 {
