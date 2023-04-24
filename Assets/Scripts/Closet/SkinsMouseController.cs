@@ -106,7 +106,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         Instance = this;
 
         Initialize();
-        EquipFullOutfit(Type_Skin.Pyjama, true);
+        EquipFullOutfit(Type_Skin.Pyjama);
     }
 
     private void Initialize()
@@ -165,13 +165,13 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
         if (unequipAccessories)
         {
-            _equipedSkins[Type_Body.Hat] = Type_Skin.None;
-            _equipedSkins[Type_Body.Head] = Type_Skin.None;
-            _equipedSkins[Type_Body.FootRight] = Type_Skin.None;
-            _equipedSkins[Type_Body.FootLeft] = Type_Skin.None;
-            _equipedSkins[Type_Body.Shield] = Type_Skin.None;
-            _equipedSkins[Type_Body.Sword] = Type_Skin.None;
-            _equipedSkins[Type_Body.Tail] = Type_Skin.None;
+            _equipedSkins[Type_Body.Hat] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.Head] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.FootRight] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.FootLeft] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.Shield] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.Sword] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.Tail] = Type_Skin.Pyjama;
         }
 
         // Equipping the actual skin piece in the rig and closet. 
@@ -201,13 +201,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     }
 
     private SkinPieceElement FindSkinpiece(Type_Body skinpieceBodyType, Type_Skin skinpieceSkinType, out ButtonSkinPiece button)
-    {
-        //if (skinpieceSkinType == Type_Skin.None)
-        //{
-        //    button = null;
-        //    return null;
-        //}
-        
+    {       
         // Loop over buttons (hat, head, chest, ...)
         for (int i = 0; i < _listsOfButtons.Count; i++)
         {
