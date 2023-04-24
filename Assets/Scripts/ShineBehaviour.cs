@@ -165,44 +165,45 @@ public class ShineBehaviour : MonoBehaviour
 #endif
         slicedTex.Apply();
 
-        return ScaleTexture(sprite.texture, slicedTex);
+        return slicedTex;
+        //return ScaleTexture(sprite.texture, slicedTex);
     }
 
     /// <summary>
     /// Fixes the issue where setting a different max size of an image, makes these cut out textures smaller.
     /// Issue stems off of pixel size now being smaller than the original which we read in
     /// </summary>
-    private Texture2D ScaleTexture(Texture2D parentTexture, Texture2D slicedTexture)
-    {
-        //https://forum.unity.com/threads/getting-original-size-of-texture-asset-in-pixels.165295/
+    //private Texture2D ScaleTexture(Texture2D parentTexture, Texture2D slicedTexture)
+    //{
+    //    //https://forum.unity.com/threads/getting-original-size-of-texture-asset-in-pixels.165295/
 
-        float percentage = 1f;
+    //    float percentage = 1f;
 
-        // Get the asset path to texture and get its original measurements
-        string assetPath = AssetDatabase.GetAssetPath(parentTexture);
-        TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+    //    // Get the asset path to texture and get its original measurements
+    //    string assetPath = AssetDatabase.GetAssetPath(parentTexture);
+    //    TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
 
-        if (importer)
-        {
-            object[] args = new object[2] { 0, 0 };
-            MethodInfo mi = typeof(TextureImporter).GetMethod("GetWidthAndHeight", BindingFlags.NonPublic | BindingFlags.Instance);
-            mi.Invoke(importer, args);
+    //    if (importer)
+    //    {
+    //        object[] args = new object[2] { 0, 0 };
+    //        MethodInfo mi = typeof(TextureImporter).GetMethod("GetWidthAndHeight", BindingFlags.NonPublic | BindingFlags.Instance);
+    //        mi.Invoke(importer, args);
 
-            int originalWidth = (int)args[0];
-            percentage = (float)originalWidth / parentTexture.width;
-        }
+    //        int originalWidth = (int)args[0];
+    //        percentage = (float)originalWidth / parentTexture.width;
+    //    }
 
-        if (Equals(percentage, 1f))
-        {
-            return slicedTexture;
-        }
+    //    if (Equals(percentage, 1f))
+    //    {
+    //        return slicedTexture;
+    //    }
 
-        // Scale texture based on original texture size
-        Texture2D scaledTex = new Texture2D((int)(slicedTexture.width * percentage), (int)(slicedTexture.height * percentage));
-        Graphics.ConvertTexture(slicedTexture, scaledTex);
+    //    // Scale texture based on original texture size
+    //    Texture2D scaledTex = new Texture2D((int)(slicedTexture.width * percentage), (int)(slicedTexture.height * percentage));
+    //    Graphics.ConvertTexture(slicedTexture, scaledTex);
 
-        return scaledTex;
-    }
+    //    return scaledTex;
+    //}
 
     /// <summary>
     /// Gets pixels inside given rectangle. Use GetPixels insted if image is not crunched.
