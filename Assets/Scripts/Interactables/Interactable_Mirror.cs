@@ -99,6 +99,4 @@ public class Interactable_Mirror : Interactable, IDataPersistence
         base.SaveData(ref data);
         data.HasRecievedMirrorReward = _hasReceivedReward;
     }
-    
-    }
 }
