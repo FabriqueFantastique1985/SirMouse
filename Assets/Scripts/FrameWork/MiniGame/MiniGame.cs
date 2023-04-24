@@ -41,12 +41,17 @@ public class MiniGame : MonoBehaviour, IDataPersistence
     [SerializeField]
     private bool _isLooping = false;
 
+    [SerializeField]
+    private bool _isAutoSaving = false;
+    
     #endregion
 
     #region Fields
 
     protected int _currentStepIndex = 0;
     protected bool _shouldSaveData = true;
+    private int _indexToSave = 0;
+    
     #endregion
 
     #region Properties
@@ -87,7 +92,10 @@ public class MiniGame : MonoBehaviour, IDataPersistence
         _currentStepIndex++;
 
         // Saves current index
-        if (autoSave) DataPersistenceManager.Instance.SaveGame();
+        if (autoSave)
+        {
+            _indexToSave = _currentStepIndex;
+        }
 
         if (IsCurrentStepIndexInRange == false)
         {
@@ -168,6 +176,8 @@ public class MiniGame : MonoBehaviour, IDataPersistence
             return;
         }
 
-        data.MinigamesIndices[_id] = _currentStepIndex;
+        var indexToSave = _isAutoSaving ? _indexToSave : _currentStepIndex;
+        
+        data.MinigamesIndices[_id] = indexToSave;
     }
 }
