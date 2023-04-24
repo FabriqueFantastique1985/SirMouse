@@ -9,7 +9,7 @@ public class InteractionInstrument : Interaction
     public bool IsCompleted
     {
         get { return _isCompleted; }
-        protected set { _isCompleted = value; }
+        set { _isCompleted = value; }
     }
 
     protected override void SpecificAction(Player player)
