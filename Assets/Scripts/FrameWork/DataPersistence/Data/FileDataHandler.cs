@@ -85,9 +85,16 @@ public class FileDataHandler
     public void ClearSaveFiles()
     {
         if (Directory.Exists(_dataDirPath)) 
-        { 
-            Directory.Delete(_dataDirPath, true);
+        {
+            var files = Directory.GetFiles(_dataDirPath);
+            foreach (var file in files)
+            {
+                File.Delete(file);
+            }
         }
-        Directory.CreateDirectory(_dataDirPath);
+        else
+        {
+            Directory.CreateDirectory(_dataDirPath);
+        }
     }
 }
