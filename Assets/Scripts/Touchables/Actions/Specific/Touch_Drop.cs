@@ -64,6 +64,9 @@ public class Touch_Drop : Touch_Action, IDataPersistence
             var gatherableObject = nextGatherable.Gatherable.GetComponent<GatherableObject>();
             if(gatherableObject)
                 gatherableObject.ObjectGathered += CollectedGatherable;
+            var interactableObject = nextGatherable.Gatherable.GetComponent<Interactable>();
+            if(interactableObject)
+                interactableObject.OnInteracted += CollectedGatherable;
 
         }
 
@@ -101,6 +104,11 @@ public class Touch_Drop : Touch_Action, IDataPersistence
     {
         ++_gatherablesCollectedIndex;
         gatheredObject.ObjectGathered -= CollectedGatherable;
+    }
+
+    public void CollectedGatherable()
+    {
+        ++_gatherablesCollectedIndex;
     }
 
     public void LoadData(GameData data)

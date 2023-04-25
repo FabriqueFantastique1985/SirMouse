@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         if (PlayField == null)
         {
             PlayField = FindObjectOfType<PlayField>();
-            if (PlayField == null) Debug.LogError($"No PlayField found in this scene {SceneManager.GetActiveScene()}");
+            if (PlayField == null) Debug.LogWarning($"No PlayField found in this scene {SceneManager.GetActiveScene()}");
             else
             {
                 AdjustGameSystem(PlayField.GroundColliders);

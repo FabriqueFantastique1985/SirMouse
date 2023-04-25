@@ -54,7 +54,7 @@ public class CollectTouchables : MonoBehaviour, IDataPersistence
 
     private void InitializeCleanables()
     {
-        if (_cleanableOjects.Count > 0)
+        if (_cleanableOjects.Count > 0 || _hasCollectedEverything)
         {
             return;
         }
@@ -167,17 +167,21 @@ public class CollectTouchables : MonoBehaviour, IDataPersistence
         }
 
         RemoveAll(_cleanableOjects, x => x.HasBeenCleaned);
+        if (_cleanableOjects.Count == 0)
+        {
+            _hasCollectedEverything = true;
+        }
     }
 
     public void SaveData(ref GameData data)
     {
         foreach (var cleanable in _cleanableOjects)
         {
-            //if (string.IsNullOrEmpty(cleanable.Key))
-            //{
-            //    Debug.LogWarning("No id yet made! Please generate one!");
-            //    return;
-            //}
+            if (string.IsNullOrEmpty(cleanable.Key))
+            {
+                Debug.LogWarning("No id yet made! Please generate one!");
+                return;
+            }
 
             data.CleanedTouchables[cleanable.Key] = cleanable.Value.HasBeenCleaned;
         }

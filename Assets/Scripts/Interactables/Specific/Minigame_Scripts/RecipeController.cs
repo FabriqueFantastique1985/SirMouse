@@ -315,6 +315,8 @@ public class RecipeController : MiniGame
             _currentRecipe.MyIngredients[i].ObjectIngredient.SetActive(true);
             yield return new WaitForSeconds(0.2f);
         }
+
+        GameManager.Instance.BlockInput = false;
     }
 
 
@@ -356,7 +358,7 @@ public class RecipeController : MiniGame
             // remove the entered ingredient from the requirements
             CurrentRequiredIngredients.Remove(typeEntered);
 
-            yield return new WaitForSeconds(0.4f);
+           // yield return new WaitForSeconds(0.4f);
 
             // check if this was the last required ingredient
             CheckRecipeCompletion();
@@ -366,6 +368,8 @@ public class RecipeController : MiniGame
             // what do we do on a wrong ingredient ? (lose, refresh, life system ???)
             PunishThePlayer();
         }
+
+        yield break;
     }
 
 
@@ -423,6 +427,7 @@ public class RecipeController : MiniGame
                         break;
                 }
 
+                GameManager.Instance.BlockInput = true;
                 RefreshScroll();
             }
         }

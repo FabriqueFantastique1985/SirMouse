@@ -14,7 +14,6 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
     public delegate void InteractableDelegate();
     public event InteractableDelegate OnInteracted;
 
-
     [Header("Instrument I Need")]
     [SerializeField]
     private Type_Instrument InstrumentRequired;
@@ -33,8 +32,6 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
     [Header("Balloon Thinking")]
     [SerializeField]
     private GameObject _thinkingBalloon;
-    //[SerializeField]
-    //private Animator _thinkingBalloonAnimator;
     [SerializeField]
     private GameObject _spriteThinkingToSpawnInstrumentIn;
 
@@ -59,17 +56,19 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-        // subscribe event
-        _interactionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
-
-        // create the correct visual in the bubbles
-        CreateVisualInBalloons();
-
-        // if Im finished, disable my colliders
         if (Finished == true)
         {
+            // if Im finished, disable my colliders
             _placeOfInterest.HideIconPermanently();
             _instrumentInteraction.HideInteraction();
+        }
+        else
+        {
+            // subscribe event
+            _interactionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
+
+            // create the correct visual in the bubbles
+            CreateVisualInBalloons();
         }
 
         // disable balloons on start
@@ -174,13 +173,7 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 
             // get the value 
             Finished = instrumentInteractionData.Finished;
-
-            // if Im finished, disable my colliders
-            if (Finished == true)
-            {
-                _placeOfInterest.HideIconPermanently();
-                _instrumentInteraction.HideInteraction();
-            }
+            _instrumentInteraction.IsCompleted = Finished;
         }
     }
 

@@ -40,6 +40,13 @@ public class InstrumentController : MonoBehaviour
 
     private void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        if (ActiveInstrumentSlot != null) ActiveInstrumentSlot.GlowActivation.SetActive(false);
+
         for (int i = 0; i < _slotsInstruments.Count; i++)
         {
             if (_slotsInstruments[i].Unlocked == true)
@@ -48,9 +55,7 @@ public class InstrumentController : MonoBehaviour
                 break;
             }
         }
-
     }
-
 
 
     // called on the gatherable being picked up

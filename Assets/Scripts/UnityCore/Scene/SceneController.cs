@@ -58,9 +58,7 @@ namespace UnityCore
 
             #region Public Functions
 
-            public void Load(SceneType scene,
-                SceneLoadDelegate sceneLoadDelegate = null,
-                bool reload = false,
+            public void Load(SceneType scene, SceneLoadDelegate sceneLoadDelegate = null, bool reload = false,
                 PageType loadingPage = PageType.None,
                 int spawnLocationValue = 0)
             {
@@ -148,8 +146,6 @@ namespace UnityCore
                 }
 
 
-
-
                 if (m_LoadingPage != PageType.None)
                 {
                     await Task.Delay(1000);
@@ -206,15 +202,11 @@ namespace UnityCore
                 if (m_LoadingPage != PageType.None)
                 {
                     _menu.TurnPageOn(m_LoadingPage);
-
-                    while (_menu.PageIsOn(m_LoadingPage) == false)
-                    {
-                        yield return null;
-                    }
+                    yield return new WaitUntil(() => _menu.PageIsOn(m_LoadingPage));
                 }
 
                 string targetSceneName = SceneTypeToString(m_TargetScene);
-                SceneManager.LoadScene(targetSceneName);
+                SceneManager.LoadScene(targetSceneName, LoadSceneMode.Single);
             }
 
             private bool SceneCanBeLoaded(SceneType scene, bool reload)

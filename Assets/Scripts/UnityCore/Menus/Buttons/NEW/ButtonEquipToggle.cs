@@ -33,8 +33,11 @@ public class ButtonEquipToggle : ButtonBaseNew
         base.Start();
 
         // SAVE DATA !!!!
+        Initialize();
+    }
 
-
+    public void Initialize()
+    {
         // if I have found an instrument -> show the button
         if (InstrumentController.Instance.CheckIfFoundInstrument() == true)
         {
@@ -48,7 +51,6 @@ public class ButtonEquipToggle : ButtonBaseNew
             this.gameObject.SetActive(false);
         }
     }
-
 
     public override void ClickedButton()
     {
