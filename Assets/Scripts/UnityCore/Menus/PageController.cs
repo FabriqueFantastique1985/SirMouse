@@ -110,7 +110,7 @@ namespace UnityCore
                 }
 
                 var page = GetPage(pageType);
-                return page.isOn || page.gameObject.activeSelf;
+                return page.isOn /*|| page.gameObject.activeSelf*/;
             }
 
             // custom methods below
@@ -118,7 +118,8 @@ namespace UnityCore
             {
                 for (int i = 0; i < PagesScene.Length; i++)
                 {
-                    if (PageIsOn(PagesScene[i].Type) == true)
+                    var page = PagesScene[i];
+                    if (PageIsOn(page.Type) == true || GetPage(page.Type).gameObject.activeSelf)
                     {
                         TurnPageOff(PagesScene[i].Type);
                     }
