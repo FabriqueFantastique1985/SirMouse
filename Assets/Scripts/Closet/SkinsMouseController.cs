@@ -124,8 +124,8 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         _equipedSkins[Type_Body.FootRight] = Type_Skin.Pyjama;
         _equipedSkins[Type_Body.FootLeft] = Type_Skin.Pyjama;
         _equipedSkins[Type_Body.Hat] = Type_Skin.Pyjama;
-        _equipedSkins[Type_Body.Shield] = Type_Skin.Sword_01;
-        _equipedSkins[Type_Body.Sword] = Type_Skin.Shield_01;
+        _equipedSkins[Type_Body.Shield] = Type_Skin.None;
+        _equipedSkins[Type_Body.Sword] = Type_Skin.None;
         _equipedSkins[Type_Body.Tail] = Type_Skin.Pyjama;
         _equipedSkins[Type_Body.KneeLeft] = Type_Skin.Pyjama;
         _equipedSkins[Type_Body.KneeRight] = Type_Skin.Pyjama;
@@ -173,8 +173,8 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             _equipedSkins[Type_Body.Head] = Type_Skin.Pyjama;
             _equipedSkins[Type_Body.FootRight] = Type_Skin.Pyjama;
             _equipedSkins[Type_Body.FootLeft] = Type_Skin.Pyjama;
-            _equipedSkins[Type_Body.Shield] = Type_Skin.Shield_01;
-            _equipedSkins[Type_Body.Sword] = Type_Skin.Sword_01;
+            _equipedSkins[Type_Body.Shield] = Type_Skin.None;
+            _equipedSkins[Type_Body.Sword] = Type_Skin.None;
             _equipedSkins[Type_Body.Tail] = Type_Skin.Pyjama;
         }
 
