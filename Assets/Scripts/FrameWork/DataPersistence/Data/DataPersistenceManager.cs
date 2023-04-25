@@ -84,12 +84,12 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
     {
         _gameData = _dataHandler.Load();
         
-        #if UNITY_EDITOR
-        if (_gameData == null && _initializeDataIfNull)
-        {
-            NewGame();
-        }
-        #endif
+        //#if UNITY_EDITOR
+        //if (_gameData == null && _initializeDataIfNull)
+        //{
+        //    NewGame();
+        //}
+        //#endif
         
         if (_gameData == null)
         {
