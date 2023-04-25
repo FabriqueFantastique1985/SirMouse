@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class SirMouseState
 {
@@ -42,10 +43,8 @@ public abstract class SirMouseState
 public class WalkingState : SirMouseState
 {
     // Minimum distance to reach for reaching the destination.
-    private const float _minDistanceFromTarget = 0.1f;
+    private const float _minDistanceFromTarget = 0.15f;
     private Vector3 _target;
-    private Vector3 _lastPosition;
-    private int _framesStandingStill = 0;
     
     public WalkingState(Player player, Vector3 target) : base(player)
     {
@@ -63,8 +62,6 @@ public class WalkingState : SirMouseState
     public override void OnEnter(Player player)
     {
         //  change animation of the player
-        _framesStandingStill = 0;
-        _lastPosition = player.transform.position;
         player.Character.SetAnimatorTrigger(Character.States.Walking, Direction.x <= 0 );
         
         //Debug.Log("Entered Walking State");
@@ -72,35 +69,34 @@ public class WalkingState : SirMouseState
 
     public override SirMouseState Update(Player player)
     {
-        // check if the player is standing still
-        if (Mathf.Approximately(player.transform.position.sqrMagnitude, _lastPosition.sqrMagnitude))
-        {
-            _framesStandingStill++;
-            if (_framesStandingStill > 5)
-            {
-                player.SetState(new IdleState(player));
-            }
-        }
-        else
-        {
-            _framesStandingStill = 0;
-        }
-
         // Set the direction of the player
-        Direction = player.transform.position - _lastPosition;
+        Direction = GetDirection(player, player.Agent.path);
         player.Character.SetCharacterMirrored(IsMirrored);
-        _lastPosition = player.transform.position;
-
+        
         // check if the player reached the target
         float sqrDistToTarget = (player.transform.position - _target).sqrMagnitude;
         if (sqrDistToTarget < _minDistanceFromTarget * _minDistanceFromTarget) player.SetState(new IdleState(player));
-
-        #if UNITY_EDITOR
-        Debug.DrawLine(player.transform.position, _target, Color.red);
-        #endif
-        
         
         return null;
+    }
+
+    private Vector3 GetDirection(Player player, NavMeshPath path)
+    {
+        if (path != null && path.corners.Length > 1)
+            return path.corners[1] - player.transform.position;
+        return Direction;
+    }
+    
+    public void DrawPath(NavMeshPath path, Transform player)
+    {
+        if (path.corners.Length < 2) //if the path has 1 or no corners, there is no need
+            return;
+
+        for (var i = 1; i < path.corners.Length; i++)
+        {
+            if (i == 0) Debug.DrawLine(player.transform.position, path.corners[i], Color.red);
+            else Debug.DrawLine(path.corners[i - 1], path.corners[i], Color.red);
+        }
     }
 }
 
