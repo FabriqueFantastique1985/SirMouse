@@ -81,22 +81,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!111 &384675623
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3245087870746804617}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 957aad925897f9c4898ef2289f0090aa, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 957aad925897f9c4898ef2289f0090aa, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &8011544952274500423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +132,22 @@ Transform:
   m_Father: {fileID: 3206313836907558035}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &384675623
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3245087870746804617}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 957aad925897f9c4898ef2289f0090aa, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 957aad925897f9c4898ef2289f0090aa, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &2112909097151701131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,12 +158,12 @@ PrefabInstance:
     - target: {fileID: 3543649917530592686, guid: e1321bbc6d9599a46976319f6838491e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.21
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 3543649917530592686, guid: e1321bbc6d9599a46976319f6838491e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.83
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3543649917591504984, guid: e1321bbc6d9599a46976319f6838491e,
         type: 3}
@@ -184,6 +184,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _requestedResources.Array.data[2].ResourceType
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543649917691350509, guid: e1321bbc6d9599a46976319f6838491e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543649917691350509, guid: e1321bbc6d9599a46976319f6838491e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.13
       objectReference: {fileID: 0}
     - target: {fileID: 3543649918360085088, guid: e1321bbc6d9599a46976319f6838491e,
         type: 3}
