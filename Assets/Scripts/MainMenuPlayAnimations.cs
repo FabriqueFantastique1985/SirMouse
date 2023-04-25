@@ -4,22 +4,49 @@ using UnityEngine;
 
 public class MainMenuPlayAnimations : MonoBehaviour
 {
+    [Header("starting animation ?")]
     [SerializeField]
-    private float _durationIntro;
+    private bool _IAmFirstAnimation;
 
+    [Header("My Animation Component")]
     [SerializeField]
-    private Animation _animationComponentMainMenu;
+    private Animation _myAnimation;
+
+    [Header("How long does the next animation have to wait before it starts")]
+    [SerializeField]
+    private float _waitTimeToStartNextAnimation;
+
+    [Header("Script to call new coroutine from")]
+    [SerializeField]
+    private MainMenuPlayAnimations _animationPlayerScriptToTrigger;
 
 
     void Start()
     {
-        StartCoroutine(PlayAnimations());
+        if (_IAmFirstAnimation == true && _animationPlayerScriptToTrigger != null)
+        {
+            StartCoroutine(PlayAnimations());
+        }
+        else if (_IAmFirstAnimation == true)
+        {
+            Debug.Log("I DONT HAVE A SCRIPT REFERENCE I NEED");
+        }
     }
 
-    private IEnumerator PlayAnimations()
+    public IEnumerator PlayAnimations()
     {
-        yield return new WaitForSeconds(_durationIntro);
+        _myAnimation.enabled = true;
+        Debug.Log("playing animation on " + this.gameObject.name);
 
-        _animationComponentMainMenu.enabled = true;
+        if (_animationPlayerScriptToTrigger != null)
+        {
+            yield return new WaitForSeconds(_waitTimeToStartNextAnimation);
+
+            _animationPlayerScriptToTrigger.StartCoroutine(_animationPlayerScriptToTrigger.PlayAnimations());
+        }
+        else
+        {
+            yield return null;
+        }
     }
 }
