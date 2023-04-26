@@ -19,6 +19,25 @@ MonoBehaviour:
   ShowUpper: 0
   ShowLower: 0
   ScoreValue: 0
+--- !u!114 &1873586783120101921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9213040472911365611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    MyBodyType: 2
+    MySkinType: 1
+  HidesSirMouseGeometry: 0
+  ShowUpper: 0
+  ShowLower: 0
+  ScoreValue: 0
 --- !u!1001 &4533108785467542058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -296,13 +315,18 @@ PrefabInstance:
     - target: {fileID: 91262016742277305, guid: e1321bbc6d9599a46976319f6838491e,
         type: 3}
       propertyPath: Rewards.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 91262016742277305, guid: e1321bbc6d9599a46976319f6838491e,
         type: 3}
       propertyPath: Rewards.Array.data[1]
       value: 
       objectReference: {fileID: 2704837363770727777}
+    - target: {fileID: 91262016742277305, guid: e1321bbc6d9599a46976319f6838491e,
+        type: 3}
+      propertyPath: Rewards.Array.data[2]
+      value: 
+      objectReference: {fileID: 1873586783120101921}
     - target: {fileID: 3543649917530592686, guid: e1321bbc6d9599a46976319f6838491e,
         type: 3}
       propertyPath: m_LocalPosition.y

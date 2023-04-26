@@ -81,6 +81,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4088694978852811694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5036528008781322138}
+  - component: {fileID: 5183349916795966105}
+  m_Layer: 0
+  m_Name: Reward02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5036528008781322138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4088694978852811694}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7150056416726681161}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5183349916795966105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4088694978852811694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    MyBodyType: 3
+    MySkinType: 2
+  HidesSirMouseGeometry: 0
+  ShowUpper: 0
+  ShowLower: 0
+  ScoreValue: 0
 --- !u!114 &8011544952274500423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,13 +506,18 @@ PrefabInstance:
     - target: {fileID: 653531482411573080, guid: 3140fb1903ba740409582615de6f7ff4,
         type: 3}
       propertyPath: Rewards.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 653531482411573080, guid: 3140fb1903ba740409582615de6f7ff4,
         type: 3}
       propertyPath: Rewards.Array.data[1]
       value: 
       objectReference: {fileID: 8011544952274500423}
+    - target: {fileID: 653531482411573080, guid: 3140fb1903ba740409582615de6f7ff4,
+        type: 3}
+      propertyPath: Rewards.Array.data[2]
+      value: 
+      objectReference: {fileID: 5183349916795966105}
     - target: {fileID: 4141174114665076665, guid: 3140fb1903ba740409582615de6f7ff4,
         type: 3}
       propertyPath: m_Name
@@ -580,6 +635,12 @@ MonoBehaviour:
 --- !u!1 &8313519563349315097 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1335824730486390834, guid: 3140fb1903ba740409582615de6f7ff4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7049893173256031787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7150056416726681161 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 210642309805475938, guid: 3140fb1903ba740409582615de6f7ff4,
     type: 3}
   m_PrefabInstance: {fileID: 7049893173256031787}
   m_PrefabAsset: {fileID: 0}
