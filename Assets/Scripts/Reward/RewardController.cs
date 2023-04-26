@@ -55,14 +55,18 @@ public class RewardController : MonoBehaviour
 
     public void GiveReward(List<SkinPieceElement> skinPiecesToGive)
     {
+        // only do the below logic 
+
+
         // unlock the piece(s) in the closet + store the gameobjects in a list
         List<GameObject> instantiatedObjects = new List<GameObject>();
         bool foundSomethingToGive = false;
         for (int i = 0; i < skinPiecesToGive.Count; i++)
         {
             // ! UNLOCK the skinPiece !
-            ButtonSkinPiece buttonOfinterest = SkinsMouseController.Instance.UnlockSkinPiece(skinPiecesToGive[i]);
+            // only do this line if it is not alrdy unlocked
 
+            ButtonSkinPiece buttonOfinterest = SkinsMouseController.Instance.UnlockSkinPiece(skinPiecesToGive[i], false);
 
             if (buttonOfinterest != null)
             {
@@ -71,12 +75,13 @@ public class RewardController : MonoBehaviour
                 // create a visual for to pop up in the explosion
                 GameObject objectToInstantiate = buttonOfinterest.MySpriteToActivateWhenFound;
 
-                // add to notification list           
+                // add to notification list //         
                 ClosetController.Instance.AddNotificationToList(buttonOfinterest);
-
-                // instantiate it (only 1 of feet,arms,legs)
-                if (skinPiecesToGive[i].Data.MyBodyType == Type_Body.ArmRightUpper ||
-                    skinPiecesToGive[i].Data.MyBodyType == Type_Body.LegRightUpper ||
+                //    //
+ 
+                // instantiate it (only 1 of feet,arms,legs) //
+                if (skinPiecesToGive[i].Data.MyBodyType == Type_Body.ArmRightLower ||
+                    skinPiecesToGive[i].Data.MyBodyType == Type_Body.LegRightLower ||
                     skinPiecesToGive[i].Data.MyBodyType == Type_Body.FootRight)
                 {
                     // do nothing
@@ -95,7 +100,7 @@ public class RewardController : MonoBehaviour
             }
             else
             {
-                Debug.Log("You received a nullref somewhere when unlocking a SkinPiece. YOU GET NOTHING MUAHAHAHA");
+                //Debug.Log("You received a nullref somewhere when unlocking a SkinPiece. YOU GET NOTHING MUAHAHAHA");
             }
         }
 
@@ -104,7 +109,7 @@ public class RewardController : MonoBehaviour
             // block input
             GameManager.Instance.BlockInput = true;
 
-            Debug.Log("Turned on reward screen !!");
+            //Debug.Log("Turned on reward screen !!");
 
             // turn on the correct page
             PageController.Instance.TurnAllPagesOffExcept(PageType.RewardScreen);
@@ -113,7 +118,7 @@ public class RewardController : MonoBehaviour
             ClosetController.Instance.NotificationActivater();
 
             // tone down audio of OST & World
-            AudioController.Instance.TurnDownVolumeForOSTAndWorld();
+            
 
             // play animations in proper sequence
             StartCoroutine(PlayAnimations(instantiatedObjects));
@@ -145,7 +150,7 @@ public class RewardController : MonoBehaviour
             PageController.Instance.TurnAllPagesOffExcept(PageType.RewardScreen);
 
             // tone down audio of OST & World
-            AudioController.Instance.TurnDownVolumeForOSTAndWorld();
+
 
             // play animations in proper sequence
             StartCoroutine(PlayAnimations(instantiatedObjects));
@@ -211,7 +216,7 @@ public class RewardController : MonoBehaviour
         // turn off the page
         PageController.Instance.TurnPageOff(PageType.RewardScreen); // creates a bug !? (bug caused by "use animation" bool on Page being on...
         // tone down audio of OST
-        AudioController.Instance.TurnDownVolumeForOSTAndWorld(false);
+
     }
 
     public void PlayConfetti(Type_Confetti confettiType = Type_Confetti.Normal)

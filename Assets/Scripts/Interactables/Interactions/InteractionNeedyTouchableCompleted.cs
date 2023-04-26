@@ -14,6 +14,10 @@ public class InteractionNeedyTouchableCompleted : Interaction
     [SerializeField]
     private Type_Confetti _confettiToPlay;
 
+    [Header("Reward")]
+    [SerializeField] private float _rewardWaitTime;
+    [SerializeField] private List<SkinPieceElement> _skinsToReward;
+
 
     // play specific confetti effect
     // reset the InteractableNeedyTouchable so the loop can be done again
@@ -29,6 +33,18 @@ public class InteractionNeedyTouchableCompleted : Interaction
         if (_interactableToReset.ResetAble == true)
         {
             _interactableToReset.ResetMyInteractable();
-        }       
+        }
+
+        RewardController.Instance.StartCoroutine(GiveRewardDelayed());
+    }
+
+    private IEnumerator GiveRewardDelayed()
+    {
+        yield return new WaitForSeconds(_rewardWaitTime);
+
+        if (_skinsToReward.Count > 0)
+        {
+            RewardController.Instance.GiveReward(_skinsToReward);
+        }
     }
 }

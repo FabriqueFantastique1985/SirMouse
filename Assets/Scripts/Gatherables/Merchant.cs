@@ -154,7 +154,7 @@ public class Merchant : MonoBehaviour, IDataPersistence
         // fill in RequestIndex
         merchantData.CurrentRequestIndex = CurrentRequestIndex;
 
-        Debug.Log("current request index is " + CurrentRequestIndex + ", on merchant" + this.name);
+        //Debug.Log("current request index is " + CurrentRequestIndex + ", on merchant" + this.name);
 
         // if my index is within range -> normal behavior
         if (CurrentRequestIndex < _merchantRequests.Count)
