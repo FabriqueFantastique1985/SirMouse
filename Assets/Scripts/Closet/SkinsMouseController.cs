@@ -896,7 +896,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         for (int i = 0; i < _listsOfButtons.Count; i++) totalElements += _listsOfButtons[i].MySkinPiecesButtons.Count;
         if (data.ButtonsSkinPieceData.Count != totalElements)
         {
-            Debug.LogWarning(data.ButtonsSkinPieceData.ToString() + " Data is not correct");
+            //Debug.LogWarning(data.ButtonsSkinPieceData.ToString() + " Data is not correct");
             return;
         }
 
