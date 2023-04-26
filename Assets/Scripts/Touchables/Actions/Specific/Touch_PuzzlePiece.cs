@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityCore.Audio;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class Touch_PuzzlePiece : Touch_Action
+[RequireComponent(typeof(ID))]
+public class Touch_PuzzlePiece : Touch_Action, IDataPersistence
 {
     public delegate void PuzzlePieceDelegate(Touch_PuzzlePiece piece);
     public event PuzzlePieceDelegate OnPiecePickedUp;
@@ -14,9 +12,21 @@ public class Touch_PuzzlePiece : Touch_Action
     [SerializeField] private Vector3 _endPosition;
     [SerializeField] private float _flySpeed;
 
+    [SerializeField] private ID _id;
+
+    private bool _isGathered = false;
+
     public Vector3 TargetDestination
     {
         set { _endPosition = value; }
+    }
+
+    private void Awake()
+    {
+        if (_id == null)
+        {
+            _id = GetComponent<ID>();
+        }
     }
 
     protected override void Start()
@@ -47,12 +57,13 @@ public class Touch_PuzzlePiece : Touch_Action
             yield return null;
         }
         OnPiecePickedUp?.Invoke(this);
+        _isGathered = true;
     }
 
     private IEnumerator PickupPiece()
     {
         OnPieceClicked?.Invoke(this);
-
+ 
         GetComponent<ShineBehaviour>().IsShineActive = false;
 
         yield return new WaitForSeconds(_flyCooldown);
@@ -60,5 +71,39 @@ public class Touch_PuzzlePiece : Touch_Action
         _touchableScript.Animator.SetTrigger("Activate");
 
         StartCoroutine(MoveToTable());
+    }
+
+    private IEnumerator SetPieceToEnd()
+    {
+        // Wait for next frame so listeners can be added to appropriate scripts
+        yield return null;
+        OnPieceClicked?.Invoke(this);
+        GetComponent<ShineBehaviour>().IsShineActive = false;
+        transform.position = _endPosition;
+        OnPiecePickedUp?.Invoke(this);
+        _isGathered = true;
+    }
+
+    public void LoadData(GameData data)
+    {
+        if (_id != null && data.GatherablePuzzlePieces.ContainsKey(_id))
+        {
+            _isGathered = data.GatherablePuzzlePieces[_id];
+            if (_isGathered)
+            {
+                StartCoroutine(SetPieceToEnd());
+            }
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        if (_id == null || string.IsNullOrEmpty(_id.IDName))
+        {
+            Debug.LogWarning("No id yet made! Please generate one!");
+            return;
+        }
+
+        data.GatherablePuzzlePieces[_id] = _isGathered;
     }
 }
