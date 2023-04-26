@@ -194,7 +194,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 button.Data = skinPieceData;
 
                 // Unlock skinpiece in closet
-                UnlockSkinPiece(skinPiece);
+                UnlockSkinPiece(skinPiece, true);
             }
         }
     }
@@ -243,7 +243,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     #region Public Functions
 
     // called on the interaction add...
-    public ButtonSkinPiece UnlockSkinPiece(SkinPieceElement skinPieceElement)
+    public ButtonSkinPiece UnlockSkinPiece(SkinPieceElement skinPieceElement, bool isLoadingData)
     {
         SkinPiecesForThisBodyTypeButton skinPieceForBodyX = null;
 
@@ -298,7 +298,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         }
         else
         {
-            return FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement);
+            return FindCorrectSkinPieceButton(skinPieceForBodyX, skinPieceElement, isLoadingData);
         }       
     }
 
@@ -317,7 +317,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
         // always return the same button for the popup       
         return FindCorrectSkinPieceButton(SkinPiecesButtonSword,
-            SkinPiecesButtonSword.MySkinPiecesButtons[1].MySkinPieceElement);
+            SkinPiecesButtonSword.MySkinPiecesButtons[1].MySkinPieceElement, false);
     }
 
     public void EquipSkinPiece(Type_Body bodyType, Type_Skin skinType)
@@ -507,23 +507,41 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
     #region Private Functions
 
     private ButtonSkinPiece FindCorrectSkinPieceButton(SkinPiecesForThisBodyTypeButton skinPiecesForBodyX,
-        SkinPieceElement skinPieceElement)
+        SkinPieceElement skinPieceElement, bool isLoadingData)
     {
         for (int i = 0; i < skinPiecesForBodyX.MySkinPiecesButtons.Count; i++)
         {
             if (skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MySkinType ==
                 skinPieceElement.Data.MySkinType)
             {
-                // activate the button
-                skinPiecesForBodyX.MySkinPiecesButtons[i].Found = true;
-                // enable the sprite over the sillhouette on the button
-                skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound.SetActive(true);
-                
-                //Debug.Log("Unlocked skin piece: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MySkinType 
-                //                                  + " for body type: " + skinPiecesForBodyX.MySkinPiecesButtons[i].MySkinPieceElement.Data.MyBodyType);
+                // if im loading data -> do all, return null
+                // else, ->  do all, return the piece
+                if (isLoadingData == true)
+                {
+                    // activate the button
+                    skinPiecesForBodyX.MySkinPiecesButtons[i].Found = true;
+                    // enable the sprite over the sillhouette on the button
+                    skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound.SetActive(true);
 
-                //return skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound;
-                return skinPiecesForBodyX.MySkinPiecesButtons[i];
+                    return null;
+                }
+                else
+                {
+                    // if i have alrdy been found -> return null (fixes giving duplicate rewards)
+                    if (skinPiecesForBodyX.MySkinPiecesButtons[i].Found == false)
+                    {
+                        // activate the button
+                        skinPiecesForBodyX.MySkinPiecesButtons[i].Found = true;
+                        // enable the sprite over the sillhouette on the button
+                        skinPiecesForBodyX.MySkinPiecesButtons[i].MySpriteToActivateWhenFound.SetActive(true);
+
+                        return skinPiecesForBodyX.MySkinPiecesButtons[i];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }           
             }
         }
 
@@ -908,7 +926,7 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 _listsOfButtons[i].MySkinPiecesButtons[j].Data = data.ButtonsSkinPieceData[index];
                 if (data.ButtonsSkinPieceData[index].Found)
                 {
-                    UnlockSkinPiece(_listsOfButtons[i].MySkinPiecesButtons[j].MySkinPieceElement);
+                    UnlockSkinPiece(_listsOfButtons[i].MySkinPiecesButtons[j].MySkinPieceElement, true);
                 }
                 index++;
             }

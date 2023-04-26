@@ -1,5 +1,55 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3164070794040045627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2278295101495005333}
+  - component: {fileID: 709626696712343696}
+  m_Layer: 9
+  m_Name: Reward (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2278295101495005333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164070794040045627}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5200707390265367988}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &709626696712343696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164070794040045627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data:
+    MyBodyType: 14
+    MySkinType: 11
+  HidesSirMouseGeometry: 1
+  ShowUpper: 0
+  ShowLower: 0
+  ScoreValue: 0
 --- !u!1001 &173486852788641343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12,6 +62,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1567533306428996816, guid: 68f37d091635eb54c89bd01edac9de51,
+        type: 3}
+      propertyPath: _skinsToReward.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1567533306428996816, guid: 68f37d091635eb54c89bd01edac9de51,
+        type: 3}
+      propertyPath: _skinsToReward.Array.data[0]
+      value: 
+      objectReference: {fileID: 3135901968967124179}
+    - target: {fileID: 1567533306428996816, guid: 68f37d091635eb54c89bd01edac9de51,
+        type: 3}
+      propertyPath: _skinsToReward.Array.data[1]
+      value: 
+      objectReference: {fileID: 709626696712343696}
     - target: {fileID: 1798730440256181162, guid: 68f37d091635eb54c89bd01edac9de51,
         type: 3}
       propertyPath: m_IsActive
@@ -79,3 +144,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68f37d091635eb54c89bd01edac9de51, type: 3}
+--- !u!4 &5200707390265367988 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5351620573500720011, guid: 68f37d091635eb54c89bd01edac9de51,
+    type: 3}
+  m_PrefabInstance: {fileID: 173486852788641343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3135901968967124179 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3020982303872588524, guid: 68f37d091635eb54c89bd01edac9de51,
+    type: 3}
+  m_PrefabInstance: {fileID: 173486852788641343}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
