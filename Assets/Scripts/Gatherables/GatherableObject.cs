@@ -38,6 +38,7 @@ public class GatherableObject : MonoBehaviour, IDataPersistence
     {
         ObjectGathered?.Invoke(this);
         _isGathered = true;
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     public void LoadData(GameData data)

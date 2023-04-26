@@ -157,7 +157,7 @@ public class MiniGame : MonoBehaviour, IDataPersistence
             return;
         }
         
-        if (_id == string.Empty || data.MinigamesIndices.ContainsKey(_id) == false)
+        if (_id == string.Empty)
         {
             Debug.LogWarning("No id yet made! Please generate one!");
             return;

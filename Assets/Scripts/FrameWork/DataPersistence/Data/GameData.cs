@@ -48,6 +48,9 @@ public class GameData
 
     public Dictionary<string, bool> CleanedTouchables = new Dictionary<string, bool>();
 
+    public Dictionary<string, bool> GatherablePuzzlePieces = new Dictionary<string, bool>();
+
+    public int CurrentPuzzleImage;
 
     // These should be initial values to start with 
     public GameData()

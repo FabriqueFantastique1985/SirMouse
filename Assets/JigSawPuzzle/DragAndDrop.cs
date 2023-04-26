@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using static MiniGame;
 
-public class DragAndDrop : MonoBehaviour
+public class DragAndDrop : MonoBehaviour, IDataPersistence
 {
     public delegate void DragAndDropDelegate();
     public delegate void RestartDelegate(Sprite sprite);
@@ -56,6 +57,15 @@ public class DragAndDrop : MonoBehaviour
 
         // hide sirMouse rig
         SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(false);
+
+        // Set puzzle at the end of the frame so all listeners can subscribe first
+        StartCoroutine(SetPuzzle());
+    }
+
+    private IEnumerator SetPuzzle()
+    {
+        yield return new WaitForEndOfFrame();
+        OnPuzzleRestarted?.Invoke(_puzzelPictures[_currentPicture]);
     }
 
     public void ResetPuzzle()
@@ -184,5 +194,19 @@ public class DragAndDrop : MonoBehaviour
         {
             SelectedPiece.GetComponent<SortingGroup>().sortingOrder = 30;
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        if (data.CurrentPuzzleImage < _puzzelPictures.Count)
+        {
+            _currentPicture = data.CurrentPuzzleImage;
+            _imageReference.sprite = _puzzelPictures[_currentPicture];
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.CurrentPuzzleImage = _currentPicture;
     }
 }

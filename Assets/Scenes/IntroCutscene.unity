@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -59201,7 +59201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -69822,6 +69822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2017957628}
   - component: {fileID: 2017957627}
+  - component: {fileID: 2017957629}
   m_Layer: 0
   m_Name: IntroCutsceneChain
   m_TagString: Untagged
@@ -69841,7 +69842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f25b8e275f4514b837d48b73c6fe4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: {fileID: 0}
+  _id: {fileID: 2017957629}
   _exitGameObject: {fileID: 0}
   _hasBeenCompleted: 0
   _steps:
@@ -69856,6 +69857,7 @@ MonoBehaviour:
   - {fileID: 437400751}
   - {fileID: 687257590}
   _isLooping: 0
+  _isAutoSaving: 0
 --- !u!4 &2017957628
 Transform:
   m_ObjectHideFlags: 0
@@ -69870,6 +69872,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2017957629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017957626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd10972bf5234d542990a2a51de687ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _idName: 5542deb0-b73d-4c87-ac27-840ca2d96a11
 --- !u!1 &2021900787
 GameObject:
   m_ObjectHideFlags: 0

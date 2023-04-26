@@ -68,7 +68,7 @@ public class SlotInstrument : ButtonBaseNew, IDataPersistence
         // if the instrument is unlocked, unlock the slot
         if (data.InstrumentData.ContainsKey(InstrumentType) == false)
         {
-            Debug.LogWarning("InstrumentData does not contain the key: " + InstrumentType);
+            //Debug.LogWarning("InstrumentData does not contain the key: " + InstrumentType);
             return;
         }
         var isUnlocked = data.InstrumentData[InstrumentType];
