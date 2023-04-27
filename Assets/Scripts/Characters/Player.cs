@@ -198,10 +198,13 @@ public class Player : MonoBehaviour, IClickable
         // update redHead color 
         IncreaseRedHead();
 
+        // trigger poke animation
+        _character.AnimatorRM.SetTrigger("Poke");
+
         // if goal is reached...
         if (_explosionTickCount >= _explosionTickGoal)
         {
-            ExplodeSirMouse();
+            StartCoroutine(ExplodeSirMouse());
             return;
         }
 
@@ -249,8 +252,12 @@ public class Player : MonoBehaviour, IClickable
         }
     }
 
-    public void ExplodeSirMouse()
+    private IEnumerator ExplodeSirMouse()
     {
+        // play explode animation
+        _character.AnimatorRM.SetTrigger("Explode");
+
+        yield return new WaitForSeconds(1f);
         // => play explosion, set new material, set cooldown, reset redhead alpha, return;
         Character.PlayExplosion();
         _characterGeoReferences.RedHeadOverlay.color = new Color(255,255,255,0);       
@@ -258,11 +265,6 @@ public class Player : MonoBehaviour, IClickable
 
         _character.AnimatorRM.SetTrigger("WakeUp");
 
-        StartCoroutine(ExplosionCountdown());
-    }
-
-    private IEnumerator ExplosionCountdown()
-    {
         float time = 0f;
         float value = 1f;
 
@@ -287,7 +289,36 @@ public class Player : MonoBehaviour, IClickable
         }
 
         StartCoroutine(ExplosionCooldown());
+        //StartCoroutine(ExplosionCountdown());
     }
+
+    //private IEnumerator ExplosionCountdown()
+    //{
+    //    float time = 0f;
+    //    float value = 1f;
+
+    //    // Reset grunge opacity to 1
+    //    foreach (var material in _outfitMaterials)
+    //    {
+    //        material.SetFloat("_GrungeOpacity", value);
+    //    }
+
+    //    yield return new WaitForSeconds(_explosionStayDuration);
+
+    //    // Slide grunge opacity from 1 to 0 based off of countdown duration
+    //    while (time < _explosionCountdownDuration)
+    //    {
+    //        time += Time.deltaTime;
+    //        value = Mathf.Max(1f - time / _explosionCountdownDuration, 0f);
+    //        foreach (var material in _outfitMaterials)
+    //        {
+    //            material.SetFloat("_GrungeOpacity", value);
+    //        }
+    //        yield return null;
+    //    }
+
+    //    StartCoroutine(ExplosionCooldown());
+    //}
 
     private IEnumerator ExplosionCooldown()
     {
