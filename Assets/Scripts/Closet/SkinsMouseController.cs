@@ -23,6 +23,8 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
 
     Dictionary<Type_Body, int> _bodyPiecesScore = new Dictionary<Type_Body, int>();
 
+    private bool _equipedSpecialCaseHelmet;
+
     #region SkinPiecesFields
 
     [Header("Skins on player Rig")]
@@ -173,8 +175,8 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             _equipedSkins[Type_Body.Head] = Type_Skin.Pyjama;
             _equipedSkins[Type_Body.FootRight] = Type_Skin.Pyjama;
             _equipedSkins[Type_Body.FootLeft] = Type_Skin.Pyjama;
-            _equipedSkins[Type_Body.Shield] = Type_Skin.None;
-            _equipedSkins[Type_Body.Sword] = Type_Skin.None;
+            _equipedSkins[Type_Body.Shield] = Type_Skin.Pyjama;
+            _equipedSkins[Type_Body.Sword] = Type_Skin.Pyjama;
             _equipedSkins[Type_Body.Tail] = Type_Skin.Pyjama;
         }
 
@@ -618,6 +620,10 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
             {
                 SetSirMouseGeometryState(skinPieceElement.Data.MyBodyType, true);
             }
+
+
+            // special case for 1 helmet (disabled due to too many issues regarding other head pieces)
+            //SpecialCaseForHelmet(skinPieceElement.Data.MyBodyType, skinPieceElement.Data.MySkinType);
         }
 
         CountTotalScore();
@@ -655,6 +661,9 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
                 // de-activate old geo if Hide == true
                 SetSirMouseGeometryState(bodyType, !tempSkinPiece.HidesSirMouseGeometry, tempSkinPiece.ShowUpper, tempSkinPiece.ShowLower);
 
+                // special case for 1 helmet (disabled due to too many issues regarding other head pieces)
+                //SpecialCaseForHelmet(bodyType, skinType);
+
                 //Debug.Log("Equiping piece " + tempSkinPiece);
                 CountTotalScore();
             }
@@ -664,6 +673,42 @@ public class SkinsMouseController : MonoBehaviour, IDataPersistence
         if (tempSkinPiece == null)
         {
             SetSirMouseGeometryState(bodyType, true);
+        }
+    }
+
+    private void SpecialCaseForHelmet(Type_Body bodyType, Type_Skin skinType)
+    {
+        // special case for armor helmet -> hide head geo
+        if (bodyType == Type_Body.Hat)
+        {
+            if (skinType == Type_Skin.ArmorHelmet_01)
+            {
+                characterGeoReferences.Head.gameObject.SetActive(false);
+                // ui
+                characterGeoReferencesUI.Head.gameObject.SetActive(false);
+
+                Debug.Log("hiding the head");
+
+                // set bool to true
+                _equipedSpecialCaseHelmet = true;
+            }
+            else
+            {
+                // set bool to false
+                _equipedSpecialCaseHelmet = false;
+
+                characterGeoReferences.Head.gameObject.SetActive(true);
+                // ui
+                characterGeoReferencesUI.Head.gameObject.SetActive(true);
+            }
+        }
+
+        // if im equiping a head-piece, and the helmet has been equiped -> hide the head!
+        if (bodyType == Type_Body.Head && _equipedSpecialCaseHelmet == true)
+        {
+            characterGeoReferences.Head.gameObject.SetActive(false);
+            // ui
+            characterGeoReferencesUI.Head.gameObject.SetActive(false);
         }
     }
 

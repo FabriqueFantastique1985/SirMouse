@@ -44,9 +44,6 @@ public class InteractionInstrumentNet : InteractionInstrument
     {
         base.SpecificAction(player);
 
-        GameManager.Instance.Player.Character.AnimatorRM.SetTrigger("Swing");
-        _isCatchingButterflies = true;
-
         GameManager.Instance.Player.Agent.SetDestination(GameManager.Instance.Player.gameObject.transform.position);
         GameManager.Instance.BlockInput = true;
 
@@ -62,6 +59,11 @@ public class InteractionInstrumentNet : InteractionInstrument
 
     private IEnumerator DisableBlockInput()
     {
+        // Set animation trigger after delay (bug where swing sometimes doesn't happen)
+        yield return new WaitForSeconds(.2f);
+        GameManager.Instance.Player.Character.SetAnimatorTrigger(Character.States.Swing);
+        _isCatchingButterflies = true;
+
         float curentStateLength = GameManager.Instance.Player.Character.AnimatorRM.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(curentStateLength);
 
