@@ -58,8 +58,12 @@ public class DragAndDrop : MonoBehaviour, IDataPersistence
         // hide sirMouse rig
         SkinsMouseController.Instance.characterGeoReferences.gameObject.SetActive(false);
 
+        // If puzzle is completed, don't scramble until button is pressed
         // Set puzzle at the end of the frame so all listeners can subscribe first
-        StartCoroutine(SetPuzzle());
+        if (_correctAmount == 0)
+        {
+            StartCoroutine(SetPuzzle());
+        }
     }
 
     private IEnumerator SetPuzzle()
