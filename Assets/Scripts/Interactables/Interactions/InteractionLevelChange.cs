@@ -9,6 +9,10 @@ public class InteractionLevelChange : Interaction
     [SerializeField]
     private SceneType _sceneToTeleportTo;
 
+    [SerializeField]
+    private Transform _spawnPosition;
+    public Transform SpawnPosition => _spawnPosition;
+
     [Header("this Value should be == to Value of the desired spawn in next scene")]
     public int SpawnValue;
 
