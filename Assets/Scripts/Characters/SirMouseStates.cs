@@ -357,6 +357,7 @@ public class InstrumentEquipState : SirMouseState
 
     private void OnInteractionDone(Character.States state)
     {
+        //_player.Character.InteractionDoneEvent -= OnInteractionDone;
         InstrumentController.Instance.EquipInstrument(_instrumentType);
     }
 }
@@ -392,6 +393,40 @@ public class InstrumentUnequipState : SirMouseState
     private void OnInteractionDone(Character.States state)
     {
         InstrumentController.Instance.UnEquipInstrument();
+    }
+
+    private void OnEnteredIdle(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
+    }
+}
+
+public class SwingState : SirMouseState
+{
+    public SwingState(Player player) : base(player, true)
+    {
+        player.Character.AnimationDoneEvent += OnAnimationDone;
+        player.Character.EnteredIdleEvent += OnEnteredIdle;
+    }
+
+    public override void OnEnter(Player player)
+    {
+        base.OnEnter(player);
+
+        player.Character.SetAnimatorTrigger(Character.States.Swing, IsMirrored);
+    }
+
+    public override void OnExit(Player player)
+    {
+        base.OnExit(player);
+
+        player.Character.AnimationDoneEvent -= OnAnimationDone;
+        player.Character.EnteredIdleEvent -= OnEnteredIdle;
+    }
+
+    private void OnAnimationDone(Character.States state)
+    {
+
     }
 
     private void OnEnteredIdle(Character.States state)

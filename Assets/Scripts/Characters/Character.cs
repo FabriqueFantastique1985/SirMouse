@@ -20,6 +20,7 @@ public class Character : MonoBehaviour
         BackpackExtraction = 7,
         InstrumentEquip = 8,
         InstrumentUnequip = 9,
+        Swing = 10,
     };
 
     #endregion
@@ -87,6 +88,9 @@ public class Character : MonoBehaviour
 
     [SerializeField]
     private string _twoHandedPickUpBool = "TwoHanded";
+    
+    [SerializeField]
+    private string _swingName = "Swing";
 
     #endregion
 
@@ -147,6 +151,9 @@ public class Character : MonoBehaviour
                 break;
             case States.InstrumentUnequip:
                 animationString = _instrumentUnequip;
+                break;
+            case States.Swing:
+                animationString = _swingName;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
