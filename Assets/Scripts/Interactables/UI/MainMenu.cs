@@ -28,6 +28,8 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     [Header("other references")]
     [SerializeField]
     private GameObject _panelDoubleCheck;
+    [SerializeField]
+    private GameObject _panelClothing;
 
     [Header("animation strings")]
     [SerializeField]
@@ -45,6 +47,19 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     [SerializeField]
     private AudioSource _sourceLogoPopup;
 
+    [Header("Language Toggle")]
+    [SerializeField]
+    private GameObject _panelLanguageToggle;
+    [SerializeField]
+    private ButtonLanguageToggle _buttonLanguageScript;
+    [SerializeField]
+    private Button _buttonLanguage;
+    [SerializeField]
+    private LanguageReferences _languageRefs;
+
+    private bool _currentlyInEnglish;
+
+
     private string _toLoadSceneName = "";
 
 
@@ -58,6 +73,7 @@ public class MainMenu : MonoBehaviour, IDataPersistence
         _continueButton.onClick.AddListener(ContinueGame);
         _newGameDoubleCheck.onClick.AddListener(EnterNewGameDoubleCheck);
         _exitDoubleCheck.onClick.AddListener(ExitNewGameDoubleCheck);
+        _buttonLanguage.onClick.AddListener(SwapLanguage);
 
         //_continueButton.interactable = DataPersistenceManager.Instance.HasGameData;
         _continueButton.gameObject.SetActive(DataPersistenceManager.Instance.HasGameData);
@@ -111,6 +127,24 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     }
 
 
+    private void SwapLanguage()
+    {
+        _currentlyInEnglish = !_currentlyInEnglish;
+
+        for (int i = 0; i < _languageRefs.ObjectsInEnglish.Count; i++)
+        {
+            _languageRefs.ObjectsInEnglish[i].SetActive(_currentlyInEnglish);
+        }
+        for (int i = 0; i < _languageRefs.ObjectsInDutch.Count; i++)
+        {
+            _languageRefs.ObjectsInDutch[i].SetActive(!_currentlyInEnglish);
+        }
+
+        _buttonLanguageScript.SwapLanguageVisual(_currentlyInEnglish);
+
+        _buttonLanguage.GetComponent<Animation>().Play("L3");
+    }
+
     private void PlaySoundEffect()
     {
         _sourceFX.Play();
@@ -133,10 +167,16 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
         StartCoroutine(PulseButton(_continueButton.GetComponent<Animation>()));
         StartCoroutine(PulseButton(_newGameDoubleCheck.GetComponent<Animation>()));
+
+        // activate language panel
+        _panelLanguageToggle.SetActive(true);
+
+        // start showing the clothing pieces 1 by 1
+        _panelClothing.SetActive(true);
     }
     private IEnumerator PulseButton(Animation animationComponentButton)
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(2f);
 
         animationComponentButton.Play(_buttonIdleAnim);
     }
