@@ -81,6 +81,7 @@ public class PodiumController : MiniGame
         _playerObject = GameManager.Instance.Player.gameObject;
 
 
+
         // Set button information
         foreach (var button in _buttonsPodium)
         {
@@ -176,7 +177,7 @@ public class PodiumController : MiniGame
         GameManager.Instance.CurrentCamera.gameObject.SetActive(false);
 
         // Set player rig
-        SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
+        //SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
         SetPlayerReference(_cutscene03, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
 
         //SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
@@ -188,6 +189,10 @@ public class PodiumController : MiniGame
 
         // Move player into position       
         _playerObject.transform.position = _playerLocation.position;
+
+        Assert.IsNotNull(_animator, "[PodiumController] Player animator reference is null");
+        _playerController = _animator.runtimeAnimatorController;
+        _animator.runtimeAnimatorController = _podiumAnimator;
 
         GameManager.Instance.EnterMiniGameSystem();
     }
@@ -235,13 +240,9 @@ public class PodiumController : MiniGame
 
         _playerPreviousTransform = _playerObject.transform.localPosition;
 
-        print(_playerPreviousTransform);
 
         base.StartMiniGame();
 
-        Assert.IsNotNull(_animator, "[PodiumController] Player animator reference is null");
-        _playerController = _animator.runtimeAnimatorController;
-        _animator.runtimeAnimatorController = _podiumAnimator;
 
         StartCoroutine(ClickTimer());
     }

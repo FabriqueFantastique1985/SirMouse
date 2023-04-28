@@ -38,6 +38,14 @@ public class DragAndDrop : MonoBehaviour, IDataPersistence
 
     private bool _isCompletedOnce = false;
 
+    [SerializeField] private GameObject _resetButtonGo;
+    [SerializeField] private Animation _resetButtonAnimator;
+
+    private void Start()
+    {
+        _resetButtonGo.SetActive(false);
+    }
+
     // !! call this on interaction for puzzle game !!
     public void StartMiniGame()
     {
@@ -91,6 +99,8 @@ public class DragAndDrop : MonoBehaviour, IDataPersistence
 
             // reset variables
             _correctAmount = 0;
+
+            _resetButtonGo.SetActive(false);
         }
     }
 
@@ -172,6 +182,8 @@ public class DragAndDrop : MonoBehaviour, IDataPersistence
 
         if (_correctAmount == (_collumnAmount * _rowAmount))
         {
+            _resetButtonGo.SetActive(true);
+            _resetButtonAnimator.Play();
             StartCoroutine(EndingDelay());
         }
     }
@@ -207,10 +219,12 @@ public class DragAndDrop : MonoBehaviour, IDataPersistence
             _currentPicture = data.CurrentPuzzleImage;
             _imageReference.sprite = _puzzelPictures[_currentPicture];
         }
+        _isCompletedOnce = data.IsPuzzleCompletedOnce;
     }
 
     public void SaveData(ref GameData data)
     {
         data.CurrentPuzzleImage = _currentPicture;
+        data.IsPuzzleCompletedOnce = _isCompletedOnce;
     }
 }
