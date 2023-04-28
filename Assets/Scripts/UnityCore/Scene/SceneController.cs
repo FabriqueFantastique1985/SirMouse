@@ -173,7 +173,8 @@ namespace UnityCore
 
                             // move the player over there
                             player.Agent.enabled = false;
-                            player.transform.position = spawnScript.transform.position;
+                            //player.transform.position = spawnScript.transform.position;
+                            player.transform.position = spawnScript.SpawnPosition.position;
                             player.Agent.enabled = true;
 
                             foundSpawn = true;

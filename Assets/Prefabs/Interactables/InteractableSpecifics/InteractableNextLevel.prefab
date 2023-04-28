@@ -18,7 +18,38 @@ MonoBehaviour:
   _chainActions: []
   _chainActionsMono: []
   _sceneToTeleportTo: 3
+  _spawnPosition: {fileID: 7422532578264427255}
   SpawnValue: 0
+--- !u!1 &4000457729382847850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7422532578264427255}
+  m_Layer: 9
+  m_Name: SpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7422532578264427255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000457729382847850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6370669743499243029}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3969569115111689225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141,6 +172,12 @@ PrefabInstance:
 --- !u!1 &6370669743499243026 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8034303490400576027, guid: c96cc19a541c95c4fa33a5e4a5d357df,
+    type: 3}
+  m_PrefabInstance: {fileID: 3969569115111689225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6370669743499243029 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8034303490400576028, guid: c96cc19a541c95c4fa33a5e4a5d357df,
     type: 3}
   m_PrefabInstance: {fileID: 3969569115111689225}
   m_PrefabAsset: {fileID: 0}
