@@ -27,25 +27,21 @@ public class MainMenuPlayAnimations : MonoBehaviour
         {
             StartCoroutine(PlayAnimations());
         }
-        else if (_IAmFirstAnimation == true)
-        {
-            Debug.Log("I DONT HAVE A SCRIPT REFERENCE I NEED");
-        }
     }
 
     public IEnumerator PlayAnimations()
     {
+        // play my animation
         this.gameObject.SetActive(true);
         _myAnimation.Play();
 
-        Debug.Log("playing animation on " + this.gameObject.name);
 
         if (_animationPlayerScriptToTrigger != null)
         {
             yield return new WaitForSeconds(_waitTimeToStartNextAnimation);
 
-            //_animationPlayerScriptToTrigger.StartCoroutine(_animationPlayerScriptToTrigger.PlayAnimations());
-            StartCoroutine(_animationPlayerScriptToTrigger.PlayAnimations());
+            _animationPlayerScriptToTrigger.StartCoroutine(_animationPlayerScriptToTrigger.PlayAnimations());
+            //StartCoroutine(_animationPlayerScriptToTrigger.PlayAnimations());
         }
         else
         {
