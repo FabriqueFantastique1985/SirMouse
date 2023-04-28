@@ -85,7 +85,10 @@ public class InteractableNeedyTouchables : InteractableNeedy
     // called when a TouchableNeedy is clicked
     public void UpdateMyList(Touchable touchableNeedy)
     {
-        HeldTouchables.Add(touchableNeedy);
+        if (!HeldTouchables.Contains(touchableNeedy))
+        {
+            HeldTouchables.Add(touchableNeedy);
+        }
 
         //NeedyBalloon.UpdateOneRequiredTouchable();
         ThinkingBalloon.UpdateOneRequiredTouchable();
