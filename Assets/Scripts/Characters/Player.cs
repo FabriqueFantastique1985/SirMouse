@@ -177,7 +177,7 @@ public class Player : MonoBehaviour, IClickable
             }
             else
             {
-                if (_canExplode == true)
+                if (_canExplode)
                 {
                     IncreaseExplosionTickCount();
                 }          
@@ -254,6 +254,8 @@ public class Player : MonoBehaviour, IClickable
 
     private IEnumerator ExplodeSirMouse()
     {
+        _canExplode = false;
+
         // play explode animation
         _character.AnimatorRM.SetTrigger("Explode");
 
@@ -261,7 +263,6 @@ public class Player : MonoBehaviour, IClickable
         // => play explosion, set new material, set cooldown, reset redhead alpha, return;
         Character.PlayExplosion();
         _characterGeoReferences.RedHeadOverlay.color = new Color(255,255,255,0);       
-        _canExplode = false;
 
         _character.AnimatorRM.SetTrigger("WakeUp");
 
@@ -331,8 +332,8 @@ public class Player : MonoBehaviour, IClickable
                 _explosionTimer = 0;
                 _canExplode = true;
                 _explosionTickCount = 0;
-                yield return null;
             }
+            yield return null;
         }
     }
 }
