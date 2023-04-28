@@ -145,18 +145,14 @@ public class InteractableNeedyTouchables : InteractableNeedy
 
     protected override void OnTriggerEnter(Collider other)
     {
-        var player = other.transform.GetComponent<Player>();
-        if (player != null) 
+        // if I have all the required objects...      
+        if (HeldTouchables.Count < WantedTouchables.Count)
         {
-            // if I have all the required objects...      
-            if (HeldTouchables.Count < WantedTouchables.Count)
-            {
-                // show interactBalloon 
-                ShowNeedyBalloon();
-            }
-
-           // ShowInteractionBalloon();
+            // show interactBalloon 
+            ShowNeedyBalloon();
         }
+
+        // ShowInteractionBalloon();
     }
     protected override void OnTriggerExit(Collider other)
     {

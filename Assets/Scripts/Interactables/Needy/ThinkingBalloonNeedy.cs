@@ -44,6 +44,11 @@ public class ThinkingBalloonNeedy : MonoBehaviour
     {
         var needyBalloons = Needy_Sprites_Wrap.NeedyBalloons;
 
+        if (needyBalloons.Count <= 0)
+        {
+            return;
+        }
+
         // get the 1 balloon of interest...(always is 1 balloon for touchables currently -> index 0 needyBlaloons)
         // update 1 of the nondelivered object within it...
         for (int i = 0; i < needyBalloons[0].NeedyObjects.Count; i++)
