@@ -10,7 +10,7 @@ public class ButtonMainMenuAnimationLogic : MonoBehaviour
     [SerializeField]
     private string _animationAppear;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         if (_animationAppear != string.Empty)
         {
