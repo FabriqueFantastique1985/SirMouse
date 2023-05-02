@@ -1896,6 +1896,7 @@ GameObject:
   m_Component:
   - component: {fileID: 170321518}
   - component: {fileID: 170321519}
+  - component: {fileID: 170321520}
   m_Layer: 0
   m_Name: MW_3
   m_TagString: Untagged
@@ -1968,10 +1969,41 @@ PlayableDirector:
     value: {fileID: 401775319}
   - key: {fileID: 8142530078459035183, guid: 959c0de407aebc74f9d9bbc9eaa2f61e, type: 2}
     value: {fileID: 1783418186}
+  - key: {fileID: 8357284195616831214, guid: 959c0de407aebc74f9d9bbc9eaa2f61e, type: 2}
+    value: {fileID: 170321517}
   m_ExposedReferences:
     m_References:
     - ead442c32bb86a54b859613008a73198: {fileID: 0}
     - ae899733245ba1543bf82eb06931d951: {fileID: 0}
+--- !u!114 &170321520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170321517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: b455cbd6c8f073345998b719a7209fd6, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1938765358}
+          m_MethodName: TriggerIdleAnimation
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &177780132
 GameObject:
   m_ObjectHideFlags: 0
@@ -7166,6 +7198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1297394217}
   - component: {fileID: 1297394218}
+  - component: {fileID: 1297394219}
   m_Layer: 0
   m_Name: MW_2
   m_TagString: Untagged
@@ -7238,10 +7271,41 @@ PlayableDirector:
     value: {fileID: 401775319}
   - key: {fileID: 6325949590398523505, guid: 579eb0f8672c7094b947140486537b95, type: 2}
     value: {fileID: 1431732459}
+  - key: {fileID: 8357284195616831214, guid: 579eb0f8672c7094b947140486537b95, type: 2}
+    value: {fileID: 1297394216}
   m_ExposedReferences:
     m_References:
     - ead442c32bb86a54b859613008a73198: {fileID: 0}
     - ae899733245ba1543bf82eb06931d951: {fileID: 0}
+--- !u!114 &1297394219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297394216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: b455cbd6c8f073345998b719a7209fd6, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1297394216}
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1350191049
 GameObject:
   m_ObjectHideFlags: 0
@@ -12440,6 +12504,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1938765358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938765355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 582d5121d8b966f4f8e8ad07b659fab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 1938765357}
 --- !u!1 &1945017046
 GameObject:
   m_ObjectHideFlags: 0
