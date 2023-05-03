@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     public GameSystem CurrentGameSystem => _currentGameSystem; 
 
     #endregion
-
-    private new void Awake()
+    
+    protected override void Awake()
     {
         base.Awake();
 
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         if (PlayField == null)
         {
             PlayField = FindObjectOfType<PlayField>();
-            if (PlayField == null) Debug.LogError($"No PlayField found in this scene {SceneManager.GetActiveScene()}");
+            if (PlayField == null) Debug.LogWarning($"No PlayField found in this scene {SceneManager.GetActiveScene()}");
             else
             {
                 AdjustGameSystem(PlayField.GroundColliders);
@@ -154,8 +154,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     private void Update()
     {
-        if (_blockInput == false) 
-            _currentGameSystem.HandleInput();
+        _currentGameSystem.HandleInput(_blockInput);
         _currentGameSystem.Update();
 
         _chain.UpdateChain(Time.deltaTime);

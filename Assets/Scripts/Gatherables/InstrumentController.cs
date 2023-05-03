@@ -20,6 +20,11 @@ public class InstrumentController : MonoBehaviour
     public SlotInstrument ActiveInstrumentSlot;
     public InstrumentPiece ActiveInstrumentPiece;
 
+    public ButtonEquipToggle ButtonEquiping;
+
+    [HideInInspector]
+    public InstrumentInteractable InstrumentInteractableMouseIsIn;
+    
 
     private void Awake()
     {
@@ -32,6 +37,25 @@ public class InstrumentController : MonoBehaviour
         Instance = this;
     }
 
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        if (ActiveInstrumentSlot != null) ActiveInstrumentSlot.GlowActivation.SetActive(false);
+
+        for (int i = 0; i < _slotsInstruments.Count; i++)
+        {
+            if (_slotsInstruments[i].Unlocked == true)
+            {
+                ActivateInstrument(_slotsInstruments[i]);
+                break;
+            }
+        }
+    }
 
 
     // called on the gatherable being picked up
@@ -55,6 +79,18 @@ public class InstrumentController : MonoBehaviour
         }
     }
 
+    public bool CheckIfFoundInstrument()
+    {
+        for (int i = 0; i < _slotsInstruments.Count; i++)
+        {
+            if (_slotsInstruments[i].Unlocked == true)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // called on buttons in Backpack 
     public void ActivateInstrument(SlotInstrument slotToActivate)
@@ -74,7 +110,11 @@ public class InstrumentController : MonoBehaviour
                 break;
             }
         }
+
+        ButtonEquiping.SetInstrumentSprite();
     }
+    
+    // called on buttons in Backpack
     public void DeactivateInstrument()
     {
         if (ActiveInstrumentSlot != null)
@@ -114,10 +154,25 @@ public class InstrumentController : MonoBehaviour
             }
         }
 
+        // check if the player is within a trigger of a required instrument...
+        if (InstrumentInteractableMouseIsIn != null)
+        {
+            InstrumentInteractableMouseIsIn.ShowInstrumentPopup();
+        }
+
+        // show alternate button
+        ButtonEquiping.SetButtonState(false);
+
         SkinsMouseController.Instance.HideOrShowSwordAndShield(false);
     }
+    
     public void UnEquipInstrument()
     {
+        if (!EquipedInstrumentPiece)
+        {
+            return;
+        }
+
         //Debug.Log("Active piece is " + ActiveInstrumentPiece.gameObject.name);
         //ActiveInstrumentPiece.gameObject.SetActive(false);
 
@@ -125,7 +180,16 @@ public class InstrumentController : MonoBehaviour
 
         EquipedInstrumentPiece.gameObject.SetActive(false);
         EquipedInstrumentPiece = null;
-        
+
+        // show the thinking balloon of any instrument interactable I am in
+        if (InstrumentInteractableMouseIsIn != null)
+        {
+            InstrumentInteractableMouseIsIn.ShowInstrumentThink();
+        }
+
         SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
+
+        // show normal button
+        ButtonEquiping.SetButtonState(true);
     }
 }

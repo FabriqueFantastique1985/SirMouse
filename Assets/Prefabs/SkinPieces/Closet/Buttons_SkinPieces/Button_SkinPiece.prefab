@@ -110,16 +110,22 @@ MonoBehaviour:
   _animationName: POP_ButtonGeneric
   _soundEffect:
     Clip: {fileID: 8300000, guid: fedb3fe26396700498c0a9f01ab3112d, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 2
     Volume: 0.5
     Pitch: 1
     RandomizePitchSlightly: 1
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   MySkinPieceElement: {fileID: 1911024997269969953}
   MySpriteToActivateWhenFound: {fileID: 9112906014627884363}
   MySpriteToDuplicateAndMove: {fileID: 9112906014627884363}
-  Found: 0
+  Data:
+    Found: 0
   TriedThisOut: 0
   HasBeenNotified: 0
   NotificationObject: {fileID: 7019562042641306547}
@@ -135,9 +141,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyBodyType: 1
-  MySkinType: 2
+  Data:
+    MyBodyType: 0
+    MySkinType: 0
   HidesSirMouseGeometry: 0
+  ShowUpper: 0
+  ShowLower: 0
   ScoreValue: 0
 --- !u!65 &8888669803638523699
 BoxCollider:
@@ -324,7 +333,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 120}
+  m_SizeDelta: {x: 270, y: 270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7392315398124701784
 CanvasRenderer:
@@ -353,8 +362,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: c35d79b8492335b4c8d20622d652a8bc, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -587,12 +596,12 @@ PrefabInstance:
     - target: {fileID: 3988767773719917184, guid: dca8a515bf8e7b14188456e3ccb301c2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 112
+      value: 95
       objectReference: {fileID: 0}
     - target: {fileID: 3988767773719917184, guid: dca8a515bf8e7b14188456e3ccb301c2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 3988767773719917184, guid: dca8a515bf8e7b14188456e3ccb301c2,
         type: 3}

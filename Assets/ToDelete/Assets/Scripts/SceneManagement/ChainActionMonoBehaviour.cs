@@ -44,13 +44,13 @@ public class ChainActionMonoBehaviour : MonoBehaviour
     {
         _maxTime = _startMaxTime;
         ChainActionStarted?.Invoke();
-        Debug.Log("ChainAction: " + _nameChainAction + " started.");
+        //Debug.Log("ChainAction: " + _nameChainAction + " started.");
     }
     
     public virtual void OnExit()
     {
         ChainActionDone?.Invoke();
-        Debug.Log("ChainAction: " + _nameChainAction + " finished.");
+        //Debug.Log("ChainAction: " + _nameChainAction + " finished.");
     }
     
     private void OnEnable()

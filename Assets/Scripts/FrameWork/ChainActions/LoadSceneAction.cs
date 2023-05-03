@@ -9,13 +9,13 @@ using Utilities;
 public class LoadSceneAction : ChainActionMonoBehaviour
 {
     [SerializeField] private SceneType _scene;
-    private int spawnvalue;
+    private const int spawnvalue = 0;
 
 
     public override void Execute()
     {
         base.Execute();
         Debug.Log(_scene.ToString());
-        SceneController.SceneControllerInstance.Load(_scene, null, false, PageType.Loading, spawnvalue);
+        SceneController.Instance.Load(_scene, null, false, PageType.Loading, spawnvalue);
     }
 }

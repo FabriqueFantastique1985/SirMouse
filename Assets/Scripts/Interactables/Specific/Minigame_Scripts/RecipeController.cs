@@ -34,6 +34,7 @@ public class RecipeController : MiniGame
 
     // assign in inspector
     public IngredientEntranceTrigger EntranceIngredients;
+    public IngredientCauldronRaycast CauldronRaycast;
     public List<Recipe_Script> MyRecipes = new List<Recipe_Script>();
     public List<Sprite> PossibleSprites = new List<Sprite>();
     public List<float> SpriteScales = new List<float>();
@@ -86,7 +87,7 @@ public class RecipeController : MiniGame
     public string TriggerCauldronEnd = "Cauldron_End";
 
     private int _currentHealth = 1;
-
+    private Coroutine _refreshScrollRoutine;
 
     // below values could be adjusted in inspector for reproduction purposes
 
@@ -202,6 +203,8 @@ public class RecipeController : MiniGame
         // empty out required ingredients (in case of failure)
         CurrentRequiredIngredients.Clear();
 
+        // Go back to the main Game System to control mouse
+        GameManager.Instance.EnterMainGameSystem();
 
         yield return new WaitForSeconds(0.3f);
         // animate the scroll up
@@ -229,9 +232,6 @@ public class RecipeController : MiniGame
 
         GameManager.Instance.FollowCamera.target = GameManager.Instance.Player.transform;
         GameManager.Instance.ZoomCamera.ResetZoom();
-
-        // Go back to the main Game System to control mouse
-        GameManager.Instance.EnterMainGameSystem();
     }
 
     public override void EndMiniGame(bool completeSuccesfully)
@@ -239,17 +239,18 @@ public class RecipeController : MiniGame
         base.EndMiniGame(completeSuccesfully);
         _darkBackground.FadeOut();
 
+        if (_refreshScrollRoutine != null) StopCoroutine(_refreshScrollRoutine);
         StartCoroutine(EndMiniGameCoroutine());
     }
 
     public void FirstScroll()
     {
-        StartCoroutine(SequenceScrollRefresh(true));
+       _refreshScrollRoutine = StartCoroutine(SequenceScrollRefresh(true));
     }
 
     public void RefreshScroll()
     {
-        StartCoroutine(SequenceScrollRefresh(false));
+        _refreshScrollRoutine = StartCoroutine(SequenceScrollRefresh(false));
     }
 
 
@@ -314,6 +315,8 @@ public class RecipeController : MiniGame
             _currentRecipe.MyIngredients[i].ObjectIngredient.SetActive(true);
             yield return new WaitForSeconds(0.2f);
         }
+
+        GameManager.Instance.BlockInput = false;
     }
 
 
@@ -355,7 +358,7 @@ public class RecipeController : MiniGame
             // remove the entered ingredient from the requirements
             CurrentRequiredIngredients.Remove(typeEntered);
 
-            yield return new WaitForSeconds(0.4f);
+           // yield return new WaitForSeconds(0.4f);
 
             // check if this was the last required ingredient
             CheckRecipeCompletion();
@@ -365,6 +368,8 @@ public class RecipeController : MiniGame
             // what do we do on a wrong ingredient ? (lose, refresh, life system ???)
             PunishThePlayer();
         }
+
+        yield break;
     }
 
 
@@ -422,6 +427,7 @@ public class RecipeController : MiniGame
                         break;
                 }
 
+                GameManager.Instance.BlockInput = true;
                 RefreshScroll();
             }
         }

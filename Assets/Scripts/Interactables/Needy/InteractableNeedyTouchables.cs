@@ -18,6 +18,11 @@ public class InteractableNeedyTouchables : InteractableNeedy
     private List<BoxCollider> _spawnAreas = new List<BoxCollider>();
     private List<SizesSpawn> _spawnSizes = new List<SizesSpawn>();
 
+    [Header("Particles Poof")]
+    public GameObject ParticlePoofTapped;
+    [SerializeField]
+    private GameObject _particlePoofRespawn;
+
     [HideInInspector]
     public List<Touchable> HeldTouchables;
 
@@ -64,6 +69,14 @@ public class InteractableNeedyTouchables : InteractableNeedy
             WantedTouchables[i].transform.position = randomPosition;
 
             WantedTouchables[i].gameObject.SetActive(true);
+
+            WantedTouchables[i].GetComponent<Touch_Needy>().MySpriteParent.SetActive(true);
+            WantedTouchables[i].Collider.enabled = true;
+
+            if (_particlePoofRespawn != null)
+            {
+                Instantiate(_particlePoofRespawn, randomPosition, Quaternion.identity);
+            }      
         }
     }
 
@@ -72,9 +85,13 @@ public class InteractableNeedyTouchables : InteractableNeedy
     // called when a TouchableNeedy is clicked
     public void UpdateMyList(Touchable touchableNeedy)
     {
-        HeldTouchables.Add(touchableNeedy);
+        if (!HeldTouchables.Contains(touchableNeedy))
+        {
+            HeldTouchables.Add(touchableNeedy);
+        }
 
-        NeedyBalloon.UpdateOneRequiredTouchable();
+        //NeedyBalloon.UpdateOneRequiredTouchable();
+        ThinkingBalloon.UpdateOneRequiredTouchable();
 
         // if I have all of them... (== wantedTouchables)
         if (HeldTouchables.Count >= WantedTouchables.Count)
@@ -109,31 +126,36 @@ public class InteractableNeedyTouchables : InteractableNeedy
     private void ActivateInteractable()
     {
         _interactableToActivate.gameObject.SetActive(true);
-        this.gameObject.SetActive(false);
+
+        //this.gameObject.SetActive(false); // this needs to change 
+        // disable visuals + collider (+ balloon)
+        _spriteParent.SetActive(false);
+        _trigger.enabled = false;
+        HideNeedyBalloon();
     }
     private void ReActivateNeedy()
     {
         _interactableToActivate.gameObject.SetActive(false);
-        this.gameObject.SetActive(true);
 
-        NeedyBalloon.ResetMyNeedyObjects();
+        //this.gameObject.SetActive(true);
+        _spriteParent.SetActive(true);
+        _trigger.enabled = true;
+        ShowNeedyBalloon();
+
+        ThinkingBalloon.ResetMyNeedyObjects();
     }
 
 
     protected override void OnTriggerEnter(Collider other)
     {
-        var player = other.transform.GetComponent<Player>();
-        if (player != null) 
+        // if I have all the required objects...      
+        if (HeldTouchables.Count < WantedTouchables.Count)
         {
-            // if I have all the required objects...      
-            if (HeldTouchables.Count < WantedTouchables.Count)
-            {
-                // show interactBalloon 
-                ShowNeedyBalloon();
-            }
-
-           // ShowInteractionBalloon();
+            // show interactBalloon 
+            ShowNeedyBalloon();
         }
+
+        // ShowInteractionBalloon();
     }
     protected override void OnTriggerExit(Collider other)
     {

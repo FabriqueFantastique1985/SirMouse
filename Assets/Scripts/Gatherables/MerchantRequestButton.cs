@@ -29,21 +29,25 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
     public void Click(Player player)
     {
-        ClickNew(player, this);
+        ResourceController.Instance.StartCoroutine(ClickNew(player, this));
     }
-    public void ClickNew(Player player, MerchantRequestButton buttonClicked)
+    private IEnumerator ClickNew(Player player, MerchantRequestButton buttonClicked)
     {
+        AudioController.Instance.PlayAudio(_myMerchant.AudioMerchantButtonClicked);
         ResourceController.Instance.RemoveResource(ResourceToDeliver.ResourceType);
 
-        CompletedThisButton(_spriteFullParent);
+        UIFlyingToBackpackController.Instance.ThrowItemIntoMerchant(this, ResourceToDeliver.ResourceType);
 
         _myMerchant.CurrentRequest.DeliverResource(ResourceToDeliver.ResourceType, buttonClicked);
-
         _myMerchant.CurrentRequest.ClickedButtonOfResourceX(ResourceToDeliver.ResourceType);
 
-        _myMerchant.CurrentRequest.CheckRequestFinished();
+        DisableThisButtonCollider();
 
-        AudioController.Instance.PlayAudio(_myMerchant.AudioMerchantButtonClicked);
+        yield return new WaitForSeconds(0.2f); // wait time for object to arrive at merchant..
+    
+        CompletedThisButton(_spriteFullParent);
+
+        ResourceController.Instance.StartCoroutine(_myMerchant.CurrentRequest.CheckRequestFinished());        
     }
 
 
@@ -59,8 +63,29 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
 
     public void ActivatePulsing(bool state)
     {
-        Debug.Log("Activated pulsing with state = " + state + " for button " + this.gameObject.name);
+        //Debug.Log("Activated pulsing with state = " + state + " for button " + this.gameObject.name);
         _spriteTransparentParentAnimation.enabled = state;
+        if (_spriteTransparentParentAnimation.transform.GetChild(0).TryGetComponent(out Animation animationComponentColorPulse))
+        {
+            animationComponentColorPulse.enabled = state;
+        }
+
+        // reset alphas
+        if (state == false)
+        {
+            for (int i = 0; i < _spriteTransparentParentAnimation.transform.childCount; i++)
+            {
+                var chosenTransparentButton = _spriteTransparentParentAnimation.transform.GetChild(i);
+                // get all sprite render children
+                SpriteRenderer[] spriteChildren = chosenTransparentButton.GetComponentsInChildren<SpriteRenderer>();
+                for (int j = 0; j < spriteChildren.Length; j++)
+                {
+                    spriteChildren[j].color = new Color(255, 255, 255, 0.5f);
+                }
+
+            }
+        }
+        
     }
     public void ActivateCollider(bool state)
     {
@@ -88,7 +113,7 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
         if (ResourceToDeliver.Delivered == true)
         {
             Debug.Log("finished delivering on button " +  this.gameObject.name + ", cuzz my resource is set on -> " + ResourceToDeliver.ResourceType + " --- " + ResourceToDeliver.Delivered);
-            CompletedThisButton(spriteFullObj);
+            CompletedThisButton(spriteFullObj, true);
         }
     }
 
@@ -96,10 +121,12 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
     {
         spriteTransparent.SetActive(true);
     }
-    private void CompletedThisButton(GameObject spriteFull)
+    private void CompletedThisButton(GameObject spriteFull, bool IAmCheckedOnLoad = false)
     {
-        // disable the collider   
-        _buttonCollider.enabled = false;
+        if (IAmCheckedOnLoad == true)
+        {
+            DisableThisButtonCollider();
+        }
 
         // enable the notif
         _notificationObject.SetActive(true);
@@ -110,6 +137,11 @@ public class MerchantRequestButton : MonoBehaviour, IClickable
         // enable the sprite
         _spriteFullParent.SetActive(true);       
         spriteFull.SetActive(true);
+    }
+    private void DisableThisButtonCollider()
+    {
+        // disable the collider   
+        _buttonCollider.enabled = false;
     }
 
 

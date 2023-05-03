@@ -89,28 +89,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pickup:
     Clip: {fileID: 8300000, guid: d84c184b24f92b44588e4c4099e86287, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 0.3
     Pitch: 1
     RandomizePitchSlightly: 1
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Drop:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Disappear:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   _rewardWaitTime: 1
   _deleteWaitTime: 3
   _particle: {fileID: 3107660032101912530}
@@ -301,9 +316,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6dca74b1d7e9d64a8c0ead0e677026b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyBodyType: 12
-  MySkinType: 4
+  Data:
+    MyBodyType: 0
+    MySkinType: 0
   HidesSirMouseGeometry: 1
+  ShowUpper: 0
+  ShowLower: 0
   ScoreValue: 0
 --- !u!1 &4907143061821494511
 GameObject:
@@ -5105,6 +5123,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2007297885390444747}
     m_Modifications:
+    - target: {fileID: 1183644484282122351, guid: c066c42e7f7ff7e4ca9481cd1b45066f,
+        type: 3}
+      propertyPath: m_ShadowBias
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183644484282122351, guid: c066c42e7f7ff7e4ca9481cd1b45066f,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183644484282122351, guid: c066c42e7f7ff7e4ca9481cd1b45066f,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1225818785
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336286960072404910, guid: c066c42e7f7ff7e4ca9481cd1b45066f,
+        type: 3}
+      propertyPath: m_ShadowBias
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336286960072404910, guid: c066c42e7f7ff7e4ca9481cd1b45066f,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336286960072404910, guid: c066c42e7f7ff7e4ca9481cd1b45066f,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1225818785
+      objectReference: {fileID: 0}
     - target: {fileID: 8657880560436272135, guid: c066c42e7f7ff7e4ca9481cd1b45066f,
         type: 3}
       propertyPath: m_RootOrder

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityCore.Audio;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -35,7 +36,7 @@ public class PodiumController : MiniGame
     [SerializeField] private RuntimeAnimatorController _podiumAnimator;
     private RuntimeAnimatorController _playerController;
 
-    private List<Vector3> _playerChildTransforms = new List<Vector3>();
+    private Vector3 _playerPreviousTransform;
     private Animator _animator;
     private GameObject _playerObject;
 
@@ -63,6 +64,12 @@ public class PodiumController : MiniGame
     }
     #endregion
 
+    protected override void Awake()
+    {
+        base.Awake();
+        _shouldSaveData = false;
+    }
+
     private void Start()
     {
         foreach(var button in _buttonsPodium)
@@ -73,10 +80,7 @@ public class PodiumController : MiniGame
         _animator = GameManager.Instance.Player.Character.AnimatorRM;
         _playerObject = GameManager.Instance.Player.gameObject;
 
-        for (int i = 0; i < _playerObject.transform.childCount; i++)
-        {
-            _playerChildTransforms.Add(Vector3.zero);
-        }
+
 
         // Set button information
         foreach (var button in _buttonsPodium)
@@ -173,15 +177,22 @@ public class PodiumController : MiniGame
         GameManager.Instance.CurrentCamera.gameObject.SetActive(false);
 
         // Set player rig
-        SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
+        //SetPlayerReference(_cutscene01, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
         SetPlayerReference(_cutscene03, GameManager.Instance.Player.Character.AnimatorRM, _playerTrackName);
 
-        // Move player into position
-        for (int i = 0; i < _playerObject.transform.childCount; i++)
-        {
-            _playerChildTransforms[i] = _playerObject.transform.GetChild(i).position;
-            _playerObject.transform.GetChild(i).position = _playerLocation.position;
-        }
+        //SkinsMouseController.Instance.HideOrShowSwordAndShield(true);
+        InstrumentController.Instance.UnEquipInstrument();
+
+        // Stop player from moving before centering on podium
+        GameManager.Instance.Player.Agent.SetDestination(_playerObject.transform.position);
+        GameManager.Instance.Player.Agent.enabled= false;
+
+        // Move player into position       
+        _playerObject.transform.position = _playerLocation.position;
+
+        Assert.IsNotNull(_animator, "[PodiumController] Player animator reference is null");
+        _playerController = _animator.runtimeAnimatorController;
+        _animator.runtimeAnimatorController = _podiumAnimator;
 
         GameManager.Instance.EnterMiniGameSystem();
     }
@@ -207,14 +218,13 @@ public class PodiumController : MiniGame
         // Turn on shine
         _shineBehaviour.IsShineActive = true;
 
-        // Move player back to original position
-        for (int i = 0; i < _playerObject.transform.childCount; i++)
-        {
-            _playerObject.transform.GetChild(i).position = _playerChildTransforms[i];
-        }
+        // Move player back to original position        
+        _playerObject.transform.position = _playerPreviousTransform;
+        print("Position: " + _playerPreviousTransform);
 
         // Turn on player camera
         GameManager.Instance.CurrentCamera.gameObject.SetActive(true);
+        GameManager.Instance.Player.Agent.enabled = true;
 
         GameManager.Instance.EnterMainGameSystem();
     }
@@ -228,10 +238,11 @@ public class PodiumController : MiniGame
         }
         _isMinigameActive = true;
 
+        _playerPreviousTransform = _playerObject.transform.localPosition;
+
+
         base.StartMiniGame();
 
-        _playerController = _animator.runtimeAnimatorController;
-        _animator.runtimeAnimatorController = _podiumAnimator;
 
         StartCoroutine(ClickTimer());
     }

@@ -1,4 +1,5 @@
-﻿using Fabrique;
+﻿using System.IO;
+using Fabrique;
 using UnityEngine;
 using UnityEditor;
 
@@ -49,8 +50,29 @@ public class FabriqueTools : EditorWindow
         }
         
        if (AlignCameraInput()) AlignCamera();
-    }
+       
+       if (GUILayout.Button("Generate unique ID's for all ID's in scene"))
+       {
+           ID[] ids = FindObjectsOfType<ID>();
+           foreach (ID id in ids)
+           {
+               id.GenerateGuid();
+               EditorUtility.SetDirty(id);
+           }
+       }
 
+       if (GUILayout.Button("Delete SaveData manually"))
+       {
+           if (Directory.Exists(Application.persistentDataPath)) 
+           {
+               var files = Directory.GetFiles(Application.persistentDataPath);
+               foreach (var file in files)
+               {
+                   File.Delete(file);
+               }
+           }
+       }
+    }
    
     public static void OnSceneGUI(SceneView sceneview)
     {

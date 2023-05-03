@@ -50,8 +50,13 @@ public class MiniGameSystem : GameSystem
         }
     }
 
-    public override void HandleInput()
+    public override void HandleInput(bool isInputBlocked)
     {
+        if (isInputBlocked)
+        {
+            return;
+        }
+
         if (Input.GetMouseButton(0) && _onCooldown == false)
         {
             Vector3 currentTarget = Input.mousePosition;
@@ -62,7 +67,7 @@ public class MiniGameSystem : GameSystem
             {
                 Debug.DrawLine(Camera.allCameras[0].transform.position, hit.point);
 
-                Debug.Log("Hit " + hit.transform.name);
+                //Debug.Log("Hit " + hit.transform.name);
 
                 if (hit.transform.TryGetComponent(out IClickable clickable))
                 {

@@ -5,7 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MiniGame : MonoBehaviour/*, IDataPersistence*/
+[RequireComponent(typeof(ID))]
+public class MiniGame : MonoBehaviour, IDataPersistence
 {
     #region Events
 
@@ -17,42 +18,56 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     {
         public bool SuccessfullyCompleted;
     }
-    
+
     #endregion
 
     #region EditorFields
+
+    [SerializeField]
+    private ID _id;
 
     /// <summary>
     /// Reference to the game object that is used to quit the minigame.
     /// </summary>
     [SerializeField]
     private GameObject _exitGameObject;
-    
-    [SerializeField] 
+
+    [SerializeField]
     protected bool _hasBeenCompleted = false;
 
-    [SerializeField] 
+    [SerializeField]
     private Step[] _steps;
 
     [SerializeField]
     private bool _isLooping = false;
 
-    #endregion
-   
-    #region Fields
+    [SerializeField]
+    private bool _isAutoSaving = false;
     
-    protected int _currentStepIndex = 0;
+    #endregion
 
+    #region Fields
+
+    protected int _currentStepIndex = 0;
+    protected bool _shouldSaveData = true;
+    private int _indexToSave = 0;
+    
     #endregion
 
     #region Properties
 
-    protected bool IsCurrentStepIndexInRange => _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
+    protected bool IsCurrentStepIndexInRange =>
+        _currentStepIndex < _steps.Length && 0 < _steps.Length && 0 <= _currentStepIndex;
 
     #endregion
-    
-    private void Awake()
+
+    protected virtual void Awake()
     {
+        if (_id == null)
+        {
+            _id = GetComponent<ID>();
+        }
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
@@ -70,15 +85,18 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
     {
         if (IsCurrentStepIndexInRange) _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
     }
-    
+
     private void OnStepCompleted(bool autoSave)
     {
         _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
         _currentStepIndex++;
-        
+
         // Saves current index
-        if (autoSave) DataPersistenceManager.Instance.SaveGame();
-        
+        if (autoSave)
+        {
+            _indexToSave = _currentStepIndex;
+        }
+
         if (IsCurrentStepIndexInRange == false)
         {
             if (_isLooping)
@@ -87,8 +105,10 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
                 _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
                 _steps[_currentStepIndex].OnEnter();
             }
+
             return;
         }
+
         _steps[_currentStepIndex].StepCompleted += OnStepCompleted;
         _steps[_currentStepIndex].OnEnter();
     }
@@ -110,7 +130,7 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
             if (forceEndStep) _steps[_currentStepIndex].ForceEnd();
             _steps[_currentStepIndex].StepCompleted -= OnStepCompleted;
         }
-        
+
         for (int i = 0; i < _steps.Length; i++)
         {
             if (newStep == _steps[i])
@@ -121,7 +141,7 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
                 return;
             }
         }
-        
+
         Debug.LogError(newStep.name + " was not found in the list of steps of this MiniGame!");
     }
 
@@ -130,13 +150,34 @@ public class MiniGame : MonoBehaviour/*, IDataPersistence*/
         _exitGameObject.SetActive(true);
     }
 
-    //public void LoadData(GameData data)
-    //{
-    //    _currentStepIndex = data.MiniGameStepIndex;
-    //}
+    public void LoadData(GameData data)
+    {
+        if (!_shouldSaveData)
+        {
+            return;
+        }
+        
+        if (_id == string.Empty)
+        {
+            Debug.LogWarning("No id yet made! Please generate one!");
+            return;
+        }
 
-    //public void SaveData(ref GameData data)
-    //{
-    //    data.MiniGameStepIndex = _currentStepIndex;
-    //}
+        if (data.MinigamesIndices.ContainsKey(_id))
+        {
+            _currentStepIndex = data.MinigamesIndices[_id];
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        if (!_shouldSaveData)
+        {
+            return;
+        }
+
+        var indexToSave = _isAutoSaving ? _indexToSave : _currentStepIndex;
+        
+        data.MinigamesIndices[_id] = indexToSave;
+    }
 }

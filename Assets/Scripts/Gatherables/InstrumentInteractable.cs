@@ -8,12 +8,11 @@ public class InstrumentInteractableData
     public bool Finished;
 }
 
-
+[RequireComponent(typeof(ID))]
 public class InstrumentInteractable : MonoBehaviour, IDataPersistence
 {
     public delegate void InteractableDelegate();
     public event InteractableDelegate OnInteracted;
-
 
     [Header("Instrument I Need")]
     [SerializeField]
@@ -33,8 +32,6 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
     [Header("Balloon Thinking")]
     [SerializeField]
     private GameObject _thinkingBalloon;
-    //[SerializeField]
-    //private Animator _thinkingBalloonAnimator;
     [SerializeField]
     private GameObject _spriteThinkingToSpawnInstrumentIn;
 
@@ -54,25 +51,29 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
     [SerializeField]
     private List<GameObject> _prefabsToSpawnInBalloonsInteraction = new List<GameObject>();
 
-
+    [SerializeField]
+    private ID _id;
 
     private void Start()
     {
-        // subscribe event
-        _interactionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
-
-        // create the correct visual in the bubbles
-        CreateVisualInBalloons();
-        // disable balloons on start
-        DisableBalloonsOnStart();
-
-        // if Im finished, disable my colliders
         if (Finished == true)
         {
+            // if Im finished, disable my colliders
             _placeOfInterest.HideIconPermanently();
+            _instrumentInteraction.HideInteraction();
         }
-    }
+        else
+        {
+            // subscribe event
+            _interactionBalloon.OnBalloonClicked += OnInteractBalloonClicked;
 
+            // create the correct visual in the bubbles
+            CreateVisualInBalloons();
+        }
+
+        // disable balloons on start
+        DisableBalloonsOnStart();
+    }
 
     protected virtual void OnInteractBalloonClicked(Balloon sender, Player player)
     {
@@ -85,14 +86,14 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         _interactionBalloonAnimator.Play("Clicked");
         // hide the icon
         _placeOfInterest.HideIconPermanently();
+        // set finished bool
+        Finished = true;
 
         OnInteracted?.Invoke();
-        Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
+        //Debug.Log("Interacted with: " + sender.gameObject.name + " by player:" + player.gameObject.name);
 
         DataPersistenceManager.Instance.SaveGame();
     }
-
-
 
     // called in InstrumentInteractionOfInterest
     public void ShowInstrumentPopup()
@@ -101,16 +102,15 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         if (InstrumentController.Instance.EquipedInstrument == InstrumentRequired)
         {
             // bubble click
-            _interactionBalloon.gameObject.SetActive(true);
-            _currentlyActiveBalloon = _interactionBalloon.gameObject;
+            ShowInstrumentClick();
         }
         else
         {
             // bubble transparent
-            _thinkingBalloon.SetActive(true);
-            _currentlyActiveBalloon = _thinkingBalloon;
+            ShowInstrumentThink();
         }
     }
+
     public void HideInstrumentPopup()
     {
         if (_currentlyActiveBalloon != null)
@@ -120,7 +120,29 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         _currentlyActiveBalloon = null;
     }
 
+    public void ShowInstrumentClick()
+    {
+        if (Finished)
+        {
+            return;
+        }
 
+        _thinkingBalloon.SetActive(false);
+        _interactionBalloon.gameObject.SetActive(true);
+        _currentlyActiveBalloon = _interactionBalloon.gameObject;
+    }
+
+    public void ShowInstrumentThink()
+    {
+        if (Finished)
+        {
+            return;
+        }
+
+        _interactionBalloon.gameObject.SetActive(false);
+        _thinkingBalloon.SetActive(true);
+        _currentlyActiveBalloon = _thinkingBalloon;
+    }
 
     private void CreateVisualInBalloons()
     {
@@ -133,6 +155,7 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
             Instantiate(chosenInstrumentInteraction, _spriteInteractionToSpawnInstrumentIn.transform);
         }
     }
+    
     private void DisableBalloonsOnStart()
     {
         _thinkingBalloon.SetActive(false);
@@ -141,29 +164,33 @@ public class InstrumentInteractable : MonoBehaviour, IDataPersistence
         _currentlyActiveBalloon = null;
     }
 
-
-
-
     public void LoadData(GameData data)
     {
-        if (data.InstrumentInteractionSavedData.ContainsKey(gameObject.name))
+        if (data.InstrumentInteractionSavedData.ContainsKey(_id))
         {
             // get the correct key...
-            var instrumentInteractionData = data.InstrumentInteractionSavedData[gameObject.name];
+            var instrumentInteractionData = data.InstrumentInteractionSavedData[_id];
 
             // get the value 
             Finished = instrumentInteractionData.Finished;
+            _instrumentInteraction.IsCompleted = Finished;
         }
     }
 
     public void SaveData(ref GameData data)
     {
+        if (_id == string.Empty)
+        {
+            Debug.LogWarning("No id yet made! Please generate one!");
+            return;
+        }
+
         InstrumentInteractableData instrumentInteractionData = new InstrumentInteractableData();
 
         // assign current bool, to the data bool
-        instrumentInteractionData.Finished = Finished;
+        instrumentInteractionData.Finished = Finished && _instrumentInteraction.IsCompleted;
         
         // update the data using correct key
-        data.InstrumentInteractionSavedData[gameObject.name] = instrumentInteractionData;
+        data.InstrumentInteractionSavedData[_id] = instrumentInteractionData;
     }
 }

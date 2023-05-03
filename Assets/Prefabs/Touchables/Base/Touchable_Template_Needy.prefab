@@ -14,29 +14,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pickup:
     Clip: {fileID: 8300000, guid: 02cab0b92f54b3945b7f926f22cf5d49, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 1
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Drop:
     Clip: {fileID: 8300000, guid: a79c13ac9fe1fb6479133d7e484431e1, type: 3}
+    RandomizeClips: 0
+    Clips: []
     Type: 4
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 1
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   Disappear:
     Clip: {fileID: 0}
+    RandomizeClips: 0
+    Clips: []
     Type: 0
     Volume: 1
     Pitch: 1
     RandomizePitchSlightly: 0
     PitchLowerLimitAddition: 0.2
     PitchUpperLimitAddition: 0.2
+    RangeLimit: 0
+    PitchLowerLimitRange: 1
+    PitchUpperLimitRange: 1
   _interactableOfInterest: {fileID: 0}
+  MySpriteParent: {fileID: 8170736111691425248}
 --- !u!114 &7480358577237527784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a9c10a399317646b91578d434f6400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 8170736112053791994}
+  _spriteRenderers: []
   _shineDelayMin: 2
   _shineDelayMax: 4
   _isShineActive: 1
@@ -98,6 +114,11 @@ PrefabInstance:
     - target: {fileID: 2912451131937936344, guid: 65d160319ceef1e448e2d8b85cc6e585,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4156704443329427868, guid: 65d160319ceef1e448e2d8b85cc6e585,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5867317360035598570, guid: 65d160319ceef1e448e2d8b85cc6e585,
@@ -265,15 +286,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2229619616105882280}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8170736112053791992 stripped
+--- !u!1 &8170736111691425248 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 8040466911535287888, guid: 65d160319ceef1e448e2d8b85cc6e585,
+  m_CorrespondingSourceObject: {fileID: 8040466911645468488, guid: 65d160319ceef1e448e2d8b85cc6e585,
     type: 3}
   m_PrefabInstance: {fileID: 2229619616105882280}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &8170736112053791994 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8040466911535287890, guid: 65d160319ceef1e448e2d8b85cc6e585,
+--- !u!1 &8170736112053791992 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8040466911535287888, guid: 65d160319ceef1e448e2d8b85cc6e585,
     type: 3}
   m_PrefabInstance: {fileID: 2229619616105882280}
   m_PrefabAsset: {fileID: 0}

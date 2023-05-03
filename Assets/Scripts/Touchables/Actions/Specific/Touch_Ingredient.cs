@@ -5,6 +5,10 @@ using UnityEngine.Rendering;
 
 public class Touch_Ingredient : Touch_Physics
 {
+    public delegate void TouchMoveIngredientDelegate(Touch_Physics_Object_Ingredient thisTouchMove);
+    public event TouchMoveIngredientDelegate OnDrop;
+
+
     [SerializeField]
     private Type_Ingredient _typeOfIngredient;
 
@@ -13,13 +17,45 @@ public class Touch_Ingredient : Touch_Physics
     [SerializeField]
     private GameObject _raycastTestObject;
 
+    [SerializeField]
+    private RecipeController _recipeController;
+
+
     protected override void AddPhysicsScript(GameObject spawnedObj = null)
     {
         _touchPhysicIngr = spawnedObj.AddComponent<Touch_Physics_Object_Ingredient>();
+
         _touchPhysicIngr.TypeOfIngredient = _typeOfIngredient;
         _touchPhysicIngr.SourceIComeFrom = this;
 
+        // assign this in the entrance trigger
+        _recipeController.EntranceIngredients.CurrentlyDroppedIngredient = _touchPhysicIngr;
+
+        OnDrop += OnDropping;
+
         _physicsScriptOnSpawnedObject = spawnedObj.GetComponent<Touch_Physics_Object>();      
+    }
+
+
+    private void OnDropping(Touch_Physics_Object_Ingredient obj)
+    {
+        // Unsubscribe so ingredient doesn't get absorbed twice
+        OnDrop -= OnDropping;
+
+        // Raycast to check if mouse is above chest
+        Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        LayerMask mask = LayerMask.GetMask("IngredientTriggers");
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+        {
+            if (hit.collider.gameObject == _recipeController.CauldronRaycast.gameObject) // GIVE PROPER IF STATEMENT
+            {
+                // absorb ingredient
+                _recipeController.EntranceIngredients.AbsorbIngredient(_recipeController.EntranceIngredients.CurrentlyDroppedIngredient);
+            }
+        }
     }
 
 
@@ -45,20 +81,6 @@ public class Touch_Ingredient : Touch_Physics
         Ray ray = GameManager.Instance.CurrentCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        //if (Physics.Raycast(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection, out _hit, Mathf.Infinity, _touchableScript.LayersToCastOn, QueryTriggerInteraction.Collide))
-        //{
-        //    Debug.Log(_hit.collider + " collider hit");
-
-        //    Debug.DrawRay(GameManager.Instance.MainCameraScript.PointForRaycasting.transform.position, newDirection * _hit.distance, Color.yellow);
-
-        //    _mouseWorldPositionXYZ = _hit.point;
-        //    _spawnedObject.transform.position = _mouseWorldPositionXYZ;
-        //    if (_raycastTestObject != null)
-        //    {
-        //        _raycastTestObject.transform.position = _mouseWorldPositionXYZ;
-        //    }
-
-        //}
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, _touchableScript.LayersToCastOn))
         {
@@ -98,6 +120,8 @@ public class Touch_Ingredient : Touch_Physics
 
         GameManager.Instance.BlockInput = false;
 
+        OnDrop?.Invoke(_recipeController.EntranceIngredients.CurrentlyDroppedIngredient);
+
         this.enabled = false;
     }
 
@@ -115,7 +139,11 @@ public class Touch_Ingredient : Touch_Physics
         
         // Stop physics update and set sorting layer
         StartCoroutine(base.StopPhysicsUpdate(0f, rigidSpawnedobject, collSpawnedObject));
-        sortingGroup.sortingOrder = 0;
+        if (sortingGroup != null)
+        {
+            sortingGroup.sortingOrder = 0;
+        }
+        
     }
 
 }

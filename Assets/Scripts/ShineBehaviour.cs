@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Profiling;
 
 public class ShineBehaviour : MonoBehaviour
 {
@@ -57,14 +58,19 @@ public class ShineBehaviour : MonoBehaviour
 
             // Set texture parameters
             Texture2D texture = GetSlicedSpriteTexture(renderer.sprite);
-            Rect rect = new Rect(0, 0, texture.width, texture.height);
-            var sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f), 100, 5);
-            renderer.sprite = sprite;
+            if (texture)
+            {
+                Rect rect = new Rect(0, 0, texture.width, texture.height);
+                var sprite = Sprite.Create(texture, rect, new Vector2(.5f, .5f), 100, 5);
+                renderer.sprite = sprite;
+            }
         }
     }
 
     private IEnumerator MoveShine(SpriteRenderer renderer)
     {
+        // Wait until end of frame to not disrupt textures that are being rendered right now
+        yield return new WaitForEndOfFrame();
         SetParameters();
 
         // Delay shine at game start
@@ -116,16 +122,31 @@ public class ShineBehaviour : MonoBehaviour
     /// <returns></returns>
     Texture2D GetSlicedSpriteTexture(Sprite sprite)
     {
+        // Does sprite exist
+        if (!sprite)
+        {
+            return null;
+        }
+
+        // Is texture sliced or not?
+        Rect rect = sprite.rect;
+        if (rect.width == sprite.texture.width && rect.height == sprite.texture.height)
+        {
+            return null;
+        }
+
         // Reference:
         // https://forum.unity.com/threads/c-get-texture-from-sprite-slice-for-animating-mesh-texture.801315/
-        Rect rect = sprite.rect;
+        
+        // Set texture size and parameters
         Texture2D slicedTex = new Texture2D((int)rect.width, (int)rect.height);
         slicedTex.filterMode = sprite.texture.filterMode;
 #if UNITY_IOS
         Color[] colors = GetPixelsInRect(sprite.texture, (int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
         slicedTex.SetPixels(0, 0, (int) rect.width, (int) rect.height, colors);
 #else
-    Color[] colors;
+        // Get texture colors from appropriate location on original texture
+        Color[] colors;
         switch (sprite.texture.format)
         {
             case TextureFormat.DXT1Crunched:
@@ -139,22 +160,54 @@ public class ShineBehaviour : MonoBehaviour
                 break;
         }
 
+        // Set pixels
         slicedTex.SetPixels(0, 0, (int)rect.width, (int)rect.height, colors);
 #endif
         slicedTex.Apply();
 
         return slicedTex;
+        //return ScaleTexture(sprite.texture, slicedTex);
     }
+
+    /// <summary>
+    /// Fixes the issue where setting a different max size of an image, makes these cut out textures smaller.
+    /// Issue stems off of pixel size now being smaller than the original which we read in
+    /// </summary>
+    //private Texture2D ScaleTexture(Texture2D parentTexture, Texture2D slicedTexture)
+    //{
+    //    //https://forum.unity.com/threads/getting-original-size-of-texture-asset-in-pixels.165295/
+
+    //    float percentage = 1f;
+
+    //    // Get the asset path to texture and get its original measurements
+    //    string assetPath = AssetDatabase.GetAssetPath(parentTexture);
+    //    TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+
+    //    if (importer)
+    //    {
+    //        object[] args = new object[2] { 0, 0 };
+    //        MethodInfo mi = typeof(TextureImporter).GetMethod("GetWidthAndHeight", BindingFlags.NonPublic | BindingFlags.Instance);
+    //        mi.Invoke(importer, args);
+
+    //        int originalWidth = (int)args[0];
+    //        percentage = (float)originalWidth / parentTexture.width;
+    //    }
+
+    //    if (Equals(percentage, 1f))
+    //    {
+    //        return slicedTexture;
+    //    }
+
+    //    // Scale texture based on original texture size
+    //    Texture2D scaledTex = new Texture2D((int)(slicedTexture.width * percentage), (int)(slicedTexture.height * percentage));
+    //    Graphics.ConvertTexture(slicedTexture, scaledTex);
+
+    //    return scaledTex;
+    //}
 
     /// <summary>
     /// Gets pixels inside given rectangle. Use GetPixels insted if image is not crunched.
     /// </summary>
-    /// <param name="texture"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    /// <returns></returns>
     private Color[] GetPixelsInRect(Texture2D texture, int x, int y, int width, int height)
     {
         var colors32 = texture.GetPixels32();

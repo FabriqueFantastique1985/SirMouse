@@ -9,6 +9,10 @@ public class InteractionLevelChange : Interaction
     [SerializeField]
     private SceneType _sceneToTeleportTo;
 
+    [SerializeField]
+    private Transform _spawnPosition;
+    public Transform SpawnPosition => _spawnPosition;
+
     [Header("this Value should be == to Value of the desired spawn in next scene")]
     public int SpawnValue;
 
@@ -16,6 +20,7 @@ public class InteractionLevelChange : Interaction
     {
         base.SpecificAction(player);
 
-        SceneController.SceneControllerInstance.Load(_sceneToTeleportTo, null, false, PageType.Loading, SpawnValue);
+        player.SetState(new IdleState(player));
+        SceneController.Instance.Load(_sceneToTeleportTo, null, false, PageType.Loading, SpawnValue);
     }
 }

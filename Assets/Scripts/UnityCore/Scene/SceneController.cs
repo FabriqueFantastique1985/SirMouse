@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityCore.Audio;
@@ -11,23 +10,23 @@ namespace UnityCore
 {
     namespace Scene
     {
-        public class SceneController : MonoBehaviour
+        public class SceneController : MonoBehaviourSingleton<SceneController>
         {
             public delegate void SceneLoadDelegate(SceneType scene);
 
-            public static SceneController SceneControllerInstance;
-
-
             private PageController m_Menu;
+
             private PageController _menu
             {
                 get
                 {
                     var instance = PageController.Instance;
-                    if (instance == null) Debug.Log("You are trying to access the Pagecontroller, but no instance was found.");
+                    if (instance == null)
+                        Debug.Log("You are trying to access the Pagecontroller, but no instance was found.");
                     return instance;
                 }
             }
+
             private SceneType m_TargetScene;
             private PageType m_LoadingPage;
             private SceneLoadDelegate m_SceneLoadDelegate;
@@ -35,34 +34,20 @@ namespace UnityCore
 
             private string CurrentSceneName
             {
-                get
-                {
-                    return SceneManager.GetActiveScene().name;
-                }
+                get { return SceneManager.GetActiveScene().name; }
             }
 
             private int _nextSceneSpawnLocationValue;
 
 
-
             #region Unity Functions
 
-            private void Awake()
+            protected override void Awake()
             {
-                if (SceneControllerInstance == null)
-                {
-                    Configure();
-                    
-                    if (gameObject.transform.parent)
-                        DontDestroyOnLoad(gameObject.transform.parent);
-                    else
-                        DontDestroyOnLoad(gameObject);
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
+                base.Awake();
+                Configure();
             }
+
             private void OnDisable()
             {
                 Dispose();
@@ -73,11 +58,9 @@ namespace UnityCore
 
             #region Public Functions
 
-            public void Load(SceneType scene,
-                             SceneLoadDelegate sceneLoadDelegate = null,
-                             bool reload = false,
-                             PageType loadingPage = PageType.None,
-                             int spawnLocationValue = 0)
+            public void Load(SceneType scene, SceneLoadDelegate sceneLoadDelegate = null, bool reload = false,
+                PageType loadingPage = PageType.None,
+                int spawnLocationValue = 0)
             {
                 if (loadingPage != PageType.None && _menu == null)
                 {
@@ -108,9 +91,9 @@ namespace UnityCore
 
             private void Configure()
             {
-                SceneControllerInstance = this;
                 SceneManager.sceneLoaded += OnSceneLoaded;
             }
+
             private void Dispose()
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -142,23 +125,31 @@ namespace UnityCore
                     }
                 }
 
-
-                // updating the playfield and colliders I can cast on // TWEAK THIS
-                GameManager.Instance.PlayField = FindObjectOfType<PlayField>();
-
-                GameManager.Instance.AdjustGameSystem(GameManager.Instance.PlayField.GroundColliders);
-
-                // remove audiotracks where source is null
+                // remove audio tracks where source is null
                 AudioController.Instance.VerifyAudioTracks();
 
+                // only do these things if the loaded scene is a gameplay scene //
+                if (m_TargetScene != SceneType.MainMenu)
+                {
+                    PageController.Instance.FullyHideUIButtons(false);
+                    PageController.Instance.ShowGameplayHUD(true);
 
-                // setting the player at the correct position
-                SpawnPlayerOnCorrectPosition();
+                    // updating the playfield and colliders I can cast on // TWEAK THIS
+                    GameManager.Instance.PlayField = FindObjectOfType<PlayField>();
+                    GameManager.Instance.AdjustGameSystem(GameManager.Instance.PlayField.GroundColliders);
+                    // setting the player at the correct position
+                    SpawnPlayerOnCorrectPosition();
+                }
+                else
+                {
+                    Debug.Log("loaded main menu, should have UI hidden");
+                }
+
 
                 if (m_LoadingPage != PageType.None)
                 {
-                    await Task.Delay(1000); 
-                    _menu.TurnPageOff(m_LoadingPage); 
+                    await Task.Delay(1000);
+                    _menu.TurnPageOff(m_LoadingPage);
                 }
 
                 m_SceneIsLoading = false;
@@ -178,11 +169,12 @@ namespace UnityCore
                         // if the spawnvalues integer == the value on this script...
                         if (spawnScript.SpawnValue == _nextSceneSpawnLocationValue)
                         {
-                            Debug.Log("Spawning player at " + spawnScript.name);
+                            //Debug.Log("Spawning player at " + spawnScript.name);
 
                             // move the player over there
                             player.Agent.enabled = false;
-                            player.transform.position = spawnScript.transform.position;
+                            //player.transform.position = spawnScript.transform.position;
+                            player.transform.position = spawnScript.SpawnPosition.position;
                             player.Agent.enabled = true;
 
                             foundSpawn = true;
@@ -211,16 +203,13 @@ namespace UnityCore
                 if (m_LoadingPage != PageType.None)
                 {
                     _menu.TurnPageOn(m_LoadingPage);
-
-                    while (_menu.PageIsOn(m_LoadingPage) == false)
-                    {
-                        yield return null;
-                    }
+                    yield return new WaitUntil(() => _menu.PageIsOn(m_LoadingPage));
                 }
 
                 string targetSceneName = SceneTypeToString(m_TargetScene);
-                SceneManager.LoadScene(targetSceneName);
+                SceneManager.LoadScene(targetSceneName, LoadSceneMode.Single);
             }
+
             private bool SceneCanBeLoaded(SceneType scene, bool reload)
             {
                 string targetSceneName = SceneTypeToString(scene);
@@ -237,7 +226,8 @@ namespace UnityCore
                 }
                 else if (m_SceneIsLoading == true)
                 {
-                    Debug.Log("Unable to load scene [" + scene + "]. Another scene [" + m_TargetScene + "] is already loading.");
+                    Debug.Log("Unable to load scene [" + scene + "]. Another scene [" + m_TargetScene +
+                              "] is already loading.");
                     return false;
                 }
 
@@ -250,7 +240,7 @@ namespace UnityCore
                 switch (scene)
                 {
                     case SceneType.Koen_Testing_All_Start: return "Koen_Testing_All_Start";
-                    case SceneType.Koen_Playground_Menu: return "Koen_Playground_Menu";
+                    case SceneType.MainMenu: return "MainMenu";
                     case SceneType.Koen_Testing_All: return "Koen_Testing_All";
                     case SceneType.Koen_Playground_Game_2: return "Koen_Playground_Game_2";
                     case SceneType.Castle_Basement_Center: return "Castle_Basement_Center";
@@ -276,12 +266,13 @@ namespace UnityCore
                         return string.Empty;
                 }
             }
+
             private SceneType StringToSceneType(string scene)
             {
                 switch (scene)
                 {
                     case "Koen_Testing_All_Start": return SceneType.Koen_Testing_All_Start;
-                    case "Koen_Playground_Menu": return SceneType.Koen_Playground_Menu;
+                    case "MainMenu": return SceneType.MainMenu;
                     case "Koen_Testing_All": return SceneType.Koen_Testing_All;
                     case "Koen_Playground_Game_2": return SceneType.Koen_Playground_Game_2;
                     case "Castle_Basement_Center": return SceneType.Castle_Basement_Center;
@@ -312,4 +303,3 @@ namespace UnityCore
         }
     }
 }
-

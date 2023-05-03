@@ -15,6 +15,8 @@ public class IngredientEntranceTrigger : MonoBehaviour
 
     public AudioElement Splash;
 
+    public Touch_Physics_Object_Ingredient CurrentlyDroppedIngredient;
+
     private void Start()
     {
         _cauldronAnimator = _recipeController.CauldronAnimator;
@@ -22,34 +24,48 @@ public class IngredientEntranceTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Touch_Physics_Object_Ingredient touchablePhysicsIngredient))
+        // Get thouch physics object and rigidbody
+        if (other.TryGetComponent(out Touch_Physics_Object_Ingredient touchablePhysicsIngredient) && other.TryGetComponent(out Rigidbody rigidbody))
         {
-            if (touchablePhysicsIngredient.LetGo == true)
+            // Check if let go and if object is falling
+            if (touchablePhysicsIngredient.LetGo == true && rigidbody.velocity.y < 0.1f)
             {
-                if (_recipeController.MinigameActive == true)
-                {
-                    _recipeController.StartCoroutine(_recipeController.UpdateRecipeStatus(touchablePhysicsIngredient.TypeOfIngredient));
-                }
-                else
-                {
-                    StartCoroutine(AddNonMinigameIngredientToCauldron(touchablePhysicsIngredient));
-                }
-                
-                // destroy the ingredient AND first remove it from the list of its spawned objects
-                touchablePhysicsIngredient.SourceIComeFrom.RemoveObjectFromList(touchablePhysicsIngredient.gameObject);
-                Destroy(touchablePhysicsIngredient.gameObject);
-
-                // play particle splash
-                _recipeController.ParticleSplash.Play(true); // particle needs to be burst here!
-
-                // play sound
-                if (Splash.Clip != null)
-                {
-                    AudioController.Instance.PlayAudio(Splash);
-                }        
+                AbsorbIngredient(touchablePhysicsIngredient);
             }
         }
     }
+
+
+    // called when it falls into the cauldron OR raycast onto the kettle
+    public void AbsorbIngredient(Touch_Physics_Object_Ingredient touchablePhysicsIngredient)
+    {
+        // Disable collider to avoid double registering of ingredient 
+        touchablePhysicsIngredient.gameObject.GetComponent<Collider>().enabled = false;
+
+        if (_recipeController.MinigameActive == true)
+        {
+            _recipeController.StartCoroutine(_recipeController.UpdateRecipeStatus(touchablePhysicsIngredient.TypeOfIngredient));
+        }
+        else
+        {
+            StartCoroutine(AddNonMinigameIngredientToCauldron(touchablePhysicsIngredient));
+        }
+
+        // destroy the ingredient AND first remove it from the list of its spawned objects
+        touchablePhysicsIngredient.SourceIComeFrom.RemoveObjectFromList(touchablePhysicsIngredient.gameObject);
+        Destroy(touchablePhysicsIngredient.gameObject);
+
+        // play particle splash
+        _recipeController.ParticleSplash.Play(true); // particle needs to be burst here!
+
+        // play sound
+        if (Splash.Clip != null)
+        {
+            AudioController.Instance.PlayAudio(Splash);
+        }
+    }
+
+
 
 
     private IEnumerator AddNonMinigameIngredientToCauldron(Touch_Physics_Object_Ingredient ingredient)

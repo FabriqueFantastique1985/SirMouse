@@ -4,10 +4,8 @@ using UnityCore.Menus;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BackpackController : MonoBehaviour
+public class BackpackController : MonoBehaviourSingleton<BackpackController>
 {
-    public static BackpackController BackpackInstance { get; private set; }
-
     public static List<Type_Pickup> ItemsInBackpack = new List<Type_Pickup>();
     public static List<ButtonPickupBackpack> ItemButtonsInBackpack = new List<ButtonPickupBackpack>();
     public static List<GameObject> InteractablesInBackpack = new List<GameObject>();
@@ -46,28 +44,6 @@ public class BackpackController : MonoBehaviour
     [Header("Reference UI Overlay")]
     [SerializeField]
     private GameObject _buttonBackpackReference;
-
-
-    #region Unity Functions
-
-    private void Awake()
-    {
-        // Singleton 
-        if (BackpackInstance != null && BackpackInstance != this)
-        {
-            Destroy(this);
-            return;
-        }
-        BackpackInstance = this;
-
-        if (gameObject.transform.parent)
-            DontDestroyOnLoad(BackpackInstance.transform.parent);
-        else
-            DontDestroyOnLoad(BackpackInstance);
-    }
-
-    #endregion
-
 
     #region Public Functions
 

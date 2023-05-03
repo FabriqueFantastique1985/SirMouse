@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class SirMouseState
 {
@@ -42,7 +43,7 @@ public abstract class SirMouseState
 public class WalkingState : SirMouseState
 {
     // Minimum distance to reach for reaching the destination.
-    private const float _minDistanceFromTarget = 0.1f;
+    private const float _minDistanceFromTarget = 0.15f;
     private Vector3 _target;
     
     public WalkingState(Player player, Vector3 target) : base(player)
@@ -68,10 +69,34 @@ public class WalkingState : SirMouseState
 
     public override SirMouseState Update(Player player)
     {
+        // Set the direction of the player
+        Direction = GetDirection(player, player.Agent.path);
+        player.Character.SetCharacterMirrored(IsMirrored);
+        
+        // check if the player reached the target
         float sqrDistToTarget = (player.transform.position - _target).sqrMagnitude;
         if (sqrDistToTarget < _minDistanceFromTarget * _minDistanceFromTarget) player.SetState(new IdleState(player));
-
+        
         return null;
+    }
+
+    private Vector3 GetDirection(Player player, NavMeshPath path)
+    {
+        if (path != null && path.corners.Length > 1)
+            return path.corners[1] - player.transform.position;
+        return Direction;
+    }
+    
+    public void DrawPath(NavMeshPath path, Transform player)
+    {
+        if (path.corners.Length < 2) //if the path has 1 or no corners, there is no need
+            return;
+
+        for (var i = 1; i < path.corners.Length; i++)
+        {
+            if (i == 0) Debug.DrawLine(player.transform.position, path.corners[i], Color.red);
+            else Debug.DrawLine(path.corners[i - 1], path.corners[i], Color.red);
+        }
     }
 }
 
@@ -169,8 +194,6 @@ public class DropState : SirMouseState
         
         player.Character.InteractionDoneEvent -= OnInteractionDone;
         player.Character.EnteredIdleEvent -= OnEnteredIdle;
-
-
     }
 
     private void OnInteractionDone(Character.States state)
@@ -255,7 +278,7 @@ public class BackpackExtractionState : SirMouseState
     private void OnInteractionDone(Character.States state)
     {
         // 1) put equiped item in backpack 
-        var backPack = BackpackController.BackpackInstance;
+        var backPack = BackpackController.Instance;
         var player = GameManager.Instance.Player;       
         if (player.EquippedItem != null)
         {
@@ -334,6 +357,7 @@ public class InstrumentEquipState : SirMouseState
 
     private void OnInteractionDone(Character.States state)
     {
+        //_player.Character.InteractionDoneEvent -= OnInteractionDone;
         InstrumentController.Instance.EquipInstrument(_instrumentType);
     }
 }
@@ -369,6 +393,40 @@ public class InstrumentUnequipState : SirMouseState
     private void OnInteractionDone(Character.States state)
     {
         InstrumentController.Instance.UnEquipInstrument();
+    }
+
+    private void OnEnteredIdle(Character.States state)
+    {
+        _player.SetState(new IdleState(_player));
+    }
+}
+
+public class SwingState : SirMouseState
+{
+    public SwingState(Player player) : base(player, true)
+    {
+        player.Character.AnimationDoneEvent += OnAnimationDone;
+        player.Character.EnteredIdleEvent += OnEnteredIdle;
+    }
+
+    public override void OnEnter(Player player)
+    {
+        base.OnEnter(player);
+
+        player.Character.SetAnimatorTrigger(Character.States.Swing, IsMirrored);
+    }
+
+    public override void OnExit(Player player)
+    {
+        base.OnExit(player);
+
+        player.Character.AnimationDoneEvent -= OnAnimationDone;
+        player.Character.EnteredIdleEvent -= OnEnteredIdle;
+    }
+
+    private void OnAnimationDone(Character.States state)
+    {
+
     }
 
     private void OnEnteredIdle(Character.States state)
