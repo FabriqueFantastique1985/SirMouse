@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using UnityCore.Audio;
 using UnityCore.Scene;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using Utilities;
 
 public class MainMenu : MonoBehaviour, IDataPersistence
@@ -67,6 +69,29 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     [SerializeField]
     private float _waitTimeForButtonsToPopIn;
 
+
+    [Header("New spashscreen system")]
+    // Spash screens
+    [SerializeField]
+    private PlayableDirector _splashScreen_SM_FF;
+
+    [SerializeField]
+    private VideoPlayer _VAFLeaderVideoPlayer;
+    [SerializeField]
+    private GameObject _VAFLeaderCanvas;
+    [SerializeField]
+    private RawImage _VAFLeaderRawImage;
+
+    [SerializeField]
+    private PlayableDirector _VAFPancarte;
+
+    private IEnumerator _splashScreenCoroutine;
+
+    [SerializeField]
+    private Animation _redBackgroundAnimation;
+    [SerializeField]
+    private Animation _foreGroundAnimation;
+
     private void Start()
     {
         _newGameButton.onClick.AddListener(StartNewGame);
@@ -78,11 +103,14 @@ public class MainMenu : MonoBehaviour, IDataPersistence
         //_continueButton.interactable = DataPersistenceManager.Instance.HasGameData;
         _continueButton.gameObject.SetActive(DataPersistenceManager.Instance.HasGameData);
 
-        // start a coroutine to show the buttons...
-        StartCoroutine(ShowButtons());
+        //// start a coroutine to show the buttons...
+        //StartCoroutine(ShowButtons());
 
-        StartCoroutine(PlaySound(_delayOST, _sourceOST));
-        StartCoroutine(PlaySound(0.8f, _sourceLogoPopup));
+        //StartCoroutine(PlaySound(_delayOST, _sourceOST));
+        //StartCoroutine(PlaySound(0.8f, _sourceLogoPopup));
+        _VAFLeaderCanvas.SetActive(false);
+        _VAFLeaderRawImage.color = Color.black;
+        PlaySpashScreens();
     }
 
     private void ContinueGame()
@@ -195,5 +223,55 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
+    }
+
+    private void PlaySpashScreens()
+    {
+        _splashScreenCoroutine = SplashScreenCoroutine();
+        StartCoroutine(_splashScreenCoroutine);
+    }
+
+    IEnumerator SplashScreenCoroutine()
+    {
+        _splashScreen_SM_FF.Play();
+
+        yield return new WaitForSeconds((float)_splashScreen_SM_FF.duration);
+        _VAFLeaderCanvas.SetActive(true);
+        _VAFLeaderVideoPlayer.Play();
+
+        yield return new WaitForSeconds(0.1f);
+        _VAFLeaderRawImage.color = Color.white;
+
+        yield return new WaitForSeconds((float)_VAFLeaderVideoPlayer.length);
+        _VAFLeaderCanvas.SetActive(false);
+        _VAFPancarte.Play();
+        
+        yield return new WaitForSeconds((float)_VAFPancarte.duration);
+        ShowMenu();
+    }
+
+    public void SkipSequence()
+    {
+        _VAFLeaderCanvas.SetActive(false);
+        _VAFLeaderVideoPlayer.Stop();
+        StopCoroutine(_splashScreenCoroutine);
+        ShowMenu();
+    }
+
+    private IEnumerator ShowMenuBackground()
+    {
+        _redBackgroundAnimation.Play();
+        yield return new WaitForSeconds(1.5f);
+        _foreGroundAnimation.Play();
+
+    }
+
+    private void ShowMenu()
+    {
+        StartCoroutine(ShowMenuBackground());
+        StartCoroutine(ShowButtons());
+
+        StartCoroutine(PlaySound(_delayOST, _sourceOST));
+        StartCoroutine(PlaySound(0.8f, _sourceLogoPopup));
     }
 }
