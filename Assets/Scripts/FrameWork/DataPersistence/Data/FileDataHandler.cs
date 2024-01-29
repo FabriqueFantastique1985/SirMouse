@@ -97,4 +97,11 @@ public class FileDataHandler
             Directory.CreateDirectory(_dataDirPath);
         }
     }
+
+    public void DeleteSaveFile()
+    {
+        string fullPath = Path.Combine(_dataDirPath, _dataFileName);
+        File.Delete(Path.Combine(_dataDirPath, _dataFileName));
+        Debug.Log("Deleted file: " + fullPath);
+    }
 }

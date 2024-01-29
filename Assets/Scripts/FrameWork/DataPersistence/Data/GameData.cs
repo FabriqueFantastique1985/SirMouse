@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 [Serializable]
 public class GameData
 {
+    public string SaveID;
+
     /// <summary>
     /// The last scene the player was in.
     /// </summary>
