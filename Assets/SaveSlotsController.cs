@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class SaveSlotsController : MonoBehaviour
 {
     [SerializeField]
@@ -91,7 +92,6 @@ public class SaveSlotsController : MonoBehaviour
             if (i < AmountSlots)
             {
                 _slots[i].SetActive(true);
-                _slots[i].transform.GetChild(1).GetComponent<Text>().text = gameDataSlots[i].SaveID.ToString();
 
                 // Load and assign the screenshot
                 string screenshotPath = Path.Combine(Application.persistentDataPath, "screenshot" + gameDataSlots[i].SaveID + ".png");
@@ -103,6 +103,8 @@ public class SaveSlotsController : MonoBehaviour
 
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                     _slots[i].GetComponent<Image>().sprite = sprite;
+                    _slots[i].transform.Find("Screenshot").GetComponent<Image>().sprite = sprite;
+                    _slots[i].transform.Find("Border").GetComponent<Image>().color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
                 }
             }
             else
@@ -123,21 +125,36 @@ public class SaveSlotsController : MonoBehaviour
 
         for (int i = 0; i < _slots.Count; i++)
         {
-            _slots[i].transform.GetChild(0).GetComponent<Image>().raycastTarget = SelectedSlot == i;
+            _slots[i].transform.Find("Select_Button").gameObject.SetActive(SelectedSlot == i);
         }
+    }
+
+    private IEnumerator LerpAnimatorLayerWeight(int layerIndex, float duration, bool lerpIn)
+    {
+        float startValue = _animator.GetLayerWeight(layerIndex);
+        float targetValue = lerpIn ? 1 : 0;
+        float time = 0;
+
+        while (time < duration)
+        {
+            _animator.SetLayerWeight(layerIndex, Mathf.Lerp(startValue, targetValue, time / duration));
+            time += Time.deltaTime;
+            yield return null;
+        }
+        _animator.SetLayerWeight(layerIndex, targetValue);
     }
 
     public void HighlightSlot()
     {
         _slotSelectionCanvas.SetActive(false);
         _highlightSlotCanvas.SetActive(true);
-        _animator.SetLayerWeight(1, 1);
+        StartCoroutine(LerpAnimatorLayerWeight(1, 0.2f, true));
     }
 
     public void UnhighlightSlot()
     {
         _slotSelectionCanvas.SetActive(true);
         _highlightSlotCanvas.SetActive(false);
-        _animator.SetLayerWeight(1, 0);
+        StartCoroutine(LerpAnimatorLayerWeight(1, 0.2f, false));
     }
 }
