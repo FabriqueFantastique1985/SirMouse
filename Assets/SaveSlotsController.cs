@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class SaveSlotsController : MonoBehaviour
     private Scrollbar _scrollbar;
     [SerializeField]
     private GameObject _newGameButton;
+    [SerializeField]
+    private GameObject _scrollView;
 
     [SerializeField]
     private GameObject _slotSelectionCanvas;
@@ -39,8 +42,17 @@ public class SaveSlotsController : MonoBehaviour
     [SerializeField]
     private List<GameObject> _slots = new List<GameObject>();
 
+    [SerializeField]
+    private Sprite _brokenSlotAlpha;
+
+    private void Awake()
+    {
+        _newGameButton.transform.localScale = Vector3.zero;
+    }
+
     private void Start()
     {
+        StartCoroutine(ShowNewGameButton());
         SetSelectedSlot();
         UnhighlightSlot();
     }
@@ -104,7 +116,6 @@ public class SaveSlotsController : MonoBehaviour
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                     _slots[i].GetComponent<Image>().sprite = sprite;
                     _slots[i].transform.Find("Screenshot").GetComponent<Image>().sprite = sprite;
-                    _slots[i].transform.Find("Border").GetComponent<Image>().color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
                 }
             }
             else
@@ -146,15 +157,73 @@ public class SaveSlotsController : MonoBehaviour
 
     public void HighlightSlot()
     {
-        _slotSelectionCanvas.SetActive(false);
-        _highlightSlotCanvas.SetActive(true);
+        _scrollView.SetActive(false);
+        //_slotSelectionCanvas.SetActive(false);
+        //_highlightSlotCanvas.SetActive(true);
+        _slots[SelectedSlot].transform.Find("Play_Button").gameObject.SetActive(true);
+        _animator.SetLayerWeight(2, 0);
         StartCoroutine(LerpAnimatorLayerWeight(1, 0.2f, true));
     }
 
     public void UnhighlightSlot()
     {
-        _slotSelectionCanvas.SetActive(true);
-        _highlightSlotCanvas.SetActive(false);
+        _scrollView.SetActive(true);
+        //_slotSelectionCanvas.SetActive(true);
+        //_highlightSlotCanvas.SetActive(false);
+        _slots[SelectedSlot].transform.Find("Play_Button").gameObject.SetActive(false);
         StartCoroutine(LerpAnimatorLayerWeight(1, 0.2f, false));
+    }
+
+    private IEnumerator ShowNewGameButton()
+    {
+        yield return new WaitForSeconds(1);
+        Sequence mySequence = DOTween.Sequence();
+        mySequence.Append(_newGameButton.transform.DOScale(1.5f, 0.3f)).Append(_newGameButton.transform.DOScale(1, 0.1f));
+    }
+
+    public void ButtonPop(Transform button)
+    {
+        Sequence mySequence = DOTween.Sequence();
+        mySequence.Append(button.DOScale(1.5f, 0.1f)).Append(button.DOScale(1, 0.2f));
+    }
+
+    public IEnumerator ButtonHideCoroutine(Transform button)
+    {
+        Sequence mySequence = DOTween.Sequence();
+        mySequence.Append(button.DOScale(1.2f, 0.1f)).Append(button.DOScale(0, 0.1f));
+        yield return new WaitForSeconds(0.2f);
+        button.gameObject.SetActive(false);
+    }
+
+    public void ButtonHide(Transform button)
+    {
+        StartCoroutine(ButtonHideCoroutine(button));
+    }
+
+    public IEnumerator ButtonShowCoroutine(Transform button)
+    {
+        button.gameObject.SetActive(true);
+        Sequence mySequence = DOTween.Sequence();
+        mySequence.Append(button.DOScale(1.5f, 0.1f)).Append(button.DOScale(1, 0.2f));
+        yield return new WaitForSeconds(0.3f);
+    }
+
+    public void ButtonShow(Transform button)
+    {
+        StartCoroutine(ButtonShowCoroutine(button));
+    }
+
+    public void BrokenSlotVisual()
+    {
+        _slots[SelectedSlot].GetComponent<Image>().sprite = _brokenSlotAlpha;
+        _slots[SelectedSlot].transform.Find("Screenshot").GetComponent<Image>().color = new Color(1.0f, 0.5f, 0.5f);
+        _slots[SelectedSlot].transform.Find("Background").gameObject.SetActive(false);
+    }
+
+    public void ReverseBrokenSlotVisual()
+    {
+        _slots[SelectedSlot].GetComponent<Image>().sprite = null;
+        _slots[SelectedSlot].transform.Find("Screenshot").GetComponent<Image>().color = Color.white;
+        _slots[SelectedSlot].transform.Find("Background").gameObject.SetActive(true);
     }
 }
