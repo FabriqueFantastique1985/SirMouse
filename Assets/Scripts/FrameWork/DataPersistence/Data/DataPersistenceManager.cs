@@ -22,7 +22,7 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
     #region Fields
 
     private GameData _gameData;
-    private List<GameData> _gameDataSlots = new List<GameData>();
+    public List<GameData> GameDataSlots = new List<GameData>();
     private List<IDataPersistence> _dataPersistenceObjects;
     private FileDataHandler _dataHandler;
 
@@ -76,11 +76,7 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
         ////OLD
         //LoadGame();
 
-        if (arg0.name == "MainMenuTestScene")
-        {
-            LoadAllSaveSlots();
-        }
-        else
+        if (arg0.name != "MainMenu")
         {
             SetDataToObjects();
             StartCoroutine(SaveScreenshot());
@@ -113,7 +109,7 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
         newGameData.SaveID = GenerateUniqueSaveID();
 
         // Add the new GameData to the list of data slots
-        _gameDataSlots.Add(newGameData);
+        GameDataSlots.Add(newGameData);
 
         // Assign the new GameData to _gameData field because this is the GameData that's currently active
         _gameData = newGameData;
@@ -127,18 +123,33 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
         Loader.Instance.LoadScene("IntroCutscene");
     }
 
-    public void LoadGame()
+    public void CreateNewSaveSlot()
     {
-        _gameData = _gameDataSlots[_saveSlotsController.SelectedSlot];
+        GameData newGameData = new GameData();
+
+        // Assign the SaveID to the GameData based on the amount of data slots
+        newGameData.SaveID = GenerateUniqueSaveID();
+
+        // Add the new GameData to the list of data slots
+        GameDataSlots.Add(newGameData);
+
+        // Assign the new GameData to _gameData field because this is the GameData that's currently active
+        _gameData = newGameData;
+
+        // Initilize the data handler
+        InitializeDataHandler(_gameData.SaveID);
+
+        // Save new GameData to file
+        SaveGame();
+
+        LoadAllSaveSlots();
+    }
+
+    public void LoadGame(int slotIndex)
+    {
+        _gameData = GameDataSlots[slotIndex];
         InitializeDataHandler( _gameData.SaveID);
         _gameData = _dataHandler.Load();
-        
-        //#if UNITY_EDITOR
-        //if (_gameData == null && _initializeDataIfNull)
-        //{
-        //    NewGame();
-        //}
-        //#endif
         
         if (_gameData == null)
         {
@@ -146,12 +157,14 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
             return;
         }
 
-        //foreach (var dataPersistenceObj in _dataPersistenceObjects)
-        //{
-        //    dataPersistenceObj.LoadData(_gameData);
-        //}
-
-        Loader.Instance.LoadScene(_gameData.lastActiveScene);
+        if(_gameData.lastActiveScene == null)
+        {
+            Loader.Instance.LoadScene("IntroCutscene");
+        }
+        else
+        {
+            Loader.Instance.LoadScene(_gameData.lastActiveScene);
+        }
     }
 
     public void SaveGame()
@@ -245,13 +258,13 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
 
 
 
-    private void LoadAllSaveSlots()
+    public void LoadAllSaveSlots()
     {
         // Find all save files in the directory
         string[] saveFiles = System.IO.Directory.GetFiles(Application.persistentDataPath, "SaveSlot_*.json");
 
         // Clear the existing game data slots list
-        _gameDataSlots.Clear();
+        GameDataSlots.Clear();
 
         foreach (string file in saveFiles)
         {
@@ -268,14 +281,12 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
             if (loadedGameData != null)
             {
                 // Add the loaded game data to the list
-                _gameDataSlots.Add(loadedGameData);
+                GameDataSlots.Add(loadedGameData);
 
                 // Print out the details (or handle them as needed)
                 Debug.Log("Loaded save slot: " + saveID);
             }
         }
-
-        _saveSlotsController.InitializeSlots(_gameDataSlots);
     }
 
     private string ExtractSaveIDFromFileName(string fileName)
@@ -291,12 +302,11 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
         }
     }
 
-    public void DeleteSlot()
+    public void DeleteSlot(int slotIndex)
     {
-        InitializeDataHandler(_gameDataSlots[_saveSlotsController.SelectedSlot].SaveID);
+        InitializeDataHandler(GameDataSlots[slotIndex].SaveID);
         _dataHandler.DeleteSaveFile();
         _dataPersistenceObjects.Clear();
-        LoadAllSaveSlots();
     }
 
     public IEnumerator SaveScreenshot()
