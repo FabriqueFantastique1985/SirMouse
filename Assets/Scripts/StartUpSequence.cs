@@ -26,11 +26,9 @@ public class StartUpSequence : MonoBehaviour
 
     private IEnumerator _splashScreenCoroutine;
 
-    [SerializeField]
-    private Animator _titleCanvas;
+    public delegate void SequenceCompleteHandler();
 
-    [SerializeField]
-    private AudioSource _audioSourceOST;
+    public event SequenceCompleteHandler OnSequenceComplete;
 
 
     private void Start()
@@ -73,14 +71,9 @@ public class StartUpSequence : MonoBehaviour
         float seconds = _animationCanvas.clip.length;
         float inBetweenPause = 2;
         yield return new WaitForSeconds(seconds + inBetweenPause);
-        _animationCanvas.transform.gameObject.SetActive(false);
-        TitleScreen();
-    }
 
-    private void TitleScreen()
-    {
-        _titleCanvas.transform.gameObject.SetActive(true);
-        _audioSourceOST.Play();
+        OnSequenceComplete?.Invoke();
+        Destroy(gameObject);
     }
 
     public void SkipVAFLeader()

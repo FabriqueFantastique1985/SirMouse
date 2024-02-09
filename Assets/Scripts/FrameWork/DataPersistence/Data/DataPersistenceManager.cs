@@ -26,9 +26,6 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
     private List<IDataPersistence> _dataPersistenceObjects;
     private FileDataHandler _dataHandler;
 
-    [SerializeField]
-    private SaveSlotsController _saveSlotsController;
-
     #endregion
 
     #region Properties

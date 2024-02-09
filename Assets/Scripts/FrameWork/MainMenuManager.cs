@@ -2,16 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 using DG.Tweening;
+using UnityCore.Audio;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
+    [Header("Start Up")]
+    [SerializeField]
+    private StartUpSequence _startUpSequence;
+    [SerializeField]
+    private Animation _titleLogo;
+    [SerializeField]
+    private bool _playSequence = true;
+    
     [Header("Slots")]
     [SerializeField]
     private ScrollPicker _scrollPicker;
     [SerializeField]
     private RectTransform _slotPrefab;
+    [SerializeField]
+    private int _maxAmountSlots = 10;
 
     [Header("Buttons")]
     [SerializeField]
@@ -25,11 +37,32 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField]
     private Button _deleteButton_C;
 
+    [Header("Audio")]
+    [SerializeField]
+    private AudioSource _OST;
+    [SerializeField]
+    private AudioSource _tada;
+
+    [SerializeField]
+    private AudioElement _popSound;
+    [SerializeField]
+    private AudioElement _wooshSound;
+    [SerializeField]
+    private AudioElement _rulerTwang;
+    [SerializeField]
+    private AudioElement _vaseBroken;
+
+    [Header("Other")]
+    [SerializeField]
+    private Volume _postProcessingVolume;
+
     private DataPersistenceManager _dataPersistenceManager;
+
 
     private enum States
     {
         none,
+        titleScreen,
         scrolling,
         highlighted,
         deleting
@@ -39,7 +72,29 @@ public class MainMenuManager : MonoBehaviour
 
     private void Awake()
     {
-        InitializeMenu();
+        _titleLogo.gameObject.SetActive(false);
+        InitializeMainMenu();
+    }
+
+    private void Start()
+    {
+        if (_playSequence)
+        {
+            StartUpSequence startUpSequence = Instantiate(_startUpSequence);
+            if (_startUpSequence != null)
+            {
+                startUpSequence.OnSequenceComplete += StartUpSequenceComplete;
+            }
+        }
+        else
+        {
+            StartMainMenu();
+        }
+    }
+
+    private void StartUpSequenceComplete()
+    {
+        ShowTitleScreen();
     }
 
     private void FixedUpdate()
@@ -47,6 +102,13 @@ public class MainMenuManager : MonoBehaviour
         switch (_mainMenuState)
         {
             case States.none:
+                break;
+            case States.titleScreen:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _titleLogo.GetComponent<RectTransform>().DOAnchorPosX(1500, 0.3f).OnComplete(() => Destroy(_titleLogo.gameObject));
+                    StartMainMenu();
+                }
                 break;
             case States.scrolling:
                 VisualizePlayButton();
@@ -56,7 +118,8 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    private void InitializeMenu()
+    #region MainMenu
+    private void InitializeMainMenu()
     {
         // Initialize buttons
         _addButton.onClick.AddListener(AddButtonPressed);
@@ -82,15 +145,102 @@ public class MainMenuManager : MonoBehaviour
         InitializeAllSaveSlots();
     }
 
+    private void ShowTitleScreen()
+    {
+        _mainMenuState = States.titleScreen;
+
+        _tada.Play();
+        _titleLogo.gameObject.SetActive(true);
+        _titleLogo.Play();
+    }
+
+    private void StartMainMenu()
+    {
+        _mainMenuState = States.scrolling;
+        _OST.Play();
+
+        // Show Buttons
+        if (_scrollPicker.Slots.Count < _maxAmountSlots)
+        {
+            ShowAnimation(_addButton.transform);
+        }
+        ShowAnimation(_playButton.transform);
+
+        // Scroll picker
+        float positionX = _scrollPicker.transform.position.x;
+        _scrollPicker.transform.position += Vector3.left * 2000;
+        _scrollPicker.gameObject.SetActive(true);
+        _scrollPicker.transform.DOMoveX(positionX, 0.5f, true);
+
+    }
+
+    private void InitializeAllSaveSlots()
+    {
+        for (int i = 0; i < _scrollPicker.Slots.Count; i++)
+        {
+            InitializeSaveSlot(i);
+        }
+    }
+
+    private void InitializeSaveSlot(int index)
+    {
+        // Load and assign the screenshot
+        string screenshotPath = Path.Combine(Application.persistentDataPath, "screenshot" + _dataPersistenceManager.GameDataSlots[index].SaveID + ".png");
+
+        if (File.Exists(screenshotPath))
+        {
+            byte[] imageData = File.ReadAllBytes(screenshotPath);
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(imageData);
+
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            _scrollPicker.Slots[index].GetComponent<Slot>().SetScreenshotImages(sprite);
+        }
+    }
+
+    public IEnumerator AddSaveSlot()
+    {
+        _mainMenuState = States.none;
+        HideAnimation(_addButton.transform);
+        HideAnimation(_playButton.transform);
+        _dataPersistenceManager.CreateNewSaveSlot();
+        _scrollPicker.CreateSlots(_slotPrefab, 1);
+        InitializeSaveSlot(_scrollPicker.Slots.Count - 1);
+        _scrollPicker.SnapToSlot(_scrollPicker.Slots.Count - 1);
+
+        yield return new WaitForSeconds(1);
+        if (_scrollPicker.Slots.Count < _maxAmountSlots)
+        {
+            ShowAnimation(_addButton.transform);
+        }
+        ShowAnimation(_playButton.transform);
+        _mainMenuState = States.scrolling;
+    }
+
+    private void VisualizePlayButton()
+    {
+        if (!_scrollPicker.IsScrolling && !_playButton.gameObject.activeSelf)
+        {
+            ShowAnimation(_playButton.transform);
+        }
+
+        if (_scrollPicker.IsScrolling && _playButton.gameObject.activeSelf)
+        {
+            HideAnimation(_playButton.transform);
+        }
+    }
+    #endregion MainMenu
+
+    #region Buttons
     private void AddButtonPressed()
     {
-        PopAnimation(_addButton.transform);
-        AddSaveSlot();
+        AudioController.Instance.PlayAudio(_popSound);
+        StartCoroutine(AddSaveSlot());
     }
 
     private void BackButtonPressed()
     {
-        PopAnimation(_backButton.transform);
+        AudioController.Instance.PlayAudio(_rulerTwang);
 
         switch (_mainMenuState)
         {
@@ -98,14 +248,20 @@ public class MainMenuManager : MonoBehaviour
                 _scrollPicker.UnhighlightSlot();
                 HideAnimation(_backButton.transform);
                 HideAnimation(_deleteButton_R.transform);
-                ShowAnimation(_addButton.transform);
+                if (_scrollPicker.Slots.Count < _maxAmountSlots)
+                {
+                    ShowAnimation(_addButton.transform);
+                }
                 ReappearAnimation(_playButton.transform, Vector2.zero, 1f);
                 _mainMenuState = States.scrolling;
                 break;
             case States.deleting:
+                PopAnimation(_backButton.transform);
                 ShowAnimation(_playButton.transform, 1.5f);
                 ShowAnimation(_deleteButton_R.transform);
                 HideAnimation(_deleteButton_C.transform);
+                _scrollPicker.Slots[_scrollPicker.SelectedSlotIndex].GetComponent<Slot>().SetDefaultState();
+                _postProcessingVolume.enabled = false;
                 _mainMenuState = States.highlighted;
                 break;
         }
@@ -113,8 +269,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void PlayButtonPressed()
     {
-        PopAnimation(_playButton.transform);
-
+        AudioController.Instance.PlayAudio(_popSound);
         switch (_mainMenuState)
         {
             case States.scrolling:
@@ -126,6 +281,7 @@ public class MainMenuManager : MonoBehaviour
                 _mainMenuState = States.highlighted;
                 break;
             case States.highlighted:
+                PopAnimation(_playButton.transform);
                 _dataPersistenceManager.LoadGame(_scrollPicker.SelectedSlotIndex);
                 break;
         }
@@ -133,13 +289,15 @@ public class MainMenuManager : MonoBehaviour
 
     private void DeleteButtonPressed()
     {
-
+        AudioController.Instance.PlayAudio(_vaseBroken);
         switch (_mainMenuState)
         {
             case States.highlighted:
                 HideAnimation(_playButton.transform);
                 HideAnimation(_deleteButton_R.transform);
                 ShowAnimation(_deleteButton_C.transform);
+                _scrollPicker.Slots[_scrollPicker.SelectedSlotIndex].GetComponent<Slot>().SetBrokenState();
+                _postProcessingVolume.enabled = true;
                 _mainMenuState = States.deleting;
                 break;
             case States.deleting:
@@ -151,28 +309,19 @@ public class MainMenuManager : MonoBehaviour
                 _dataPersistenceManager.LoadAllSaveSlots();
                 HideAnimation(_backButton.transform);
                 HideAnimation(_deleteButton_C.transform);
-                ShowAnimation(_addButton.transform);
+                if (_scrollPicker.Slots.Count < _maxAmountSlots)
+                {
+                    ShowAnimation(_addButton.transform);
+                }
                 ReappearAnimation(_playButton.transform, Vector2.zero, 1f);
+                _postProcessingVolume.enabled = false;
                 _mainMenuState = States.scrolling;
                 break;
         }
     }
+    #endregion Buttons
 
-    public void StartMainMenu()
-    {
-        // Show Buttons
-        ShowAnimation(_addButton.transform);
-        ShowAnimation(_playButton.transform);
-
-        // Scroll picker
-        float positionX = _scrollPicker.transform.position.x;
-        _scrollPicker.transform.position += Vector3.left * 2000;
-        _scrollPicker.gameObject.SetActive(true);
-        _scrollPicker.transform.DOMoveX(positionX, 0.5f, true);
-
-        _mainMenuState = States.scrolling;
-    }
-
+    #region UIAnimations
     private void PopAnimation(Transform transform)
     {
         DOTween.Complete(transform);
@@ -197,6 +346,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void HideAnimation(Transform transform)
     {
+        AudioController.Instance.PlayAudio(_wooshSound);
         DOTween.Complete(transform);
         transform.DOScale(0, 0.1f).OnComplete(() => transform.gameObject.SetActive(false));
     }
@@ -207,50 +357,5 @@ public class MainMenuManager : MonoBehaviour
         Sequence mySequence = DOTween.Sequence();
         mySequence.Append(transform.DOScale(0f, 0.1f)).Append(transform.DOLocalMove(new Vector3(position.x, position.y, 0), 0)).Append(transform.DOScale(endScale, 0.2f));
     }
-
-    private void InitializeAllSaveSlots()
-    {
-        for (int i = 0; i < _scrollPicker.Slots.Count; i++)
-        {   
-            InitializeSaveSlot(i);
-        }
-    }
-
-    private void InitializeSaveSlot(int index)
-    {
-        // Load and assign the screenshot
-        string screenshotPath = Path.Combine(Application.persistentDataPath, "screenshot" + _dataPersistenceManager.GameDataSlots[index].SaveID + ".png");
-
-        if (File.Exists(screenshotPath))
-        {
-            byte[] imageData = File.ReadAllBytes(screenshotPath);
-            Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(imageData);
-
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            Image screenshotImage = _scrollPicker.Slots[index].Find("Screenshot").GetComponent<Image>();
-            screenshotImage.sprite = sprite;
-        }
-    }
-
-    public void AddSaveSlot()
-    {
-        _dataPersistenceManager.CreateNewSaveSlot();
-        _scrollPicker.CreateSlots(_slotPrefab, 1);
-        InitializeSaveSlot(_scrollPicker.Slots.Count - 1);
-        _scrollPicker.SnapToSlot(_scrollPicker.Slots.Count - 1);
-    }
-
-    private void VisualizePlayButton()
-    {
-        if (!_scrollPicker.IsScrolling && !_playButton.gameObject.activeSelf)
-        {
-            ShowAnimation(_playButton.transform);
-        }
-
-        if (_scrollPicker.IsScrolling && _playButton.gameObject.activeSelf)
-        {
-            HideAnimation(_playButton.transform);
-        }
-    }
+    #endregion UIAnimations
 }
