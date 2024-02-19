@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: be01d50efffd69642bc7f2ee06147cfa,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1050,7 +1050,7 @@ MonoBehaviour:
   _startUpSequence: {fileID: 2790975063305137831, guid: e01376f977b1ab6419284fc61d0c8c06,
     type: 3}
   _titleLogo: {fileID: 602091945}
-  _playSequence: 1
+  _playSequence: 0
   _scrollPicker: {fileID: 192135712}
   _slotPrefab: {fileID: 5618767292901642967, guid: 30ab2f8057816694780aa423b175621a,
     type: 3}
@@ -1383,7 +1383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1212412792
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1634,6 +1634,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2503289504925919686, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2512449942197250687, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f,
         type: 3}
       propertyPath: m_RootOrder
@@ -1688,6 +1693,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3562957192493409075, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567770043471497334, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5206378000730539731, guid: 353856a0b3d6d7640a3dc05ecd6e9a8f,
         type: 3}
