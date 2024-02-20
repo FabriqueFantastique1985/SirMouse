@@ -61,6 +61,7 @@ public class WardrobeManager : MonoBehaviour
         _chestCategoryButton.onClick.AddListener(ChestCategoryButtonPressed);
         _faceCategoryButton.onClick.AddListener(FaceCategoryButtonPressed);
         _hatCategoryButton.onClick.AddListener(HatCategoryButtonPressed);
+        SwordCategoryButtonPressed();
     }
 
     private void ActivateButtons(List<GameObject> buttons, bool activate = true)
