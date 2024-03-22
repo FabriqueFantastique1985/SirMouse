@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using UnityEditor.U2D.Path;
-using UnityEngine.UI;
 
 public class ScrollPicker : MonoBehaviour
 {
