@@ -207,7 +207,26 @@ namespace UnityCore
                 }
 
                 string targetSceneName = SceneTypeToString(m_TargetScene);
-                SceneManager.LoadScene(targetSceneName, LoadSceneMode.Single);
+                AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Single);
+
+                // Continue updating until the scene is fully loaded.
+                while (!asyncLoad.isDone)
+                {
+                    // Here, you can also update your loading screen UI, for example,
+                    // showing the loading progress: asyncLoad.progress
+                    // However, remember that the progress might never reach 100% before the scene activates,
+                    // because Unity waits for a frame to activate the new scene after loading has completed.
+
+                    // Check if the load has finished
+                    if (asyncLoad.progress >= 0.9f)
+                    {
+                        // Optionally, wait for a condition or a user input to activate the scene
+                        // For now, let's activate the scene immediately
+                        asyncLoad.allowSceneActivation = true;
+                    }
+
+                    yield return null;
+                }
             }
 
             private bool SceneCanBeLoaded(SceneType scene, bool reload)

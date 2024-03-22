@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Globalization;
+using UnityCore.Scene;
 using UnityEngine;
-
 
 namespace UnityCore
 {
@@ -36,6 +37,20 @@ namespace UnityCore
             //public GameObject BackpackImage0, BackpackImage1, ClosetImage0, ClosetImage1;
             [Header("Overlay Camera for UI")]
             public Camera CameraUI_Backpack_Closet;
+
+            [Header("Loading screens")]
+            [SerializeField]
+            private GameObject _castleLoadingScreen;
+            [SerializeField]
+            private GameObject _caveLoadingScreen;
+            [SerializeField]
+            private GameObject _forestLoadingScreen;
+            [SerializeField]
+            private GameObject _misterWitchHouseLoadingScreen;
+            [SerializeField]
+            private GameObject _PrinceTowerScreen;
+            [SerializeField]
+            private GameObject _SwampScreen;
 
             #region Unity Functions
 
@@ -222,6 +237,38 @@ namespace UnityCore
                 {
                     _buttonsBottomLeft.SetActive(true);
                     _buttonsTopRight.SetActive(true);
+                }
+            }
+
+            public void SetLoadingScreen(LoadingScreenImage loadingScreen)
+            {
+                GameObject loadingScreenPrefab = null;
+
+                switch (loadingScreen)
+                {
+                    case LoadingScreenImage.Castle:
+                        loadingScreenPrefab = Instantiate(_castleLoadingScreen);
+                        break;
+                    case LoadingScreenImage.Cave:
+                        loadingScreenPrefab = Instantiate(_caveLoadingScreen);
+                        break;
+                    case LoadingScreenImage.Forest:
+                        loadingScreenPrefab = Instantiate(_forestLoadingScreen);
+                        break;
+                    case LoadingScreenImage.MisterWitchHouse:
+                        loadingScreenPrefab = Instantiate(_misterWitchHouseLoadingScreen);
+                        break;
+                    case LoadingScreenImage.PrinceTower:
+                        loadingScreenPrefab = Instantiate(_PrinceTowerScreen);
+                        break;
+                    case LoadingScreenImage.Swamp:
+                        loadingScreenPrefab = Instantiate(_SwampScreen);
+                        break;
+                }
+
+                if (loadingScreenPrefab != null)
+                {
+                    loadingScreenPrefab.transform.parent = PagesScene[0].transform;
                 }
             }
 
