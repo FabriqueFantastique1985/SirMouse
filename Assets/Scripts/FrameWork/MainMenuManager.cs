@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityCore.Audio;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
@@ -94,7 +95,15 @@ public class MainMenuManager : MonoBehaviour
 
     private void StartUpSequenceComplete()
     {
-        ShowTitleScreen();
+        if (_dataPersistenceManager.GameDataSlots.Count > 0)
+        {
+            ShowTitleScreen();
+        }
+        else
+        {
+            _dataPersistenceManager.CreateNewSaveSlot();
+            SceneManager.LoadScene("IntroCutscene");
+        }
     }
 
     private void FixedUpdate()
