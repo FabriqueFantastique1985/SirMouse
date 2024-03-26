@@ -59,6 +59,9 @@ public class MainMenuManager : MonoBehaviour
 
     private DataPersistenceManager _dataPersistenceManager;
 
+    [SerializeField]
+    private AudioController _audioController;
+
 
     private enum States
     {
@@ -165,6 +168,11 @@ public class MainMenuManager : MonoBehaviour
 
     private void StartMainMenu()
     {
+        if (!FindObjectOfType<AudioController>())
+        {
+            Instantiate(_audioController);
+        }
+
         _mainMenuState = States.scrolling;
         _OST.Play();
 
