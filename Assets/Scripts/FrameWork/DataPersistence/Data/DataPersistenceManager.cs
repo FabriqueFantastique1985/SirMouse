@@ -313,7 +313,8 @@ public class DataPersistenceManager : MonoBehaviourSingleton<DataPersistenceMana
         string path = System.IO.Path.Combine(Application.persistentDataPath, fileName);
 
         // Capture the screenshot and save it to the specified path
-        ScreenCapture.CaptureScreenshot(path);
+        //ScreenCapture.CaptureScreenshot(path);
+        ScreenCapture.CaptureScreenshot(fileName);
 
         // Optional: Log the path for debugging purposes
         Debug.Log("Screenshot saved to: " + path);

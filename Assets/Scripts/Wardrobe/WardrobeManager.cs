@@ -45,6 +45,11 @@ public class WardrobeManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> _hatButtons = new List<GameObject>();
 
+    [SerializeField]
+    private ScrollRect _scrollView;
+    [SerializeField]
+    private RectTransform _content;
+
     private void Awake()
     {
         InitializeButtons();
@@ -83,6 +88,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons, false);
+        
+        SetScrollField(2100);
     }
 
     private void ShieldCategoryButtonPressed()
@@ -96,6 +103,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons, false);
+
+        SetScrollField(0);
     }
 
     private void TailCategoryButtonPressed()
@@ -109,6 +118,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons, false);
+
+        SetScrollField(0);
     }
 
     private void FootCategoryButtonPressed()
@@ -122,6 +133,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons, false);
+
+        SetScrollField(1200);
     }
 
     private void PantsCategoryButtonPressed()
@@ -135,6 +148,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons, false);
+        
+        SetScrollField(1400);
     }
 
     private void ArmsCategoryButtonPressed()
@@ -148,6 +163,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons, false);
+        
+        SetScrollField(1800);
     }
 
     private void ChestCategoryButtonPressed()
@@ -161,6 +178,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons, false);
+        
+        SetScrollField(1000);
     }
 
     private void FaceCategoryButtonPressed()
@@ -174,6 +193,8 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons);
         ActivateButtons(_hatButtons, false);
+        
+        SetScrollField(0);
     }
 
     private void HatCategoryButtonPressed()
@@ -187,5 +208,14 @@ public class WardrobeManager : MonoBehaviour
         ActivateButtons(_chestButtons, false);
         ActivateButtons(_faceButtons, false);
         ActivateButtons(_hatButtons);
+        
+        SetScrollField(1900);
+    }
+
+    private void SetScrollField(float size)
+    {
+        _scrollView.vertical = size > 0;
+        _content.sizeDelta = new Vector2(-14.45f, size);
+        _content.localPosition = new Vector2(14.45f, 0);
     }
 }
